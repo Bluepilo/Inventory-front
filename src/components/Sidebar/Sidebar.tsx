@@ -57,11 +57,15 @@ const Sidebar = ({
 					<img src={SidebarMin} />
 				</a>
 			</SidebarLogo>
-			<SidebarMenu minimize={`${minimized}`}>
-				<ul>
+			<SidebarMenu minimize={`${minimized}`} color={color}>
+				<ul className="first">
 					{menuToLoad().map((r) =>
 						r.children.length > 0 ? (
-							<NavCollapse key={r.id} links={r} />
+							<NavCollapse
+								key={r.id}
+								links={r}
+								minimized={`${minimized}`}
+							/>
 						) : (
 							<NavLink key={r.id} links={r} />
 						)
@@ -70,7 +74,11 @@ const Sidebar = ({
 				<ul className="bottom">
 					{bottomRoutes.map((r) =>
 						r.children.length > 0 ? (
-							<NavCollapse key={r.id} links={r} />
+							<NavCollapse
+								key={r.id}
+								links={r}
+								minimized={`${minimized}`}
+							/>
 						) : (
 							<NavLink key={r.id} links={r} />
 						)
