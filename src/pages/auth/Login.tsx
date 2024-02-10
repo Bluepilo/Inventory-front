@@ -37,6 +37,7 @@ const Login = () => {
 					onChange={(e) => setEmail(e.target.value)}
 					required
 					disabled={loading}
+					autoComplete="email"
 				/>
 				<label>Enter Password</label>
 				<div className="pos">
@@ -47,6 +48,7 @@ const Login = () => {
 						className="no-m"
 						required
 						disabled={loading}
+						autoComplete="password"
 					/>
 					<button
 						onClick={(e) => {

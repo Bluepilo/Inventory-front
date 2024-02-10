@@ -9,9 +9,13 @@ import OutsideClick from "../OutsideClick";
 const NavCollapse = ({
 	links,
 	minimized,
+	color,
+	onClose,
 }: {
 	links: SidebarMenusType;
 	minimized: string;
+	color: string;
+	onClose: () => void;
 }) => {
 	const [open, setOpen] = useState(false);
 
@@ -21,6 +25,7 @@ const NavCollapse = ({
 		e.preventDefault();
 		setOpen(!open);
 	};
+
 	useEffect(() => {
 		if (location.pathname.split("/")[2] === links.name) {
 			setOpen(true);
@@ -28,22 +33,18 @@ const NavCollapse = ({
 	}, []);
 
 	return (
-		<OutsideClick
-			handleToggle={() =>
-				minimized === "true" ? setOpen(false) : console.log("clicked")
-			}
-		>
-			<SidebarDropDown minimize={minimized}>
+		<OutsideClick handleToggle={() => setOpen(false)}>
+			<SidebarDropDown minimize={minimized} color={color}>
 				<a href={links.href} onClick={toggleDropDown}>
 					<img src={links.icon} alt={links.name} />
 					<span>{links.name}</span>
 					<GoChevronDown />
 				</a>
 				{open && (
-					<ul className="side-dropdown">
+					<ul className="side-dropdown" onClick={() => onClose()}>
 						{links.children.map((link) => (
 							<li key={link.id}>
-								<NavLink to={links.href}>{link.name}</NavLink>
+								<NavLink to={link.href}>{link.name}</NavLink>
 							</li>
 						))}
 					</ul>

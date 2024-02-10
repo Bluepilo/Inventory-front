@@ -13,23 +13,16 @@ import NavCollapse from "./NavCollapse";
 import NavLink from "./NavLink";
 
 interface Props {
-	handleToggle: () => void;
 	open: boolean;
 	minimizeHandler: (val: boolean) => void;
 	minimized: boolean;
 	onClose: () => void;
 }
 
-const Sidebar = ({
-	handleToggle,
-	open,
-	minimizeHandler,
-	onClose,
-	minimized,
-}: Props) => {
+const Sidebar = ({ open, minimizeHandler, onClose, minimized }: Props) => {
 	const { details } = useAppSelector((state) => state.auth);
 
-	const [color, setColor] = useState("#CFEAFF");
+	const { theme } = useAppSelector((state) => state.basic);
 
 	const menuToLoad = () => {
 		if (details.businessId) {
@@ -40,7 +33,11 @@ const Sidebar = ({
 	};
 
 	return (
-		<SidebarDiv minimize={`${minimized}`} color={color}>
+		<SidebarDiv
+			minimize={`${minimized}`}
+			color={theme}
+			className={open ? `open-m` : ""}
+		>
 			<SidebarLogo minimize={`${minimized}`}>
 				<div className="images">
 					<img src={LogoIcon} className="icon" alt="Logo" />
@@ -57,7 +54,7 @@ const Sidebar = ({
 					<img src={SidebarMin} />
 				</a>
 			</SidebarLogo>
-			<SidebarMenu minimize={`${minimized}`} color={color}>
+			<SidebarMenu minimize={`${minimized}`} color={theme}>
 				<ul className="first">
 					{menuToLoad().map((r) =>
 						r.children.length > 0 ? (
@@ -65,25 +62,35 @@ const Sidebar = ({
 								key={r.id}
 								links={r}
 								minimized={`${minimized}`}
+								color={theme}
+								onClose={onClose}
 							/>
 						) : (
-							<NavLink key={r.id} links={r} />
+							<NavLink key={r.id} links={r} onClose={onClose} />
 						)
 					)}
 				</ul>
-				<ul className="bottom">
-					{bottomRoutes.map((r) =>
-						r.children.length > 0 ? (
-							<NavCollapse
-								key={r.id}
-								links={r}
-								minimized={`${minimized}`}
-							/>
-						) : (
-							<NavLink key={r.id} links={r} />
-						)
-					)}
-				</ul>
+				{details.businessId && (
+					<ul className="bottom">
+						{bottomRoutes.map((r) =>
+							r.children.length > 0 ? (
+								<NavCollapse
+									key={r.id}
+									links={r}
+									minimized={`${minimized}`}
+									color={theme}
+									onClose={onClose}
+								/>
+							) : (
+								<NavLink
+									key={r.id}
+									links={r}
+									onClose={onClose}
+								/>
+							)
+						)}
+					</ul>
+				)}
 			</SidebarMenu>
 		</SidebarDiv>
 	);

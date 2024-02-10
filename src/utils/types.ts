@@ -13,6 +13,13 @@ export interface SidebarMenusType {
 interface UserDetailsType {
 	id: number;
 	businessId: number;
+	fullName: string;
+	role: {
+		name: string;
+	};
+	business: {
+		name: string;
+	};
 }
 
 const userDetailsType: UserDetailsType | Record<string, never> = {};

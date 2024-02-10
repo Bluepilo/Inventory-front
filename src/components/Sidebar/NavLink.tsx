@@ -1,9 +1,15 @@
 import { NavLink as Link } from "react-router-dom";
 import { SidebarMenusType } from "../../utils/types";
 
-const NavLink = ({ links }: { links: SidebarMenusType }) => {
+const NavLink = ({
+	links,
+	onClose,
+}: {
+	links: SidebarMenusType;
+	onClose: () => void;
+}) => {
 	return (
-		<li>
+		<li onClick={() => onClose()}>
 			<Link to={links.href}>
 				<img src={links.icon} alt={links.name} />
 				<span>{links.name}</span>

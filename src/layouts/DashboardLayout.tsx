@@ -1,19 +1,47 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar/Sidebar";
+import { AppContent, MainPage } from "../styles/dashboard.styles";
+import Header from "../components/Header";
+import { Container } from "react-bootstrap";
+import OutsideClick from "../components/OutsideClick";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { getNotifications } from "../redux/features/basic/basic-slice";
 
 const DashboardLayout = () => {
+	const dispatch = useAppDispatch();
+
+	const { details } = useAppSelector((state) => state.auth);
+
 	const [open, setOpen] = useState(false);
 	const [minimized, setMinimized] = useState(false);
 
+	useEffect(() => {
+		runActions();
+	}, []);
+
+	const runActions = () => {
+		if (details.businessId) {
+			dispatch(getNotifications());
+		}
+	};
+
 	return (
 		<div>
-			<Sidebar
-				handleToggle={() => setOpen(false)}
-				open={open}
-				minimizeHandler={(val: boolean) => setMinimized(val)}
-				onClose={() => setOpen(false)}
-				minimized={minimized}
-			/>
+			<OutsideClick handleToggle={() => setOpen(false)}>
+				<Sidebar
+					open={open}
+					minimizeHandler={(val: boolean) => setMinimized(val)}
+					onClose={() => setOpen(false)}
+					minimized={minimized}
+				/>
+			</OutsideClick>
+			<MainPage minimize={`${minimized}`}>
+				<Container>
+					<AppContent>
+						<Header openMenu={() => setOpen(!open)} />
+					</AppContent>
+				</Container>
+			</MainPage>
 		</div>
 	);
 };

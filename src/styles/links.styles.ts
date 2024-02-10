@@ -25,3 +25,19 @@ export const UnderlineLink = styled.a`
 	text-decoration: underline;
 	font-size: 0.9rem;
 `;
+
+export const MainButton = styled.button<{ color?: string }>`
+	background: ${(props) => props.color || "#0241FF"};
+	color: #fff;
+	outline: 0;
+	border: 0;
+	padding: 12px 20px;
+	border-radius: 4px;
+	display: flex;
+	align-items: center;
+
+	svg,
+	img {
+		margin-right: 10px;
+	}
+`;

@@ -2,7 +2,8 @@ import styled from "styled-components";
 
 export const SidebarDiv = styled.div<{ minimize: string; color: string }>`
 	width: ${(props) => (props.minimize === "true" ? "70px" : "240px")};
-	background-color: ${(props) => props.color};
+	background-color: ${(props) =>
+		props.color == "dark" ? "#000D33" : "#CFEAFF"};
 	height: 100vh;
 	position: fixed;
 	z-index: 1029;
@@ -47,9 +48,13 @@ export const SidebarMenu = styled.div<{ minimize: string; color: string }>`
 	height: 100%;
 
 	ul.first {
-		height: 67%;
-		/* overflow: hidden; */
-		overflow-y: ${(props) => (props.minimize === "true" ? "none" : "auto")};
+		height: 70%;
+		z-index: 1;
+		overflow: hidden;
+
+		&:hover {
+			overflow-y: auto;
+		}
 
 		&::-webkit-scrollbar {
 			width: 0.5em;
@@ -61,18 +66,24 @@ export const SidebarMenu = styled.div<{ minimize: string; color: string }>`
 		}
 
 		&::-webkit-scrollbar-thumb {
-			background-color: #000;
+			background-color: ${(props) =>
+				props.color == "dark" ? "#fff" : "#000"};
 			outline: 1px solid #000;
 		}
 	}
 
 	ul.bottom {
-		border-top: 1px solid rgba(51, 51, 51, 0.2);
+		border-top: 1px solid
+			${(props) =>
+				props.color == "dark"
+					? "rgba(255, 255, 255, 0.2);"
+					: "rgba(51, 51, 51, 0.2)"};
 		padding-top: 10px;
 		padding-bottom: 10px;
 		z-index: 9991;
-		background-color: ${(props) => props.color};
-		height: 33%;
+		height: 30%;
+		background-color: ${(props) =>
+			props.color == "dark" ? "#000D33" : "#CFEAFF"};
 	}
 
 	ul {
@@ -86,12 +97,20 @@ export const SidebarMenu = styled.div<{ minimize: string; color: string }>`
 			a {
 				display: block;
 				padding: 10px 15px;
-				color: #333;
+				color: ${(props) => (props.color == "dark" ? "#FFF" : "#333")};
 				text-decoration: none;
 				display: flex;
 				align-items: center;
 				font-weight: 600;
 				font-size: 0.9rem;
+				border-radius: 5px;
+
+				img {
+					${(props) =>
+						props.color == "dark" &&
+						`filter: invert(100%) sepia(0%) saturate(1%)
+							hue-rotate(207deg) brightness(106%) contrast(101%);`}
+				}
 
 				span {
 					display: ${(props) =>
@@ -102,39 +121,82 @@ export const SidebarMenu = styled.div<{ minimize: string; color: string }>`
 				svg {
 					margin-left: 10px;
 				}
+
+				&.active {
+					background: ${(props) =>
+						props.color == "dark" ? "#FFB500" : "#0241ff"};
+					color: ${(props) =>
+						props.color == "dark" ? "#000D33" : "#fff"};
+
+					img {
+						${(props) =>
+							props.color == "dark"
+								? `filter: invert(8%) sepia(22%) saturate(5669%) hue-rotate(208deg) brightness(88%) contrast(110%);`
+								: `filter: invert(100%) sepia(0%) saturate(1%)
+							hue-rotate(207deg) brightness(106%) contrast(101%);`}
+					}
+				}
 			}
 		}
 	}
 `;
 
-export const SidebarDropDown = styled.li<{ minimize: string }>`
-	position: relative;
-
+export const SidebarDropDown = styled.li<{ minimize: string; color: string }>`
 	ul {
+		background: ${(props) =>
+			props.color == "dark" ? "#000D33" : "#CFEAFF"};
+		border-left-color: ${(props) =>
+			props.color == "dark" ? "rgba(255,255,255,0.6)" : "#000D33"};
 		${(props) =>
 			props.minimize === "true"
-				? `position: absolute;
-		left: 55px;
-		top: 0px;
-		background: #fff;
-		width: 180px;
-		box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.05);
-		border-radius: 6px;
-		border: 1px solid rgba(102, 102, 102, 0.3);
-		padding: 5px 10px;
-		z-index: 9991;
+				? `	position: absolute;
+					left: 70px;
+					top: 30%;
+					width: 180px;
+					box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.05);
+					border-radius: 6px;
+					border: 1px solid rgba(102, 102, 102, 0.3);
+					padding: 5px 10px;
+					z-index: 9991;
+					color: #FFFFFF;
 		`
 				: `margin-left: 45px;
-					
+				border-left-width: 1px;
+				border-left-style: solid;
+				padding: 0 10px;
 					`}
 
 		li {
 			a {
 				padding: 4px;
 				font-size: 0.85rem;
-				color: #000d35;
+				color: ${(props) =>
+					props.color == "dark" ? "#FFF" : "#000D33"};
 				font-weight: 700;
 			}
 		}
+	}
+`;
+
+export const MainPage = styled.div<{ minimize: string }>`
+	position: relative;
+	display: block;
+	clear: both;
+	float: unset;
+	right: 0;
+	margin: 0 auto 0 ${(props) => (props.minimize == "true" ? "70px" : "240px")};
+	min-height: 100vh;
+	-webkit-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+	margin-bottom: 70px;
+
+	@media (max-width: 991px) {
+		margin: 0px;
+	}
+`;
+
+export const AppContent = styled.div`
+	@media (min-width: 991px) {
+		padding-left: 40px;
 	}
 `;
