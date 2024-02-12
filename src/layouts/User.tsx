@@ -14,7 +14,7 @@ const User = () => {
 		}
 	}, [details]);
 
-	return details.businessId ? <DashboardLayout /> : <></>;
+	return details?.businessId ? <DashboardLayout /> : <></>;
 };
 
 export default User;

@@ -66,3 +66,19 @@ export const ErrorStyle = styled.div`
 	margin-top: 25px;
 	padding: 20px 10px;
 `;
+
+export const LoadPage = styled.div`
+	height: 80vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	p {
+		font-size: 0.9rem;
+		color: #0241ff;
+		text-transform: uppercase;
+		text-align: center;
+		margin-top: 10px;
+	}
+`;

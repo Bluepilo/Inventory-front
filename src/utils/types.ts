@@ -14,14 +14,38 @@ interface UserDetailsType {
 	id: number;
 	businessId: number;
 	fullName: string;
+	firstName: string;
 	role: {
 		name: string;
 	};
+	roleId: number;
 	business: {
 		name: string;
+		subscriptionPlan: {
+			name: string;
+			id: number;
+			noOfShops: number;
+			noOfUsers: number;
+		};
+		isTrialOn: boolean;
+		onboardingSteps: any;
+	};
+}
+
+interface NotifcationType {
+	unreadNotifications: number;
+	notifications: {
+		rows: {
+			id: number;
+			title: string;
+			message: string;
+			readAt: string;
+			createdAt: Date;
+		}[];
 	};
 }
 
 const userDetailsType: UserDetailsType | Record<string, never> = {};
+const notificationType: NotifcationType | Record<string, never> = {};
 
-export { userDetailsType };
+export { userDetailsType, notificationType };

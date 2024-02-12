@@ -41,3 +41,42 @@ export const MainButton = styled.button<{ color?: string }>`
 		margin-right: 10px;
 	}
 `;
+
+export const PrimaryButton = styled.button<{ color?: string; bg?: string }>`
+	background: ${(props) => props.bg || "#0241FF"};
+	color: ${(props) => props.color || "#FFF"};
+	outline: 0;
+	border: 0;
+	padding: 8px 18px;
+	border-radius: 4px;
+	display: inline-flex;
+	align-items: center;
+	font-weight: 600;
+	font-size: 0.9rem;
+
+	svg,
+	img {
+		margin-left: 10px;
+	}
+`;
+
+export const MainLink = styled.a<{ color?: string }>`
+	background: ${(props) => props.color || "#0241FF"};
+	color: #fff;
+	outline: 0;
+	border: 0;
+	padding: 12px 20px;
+	border-radius: 4px;
+	display: inline-flex;
+	align-items: center;
+	text-decoration: none;
+
+	svg,
+	img {
+		margin-right: 10px;
+	}
+
+	&:hover {
+		color: #fff;
+	}
+`;

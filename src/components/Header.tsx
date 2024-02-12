@@ -7,18 +7,49 @@ import {
 	Progress,
 } from "../styles/header.styles";
 import FlashIcon from "../assets/icons/flash.svg";
+import MessageIcon from "../assets/icons/message.svg";
 import { FaBell, FaRegUser } from "react-icons/fa";
-import { FcOnlineSupport } from "react-icons/fc";
 import { MdMenu } from "react-icons/md";
-import HeaderDropDown from "./Sidebar/Header/HeaderDropDown";
-import NotificationDropDown from "./Sidebar/Header/NotificationDropDown";
+import HeaderDropDown from "./Header/HeaderDropDown";
+import NotificationDropDown from "./Header/NotificationDropDown";
 import { useAppSelector } from "../redux/hooks";
+import { haveRole } from "../utils/role";
 
 const Header = ({ openMenu }: { openMenu: () => void }) => {
 	const { details } = useAppSelector((state) => state.auth);
 
 	const [openDrop, setOpenDrop] = useState(false);
 	const [openNoti, setOpenNoti] = useState(false);
+
+	const calcPercent = () => {
+		let shop =
+			details?.business?.onboardingSteps?.shop === "completed" ? 20 : 0;
+		let supplier =
+			details?.business?.onboardingSteps?.supplier === "completed"
+				? 20
+				: 0;
+		let product =
+			details?.business?.onboardingSteps?.product === "completed"
+				? 20
+				: 0;
+		let purchase =
+			details?.business?.onboardingSteps?.purchase === "completed"
+				? 20
+				: 0;
+
+		let sales =
+			details?.business?.onboardingSteps?.sales === "completed" ? 20 : 0;
+
+		return shop + supplier + product + purchase + sales;
+	};
+
+	const showCount = () => {
+		if (haveRole(details.roleId).isAppAdmin || calcPercent() == 100) {
+			return false;
+		} else {
+			return true;
+		}
+	};
 
 	return (
 		<HeaderStyle>
@@ -30,26 +61,47 @@ const Header = ({ openMenu }: { openMenu: () => void }) => {
 							: "Bluepilo"}
 					</h6>
 				</div>
-				{details.businessId && (
-					<Progress color="#F44336">
+				{details.businessId && showCount() && (
+					<Progress
+						color={
+							calcPercent() >= 60
+								? "#505BDA"
+								: calcPercent() >= 40
+								? "#FF9800"
+								: "#F44336"
+						}
+					>
 						<img src={FlashIcon} />
-						<span>0% Setup</span>
+						<span>{calcPercent()}% Setup</span>
 					</Progress>
 				)}
 			</HeaderDetail>
 			<HeaderInfo>
 				{details.businessId && (
 					<>
-						<p>
-							Currently on <b>free</b>
-						</p>
-						<button className="upgrade">Upgrade</button>
-						<button className="bell">
+						{details?.business?.isTrialOn ? (
+							<p>You are on Free Trial</p>
+						) : (
+							<p>
+								Currently on{" "}
+								{details?.business?.subscriptionPlan?.name}
+							</p>
+						)}
+						{haveRole(details.roleId).isBusinessAdmin &&
+							!details?.business?.isTrialOn &&
+							details?.business?.subscriptionPlan?.id < 4 && (
+								<button className="upgrade">Upgrade</button>
+							)}
+
+						<button className="support hide">
+							<img src={MessageIcon} alt="Support" />
+						</button>
+						<button
+							className="bell"
+							onClick={() => setOpenNoti(true)}
+						>
 							<FaBell />
 							<span>273</span>
-						</button>
-						<button className="support hide">
-							<FcOnlineSupport />
 						</button>
 					</>
 				)}
@@ -61,7 +113,7 @@ const Header = ({ openMenu }: { openMenu: () => void }) => {
 				</button>
 			</HeaderInfo>
 			{openDrop && <HeaderDropDown setOpenDrop={setOpenDrop} />}
-			{openNoti && <NotificationDropDown />}
+			{openNoti && <NotificationDropDown setOpenNoti={setOpenNoti} />}
 		</HeaderStyle>
 	);
 };

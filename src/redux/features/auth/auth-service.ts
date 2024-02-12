@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import config from "../../../utils/config";
-import { headers } from "../../../utils/headers";
+import { authHeader, headers } from "../../../utils/headers";
 
 const login = async (obj: any) => {
 	const { data } = await axios.post(`${config.baseUrl}/auth/login`, obj, {
@@ -32,10 +32,18 @@ const resetPassword = async (obj: any) => {
 	return data;
 };
 
+const getProfile = async (id: number, token: string) => {
+	const { data } = await axios.get(`${config.baseUrl}/user/view/${id}`, {
+		headers: authHeader(token),
+	});
+	return data;
+};
+
 const authService = {
 	login,
 	forgotPassword,
 	resetPassword,
+	getProfile,
 };
 
 export default authService;

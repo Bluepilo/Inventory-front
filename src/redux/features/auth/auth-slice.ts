@@ -9,10 +9,9 @@ const initialState = {
 	details: userDetailsType,
 	loading: false,
 	error: null as any,
-	token: null,
+	token: "",
 };
 
-// Login
 export const login = createAsyncThunk(
 	"auth/login",
 	async (data: any, thunkAPI) => {
@@ -32,6 +31,20 @@ export const login = createAsyncThunk(
 	}
 );
 
+export const userProfile = createAsyncThunk(
+	"auth/profile",
+	async (id: number, thunkAPI: any) => {
+		try {
+			const { token } = thunkAPI.getState().auth;
+			const res = await authService.getProfile(id, token);
+			return res.data;
+		} catch (error) {
+			const message = displayError(error, true);
+			return thunkAPI.rejectWithValue(message);
+		}
+	}
+);
+
 export const authSlice = createSlice({
 	name: "auth",
 	initialState,
@@ -43,7 +56,7 @@ export const authSlice = createSlice({
 			state.details = {};
 			state.error = null;
 			state.loading = false;
-			state.token = null;
+			state.token = "";
 		},
 	},
 	extraReducers: (builder) => {
@@ -59,6 +72,9 @@ export const authSlice = createSlice({
 		builder.addCase(login.rejected, (state, action) => {
 			state.loading = false;
 			state.error = action.payload;
+		});
+		builder.addCase(userProfile.fulfilled, (state, action) => {
+			state.details = action.payload;
 		});
 	},
 });

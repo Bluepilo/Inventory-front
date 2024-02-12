@@ -77,6 +77,7 @@ export const HeaderInfo = styled.div`
 		padding: 4px 15px;
 		border-radius: 15px;
 		font-weight: 600;
+		margin-left: 10px;
 
 		span {
 			font-weight: 600;
@@ -96,6 +97,13 @@ export const HeaderInfo = styled.div`
 		border: 0;
 		margin-left: 5px;
 
+		&.hide {
+			border: 1px solid #000d33;
+			height: 40px;
+			width: 40px;
+			border-radius: 50%;
+		}
+
 		svg {
 			font-size: 2rem;
 		}
@@ -108,7 +116,7 @@ export const HeaderInfo = styled.div`
 	}
 
 	button.profile {
-		margin-left: 10px;
+		margin-left: 20px;
 		width: 40px;
 		height: 40px;
 		border-radius: 50%;
@@ -233,5 +241,47 @@ export const HeaderProfile = styled.div`
 		font-size: 0.75rem;
 		font-weight: 700;
 		margin-top: 10px;
+	}
+`;
+
+export const NotifcationStyles = styled.div`
+	position: absolute;
+	right: 100px;
+	top: 80px;
+
+	.noti-body {
+		width: 400px;
+		max-height: 80vh;
+		overflow-y: auto;
+		border: 1px solid rgba(0, 0, 0, 0.2);
+		padding: 10px 20px;
+		border-radius: 5px;
+		background: #fff;
+		z-index: 999991;
+		-webkit-transition: all 0.3s ease-in-out;
+		transition: all 0.3s ease-in-out;
+		font-size: 0.85rem;
+		div {
+			display: block;
+			color: #333;
+			text-decoration: none;
+			margin-bottom: 10px;
+			border: 1px solid rgba(0, 0, 0, 0.1);
+			padding: 5px;
+			cursor: pointer;
+
+			&.active {
+				background: #d4e9ff;
+			}
+
+			span {
+				display: block;
+
+				&.time {
+					text-align: right;
+					font-weight: 600;
+				}
+			}
+		}
 	}
 `;

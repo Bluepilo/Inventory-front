@@ -5,7 +5,11 @@ import Header from "../components/Header";
 import { Container } from "react-bootstrap";
 import OutsideClick from "../components/OutsideClick";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { getNotifications } from "../redux/features/basic/basic-slice";
+import {
+	getDashboardStats,
+	getNotifications,
+} from "../redux/features/basic/basic-slice";
+import { Outlet } from "react-router-dom";
 
 const DashboardLayout = () => {
 	const dispatch = useAppDispatch();
@@ -22,6 +26,12 @@ const DashboardLayout = () => {
 	const runActions = () => {
 		if (details.businessId) {
 			dispatch(getNotifications());
+			dispatch(
+				getDashboardStats({
+					period: "month",
+					year: `${new Date().getFullYear()}`,
+				})
+			);
 		}
 	};
 
@@ -39,6 +49,9 @@ const DashboardLayout = () => {
 				<Container>
 					<AppContent>
 						<Header openMenu={() => setOpen(!open)} />
+						<div className="main-content">
+							<Outlet />
+						</div>
 					</AppContent>
 				</Container>
 			</MainPage>

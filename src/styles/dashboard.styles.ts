@@ -199,4 +199,8 @@ export const AppContent = styled.div`
 	@media (min-width: 991px) {
 		padding-left: 40px;
 	}
+
+	.main-content {
+		padding: 20px 0;
+	}
 `;

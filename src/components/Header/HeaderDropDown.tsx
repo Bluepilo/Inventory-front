@@ -1,15 +1,14 @@
-import React from "react";
-import { HeaderProfile } from "../../../styles/header.styles";
-import OutsideClick from "../../OutsideClick";
+import { HeaderProfile } from "../../styles/header.styles";
+import OutsideClick from "../OutsideClick";
 import { AiOutlineLogout } from "react-icons/ai";
 import { IoSettingsOutline } from "react-icons/io5";
 import { FaRegUser } from "react-icons/fa";
-import SmsIcon from "../../../assets/images/sms-icon.svg";
-import AppsIcon from "../../../assets/icons/apps.svg";
+import SmsIcon from "../../assets/images/sms-icon.svg";
+import AppsIcon from "../../assets/icons/apps.svg";
 import { Link } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import { changeTheme } from "../../../redux/features/basic/basic-slice";
-import { logout } from "../../../redux/features/auth/auth-slice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { changeTheme } from "../../redux/features/basic/basic-slice";
+import { logout } from "../../redux/features/auth/auth-slice";
 
 const HeaderDropDown = ({
 	setOpenDrop,

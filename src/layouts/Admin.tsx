@@ -14,7 +14,7 @@ const Admin = () => {
 		}
 	}, [details]);
 
-	return details.id ? <DashboardLayout /> : <></>;
+	return details?.id ? <DashboardLayout /> : <></>;
 };
 
 export default Admin;

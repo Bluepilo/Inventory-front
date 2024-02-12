@@ -1,4 +1,13 @@
 body {
 	margin: 0;
 	font-family: "Quicksand", sans-serif;
+	color: #000d35;
+}
+
+.modal-title .h4 {
+	background: red !important;
+}
+
+.modal-90w {
+	width: 90% !important;
 }
