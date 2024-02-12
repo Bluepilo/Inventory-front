@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import basicService from "./basic-service";
 import { displayError } from "../../../utils/errors";
 import { notificationType } from "../../../utils/types";
+import { logout } from "../auth/auth-slice";
 
 const initialState = {
 	theme: "light",
@@ -47,6 +48,9 @@ export const getDashboardStats = createAsyncThunk(
 			return res.data;
 		} catch (error) {
 			const message = displayError(error, false);
+			if (message.includes("Session expired")) {
+				thunkAPI.dispatch(logout());
+			}
 			return thunkAPI.rejectWithValue(message);
 		}
 	}

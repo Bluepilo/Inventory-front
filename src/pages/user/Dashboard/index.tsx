@@ -42,7 +42,7 @@ const Dashboard = () => {
 	return dashboardStats.year ? (
 		<div className="mt-3">
 			<div className="row align-items-center">
-				<div className="col-lg-6 mb-3">
+				<div className="col-lg-5 mb-3">
 					<h5>
 						Good {greetings()}, <b>{details.firstName}</b>
 					</h5>
@@ -57,7 +57,7 @@ const Dashboard = () => {
 						</PrimaryButton>
 					</div>
 				</div>
-				<div className="col-lg-6 mb-3">
+				<div className="col-lg-7 mb-3">
 					<DashboardCard>
 						<h5 style={{ marginBottom: "10px" }}>
 							{details.business.name}
