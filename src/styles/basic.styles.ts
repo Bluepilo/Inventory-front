@@ -82,3 +82,59 @@ export const LoadPage = styled.div`
 		margin-top: 10px;
 	}
 `;
+
+export const TitleStyles = styled.div`
+	.btwn {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+	}
+	.title {
+		h5 {
+			margin: 0;
+			padding: 0;
+			font-weight: 600;
+			font-size: 1.4rem;
+		}
+
+		span.count {
+			display: flex;
+			padding: 4px 12px;
+			align-items: flex-start;
+			border-radius: 25px;
+			background: #ffb500;
+			font-weight: bold;
+			margin-left: 10px;
+			font-size: 0.9rem;
+		}
+	}
+`;
+
+export const BreadCrumbStyles = styled.div`
+	display: flex;
+	align-items: center;
+	margin-top: 10px;
+
+	button {
+		border: 0;
+		outline: 0;
+		background: none;
+		font-weight: 600;
+		margin-right: 20px;
+
+		span {
+			margin-left: 7px;
+		}
+	}
+
+	a {
+		text-transform: capitalize;
+		text-decoration: none;
+		color: #333333;
+		margin-right: 8px;
+
+		span {
+			margin-right: 5px;
+		}
+	}
+`;

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { Form } from "../../styles/form.styles";
 import { displayError } from "../../utils/errors";
-import Loading from "../Loading";
+import Loading from "../Loaders/Loading";
 import { ButtonSubmit } from "../../styles/links.styles";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa6";
 import authService from "../../redux/features/auth/auth-service";

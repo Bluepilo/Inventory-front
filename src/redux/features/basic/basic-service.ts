@@ -35,11 +35,27 @@ const dashboardStats = async (year: string, period: string, token: string) => {
 	return data;
 };
 
+const allShops = async (token: string) => {
+	const { data } = await axios.get(`${config.baseUrl}/shop/all?all=true`, {
+		headers: authHeader(token),
+	});
+	return data;
+};
+
+const allStaffs = async (token: string) => {
+	const { data } = await axios.get(`${config.baseUrl}/user/all?all=true`, {
+		headers: authHeader(token),
+	});
+	return data;
+};
+
 const basicService = {
 	getNotifications,
 	saveTrialPick,
 	updateOnboardingSteps,
 	dashboardStats,
+	allShops,
+	allStaffs,
 };
 
 export default basicService;

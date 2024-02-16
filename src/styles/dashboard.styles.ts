@@ -197,10 +197,68 @@ export const MainPage = styled.div<{ minimize: string }>`
 
 export const AppContent = styled.div`
 	@media (min-width: 991px) {
-		padding-left: 40px;
+		padding-left: 2%;
+		padding-right: 2%;
 	}
 
 	.main-content {
 		padding: 20px 0;
+	}
+`;
+
+export const SummaryCard = styled.div`
+	background: #000d33;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	border-radius: 4px;
+	padding: 12px 30px;
+
+	@media (max-width: 768px) {
+		justify-content: center;
+	}
+
+	div {
+		display: flex;
+
+		@media (max-width: 768px) {
+			&:first-child {
+				margin-bottom: 10px;
+			}
+		}
+		h6 {
+			margin: 0;
+			color: #fff;
+			&:last-child {
+				color: #ff9800;
+				margin-left: 5px;
+			}
+		}
+	}
+`;
+
+export const CheckBoxPrint = styled.div`
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+
+	@media (max-width: 991px) {
+		justify-content: center;
+	}
+
+	div.checks {
+		margin-right: 20px;
+		display: flex;
+		align-items: center;
+
+		input {
+			margin-right: 5px;
+		}
+
+		label {
+			font-size: 0.9rem;
+			font-weight: 600;
+		}
 	}
 `;

@@ -4,7 +4,7 @@ import { FaRegEyeSlash, FaRegEye } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { BasicLink, ButtonSubmit } from "../../styles/links.styles";
 import Terms from "../../components/Terms";
-import Loading from "../../components/Loading";
+import Loading from "../../components/Loaders/Loading";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { clearLoad, login } from "../../redux/features/auth/auth-slice";
 

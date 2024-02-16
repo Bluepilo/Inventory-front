@@ -31,10 +31,12 @@ export const MainButton = styled.button<{ color?: string }>`
 	color: #fff;
 	outline: 0;
 	border: 0;
-	padding: 12px 20px;
+	padding: 8px 18px;
 	border-radius: 4px;
 	display: flex;
 	align-items: center;
+	font-size: 0.9rem;
+	font-weight: 600;
 
 	svg,
 	img {

@@ -248,6 +248,7 @@ export const NotifcationStyles = styled.div`
 	position: absolute;
 	right: 100px;
 	top: 80px;
+	z-index: 991;
 
 	.noti-body {
 		width: 400px;

@@ -1,5 +1,5 @@
 import { Spinner } from "react-bootstrap";
-import { LoadPage } from "../styles/basic.styles";
+import { LoadPage } from "../../styles/basic.styles";
 
 const PageLoad = () => {
 	return (

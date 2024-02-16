@@ -6,6 +6,8 @@ import { Container } from "react-bootstrap";
 import OutsideClick from "../components/OutsideClick";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import {
+	allShops,
+	allStaffs,
 	getDashboardStats,
 	getNotifications,
 } from "../redux/features/basic/basic-slice";
@@ -32,6 +34,8 @@ const DashboardLayout = () => {
 					year: `${new Date().getFullYear()}`,
 				})
 			);
+			dispatch(allShops());
+			dispatch(allStaffs());
 		}
 	};
 

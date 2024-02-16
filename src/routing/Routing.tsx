@@ -13,6 +13,7 @@ import AdminDashboard from "../pages/admin/Dashboard";
 // User Routes
 import Dashboard from "../pages/user/Dashboard";
 import Onboarding from "../pages/user/Dashboard/Onboarding";
+import Sales from "../pages/user/Sales";
 
 const Routing = () => {
 	return (
@@ -41,6 +42,7 @@ const Routing = () => {
 				<Route path="/dashboard" element={<User />}>
 					<Route path="home" element={<Dashboard />} />
 					<Route path="home/onboarding" element={<Onboarding />} />
+					<Route path="sales" element={<Sales />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

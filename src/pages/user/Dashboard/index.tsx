@@ -9,8 +9,11 @@ import { DashboardCard, ProgressCard } from "../../../styles/home.styles";
 import { FlexBetween } from "../../../styles/basic.styles";
 
 import { CiShop, CiUser } from "react-icons/ci";
-import PageLoad from "../../../components/PageLoad";
+import PageLoad from "../../../components/Loaders/PageLoad";
 import { formatCurrency } from "../../../utils/currency";
+import LineChart from "../../../components/Home/LineChart";
+import ExpenseChart from "../../../components/Home/ExpenseChart";
+import PieChart from "../../../components/Home/PieChart";
 
 const Dashboard = () => {
 	const navigate = useNavigate();
@@ -215,8 +218,8 @@ const Dashboard = () => {
 				</div>
 			</div>
 			<div className="row mt-3">
-				<div className="col-lg-5">
-					<DashboardCard>
+				<div className="col-lg-5 mb-3">
+					<DashboardCard style={{ height: "100%" }}>
 						<div className="head">
 							<h6>Stock</h6>
 							<span>{dashboardStats.totalProducts}</span>
@@ -245,6 +248,140 @@ const Dashboard = () => {
 									)}
 								</tbody>
 							</table>
+						</div>
+					</DashboardCard>
+				</div>
+				<div className="col-lg-7 mb-3">
+					<DashboardCard>
+						<div className="head">
+							<h6>Sales Trend</h6>
+						</div>
+						<div className="body">
+							<LineChart arr={dashboardStats.sales} />
+						</div>
+					</DashboardCard>
+				</div>
+			</div>
+			<div className="row mt-3">
+				<div className="col-lg-5 mb-3">
+					<DashboardCard style={{ height: "100%" }}>
+						<div className="head">
+							<h6>Top Subdealers</h6>
+						</div>
+						<div className="body">
+							<table className="table mt-3">
+								<thead>
+									<tr>
+										<th>Subdealer</th>
+										<th className="text-end">Value</th>
+									</tr>
+								</thead>
+								<tbody>
+									{dashboardStats.subdealerReport.topSubdealers?.map(
+										(t: any, i: number) => (
+											<tr key={i + 1}>
+												<td>{t.name}</td>
+												<td className="text-end">
+													₦{" "}
+													{formatCurrency(
+														t.tradeValue
+													)}
+												</td>
+											</tr>
+										)
+									)}
+								</tbody>
+							</table>
+						</div>
+					</DashboardCard>
+				</div>
+				<div className="col-lg-7 mb-3">
+					<DashboardCard style={{ height: "100%" }}>
+						<div className="head">
+							<h6>Top Selling Items</h6>
+						</div>
+						<div className="body">
+							<table className="table mt-3">
+								<thead>
+									<tr>
+										<th>Products</th>
+										<th className="text-end">Value</th>
+									</tr>
+								</thead>
+								<tbody>
+									{dashboardStats.productReport?.topSellingProducts?.map(
+										(t: any, i: number) => (
+											<tr key={i + 1}>
+												<td>{t.name}</td>
+												<td className="text-end">
+													₦{" "}
+													{formatCurrency(
+														t.salesValue
+													)}
+												</td>
+											</tr>
+										)
+									)}
+								</tbody>
+							</table>
+						</div>
+					</DashboardCard>
+				</div>
+			</div>
+			<div className="row mt-3">
+				<div className="col-lg-5 mb-3">
+					<DashboardCard style={{ height: "100%" }}>
+						<div className="head">
+							<h6>Top Selling Items By Unit</h6>
+						</div>
+						<div className="body">
+							<table className="table mt-3">
+								<thead>
+									<tr>
+										<th>Products</th>
+										<th>Total Quantity</th>
+									</tr>
+								</thead>
+								<tbody>
+									{dashboardStats.productReport?.topSellingProductsByUnit?.map(
+										(t: any, i: number) => (
+											<tr key={i + 1}>
+												<td>{t.name}</td>
+												<td>{t.totalQuantity}</td>
+											</tr>
+										)
+									)}
+								</tbody>
+							</table>
+						</div>
+					</DashboardCard>
+				</div>
+				<div className="col-lg-7 mb-3">
+					<DashboardCard>
+						<div className="head">
+							<h6>Expenses</h6>
+						</div>
+						<div className="body">
+							<ExpenseChart
+								arr={dashboardStats.expenseReport?.metrics}
+							/>
+						</div>
+					</DashboardCard>
+				</div>
+			</div>
+			<div className="row mt-3">
+				<div className="col-lg-6">
+					<DashboardCard>
+						<div className="head">
+							<h6>Shop Sales</h6>
+						</div>
+						<div className="body">
+							<PieChart
+								arr={
+									dashboardStats.shopReport?.trend?.shopSales
+								}
+								labels={dashboardStats.shopReport?.trend?.shops}
+							/>
 						</div>
 					</DashboardCard>
 				</div>

@@ -3,11 +3,14 @@ import basicService from "./basic-service";
 import { displayError } from "../../../utils/errors";
 import { notificationType } from "../../../utils/types";
 import { logout } from "../auth/auth-slice";
+import { OptionProp } from "../../../components/Filters/BasicInputs";
 
 const initialState = {
 	theme: "light",
 	notify: notificationType,
 	dashboardStats: {} as any,
+	shops: [] as OptionProp[],
+	staffs: [] as OptionProp[],
 };
 
 export const changeTheme = createAsyncThunk(
@@ -56,6 +59,34 @@ export const getDashboardStats = createAsyncThunk(
 	}
 );
 
+export const allShops = createAsyncThunk(
+	"basic/shops",
+	async (_, thunkAPI: any) => {
+		try {
+			const { token } = thunkAPI.getState().auth;
+			const res = await basicService.allShops(token);
+			let arr = res.data?.map((f: any) => {
+				return { value: f.id, label: f.name };
+			});
+			return arr;
+		} catch (error) {}
+	}
+);
+
+export const allStaffs = createAsyncThunk(
+	"basic/staffs",
+	async (_, thunkAPI: any) => {
+		try {
+			const { token } = thunkAPI.getState().auth;
+			const res = await basicService.allStaffs(token);
+			let arr = res.data?.map((f: any) => {
+				return { value: f.id, label: f.fullName };
+			});
+			return arr;
+		} catch (error) {}
+	}
+);
+
 export const basicSlice = createSlice({
 	name: "basic",
 	initialState,
@@ -69,6 +100,12 @@ export const basicSlice = createSlice({
 		});
 		builder.addCase(getDashboardStats.fulfilled, (state, action) => {
 			state.dashboardStats = action.payload;
+		});
+		builder.addCase(allShops.fulfilled, (state, action) => {
+			state.shops = action.payload || [];
+		});
+		builder.addCase(allStaffs.fulfilled, (state, action) => {
+			state.staffs = action.payload || [];
 		});
 	},
 });

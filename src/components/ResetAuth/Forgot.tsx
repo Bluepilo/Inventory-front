@@ -4,7 +4,7 @@ import { Form } from "../../styles/form.styles";
 import authService from "../../redux/features/auth/auth-service";
 import { displayError } from "../../utils/errors";
 import { Link } from "react-router-dom";
-import Loading from "../Loading";
+import Loading from "../Loaders/Loading";
 import { ButtonSubmit } from "../../styles/links.styles";
 
 const Forgot = ({
