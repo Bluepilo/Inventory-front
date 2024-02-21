@@ -36,11 +36,47 @@ const makeSale = async (token: string, obj: any) => {
 	return data.data;
 };
 
+const getSaleInfo = async (token: string, id: any) => {
+	const { data } = await axios.get(`${config.baseUrl}/sale/view/${id}`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const withdrawSale = async (token: string, id: any, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/sale/withdraw/${id}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const approveOrDeclineWithdrawal = async (
+	token: string,
+	obj: any,
+	ref: string
+) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/sale/approve-or-decline-withdrawal/${ref}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const salesService = {
 	getSales,
 	getSalesSummary,
 	searchSales,
 	makeSale,
+	getSaleInfo,
+	withdrawSale,
+	approveOrDeclineWithdrawal,
 };
 
 export default salesService;

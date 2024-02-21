@@ -9,9 +9,12 @@ interface Props {
 	changeStartDate?: (arg: any) => void;
 	endDate?: any;
 	changeEndDate?: (arg: any) => void;
-	changeShopId?: (arg: number) => void;
-	changeStaffId?: (arg: number) => void;
-	changeCustomerType?: (arg: string) => void;
+	shopId: any;
+	changeShopId?: (arg: any) => void;
+	staffId: any;
+	changeStaffId?: (arg: any) => void;
+	customerType: any;
+	changeCustomerType?: (arg: any) => void;
 	isSearchable?: boolean;
 	searchVal?: string;
 	changeSearchVal?: (arg: string) => void;
@@ -30,6 +33,9 @@ const Filters = ({
 	changeSearchVal,
 	isSearchable,
 	clearValues,
+	shopId,
+	staffId,
+	customerType,
 }: Props) => {
 	const { details } = useAppSelector((state) => state.auth);
 
@@ -68,33 +74,41 @@ const Filters = ({
 				{changeShopId && !details.shopId && (
 					<div className="col-lg-2 col-md-4 col-6 mb-3">
 						<BasicSelect
+							value={shopId}
 							options={shops}
 							label="Shop"
 							changeSelected={changeShopId}
-							clear={clear}
 						/>
 					</div>
 				)}
 				{changeStaffId && (
 					<div className="col-lg-2 col-md-4 col-6 mb-3">
 						<BasicSelect
-							options={staffs}
+							value={staffId}
+							options={
+								details.shopId
+									? staffs.filter(
+											(s) =>
+												s.value == details.id ||
+												s.id === null
+									  )
+									: staffs
+							}
 							label="Staff"
 							changeSelected={changeStaffId}
-							clear={clear}
 						/>
 					</div>
 				)}
 				{changeCustomerType && (
 					<div className="col-lg-2 col-md-4 col-6 mb-3">
 						<BasicSelect
+							value={customerType}
 							options={[
 								{ label: "Subdealer", value: "Sub Dealer" },
 								{ label: "Customer", value: "Customer" },
 							]}
 							label="Customer Type"
 							changeSelected={changeCustomerType}
-							clear={clear}
 						/>
 					</div>
 				)}

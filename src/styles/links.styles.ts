@@ -73,6 +73,26 @@ export const PrimaryButton = styled.button<{ color?: string; bg?: string }>`
 	}
 `;
 
+export const WideButton = styled.button<{ color?: string; bg?: string }>`
+	background: ${(props) => props.bg || "#0241FF"};
+	color: ${(props) => props.color || "#FFF"};
+	outline: 0;
+	border: 0;
+	padding: 12px 0;
+	border-radius: 4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 600;
+	font-size: 0.9rem;
+	width: 100%;
+
+	svg,
+	img {
+		margin-left: 10px;
+	}
+`;
+
 export const MainLink = styled.a<{ color?: string }>`
 	background: ${(props) => props.color || "#0241FF"};
 	color: #fff;

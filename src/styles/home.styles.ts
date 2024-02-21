@@ -197,6 +197,20 @@ export const DashboardCard = styled.div`
 		font-weight: 600;
 	}
 
+	.head-btwn {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding-bottom: 10px;
+		border-bottom: 1px solid #d9dbeb;
+		margin-bottom: 10px;
+
+		h5 {
+			margin: 0;
+			padding-top: 0;
+		}
+	}
+
 	.head {
 		display: flex;
 		align-items: center;

@@ -14,11 +14,13 @@ import CustomerSelect from "../../../components/Sales/CustomerSelect";
 import LoadModal from "../../../components/Loaders/LoadModal";
 import { displayError } from "../../../utils/errors";
 import salesService from "../../../redux/features/sales/sales-service";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const NewSale = () => {
 	const navigate = useNavigate();
+
+	const cloneState = useLocation()?.state?.cloneState;
 
 	const { details, token } = useAppSelector((state) => state.auth);
 	const { shops } = useAppSelector((state) => state.basic);
@@ -40,8 +42,25 @@ const NewSale = () => {
 	const [load, setLoad] = useState(false);
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		filterShops();
 	}, []);
+
+	useEffect(() => {
+		if (cloneState?.id) {
+			if (cloneState?.subdealerId) {
+				setIsWalkIn(false);
+			}
+			let products = JSON.parse(cloneState.productPurchasedPayload);
+			setSelectedProducts(products);
+			setSelectedShop({
+				label: cloneState.shop?.name,
+				value: cloneState.shop?.id,
+			});
+		} else {
+			console.log("ealk");
+		}
+	}, [cloneState]);
 
 	useEffect(() => {
 		if (selectedShop?.value) {
@@ -78,7 +97,9 @@ const NewSale = () => {
 	const getProducts = async () => {
 		try {
 			setProductList([]);
-			setSelectedProducts([]);
+			if (!cloneState) {
+				setSelectedProducts([]);
+			}
 			setProductLoad(true);
 			let res = await productService.getProductsInShop(
 				token,
@@ -233,9 +254,7 @@ const NewSale = () => {
 						complete={(vals: any) => paymentHandler(vals)}
 					/>
 				) : (
-					<>
-						<button onClick={() => setStep(1)}>Test</button>
-					</>
+					<></>
 				)}
 			</SalesDiv>
 			{load && <LoadModal open={true} />}

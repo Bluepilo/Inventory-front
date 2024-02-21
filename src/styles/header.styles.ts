@@ -165,6 +165,12 @@ export const HeaderProfile = styled.div`
 			font-size: 2rem;
 		}
 
+		img {
+			height: 50px;
+			width: 50px;
+			border-radius: 20px;
+		}
+
 		div {
 			margin-left: 10px;
 

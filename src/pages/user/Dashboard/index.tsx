@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 
 import TransferIcon from "../../../assets/icons/transfer.svg";
 import EditIcon from "../../../assets/icons/edit.svg";
@@ -17,10 +17,21 @@ import PieChart from "../../../components/Home/PieChart";
 import { haveRole } from "../../../utils/role";
 import ModalComponent from "../../../components/ModalComponent";
 import RecordList from "../../../components/Home/RecordList";
+import {
+	DropDownSelect,
+	OptionProp,
+} from "../../../components/Filters/BasicInputs";
+import { getDashboardStats } from "../../../redux/features/basic/basic-slice";
 
 const Dashboard = () => {
 	const navigate = useNavigate();
 
+	const dispatch = useAppDispatch();
+
+	const [selectedFilter, setSelectedFilter] = useState<OptionProp | null>({
+		label: "This Month",
+		value: "month",
+	});
 	const [openModal, setOpenModal] = useState(false);
 	const { details } = useAppSelector((state) => state.auth);
 	const { dashboardStats } = useAppSelector((state) => state.basic);
@@ -28,6 +39,15 @@ const Dashboard = () => {
 	useEffect(() => {
 		checkOnboardingTrial();
 	}, []);
+
+	useEffect(() => {
+		dispatch(
+			getDashboardStats({
+				period: selectedFilter?.value || "month",
+				year: `${new Date().getFullYear()}`,
+			})
+		);
+	}, [selectedFilter]);
 
 	const checkOnboardingTrial = () => {
 		if (details.business.onboardingSteps?.trialPick !== "completed") {
@@ -67,12 +87,23 @@ const Dashboard = () => {
 						</PrimaryButton>
 					</div>
 				</div>
-				{haveRole(details.roleId).isBusinessAdmin && (
+				{haveRole(details.roleId).isBusinessAdmin ? (
 					<div className="col-lg-7 mb-4">
 						<DashboardCard>
-							<h5 style={{ marginBottom: "10px" }}>
-								{details.business.name}
-							</h5>
+							<div className="head-btwn">
+								<h5>{details.business.name}</h5>
+								<DropDownSelect
+									value={selectedFilter}
+									options={[
+										{ label: "This Month", value: "month" },
+										{ label: "Today", value: "today" },
+										{ label: "This Week", value: "week" },
+										{ label: "This Year", value: "year" },
+									]}
+									changeSelected={setSelectedFilter}
+								/>
+							</div>
+
 							<FlexBetween>
 								<ProgressCard>
 									<div className="box">
@@ -149,6 +180,24 @@ const Dashboard = () => {
 								</ProgressCard>
 							</FlexBetween>
 						</DashboardCard>
+					</div>
+				) : (
+					<div className="col-lg-7 mb-4">
+						<div className="row">
+							<div className="col-md-7"></div>
+							<div className="col-md-5">
+								<DropDownSelect
+									value={selectedFilter}
+									options={[
+										{ label: "This Month", value: "month" },
+										{ label: "Today", value: "today" },
+										{ label: "This Week", value: "week" },
+										{ label: "This Year", value: "year" },
+									]}
+									changeSelected={setSelectedFilter}
+								/>
+							</div>
+						</div>
 					</div>
 				)}
 			</div>

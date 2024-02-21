@@ -41,27 +41,33 @@ const PickItems = ({
 	return Array.isArray(items) ? (
 		<div>
 			{selectedProducts?.length > 0 && (
-				<ItemListStyle className="table-responsive">
-					<div className="head">
-						<div className="name">Product</div>
-						<div className="qty">Quantity</div>
-						<div className="input">Unit Price</div>
-						<div className="price">Total</div>
-						<div className="cancel"></div>
+				<>
+					<div className="item-title">
+						<p>Items</p>
+						<span>{selectedProducts.length}</span>
 					</div>
-					<div className="body">
-						{selectedProducts.map((s: any) => (
-							<EachItem
-								key={s.value}
-								s={s}
-								changeQty={(item: number) =>
-									setSelectedProducts(item)
-								}
-								remove={remove}
-							/>
-						))}
-					</div>
-				</ItemListStyle>
+					<ItemListStyle className="table-responsive">
+						<div className="head">
+							<div className="name">Product</div>
+							<div className="qty">Quantity</div>
+							<div className="input">Unit Price</div>
+							<div className="price">Total</div>
+							<div className="cancel"></div>
+						</div>
+						<div className="body">
+							{selectedProducts.map((s: any) => (
+								<EachItem
+									key={s.value}
+									s={s}
+									changeQty={(item: number) =>
+										setSelectedProducts(item)
+									}
+									remove={remove}
+								/>
+							))}
+						</div>
+					</ItemListStyle>
+				</>
 			)}
 			<DropDownSelect
 				options={items}

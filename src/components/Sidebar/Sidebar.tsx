@@ -8,7 +8,7 @@ import LogoIcon from "../../assets/images/logo-icon.svg";
 import LogoText from "../../assets/images/bluepilo.svg";
 import SidebarMin from "../../assets/icons/sidebar-min.svg";
 import { useAppSelector } from "../../redux/hooks";
-import { adminRoutes, bottomRoutes, userRoutes } from "./routes";
+import { adminRoutes, userRoutes } from "./routes";
 import NavCollapse from "./NavCollapse";
 import NavLink from "./NavLink";
 
@@ -84,29 +84,6 @@ const Sidebar = ({ open, minimizeHandler, onClose, minimized }: Props) => {
 						)
 					)}
 				</ul>
-				{details.businessId && (
-					<ul className="bottom">
-						{bottomRoutes.map((r) =>
-							r.children.length > 0 ? (
-								<NavCollapse
-									key={r.id}
-									links={r}
-									minimized={`${minimized}`}
-									color={theme}
-									onClose={onClose}
-									permitted={allowUser(r.permission)}
-								/>
-							) : (
-								<NavLink
-									key={r.id}
-									links={r}
-									onClose={onClose}
-									permitted={allowUser(r.permission)}
-								/>
-							)
-						)}
-					</ul>
-				)}
 			</SidebarMenu>
 		</SidebarDiv>
 	);

@@ -34,6 +34,7 @@ interface UserDetailsType {
 	shop: {
 		name: string;
 	};
+	image: string;
 }
 
 interface NotifcationType {

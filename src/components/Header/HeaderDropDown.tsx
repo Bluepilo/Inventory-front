@@ -23,7 +23,11 @@ const HeaderDropDown = ({
 		<HeaderProfile>
 			<OutsideClick handleToggle={() => setOpenDrop(false)}>
 				<div className="head">
-					<FaRegUser />
+					{details.image ? (
+						<img src={details.image} />
+					) : (
+						<FaRegUser />
+					)}
 					<div>
 						<p>{details.fullName}</p>
 						<p>{details?.role.name}</p>

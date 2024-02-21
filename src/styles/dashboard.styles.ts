@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const SidebarDiv = styled.div<{ minimize: string; color: string }>`
-	width: ${(props) => (props.minimize === "true" ? "70px" : "240px")};
+	width: ${(props) => (props.minimize === "true" ? "70px" : "220px")};
 	background-color: ${(props) =>
 		props.color == "dark" ? "#000D33" : "#CFEAFF"};
 	height: 100vh;
@@ -10,7 +10,7 @@ export const SidebarDiv = styled.div<{ minimize: string; color: string }>`
 	transition: all 0.3s ease-in-out;
 
 	@media (max-width: 991px) {
-		margin-left: -270px;
+		margin-left: -220px;
 		height: 100% !important;
 		padding-bottom: 50px !important;
 
@@ -48,9 +48,10 @@ export const SidebarMenu = styled.div<{ minimize: string; color: string }>`
 	height: 100%;
 
 	ul.first {
-		height: 70%;
+		height: 100%;
 		z-index: 1;
 		overflow: hidden;
+		padding-bottom: 45px;
 
 		&:hover {
 			overflow-y: auto;
@@ -72,18 +73,14 @@ export const SidebarMenu = styled.div<{ minimize: string; color: string }>`
 		}
 	}
 
-	ul.bottom {
+	li.top-b {
 		border-top: 1px solid
 			${(props) =>
 				props.color == "dark"
 					? "rgba(255, 255, 255, 0.2);"
 					: "rgba(51, 51, 51, 0.2)"};
 		padding-top: 10px;
-		padding-bottom: 10px;
-		z-index: 9991;
-		height: 30%;
-		background-color: ${(props) =>
-			props.color == "dark" ? "#000D33" : "#CFEAFF"};
+		margin-top: 10px;
 	}
 
 	ul {
@@ -184,7 +181,7 @@ export const MainPage = styled.div<{ minimize: string }>`
 	clear: both;
 	float: unset;
 	right: 0;
-	margin: 0 auto 0 ${(props) => (props.minimize == "true" ? "70px" : "240px")};
+	margin: 0 auto 0 ${(props) => (props.minimize == "true" ? "70px" : "230px")};
 	min-height: 100vh;
 	-webkit-transition: all 0.3s ease-in-out;
 	transition: all 0.3s ease-in-out;

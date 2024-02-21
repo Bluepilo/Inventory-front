@@ -15,6 +15,9 @@ import Dashboard from "../pages/user/Dashboard";
 import Onboarding from "../pages/user/Dashboard/Onboarding";
 import Sales from "../pages/user/Sales";
 import NewSale from "../pages/user/Sales/NewSale";
+import SaleDetails from "../pages/user/Sales/SaleDetails";
+import WalkIn from "../pages/user/Customers/WalkIn";
+import Subdealer from "../pages/user/Customers/Subdealer";
 
 const Routing = () => {
 	return (
@@ -45,6 +48,18 @@ const Routing = () => {
 					<Route path="home/onboarding" element={<Onboarding />} />
 					<Route path="sales" element={<Sales />} />
 					<Route path="sales/new" element={<NewSale />} />
+					<Route path="sales/:id" element={<SaleDetails />} />
+					<Route
+						path="customers"
+						element={
+							<Navigate
+								replace
+								to="/dashboard/customers/walk-in"
+							/>
+						}
+					/>
+					<Route path="customers/walk-in" element={<WalkIn />} />
+					<Route path="customers/subdealer" element={<Subdealer />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

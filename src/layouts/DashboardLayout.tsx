@@ -31,12 +31,6 @@ const DashboardLayout = () => {
 	const runActions = () => {
 		if (details.businessId) {
 			dispatch(getNotifications());
-			dispatch(
-				getDashboardStats({
-					period: "month",
-					year: `${new Date().getFullYear()}`,
-				})
-			);
 			dispatch(allShops());
 			dispatch(allStaffs());
 			dispatch(getSettings());

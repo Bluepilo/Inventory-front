@@ -140,22 +140,8 @@ const userRoutes = [
 		],
 		permission: ["all"],
 	},
-];
-
-const adminRoutes = [
 	{
-		id: 1,
-		name: "Home",
-		href: "/admin/home",
-		icon: HomeIcon,
-		children: [],
-		permission: ["all"],
-	},
-];
-
-const bottomRoutes = [
-	{
-		id: 1,
+		id: 12,
 		name: "Manage Biz",
 		href: "/dashboard/business",
 		icon: BusinessIcon,
@@ -179,7 +165,7 @@ const bottomRoutes = [
 		],
 	},
 	{
-		id: 2,
+		id: 13,
 		name: "Subscription",
 		href: "/dashboard/subscription",
 		icon: SubscriptionIcon,
@@ -187,7 +173,7 @@ const bottomRoutes = [
 		permission: ["admin"],
 	},
 	{
-		id: 3,
+		id: 14,
 		name: "Activity Logs",
 		href: "/dashboard/logs",
 		icon: LogsIcon,
@@ -196,4 +182,15 @@ const bottomRoutes = [
 	},
 ];
 
-export { userRoutes, adminRoutes, bottomRoutes };
+const adminRoutes = [
+	{
+		id: 1,
+		name: "Home",
+		href: "/admin/home",
+		icon: HomeIcon,
+		children: [],
+		permission: ["all"],
+	},
+];
+
+export { userRoutes, adminRoutes };

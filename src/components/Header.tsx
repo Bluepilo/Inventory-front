@@ -17,6 +17,7 @@ import { haveRole } from "../utils/role";
 
 const Header = ({ openMenu }: { openMenu: () => void }) => {
 	const { details } = useAppSelector((state) => state.auth);
+	const { notify } = useAppSelector((state) => state.basic);
 
 	const [openDrop, setOpenDrop] = useState(false);
 	const [openNoti, setOpenNoti] = useState(false);
@@ -101,12 +102,16 @@ const Header = ({ openMenu }: { openMenu: () => void }) => {
 							onClick={() => setOpenNoti(true)}
 						>
 							<FaBell />
-							<span>273</span>
+							<span>{notify?.unreadNotifications}</span>
 						</button>
 					</>
 				)}
 				<button className="profile" onClick={() => setOpenDrop(true)}>
-					<FaRegUser />
+					{details.image ? (
+						<img src={details.image} />
+					) : (
+						<FaRegUser />
+					)}
 				</button>
 				<button className="support menu" onClick={openMenu}>
 					<MdMenu />

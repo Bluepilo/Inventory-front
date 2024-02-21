@@ -15,6 +15,7 @@ export interface OptionProp {
 	value: string | number;
 	label: string;
 	isActive?: boolean;
+	id?: number;
 }
 
 interface SearchProp {
@@ -32,7 +33,7 @@ interface SelectProp {
 	options: OptionProp[];
 	changeSelected: (arg: any) => void;
 	label?: string;
-	clear?: boolean;
+	value: OptionProp | null;
 }
 
 interface SelectProp2 {
@@ -48,7 +49,7 @@ export const BasicSelect = ({
 	options,
 	changeSelected,
 	label,
-	clear,
+	value,
 }: SelectProp) => {
 	const customStyles = {
 		control: (base: any, state: any) => ({
@@ -73,22 +74,16 @@ export const BasicSelect = ({
 
 	const selectInputRef = useRef<any>(null);
 
-	useEffect(() => {
-		if (clear) {
-			console.log("Cleared??");
-			selectInputRef.current?.clearValue();
-		}
-	}, [clear]);
-
 	return (
 		<FilterWrapper>
 			<label className="label">{label}</label>
 			<Select
+				value={value}
 				ref={selectInputRef}
 				options={options}
 				styles={customStyles}
 				placeholder={`Select`}
-				onChange={(v) => changeSelected(v?.value)}
+				onChange={(v) => changeSelected(v)}
 			/>
 		</FilterWrapper>
 	);

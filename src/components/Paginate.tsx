@@ -62,7 +62,7 @@ const Paginate = ({
 					Page {pageNumber} of {pages}
 				</p>
 				<p>
-					{count} entries
+					{count} {count > 1 ? "entries" : "entry"}
 					{/* 1 - {limit} of {count} entries */}
 				</p>
 			</div>

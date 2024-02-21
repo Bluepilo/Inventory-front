@@ -75,7 +75,7 @@ const NewSubdealer = ({
 	const handleSms = async (id: any) => {
 		try {
 			await basicService.enableSMS(token, {
-				enableSms: true,
+				enableSms: sms,
 				subdealerId: id,
 				businessId: details.businessId,
 			});

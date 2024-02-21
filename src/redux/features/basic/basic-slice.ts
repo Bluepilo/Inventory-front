@@ -83,7 +83,7 @@ export const allStaffs = createAsyncThunk(
 			const { token } = thunkAPI.getState().auth;
 			const res = await basicService.allStaffs(token);
 			let arr = res.data?.map((f: any) => {
-				return { value: f.id, label: f.fullName };
+				return { value: f.id, label: f.fullName, id: f.shopId };
 			});
 			return arr;
 		} catch (error) {}

@@ -32,6 +32,27 @@ export const SaleSelectDiv = styled.div`
 
 export const SalesDiv = styled.div`
 	margin-top: 30px;
+
+	div.item-title {
+		display: flex;
+		color: #0241ff;
+		font-weight: 600;
+		align-items: center;
+		margin-bottom: 10px;
+
+		p {
+			margin: 0;
+			padding: 0;
+		}
+
+		span {
+			background: #0241ff;
+			color: #fff;
+			padding: 2px 12px;
+			border-radius: 10px;
+			margin-left: 6px;
+		}
+	}
 `;
 
 export const ItemListStyle = styled.div`
@@ -366,6 +387,70 @@ export const PaymentSummaryBox = styled.div`
 
 		button {
 			margin: 0 20px;
+		}
+	}
+`;
+
+export const ActionDetailsDiv = styled.div`
+	margin-top: 20px;
+`;
+
+export const DetailCard = styled.div`
+	border: 1px solid #d9dbeb;
+	background: #f5f5f5;
+	border-radius: 4px;
+	padding: 20px 30px;
+	margin-bottom: 30px;
+
+	.head {
+		border-bottom: 1px solid #d9dbeb;
+		display: flex;
+		align-items: center;
+		padding-bottom: 12px;
+		margin-bottom: 15px;
+
+		h6,
+		p {
+			margin: 0;
+			padding: 0;
+		}
+
+		.sale-info {
+			border-right: 1px solid #d9dbeb;
+			padding-right: 12px;
+
+			h6 {
+				font-weight: 700;
+				font-size: 1.1rem;
+				margin-bottom: 10px;
+			}
+
+			span.status {
+				&.success {
+					background: #4caf50;
+				}
+
+				&.withdrawal,
+				&.pending {
+					background: #ff9800;
+				}
+				background: #f44336;
+				color: #fff;
+				padding: 5px 15px;
+				border-radius: 15px;
+				margin-right: 6px;
+			}
+		}
+		.user-info {
+			padding-left: 12px;
+
+			p {
+				margin-bottom: 10px;
+
+				span {
+					margin-left: 5px;
+				}
+			}
 		}
 	}
 `;

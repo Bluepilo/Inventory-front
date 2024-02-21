@@ -18,11 +18,13 @@ import FailedIcon from "../../../assets/icons/failed.svg";
 import PendingIcon from "../../../assets/icons/pending.svg";
 import Paginate from "../../../components/Paginate";
 import { UseDebounce } from "../../../utils/hooks";
+import { OptionProp } from "../../../components/Filters/BasicInputs";
+import { haveRole } from "../../../utils/role";
 
 const Sales = () => {
 	const navigate = useNavigate();
 
-	const { details, token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	const [startDate, setStartDate] = useState(
 		new Date(new Date().getFullYear(), new Date().getMonth(), 1)
@@ -30,9 +32,9 @@ const Sales = () => {
 	const [endDate, setEndDate] = useState(
 		new Date(new Date().setDate(new Date().getDate() + 1))
 	);
-	const [shopId, setShopId] = useState<number | string>("");
-	const [staffId, setStaffId] = useState<number | string>("");
-	const [customerType, setCustomerType] = useState("");
+	const [shopId, setShopId] = useState<OptionProp | null>(null);
+	const [staffId, setStaffId] = useState<OptionProp | null>(null);
+	const [customerType, setCustomerType] = useState<OptionProp | null>(null);
 	const [search, setSearch] = useState("");
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(20);
@@ -44,9 +46,11 @@ const Sales = () => {
 
 	const debouncedSearch = UseDebounce(search);
 
-	let filters = `?page=${page}&limit=${limit}&shopId=${shopId || ""}&userId=${
-		staffId || ""
-	}&customerCategory=${customerType}&startDate=${startDate}&endDate=${endDate}&includeWithdrawn=${
+	let filters = `?page=${page}&limit=${limit}&shopId=${
+		shopId?.value || ""
+	}&userId=${staffId?.value || ""}&customerCategory=${
+		customerType?.value || ""
+	}&startDate=${startDate}&endDate=${endDate}&includeWithdrawn=${
 		withdrawn ? "1" : "0"
 	}`;
 
@@ -98,16 +102,16 @@ const Sales = () => {
 			new Date(new Date().getFullYear(), new Date().getMonth(), 1)
 		);
 		setEndDate(new Date(new Date().setDate(new Date().getDate() + 1)));
-		setStaffId("");
-		setCustomerType("");
-		setShopId("");
+		setStaffId(null);
+		setCustomerType(null);
+		setShopId(null);
 	};
 
 	return (
 		<div>
 			<TitleCover
 				title="Sales Records"
-				dataCount={678}
+				dataCount={lists?.count}
 				button="Make Sales"
 				buttonIcon={<IoCartSharp />}
 				buttonClick={() => navigate("new")}
@@ -118,6 +122,9 @@ const Sales = () => {
 					changeStartDate={setStartDate}
 					endDate={endDate}
 					changeEndDate={setEndDate}
+					shopId={shopId}
+					customerType={customerType}
+					staffId={staffId}
 					changeShopId={setShopId}
 					changeStaffId={setStaffId}
 					changeCustomerType={setCustomerType}
@@ -139,22 +146,31 @@ const Sales = () => {
 										: "--"}
 								</h6>
 							</div>
-							<div>
-								<h6>Total Sales Margin:</h6>
-								<h6>
-									{summary?.totalEstimatedProfit
-										? `₦ ${formatCurrency(
-												summary.totalEstimatedProfit
-										  )}`
-										: "--"}
-								</h6>
-							</div>
+							{haveRole(details.roleId).isBusinessAdmin && (
+								<div>
+									<h6>Total Sales Margin:</h6>
+									<h6>
+										{summary?.totalEstimatedProfit
+											? `₦ ${formatCurrency(
+													summary.totalEstimatedProfit
+											  )}`
+											: "--"}
+									</h6>
+								</div>
+							)}
 						</SummaryCard>
 					</div>
 					<div className="col-lg-5 mb-3">
 						<CheckBoxPrint>
 							<div className="checks">
-								<input type="checkbox" name="withdrawn" />
+								<input
+									type="checkbox"
+									checked={withdrawn}
+									onChange={(e) =>
+										setWithdrawn(e.target.checked)
+									}
+									name="withdrawn"
+								/>
 								<label htmlFor="withdrawn">
 									Show Withdrawn Sales
 								</label>
@@ -180,7 +196,8 @@ const Sales = () => {
 										<th>Staff</th>
 										<th>Shop</th>
 										<th className="price">Price</th>
-										<th>Margin</th>
+										{haveRole(details.roleId)
+											.isBusinessAdmin && <th>Margin</th>}
 										<th>Status</th>
 									</tr>
 								</thead>
@@ -235,12 +252,23 @@ const Sales = () => {
 														l.amountExpected
 													)}
 												</td>
-												<td>
-													₦{" "}
-													{formatCurrency(
-														l.estimatedProfit
-													)}
-												</td>
+												{haveRole(details.roleId)
+													.isBusinessAdmin && (
+													<td
+														style={{
+															color:
+																l.estimatedProfit <
+																0
+																	? "red"
+																	: "inherit",
+														}}
+													>
+														₦{" "}
+														{formatCurrency(
+															l.estimatedProfit
+														)}
+													</td>
+												)}
 												<td className="status">
 													<img
 														src={
@@ -262,7 +290,7 @@ const Sales = () => {
 						</div>
 						{load && <SkeletonTable />}
 					</TableComponent>
-					{lists?.count && (
+					{lists?.count ? (
 						<Paginate
 							changeLimit={(l) => setLimit(l)}
 							limit={lists.limit}
@@ -271,6 +299,8 @@ const Sales = () => {
 							onPrev={(n) => setPage(n)}
 							onNext={(n) => setPage(n)}
 						/>
+					) : (
+						<></>
 					)}
 				</div>
 			</div>

@@ -2,7 +2,17 @@ import { useState } from "react";
 import { TextAreaComment } from "../../styles/form.styles";
 import { MainButton } from "../../styles/links.styles";
 
-const CommentBox = ({ submit }: { submit: (arg: string) => void }) => {
+const CommentBox = ({
+	submit,
+	bg,
+	btnName,
+	disabled,
+}: {
+	submit: (arg: string) => void;
+	bg?: string;
+	btnName?: string;
+	disabled?: boolean;
+}) => {
 	const [comment, setComment] = useState("");
 
 	return (
@@ -11,9 +21,16 @@ const CommentBox = ({ submit }: { submit: (arg: string) => void }) => {
 			<textarea
 				value={comment}
 				onChange={(e) => setComment(e.target.value)}
+				disabled={disabled ? true : false}
 			></textarea>
 			<div className="btns">
-				<MainButton onClick={() => submit(comment)}>Submit</MainButton>
+				<MainButton
+					bg={bg}
+					onClick={() => submit(comment)}
+					disabled={disabled ? true : false}
+				>
+					{disabled ? "Hold On..." : btnName || "Submit"}
+				</MainButton>
 			</div>
 		</TextAreaComment>
 	);

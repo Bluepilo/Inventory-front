@@ -36,7 +36,11 @@ const NavCollapse = ({
 
 	return permitted ? (
 		<OutsideClick handleToggle={() => setOpen(false)}>
-			<SidebarDropDown minimize={minimized} color={color}>
+			<SidebarDropDown
+				minimize={minimized}
+				color={color}
+				className={links.id == 12 ? "top-b" : ""}
+			>
 				<a href={links.href} onClick={toggleDropDown}>
 					<img src={links.icon} alt={links.name} />
 					<span>{links.name}</span>
