@@ -31,6 +31,8 @@ const Filters = ({
 	isSearchable,
 	clearValues,
 }: Props) => {
+	const { details } = useAppSelector((state) => state.auth);
+
 	const { shops, staffs } = useAppSelector((state) => state.basic);
 	const [clear, setClear] = useState(false);
 
@@ -63,7 +65,7 @@ const Filters = ({
 						/>
 					</div>
 				)}
-				{changeShopId && (
+				{changeShopId && !details.shopId && (
 					<div className="col-lg-2 col-md-4 col-6 mb-3">
 						<BasicSelect
 							options={shops}

@@ -262,3 +262,19 @@ export const CheckBoxPrint = styled.div`
 		}
 	}
 `;
+
+export const RecordStyles = styled.div`
+	display: flex;
+	flex-direction: column;
+
+	a {
+		color: #333;
+		text-decoration: none;
+		margin-bottom: 15px;
+		font-weight: 600;
+
+		span {
+			margin-left: 10px;
+		}
+	}
+`;

@@ -4,17 +4,21 @@ import { SidebarMenusType } from "../../utils/types";
 const NavLink = ({
 	links,
 	onClose,
+	permitted,
 }: {
 	links: SidebarMenusType;
 	onClose: () => void;
+	permitted: boolean;
 }) => {
-	return (
+	return permitted ? (
 		<li onClick={() => onClose()}>
 			<Link to={links.href}>
 				<img src={links.icon} alt={links.name} />
 				<span>{links.name}</span>
 			</Link>
 		</li>
+	) : (
+		<></>
 	);
 };
 

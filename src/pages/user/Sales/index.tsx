@@ -10,7 +10,7 @@ import SkeletonTable from "../../../components/Loaders/SkeletonTable";
 import { useAppSelector } from "../../../redux/hooks";
 import salesService from "../../../redux/features/sales/sales-service";
 import dateFormat from "dateformat";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { formatCurrency } from "../../../utils/currency";
 
 import SuccessIcon from "../../../assets/icons/success.svg";
@@ -20,6 +20,8 @@ import Paginate from "../../../components/Paginate";
 import { UseDebounce } from "../../../utils/hooks";
 
 const Sales = () => {
+	const navigate = useNavigate();
+
 	const { details, token } = useAppSelector((state) => state.auth);
 
 	const [startDate, setStartDate] = useState(
@@ -108,6 +110,7 @@ const Sales = () => {
 				dataCount={678}
 				button="Make Sales"
 				buttonIcon={<IoCartSharp />}
+				buttonClick={() => navigate("new")}
 			/>
 			<div>
 				<Filters

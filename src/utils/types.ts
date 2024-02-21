@@ -19,6 +19,7 @@ interface UserDetailsType {
 		name: string;
 	};
 	roleId: number;
+	shopId: number;
 	business: {
 		name: string;
 		subscriptionPlan: {
@@ -29,6 +30,9 @@ interface UserDetailsType {
 		};
 		isTrialOn: boolean;
 		onboardingSteps: any;
+	};
+	shop: {
+		name: string;
 	};
 }
 

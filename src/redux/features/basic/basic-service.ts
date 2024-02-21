@@ -1,6 +1,6 @@
 import axios from "axios";
 import config from "../../../utils/config";
-import { authHeader } from "../../../utils/headers";
+import { authHeader, headers } from "../../../utils/headers";
 
 const getNotifications = async (token: string) => {
 	const { data } = await axios.get(
@@ -49,6 +49,97 @@ const allStaffs = async (token: string) => {
 	return data;
 };
 
+const listWalkIns = async (token: string, filters: string) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/customer/all${filters}`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data;
+};
+
+const listSubDealers = async (token: string, filters: string) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/subDealer/all${filters}`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data;
+};
+
+const saveSettings = async (token: string) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/business/get-settings`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data;
+};
+
+const paymentMethods = async (token: string) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/other/payment-methods`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data;
+};
+
+const createWalkIn = async (token: string, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/other/payment-methods`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data;
+};
+
+const createSubdealer = async (token: string, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/subdealer/create`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data;
+};
+
+const editSubdealer = async (token: string, obj: any, id: number) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/subdealer/update/${id}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data;
+};
+
+const getStates = async () => {
+	const { data } = await axios.get(`${config.baseUrl}/other/states`, {
+		headers,
+	});
+	return data;
+};
+
+const enableSMS = async (token: string, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/subdealer/set-sms-notification`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data;
+};
+
 const basicService = {
 	getNotifications,
 	saveTrialPick,
@@ -56,6 +147,15 @@ const basicService = {
 	dashboardStats,
 	allShops,
 	allStaffs,
+	listWalkIns,
+	listSubDealers,
+	saveSettings,
+	paymentMethods,
+	createWalkIn,
+	createSubdealer,
+	editSubdealer,
+	getStates,
+	enableSMS,
 };
 
 export default basicService;

@@ -11,11 +11,13 @@ const NavCollapse = ({
 	minimized,
 	color,
 	onClose,
+	permitted,
 }: {
 	links: SidebarMenusType;
 	minimized: string;
 	color: string;
 	onClose: () => void;
+	permitted: boolean;
 }) => {
 	const [open, setOpen] = useState(false);
 
@@ -32,7 +34,7 @@ const NavCollapse = ({
 		}
 	}, []);
 
-	return (
+	return permitted ? (
 		<OutsideClick handleToggle={() => setOpen(false)}>
 			<SidebarDropDown minimize={minimized} color={color}>
 				<a href={links.href} onClick={toggleDropDown}>
@@ -51,6 +53,8 @@ const NavCollapse = ({
 				)}
 			</SidebarDropDown>
 		</OutsideClick>
+	) : (
+		<></>
 	);
 };
 

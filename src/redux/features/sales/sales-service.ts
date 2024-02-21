@@ -29,10 +29,18 @@ const searchSales = async (token: string, word: string, filters: string) => {
 	return data.data;
 };
 
+const makeSale = async (token: string, obj: any) => {
+	const { data } = await axios.post(`${config.baseUrl}/sale/make-sale`, obj, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
 const salesService = {
 	getSales,
 	getSalesSummary,
 	searchSales,
+	makeSale,
 };
 
 export default salesService;

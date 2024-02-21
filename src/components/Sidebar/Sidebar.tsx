@@ -32,6 +32,14 @@ const Sidebar = ({ open, minimizeHandler, onClose, minimized }: Props) => {
 		}
 	};
 
+	const allowUser = (permit: any) => {
+		if (details.shopId && permit?.includes("admin")) {
+			return false;
+		} else {
+			return true;
+		}
+	};
+
 	return (
 		<SidebarDiv
 			minimize={`${minimized}`}
@@ -64,9 +72,15 @@ const Sidebar = ({ open, minimizeHandler, onClose, minimized }: Props) => {
 								minimized={`${minimized}`}
 								color={theme}
 								onClose={onClose}
+								permitted={allowUser(r.permission)}
 							/>
 						) : (
-							<NavLink key={r.id} links={r} onClose={onClose} />
+							<NavLink
+								key={r.id}
+								links={r}
+								onClose={onClose}
+								permitted={allowUser(r.permission)}
+							/>
 						)
 					)}
 				</ul>
@@ -80,12 +94,14 @@ const Sidebar = ({ open, minimizeHandler, onClose, minimized }: Props) => {
 									minimized={`${minimized}`}
 									color={theme}
 									onClose={onClose}
+									permitted={allowUser(r.permission)}
 								/>
 							) : (
 								<NavLink
 									key={r.id}
 									links={r}
 									onClose={onClose}
+									permitted={allowUser(r.permission)}
 								/>
 							)
 						)}

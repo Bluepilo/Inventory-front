@@ -191,6 +191,7 @@ export const DashboardCard = styled.div`
 	box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 	padding: 20px;
 	border-radius: 10px;
+	height: 100%;
 
 	h5 {
 		font-weight: 600;

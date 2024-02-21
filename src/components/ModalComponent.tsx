@@ -21,7 +21,7 @@ const ModalComponent = ({
 					<Modal.Title
 						style={{ fontSize: "1.1rem", fontWeight: "600" }}
 					>
-						Modal heading
+						{title}
 					</Modal.Title>
 				</Modal.Header>
 			)}

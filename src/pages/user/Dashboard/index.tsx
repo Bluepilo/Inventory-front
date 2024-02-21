@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../redux/hooks";
 
@@ -14,10 +14,14 @@ import { formatCurrency } from "../../../utils/currency";
 import LineChart from "../../../components/Home/LineChart";
 import ExpenseChart from "../../../components/Home/ExpenseChart";
 import PieChart from "../../../components/Home/PieChart";
+import { haveRole } from "../../../utils/role";
+import ModalComponent from "../../../components/ModalComponent";
+import RecordList from "../../../components/Home/RecordList";
 
 const Dashboard = () => {
 	const navigate = useNavigate();
 
+	const [openModal, setOpenModal] = useState(false);
 	const { details } = useAppSelector((state) => state.auth);
 	const { dashboardStats } = useAppSelector((state) => state.basic);
 
@@ -45,12 +49,15 @@ const Dashboard = () => {
 	return dashboardStats.year ? (
 		<div className="mt-3">
 			<div className="row align-items-center">
-				<div className="col-lg-5 mb-3">
+				<div className="col-lg-5 mb-4">
 					<h5>
 						Good {greetings()}, <b>{details.firstName}</b>
 					</h5>
 					<div className="mt-3">
-						<PrimaryButton style={{ marginRight: "20px" }}>
+						<PrimaryButton
+							style={{ marginRight: "20px" }}
+							onClick={() => setOpenModal(true)}
+						>
 							<span>Record Transaction</span>
 							<img src={EditIcon} />
 						</PrimaryButton>
@@ -60,120 +67,132 @@ const Dashboard = () => {
 						</PrimaryButton>
 					</div>
 				</div>
-				<div className="col-lg-7 mb-3">
-					<DashboardCard>
-						<h5 style={{ marginBottom: "10px" }}>
-							{details.business.name}
-						</h5>
-						<FlexBetween>
-							<ProgressCard>
-								<div className="box">
-									<CiUser size={18} />
-									<span>
-										{
-											dashboardStats.userReport?.metrics
-												?.active
-										}{" "}
-										active users
-									</span>
-								</div>
-								<div className="prog">
-									<div
-										className="tracks"
-										style={{
-											width: `${
-												(dashboardStats.userReport
-													?.metrics?.active /
-													details.business
-														?.subscriptionPlan
-														?.noOfUsers) *
-												100
-											}%`,
-										}}
-									></div>
-								</div>
-							</ProgressCard>
-							<ProgressCard>
-								<div className="box">
-									<CiShop size={18} />
-									<span>
-										{dashboardStats.shopReport?.activeShops}{" "}
-										active shops
-									</span>
-								</div>
-								<div className="prog">
-									<div
-										className="tracks"
-										style={{
-											width: `${
-												(dashboardStats.shopReport
-													?.activeShops /
-													details.business
-														?.subscriptionPlan
-														?.noOfShops) *
-												100
-											}%`,
-										}}
-									></div>
-								</div>
-							</ProgressCard>
-							<ProgressCard>
-								<div className="box">
-									<img src={TransferIcon} />
-									<span>
-										{dashboardStats.totalTransferRequests}{" "}
-										Pending Transfers
-									</span>
-								</div>
-								<div className="prog">
-									<div
-										className="tracks"
-										style={{
-											width: `100%`,
-										}}
-									></div>
-								</div>
-							</ProgressCard>
-						</FlexBetween>
-					</DashboardCard>
-				</div>
-			</div>
-			<div className="row mt-3">
-				<div className="col-lg-5 mb-3">
-					<DashboardCard>
-						<div className="head">
-							<h6>Purchases</h6>
-							<span>
-								{dashboardStats.purchaseReport?.metrics?.count}
-							</span>
-						</div>
-						<div className="body">
+				{haveRole(details.roleId).isBusinessAdmin && (
+					<div className="col-lg-7 mb-4">
+						<DashboardCard>
+							<h5 style={{ marginBottom: "10px" }}>
+								{details.business.name}
+							</h5>
 							<FlexBetween>
-								<div className="content">
-									<h6>Total Purchases</h6>
-									<h4>
-										₦{" "}
-										{formatCurrency(
-											dashboardStats.purchaseReport
-												?.metrics?.totalPrice
-										)}
-									</h4>
-								</div>
-								<div className="content">
-									<h6>Paid to Supplier</h6>
-									<h4>
-										₦{" "}
-										{formatCurrency(
-											dashboardStats.purchaseReport
-												.totalPaidToSupplier
-										)}
-									</h4>
-								</div>
+								<ProgressCard>
+									<div className="box">
+										<CiUser size={18} />
+										<span>
+											{
+												dashboardStats.userReport
+													?.metrics?.active
+											}{" "}
+											active users
+										</span>
+									</div>
+									<div className="prog">
+										<div
+											className="tracks"
+											style={{
+												width: `${
+													(dashboardStats.userReport
+														?.metrics?.active /
+														details.business
+															?.subscriptionPlan
+															?.noOfUsers) *
+													100
+												}%`,
+											}}
+										></div>
+									</div>
+								</ProgressCard>
+								<ProgressCard>
+									<div className="box">
+										<CiShop size={18} />
+										<span>
+											{
+												dashboardStats.shopReport
+													?.activeShops
+											}{" "}
+											active shops
+										</span>
+									</div>
+									<div className="prog">
+										<div
+											className="tracks"
+											style={{
+												width: `${
+													(dashboardStats.shopReport
+														?.activeShops /
+														details.business
+															?.subscriptionPlan
+															?.noOfShops) *
+													100
+												}%`,
+											}}
+										></div>
+									</div>
+								</ProgressCard>
+								<ProgressCard>
+									<div className="box">
+										<img src={TransferIcon} />
+										<span>
+											{
+												dashboardStats.totalTransferRequests
+											}{" "}
+											Pending Transfers
+										</span>
+									</div>
+									<div className="prog">
+										<div
+											className="tracks"
+											style={{
+												width: `100%`,
+											}}
+										></div>
+									</div>
+								</ProgressCard>
 							</FlexBetween>
-						</div>
-					</DashboardCard>
-				</div>
-				<div className="col-lg-7 mb-3">
+						</DashboardCard>
+					</div>
+				)}
+			</div>
+			<div className="row mt-1">
+				{haveRole(details.roleId).isBusinessAdmin && (
+					<div className="col-lg-5 mb-4">
+						<DashboardCard>
+							<div className="head">
+								<h6>Purchases</h6>
+								<span>
+									{
+										dashboardStats.purchaseReport?.metrics
+											?.count
+									}
+								</span>
+							</div>
+							<div className="body">
+								<FlexBetween>
+									<div className="content">
+										<h6>Total Purchases</h6>
+										<h4>
+											₦{" "}
+											{formatCurrency(
+												dashboardStats.purchaseReport
+													?.metrics?.totalPrice
+											)}
+										</h4>
+									</div>
+									<div className="content">
+										<h6>Paid to Supplier</h6>
+										<h4>
+											₦{" "}
+											{formatCurrency(
+												dashboardStats.purchaseReport
+													.totalPaidToSupplier
+											)}
+										</h4>
+									</div>
+								</FlexBetween>
+							</div>
+						</DashboardCard>
+					</div>
+				)}
+				<div className="col-lg-7 mb-4">
 					<DashboardCard>
 						<div className="head">
 							<h6>Sales</h6>
@@ -216,9 +235,7 @@ const Dashboard = () => {
 						</div>
 					</DashboardCard>
 				</div>
-			</div>
-			<div className="row mt-3">
-				<div className="col-lg-5 mb-3">
+				<div className="col-lg-5 mb-4">
 					<DashboardCard style={{ height: "100%" }}>
 						<div className="head">
 							<h6>Stock</h6>
@@ -251,141 +268,163 @@ const Dashboard = () => {
 						</div>
 					</DashboardCard>
 				</div>
-				<div className="col-lg-7 mb-3">
-					<DashboardCard>
-						<div className="head">
-							<h6>Sales Trend</h6>
+				{haveRole(details.roleId).isBusinessAdmin && (
+					<>
+						<div className="col-lg-7 mb-4">
+							<DashboardCard>
+								<div className="head">
+									<h6>Sales Trend</h6>
+								</div>
+								<div className="body">
+									<LineChart arr={dashboardStats.sales} />
+								</div>
+							</DashboardCard>
 						</div>
-						<div className="body">
-							<LineChart arr={dashboardStats.sales} />
-						</div>
-					</DashboardCard>
-				</div>
-			</div>
-			<div className="row mt-3">
-				<div className="col-lg-5 mb-3">
-					<DashboardCard style={{ height: "100%" }}>
-						<div className="head">
-							<h6>Top Subdealers</h6>
-						</div>
-						<div className="body">
-							<table className="table mt-3">
-								<thead>
-									<tr>
-										<th>Subdealer</th>
-										<th className="text-end">Value</th>
-									</tr>
-								</thead>
-								<tbody>
-									{dashboardStats.subdealerReport.topSubdealers?.map(
-										(t: any, i: number) => (
-											<tr key={i + 1}>
-												<td>{t.name}</td>
-												<td className="text-end">
-													₦{" "}
-													{formatCurrency(
-														t.tradeValue
-													)}
-												</td>
+
+						<div className="col-lg-5 mb-4">
+							<DashboardCard style={{ height: "100%" }}>
+								<div className="head">
+									<h6>Top Subdealers</h6>
+								</div>
+								<div className="body">
+									<table className="table mt-3">
+										<thead>
+											<tr>
+												<th>Subdealer</th>
+												<th className="text-end">
+													Value
+												</th>
 											</tr>
-										)
-									)}
-								</tbody>
-							</table>
+										</thead>
+										<tbody>
+											{dashboardStats.subdealerReport.topSubdealers?.map(
+												(t: any, i: number) => (
+													<tr key={i + 1}>
+														<td>{t.name}</td>
+														<td className="text-end">
+															₦{" "}
+															{formatCurrency(
+																t.tradeValue
+															)}
+														</td>
+													</tr>
+												)
+											)}
+										</tbody>
+									</table>
+								</div>
+							</DashboardCard>
 						</div>
-					</DashboardCard>
-				</div>
-				<div className="col-lg-7 mb-3">
-					<DashboardCard style={{ height: "100%" }}>
-						<div className="head">
-							<h6>Top Selling Items</h6>
-						</div>
-						<div className="body">
-							<table className="table mt-3">
-								<thead>
-									<tr>
-										<th>Products</th>
-										<th className="text-end">Value</th>
-									</tr>
-								</thead>
-								<tbody>
-									{dashboardStats.productReport?.topSellingProducts?.map(
-										(t: any, i: number) => (
-											<tr key={i + 1}>
-												<td>{t.name}</td>
-												<td className="text-end">
-													₦{" "}
-													{formatCurrency(
-														t.salesValue
-													)}
-												</td>
+						<div className="col-lg-7 mb-4">
+							<DashboardCard style={{ height: "100%" }}>
+								<div className="head">
+									<h6>Top Selling Items</h6>
+								</div>
+								<div className="body">
+									<table className="table mt-3">
+										<thead>
+											<tr>
+												<th>Products</th>
+												<th className="text-end">
+													Value
+												</th>
 											</tr>
-										)
-									)}
-								</tbody>
-							</table>
+										</thead>
+										<tbody>
+											{dashboardStats.productReport?.topSellingProducts?.map(
+												(t: any, i: number) => (
+													<tr key={i + 1}>
+														<td>{t.name}</td>
+														<td className="text-end">
+															₦{" "}
+															{formatCurrency(
+																t.salesValue
+															)}
+														</td>
+													</tr>
+												)
+											)}
+										</tbody>
+									</table>
+								</div>
+							</DashboardCard>
 						</div>
-					</DashboardCard>
-				</div>
-			</div>
-			<div className="row mt-3">
-				<div className="col-lg-5 mb-3">
-					<DashboardCard style={{ height: "100%" }}>
-						<div className="head">
-							<h6>Top Selling Items By Unit</h6>
-						</div>
-						<div className="body">
-							<table className="table mt-3">
-								<thead>
-									<tr>
-										<th>Products</th>
-										<th>Total Quantity</th>
-									</tr>
-								</thead>
-								<tbody>
-									{dashboardStats.productReport?.topSellingProductsByUnit?.map(
-										(t: any, i: number) => (
-											<tr key={i + 1}>
-												<td>{t.name}</td>
-												<td>{t.totalQuantity}</td>
+
+						<div className="col-lg-5 mb-4">
+							<DashboardCard style={{ height: "100%" }}>
+								<div className="head">
+									<h6>Top Selling Items By Unit</h6>
+								</div>
+								<div className="body">
+									<table className="table mt-3">
+										<thead>
+											<tr>
+												<th>Products</th>
+												<th>Total Quantity</th>
 											</tr>
-										)
-									)}
-								</tbody>
-							</table>
+										</thead>
+										<tbody>
+											{dashboardStats.productReport?.topSellingProductsByUnit?.map(
+												(t: any, i: number) => (
+													<tr key={i + 1}>
+														<td>{t.name}</td>
+														<td>
+															{t.totalQuantity}
+														</td>
+													</tr>
+												)
+											)}
+										</tbody>
+									</table>
+								</div>
+							</DashboardCard>
 						</div>
-					</DashboardCard>
-				</div>
-				<div className="col-lg-7 mb-3">
-					<DashboardCard>
-						<div className="head">
-							<h6>Expenses</h6>
+						<div className="col-lg-7 mb-4">
+							<DashboardCard>
+								<div className="head">
+									<h6>Expenses</h6>
+								</div>
+								<div className="body">
+									<ExpenseChart
+										arr={
+											dashboardStats.expenseReport
+												?.metrics
+										}
+									/>
+								</div>
+							</DashboardCard>
 						</div>
-						<div className="body">
-							<ExpenseChart
-								arr={dashboardStats.expenseReport?.metrics}
-							/>
+
+						<div className="col-lg-6 mb-4">
+							<DashboardCard>
+								<div className="head">
+									<h6>Shop Sales</h6>
+								</div>
+								<div className="body">
+									<PieChart
+										arr={
+											dashboardStats.shopReport?.trend
+												?.shopSales
+										}
+										labels={
+											dashboardStats.shopReport?.trend
+												?.shops
+										}
+									/>
+								</div>
+							</DashboardCard>
 						</div>
-					</DashboardCard>
-				</div>
+					</>
+				)}
 			</div>
-			<div className="row mt-3">
-				<div className="col-lg-6">
-					<DashboardCard>
-						<div className="head">
-							<h6>Shop Sales</h6>
-						</div>
-						<div className="body">
-							<PieChart
-								arr={
-									dashboardStats.shopReport?.trend?.shopSales
-								}
-								labels={dashboardStats.shopReport?.trend?.shops}
-							/>
-						</div>
-					</DashboardCard>
-				</div>
-			</div>
+			<ModalComponent
+				open={openModal}
+				title="Record Transaction"
+				close={() => setOpenModal(false)}
+				size="sm"
+			>
+				<RecordList />
+			</ModalComponent>
 		</div>
 	) : (
 		<PageLoad />

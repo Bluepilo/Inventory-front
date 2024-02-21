@@ -83,6 +83,14 @@ export const LoadPage = styled.div`
 	}
 `;
 
+export const ModalLoadStyle = styled.div`
+	padding: 20px 10px;
+
+	p {
+		margin-top: 15px;
+	}
+`;
+
 export const TitleStyles = styled.div`
 	.btwn {
 		display: flex;

@@ -10,6 +10,9 @@ import {
 	allStaffs,
 	getDashboardStats,
 	getNotifications,
+	getSettings,
+	getStates,
+	paymentMethods,
 } from "../redux/features/basic/basic-slice";
 import { Outlet } from "react-router-dom";
 
@@ -36,7 +39,10 @@ const DashboardLayout = () => {
 			);
 			dispatch(allShops());
 			dispatch(allStaffs());
+			dispatch(getSettings());
+			dispatch(paymentMethods());
 		}
+		dispatch(getStates());
 	};
 
 	return (

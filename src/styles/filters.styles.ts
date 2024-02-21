@@ -100,3 +100,41 @@ export const FilterWrapper = styled.div`
 		}
 	}
 `;
+
+export const SaleSelectStyle = styled.div`
+	display: flex;
+	align-items: center;
+	background: #ffb900;
+	width: 320px;
+	justify-content: flex-end;
+	border-radius: 4px;
+
+	p {
+		margin: 0;
+		padding: 0;
+		margin-right: 10px;
+		font-weight: 600;
+		font-size: 0.9rem;
+	}
+
+	div.shop {
+		background: #000d33;
+		width: 200px;
+		height: 40px;
+		color: #ffb900;
+		display: flex;
+		align-items: center;
+		padding-left: 20px;
+		border-radius: 4px;
+	}
+`;
+
+export const DropDownStyle = styled.div`
+	p {
+		margin: 0;
+		padding: 0;
+		margin-bottom: 5px;
+		text-transform: uppercase;
+		font-size: 0.8rem;
+	}
+`;

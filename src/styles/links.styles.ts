@@ -10,6 +10,10 @@ export const ButtonSubmit = styled.button`
 	padding: 10px 0;
 	border-radius: 6px;
 	font-weight: 600;
+
+	img {
+		margin-left: 10px;
+	}
 `;
 
 export const BasicLink = styled(Link)`
@@ -26,12 +30,16 @@ export const UnderlineLink = styled.a`
 	font-size: 0.9rem;
 `;
 
-export const MainButton = styled.button<{ color?: string }>`
-	background: ${(props) => props.color || "#0241FF"};
-	color: #fff;
+export const MainButton = styled.button<{
+	bg?: string;
+	color?: string;
+	right?: string;
+}>`
+	background: ${(props) => props.bg || "#0241FF"};
+	color: ${(props) => props.color || "#fff"};
 	outline: 0;
 	border: 0;
-	padding: 8px 18px;
+	padding: 10px 18px;
 	border-radius: 4px;
 	display: flex;
 	align-items: center;
@@ -40,7 +48,10 @@ export const MainButton = styled.button<{ color?: string }>`
 
 	svg,
 	img {
-		margin-right: 10px;
+		${(props) =>
+			props.right == "true"
+				? `margin-left: 10px;`
+				: `margin-right: 10px;`}
 	}
 `;
 

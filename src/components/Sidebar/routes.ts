@@ -20,6 +20,7 @@ const userRoutes = [
 		href: "/dashboard/home",
 		icon: HomeIcon,
 		children: [],
+		permission: ["all"],
 	},
 	{
 		id: 2,
@@ -27,6 +28,7 @@ const userRoutes = [
 		href: "/dashboard/sales",
 		icon: SalesIcon,
 		children: [],
+		permission: ["all"],
 	},
 	{
 		id: 3,
@@ -38,13 +40,16 @@ const userRoutes = [
 				id: 1,
 				name: "Walk-in",
 				href: "/dashboard/customers/walk-in",
+				permission: ["all"],
 			},
 			{
 				id: 2,
 				name: "Sub-Dealer",
 				href: "/dashboard/customers/subdealer",
+				permission: ["all"],
 			},
 		],
+		permission: ["all"],
 	},
 	{
 		id: 4,
@@ -52,6 +57,7 @@ const userRoutes = [
 		href: "/dashboard/purchases",
 		icon: PurchaseIcon,
 		children: [],
+		permission: ["all"],
 	},
 	{
 		id: 5,
@@ -59,6 +65,7 @@ const userRoutes = [
 		href: "/dashboard/suppliers",
 		icon: SupplierIcon,
 		children: [],
+		permission: ["admin"],
 	},
 	{
 		id: 6,
@@ -66,6 +73,7 @@ const userRoutes = [
 		href: "/dashboard/transactions",
 		icon: TransactionIcon,
 		children: [],
+		permission: ["all"],
 	},
 	{
 		id: 7,
@@ -73,6 +81,7 @@ const userRoutes = [
 		href: "/dashboard/transfers",
 		icon: TransferIcon,
 		children: [],
+		permission: ["all"],
 	},
 	{
 		id: 8,
@@ -80,6 +89,7 @@ const userRoutes = [
 		href: "/dashboard/expenses",
 		icon: ExpenseIcon,
 		children: [],
+		permission: ["all"],
 	},
 	{
 		id: 9,
@@ -87,6 +97,7 @@ const userRoutes = [
 		href: "/dashboard/catalogue",
 		icon: CatalogueIcon,
 		children: [],
+		permission: ["admin"],
 	},
 	{
 		id: 10,
@@ -94,6 +105,7 @@ const userRoutes = [
 		href: "/dashboard/services",
 		icon: CatalogueIcon,
 		children: [],
+		permission: ["admin"],
 	},
 	{
 		id: 11,
@@ -105,23 +117,28 @@ const userRoutes = [
 				id: 1,
 				name: "Stock Reports",
 				href: "/dashboard/reports/stocks",
+				permission: ["all"],
 			},
 			{
 				id: 2,
 				name: "Product Returns",
 				href: "/dashboard/reports/returns",
+				permission: ["all"],
 			},
 			{
 				id: 3,
 				name: "Stock Adjustments",
 				href: "/dashboard/reports/adjustments",
+				permission: ["admin"],
 			},
 			{
 				id: 4,
 				name: "Profits & Loss",
 				href: "/dashboard/reports/profits-loss",
+				permission: ["admin"],
 			},
 		],
+		permission: ["all"],
 	},
 ];
 
@@ -132,6 +149,7 @@ const adminRoutes = [
 		href: "/admin/home",
 		icon: HomeIcon,
 		children: [],
+		permission: ["all"],
 	},
 ];
 
@@ -141,6 +159,7 @@ const bottomRoutes = [
 		name: "Manage Biz",
 		href: "/dashboard/business",
 		icon: BusinessIcon,
+		permission: ["admin"],
 		children: [
 			{
 				id: 1,
@@ -165,6 +184,7 @@ const bottomRoutes = [
 		href: "/dashboard/subscription",
 		icon: SubscriptionIcon,
 		children: [],
+		permission: ["admin"],
 	},
 	{
 		id: 3,
@@ -172,6 +192,7 @@ const bottomRoutes = [
 		href: "/dashboard/logs",
 		icon: LogsIcon,
 		children: [],
+		permission: ["all"],
 	},
 ];
 

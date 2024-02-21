@@ -10,7 +10,10 @@ const initialState = {
 	notify: notificationType,
 	dashboardStats: {} as any,
 	shops: [] as OptionProp[],
+	methods: [] as OptionProp[],
 	staffs: [] as OptionProp[],
+	states: [] as OptionProp[],
+	settings: {} as any,
 };
 
 export const changeTheme = createAsyncThunk(
@@ -66,7 +69,7 @@ export const allShops = createAsyncThunk(
 			const { token } = thunkAPI.getState().auth;
 			const res = await basicService.allShops(token);
 			let arr = res.data?.map((f: any) => {
-				return { value: f.id, label: f.name };
+				return { value: f.id, label: f.name, isActive: f.isActive };
 			});
 			return arr;
 		} catch (error) {}
@@ -81,6 +84,44 @@ export const allStaffs = createAsyncThunk(
 			const res = await basicService.allStaffs(token);
 			let arr = res.data?.map((f: any) => {
 				return { value: f.id, label: f.fullName };
+			});
+			return arr;
+		} catch (error) {}
+	}
+);
+
+export const getSettings = createAsyncThunk(
+	"basic/settings",
+	async (_, thunkAPI: any) => {
+		try {
+			const { token } = thunkAPI.getState().auth;
+			const res = await basicService.saveSettings(token);
+			return res.data;
+		} catch (error) {}
+	}
+);
+
+export const paymentMethods = createAsyncThunk(
+	"basic/paymentMethod",
+	async (_, thunkAPI: any) => {
+		try {
+			const { token } = thunkAPI.getState().auth;
+			const res = await basicService.paymentMethods(token);
+			let arr = res.data?.map((f: any) => {
+				return { value: f.id, label: f.name };
+			});
+			return arr;
+		} catch (error) {}
+	}
+);
+
+export const getStates = createAsyncThunk(
+	"basic/states",
+	async (_, thunkAPI: any) => {
+		try {
+			const res = await basicService.getStates();
+			let arr = res.data?.map((f: any) => {
+				return { ...f, value: f.id, label: f.name };
 			});
 			return arr;
 		} catch (error) {}
@@ -106,6 +147,15 @@ export const basicSlice = createSlice({
 		});
 		builder.addCase(allStaffs.fulfilled, (state, action) => {
 			state.staffs = action.payload || [];
+		});
+		builder.addCase(getSettings.fulfilled, (state, action) => {
+			state.settings = action.payload;
+		});
+		builder.addCase(paymentMethods.fulfilled, (state, action) => {
+			state.methods = action.payload || [];
+		});
+		builder.addCase(getStates.fulfilled, (state, action) => {
+			state.states = action.payload || [];
 		});
 	},
 });
