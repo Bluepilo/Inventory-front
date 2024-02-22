@@ -1,3 +1,4 @@
+import { Dropdown } from "react-bootstrap";
 import styled from "styled-components";
 
 export const FaqDiv = styled.div<{ active: boolean }>`
@@ -144,5 +145,57 @@ export const BreadCrumbStyles = styled.div`
 		span {
 			margin-right: 5px;
 		}
+	}
+`;
+
+export const NewPageStyles = styled.div`
+	text-align: center;
+	margin-top: 40px;
+
+	img {
+		margin-bottom: 20px;
+	}
+
+	h3 {
+		color: #0241ff;
+		font-weight: 600;
+	}
+
+	p {
+		color: #000;
+		font-size: 0.85rem;
+	}
+
+	button {
+		margin-top: 20px;
+		background: #0241ff;
+		font-weight: 800;
+		font-size: 1rem;
+		color: #fff;
+		padding: 10px 20px;
+		border-radius: 5px;
+		border: 0;
+		outline: 0;
+	}
+`;
+
+export const Drop = styled(Dropdown)`
+	button.dropdown-toggle {
+		background: none !important;
+		color: #333 !important;
+		border: none;
+		outline: 0 !important;
+
+		&:focus {
+			box-shadow: none !important;
+		}
+
+		&::after {
+			display: none !important;
+		}
+	}
+
+	.dropdown-menu {
+		font-size: 0.9rem;
 	}
 `;

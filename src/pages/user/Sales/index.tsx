@@ -20,6 +20,8 @@ import Paginate from "../../../components/Paginate";
 import { UseDebounce } from "../../../utils/hooks";
 import { OptionProp } from "../../../components/Filters/BasicInputs";
 import { haveRole } from "../../../utils/role";
+import NewPage from "../../../components/NewPage";
+import CoverImg from "../../../assets/defaults/sales.png";
 
 const Sales = () => {
 	const navigate = useNavigate();
@@ -57,7 +59,7 @@ const Sales = () => {
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		if (debouncedSearch) {
-			seachSales();
+			searchSales();
 		} else {
 			getSales();
 		}
@@ -82,7 +84,7 @@ const Sales = () => {
 		} catch (err) {}
 	};
 
-	const seachSales = async () => {
+	const searchSales = async () => {
 		try {
 			setLoad(true);
 			let res = await salesService.searchSales(
@@ -107,7 +109,7 @@ const Sales = () => {
 		setShopId(null);
 	};
 
-	return (
+	return details.business.onboardingSteps?.sales === "completed" ? (
 		<div>
 			<TitleCover
 				title="Sales Records"
@@ -305,6 +307,17 @@ const Sales = () => {
 				</div>
 			</div>
 		</div>
+	) : (
+		<NewPage
+			title={"Sales"}
+			img={CoverImg}
+			cover="Create Sales and Invoice"
+			desc={
+				"Create sales orders, track your sales margin, Generate invoices and receipts for all transactions. Flexible invoicing solution you could send to customers via Email, whatsapp or simply print to Thermal paper and A4 paper."
+			}
+			btnTitle={"Make Sales"}
+			linkTo={() => navigate("/dashboard/sales/new")}
+		/>
 	);
 };
 

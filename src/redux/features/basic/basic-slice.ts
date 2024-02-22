@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import basicService from "./basic-service";
 import { displayError } from "../../../utils/errors";
 import { notificationType } from "../../../utils/types";
-import { logout } from "../auth/auth-slice";
+import { logout, userProfile } from "../auth/auth-slice";
 import { OptionProp } from "../../../components/Filters/BasicInputs";
 
 const initialState = {
@@ -23,6 +23,21 @@ export const changeTheme = createAsyncThunk(
 			return data;
 		} catch (error) {
 			console.log(error);
+		}
+	}
+);
+
+export const updateOnboardingSteps = createAsyncThunk(
+	"basic/onboardingSteps",
+	async (data: any, thunkAPI: any) => {
+		try {
+			const { token, details } = thunkAPI.getState().auth;
+			const res = await basicService.updateOnboardingSteps(data, token);
+			await thunkAPI.dispatch(userProfile(details.id));
+			return res.data;
+		} catch (error) {
+			const message = displayError(error, false);
+			return thunkAPI.rejectWithValue(message);
 		}
 	}
 );

@@ -2,6 +2,7 @@ import { TrialBox } from "../../styles/home.styles";
 import basicService from "../../redux/features/basic/basic-service";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { userProfile } from "../../redux/features/auth/auth-slice";
+import { updateOnboardingSteps } from "../../redux/features/basic/basic-slice";
 
 const Trial = ({ closeTrial }: { closeTrial: () => void }) => {
 	const dispatch = useAppDispatch();
@@ -20,18 +21,14 @@ const Trial = ({ closeTrial }: { closeTrial: () => void }) => {
 
 	const saveTrialPick = async () => {
 		closeTrial();
-		try {
-			await basicService.updateOnboardingSteps(
-				{
-					steps: {
-						...details?.business?.onboardingSteps,
-						trialPick: "completed",
-					},
+		dispatch(
+			updateOnboardingSteps({
+				steps: {
+					...details?.business?.onboardingSteps,
+					trialPick: "completed",
 				},
-				token
-			);
-			dispatch(userProfile(details.id));
-		} catch (err) {}
+			})
+		);
 	};
 
 	return (

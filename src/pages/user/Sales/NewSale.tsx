@@ -6,7 +6,7 @@ import {
 	SaleSelect,
 } from "../../../components/Filters/BasicInputs";
 import { SaleSelectStyle } from "../../../styles/filters.styles";
-import { useAppSelector } from "../../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import PickItems from "../../../components/Sales/PickItems";
 import productService from "../../../redux/features/product/product-service";
 import { formatCurrency } from "../../../utils/currency";
@@ -16,9 +16,12 @@ import { displayError } from "../../../utils/errors";
 import salesService from "../../../redux/features/sales/sales-service";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { updateOnboardingSteps } from "../../../redux/features/basic/basic-slice";
 
 const NewSale = () => {
 	const navigate = useNavigate();
+
+	const dispatch = useAppDispatch();
 
 	const cloneState = useLocation()?.state?.cloneState;
 
@@ -79,7 +82,6 @@ const NewSale = () => {
 			let p = (Number(discountValue) / 100) * totalPrice;
 			setDiscountApplied(p);
 		} else {
-			console.log("test2");
 			setDiscountApplied(Number(discountValue));
 		}
 	}, [discountValue, totalPrice, discountPercent]);
@@ -179,6 +181,7 @@ const NewSale = () => {
 			setLoad(true);
 			let res = await salesService.makeSale(token, data);
 			setLoad(false);
+			saveTrialPick();
 			toast.success("Your Transaction was Successful!");
 			if (res) {
 				navigate(`/dashboard/sales/${res?.uniqueRef}`);
@@ -188,6 +191,19 @@ const NewSale = () => {
 		} catch (err) {
 			displayError(err, true);
 			setLoad(false);
+		}
+	};
+
+	const saveTrialPick = () => {
+		if (details.business.onboardingSteps?.sales !== "completed") {
+			dispatch(
+				updateOnboardingSteps({
+					steps: {
+						...details?.business?.onboardingSteps,
+						sales: "completed",
+					},
+				})
+			);
 		}
 	};
 

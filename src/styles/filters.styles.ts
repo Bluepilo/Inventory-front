@@ -22,13 +22,13 @@ export const ButtonCancelDiv = styled.div`
 	}
 `;
 
-export const SearchBar = styled.div`
+export const SearchBar = styled.div<{ wide?: string }>`
 	position: relative;
 	width: 100%;
 	z-index: 991;
 
 	input {
-		width: 50px;
+		width: ${(props) => (props.wide ? "100%" : "50px")};
 		position: relative;
 		z-index: 991;
 		outline: 0;
@@ -52,7 +52,7 @@ export const SearchBar = styled.div`
 		}
 
 		&:focus {
-			width: 350px;
+			width: ${(props) => (props.wide ? "100%" : "350px")};
 
 			@media (max-width: 991px) {
 				width: 100%;

@@ -21,6 +21,8 @@ export interface OptionProp {
 interface SearchProp {
 	searchVal: string;
 	changeSearchVal: (arg: string) => void;
+	wide?: string;
+	placeholder?: string;
 }
 
 interface DateProp {
@@ -89,11 +91,16 @@ export const BasicSelect = ({
 	);
 };
 
-export const BasicSearch = ({ searchVal, changeSearchVal }: SearchProp) => {
+export const BasicSearch = ({
+	searchVal,
+	changeSearchVal,
+	wide,
+	placeholder,
+}: SearchProp) => {
 	return (
-		<SearchBar>
+		<SearchBar wide={wide}>
 			<input
-				placeholder=""
+				placeholder={placeholder || ""}
 				type="search"
 				value={searchVal}
 				onChange={(e) => changeSearchVal(e.target.value)}
