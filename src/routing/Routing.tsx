@@ -22,6 +22,9 @@ import WalkinDetails from "../pages/user/Customers/WalkIn/WalkinDetails";
 import SubdealerDetails from "../pages/user/Customers/Subdealer/SubdealerDetails";
 import Supplier from "../pages/user/Supplier";
 import SupplierDetails from "../pages/user/Supplier/SupplierDetails";
+import Purchases from "../pages/user/Purchases";
+import PurchaseDetails from "../pages/user/Purchases/PurchaseDetails";
+import NewPurchase from "../pages/user/Purchases/NewPurchase";
 
 const Routing = () => {
 	return (
@@ -74,6 +77,9 @@ const Routing = () => {
 					/>
 					<Route path="suppliers" element={<Supplier />} />
 					<Route path="suppliers/:id" element={<SupplierDetails />} />
+					<Route path="purchases" element={<Purchases />} />
+					<Route path="purchases/new" element={<NewPurchase />} />
+					<Route path="purchases/:id" element={<PurchaseDetails />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>
