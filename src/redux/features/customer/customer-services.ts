@@ -76,6 +76,136 @@ const subdealerSummary = async (token: string, searchWord: string) => {
 	return data.data;
 };
 
+const userDetails = async (token: string, type: string, id: any) => {
+	const { data } = await axios.get(`${config.baseUrl}/${type}/view/${id}`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const userTransactions = async (
+	token: string,
+	type: string,
+	id: any,
+	filters: string
+) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/${type}/transactions/${id}${filters}`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const loadWallet = async (
+	token: string,
+	type: string,
+	id: string,
+	obj: any
+) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/${type}/deposit-money/${id}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const withdrawWallet = async (
+	token: string,
+	type: string,
+	id: any,
+	obj: any
+) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/${type}/withdraw-money/${id}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const actionUser = async (
+	token: string,
+	type: string,
+	id: any,
+	action: string,
+	obj: any
+) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/${type}/${action}/${id}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const createSupplier = async (token: string, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}//supplier/create`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const editSupplier = async (token: string, id: any, obj: any) => {
+	const { data } = await axios.patch(
+		`${config.baseUrl}/supplier/update/${id}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const searchSuppliers = async (
+	token: string,
+	filters: string,
+	searchWord: string
+) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/supplier/search${filters}&search=${searchWord}`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const supplierSummary = async (token: string, searchWord: string) => {
+	let url;
+	if (searchWord) {
+		url = `supplier/summary/search?search=${searchWord}`;
+	} else {
+		url = `supplier/summary`;
+	}
+	const { data } = await axios.get(`${config.baseUrl}/${url}`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const getSuppliers = async (token: string, filters: string) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/supplier/all${filters}`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const customerService = {
 	getWalkIns,
 	searchWalkIns,
@@ -83,6 +213,16 @@ const customerService = {
 	getSubdealers,
 	searchSubdealers,
 	subdealerSummary,
+	userDetails,
+	userTransactions,
+	loadWallet,
+	withdrawWallet,
+	actionUser,
+	createSupplier,
+	editSupplier,
+	searchSuppliers,
+	supplierSummary,
+	getSuppliers,
 };
 
 export default customerService;

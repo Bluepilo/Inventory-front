@@ -112,7 +112,7 @@ const createSubdealer = async (token: string, obj: any) => {
 };
 
 const editSubdealer = async (token: string, obj: any, id: number) => {
-	const { data } = await axios.post(
+	const { data } = await axios.patch(
 		`${config.baseUrl}/subdealer/update/${id}`,
 		obj,
 		{

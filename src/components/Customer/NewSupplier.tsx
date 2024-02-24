@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import { CheckBox, Form, JointDiv } from "../../styles/form.styles";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { DropDownSelect, OptionProp } from "../Filters/BasicInputs";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import CurrencyInput from "react-currency-input-field";
-import { FormCheck } from "react-bootstrap";
+import Loading from "../Loaders/Loading";
 import { ButtonSubmit } from "../../styles/links.styles";
 import AddIcon from "../../assets/icons/user-add.svg";
-import basicService from "../../redux/features/basic/basic-service";
-import { displayError } from "../../utils/errors";
-import Loading from "../Loaders/Loading";
+import customerService from "../../redux/features/customer/customer-services";
 import { toast } from "react-toastify";
+import { displayError } from "../../utils/errors";
 import { updateOnboardingSteps } from "../../redux/features/basic/basic-slice";
 
-const NewSubdealer = ({
+const NewSupplier = ({
 	editInfo,
 	submit,
 }: {
@@ -21,20 +20,18 @@ const NewSubdealer = ({
 }) => {
 	const dispatch = useAppDispatch();
 
+	const { states } = useAppSelector((state) => state.basic);
+	const { token, details } = useAppSelector((state) => state.auth);
+
 	const [load, setLoad] = useState(false);
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [address, setAddress] = useState("");
 	const [phone, setPhone] = useState("");
 	const [selectedState, setSelectedState] = useState<OptionProp | null>(null);
-	const [creditLimit, setCreditLimit] = useState(0);
 	const [balance, setBalance] = useState(0);
 	const [addBalance, setAddBalance] = useState(false);
 	const [option, setOption] = useState("Credit");
-	const [sms, setSms] = useState(false);
-
-	const { states } = useAppSelector((state) => state.basic);
-	const { token, details } = useAppSelector((state) => state.auth);
 
 	useEffect(() => {
 		if (editInfo?.id) {
@@ -42,7 +39,6 @@ const NewSubdealer = ({
 			setAddress(editInfo.address);
 			setPhone(editInfo.phoneNo);
 			setEmail(editInfo.email);
-			setCreditLimit(editInfo.creditLimit);
 			setSelectedState(
 				editInfo?.state
 					? {
@@ -51,7 +47,6 @@ const NewSubdealer = ({
 					  }
 					: null
 			);
-			setSms(editInfo.salesSms);
 		}
 	}, [editInfo]);
 
@@ -64,13 +59,16 @@ const NewSubdealer = ({
 				phone,
 				email,
 				stateId: selectedState?.value,
-				creditLimit,
 			};
 			let res;
 			if (editInfo?.id) {
-				res = await basicService.editSubdealer(token, obj, editInfo.id);
+				res = await customerService.editSupplier(
+					token,
+					editInfo.id,
+					obj
+				);
 			} else {
-				res = await basicService.createSubdealer(token, {
+				res = await customerService.createSupplier(token, {
 					...obj,
 					balance:
 						option === "Credit"
@@ -80,21 +78,19 @@ const NewSubdealer = ({
 			}
 			setLoad(false);
 			if (res) {
-				handleSms(res?.data?.id || res?.id);
 				saveTrialPick();
 				submit({
 					fullName: name,
 					email,
 					address,
 					phoneNo: phone,
-					creditLimit,
 					balance,
 					value: 9000000000,
 				});
 				toast.success(
 					editInfo?.id
 						? "Details has been updated"
-						: "A new Subdealer has been created!"
+						: "A new Supplier has been created!"
 				);
 			}
 		} catch (err) {
@@ -103,23 +99,13 @@ const NewSubdealer = ({
 		}
 	};
 
-	const handleSms = async (id: any) => {
-		try {
-			await basicService.enableSMS(token, {
-				enableSms: sms,
-				subdealerId: id,
-				businessId: details.businessId,
-			});
-		} catch (err) {}
-	};
-
 	const saveTrialPick = () => {
-		if (details.business.onboardingSteps?.subdealer !== "completed") {
+		if (details.business.onboardingSteps?.supplier !== "completed") {
 			dispatch(
 				updateOnboardingSteps({
 					steps: {
 						...details?.business?.onboardingSteps,
-						subdealer: "completed",
+						supplier: "completed",
 					},
 				})
 			);
@@ -128,11 +114,11 @@ const NewSubdealer = ({
 
 	return (
 		<>
-			<h5>Subdealer</h5>
+			<h5>Supplier</h5>
 			<Form style={{ marginTop: "30px" }}>
 				<div className="row">
 					<div className="col-lg-6">
-						<label>Name of Subdealer</label>
+						<label>Name of Supplier</label>
 						<input
 							type="text"
 							value={name}
@@ -161,16 +147,6 @@ const NewSubdealer = ({
 						/>
 					</div>
 					<div className="col-lg-6">
-						<label>Address</label>
-						<input
-							type="text"
-							value={address}
-							onChange={(e) => setAddress(e.target.value)}
-							required
-							disabled={load}
-						/>
-					</div>
-					<div className="col-lg-6">
 						<label>State</label>
 						<DropDownSelect
 							options={states}
@@ -178,17 +154,13 @@ const NewSubdealer = ({
 							changeSelected={setSelectedState}
 						/>
 					</div>
-					<div className="col-lg-6">
-						<label>Credit Limit</label>
-						<CurrencyInput
-							id="input-example"
-							name="input-name"
-							decimalsLimit={2}
-							onValueChange={(values) => {
-								setCreditLimit(Number(values));
-							}}
-							prefix={"₦ "}
-							value={creditLimit}
+					<div className="col-lg-12">
+						<label>Address</label>
+						<input
+							type="text"
+							value={address}
+							onChange={(e) => setAddress(e.target.value)}
+							required
 							disabled={load}
 						/>
 					</div>
@@ -238,13 +210,6 @@ const NewSubdealer = ({
 					)}
 				</div>
 			</Form>
-			<FormCheck
-				type="switch"
-				id="custom-switch"
-				label="Enable SMS"
-				checked={sms}
-				onChange={(e) => setSms(e.target.checked)}
-			/>
 			<div className="mt-4">
 				{load ? (
 					<Loading />
@@ -254,7 +219,7 @@ const NewSubdealer = ({
 						type="submit"
 						onClick={submitHandler}
 					>
-						<span>{editInfo?.id ? "Update" : "Add"} Subdealer</span>
+						<span>{editInfo?.id ? "Update" : "Add"} Supplier</span>
 						<img src={AddIcon} />
 					</ButtonSubmit>
 				)}
@@ -263,4 +228,4 @@ const NewSubdealer = ({
 	);
 };
 
-export default NewSubdealer;
+export default NewSupplier;

@@ -1,7 +1,6 @@
 import { TrialBox } from "../../styles/home.styles";
 import basicService from "../../redux/features/basic/basic-service";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { userProfile } from "../../redux/features/auth/auth-slice";
 import { updateOnboardingSteps } from "../../redux/features/basic/basic-slice";
 
 const Trial = ({ closeTrial }: { closeTrial: () => void }) => {

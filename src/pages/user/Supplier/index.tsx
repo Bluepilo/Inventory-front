@@ -1,29 +1,29 @@
 import { useEffect, useState } from "react";
-import CoverImg from "../../../../assets/defaults/customer.png";
-import { useAppSelector } from "../../../../redux/hooks";
-import NewPage from "../../../../components/NewPage";
-import TitleCover from "../../../../components/TitleCover";
+import { useAppSelector } from "../../../redux/hooks";
+import TitleCover from "../../../components/TitleCover";
 import { IoCartSharp } from "react-icons/io5";
-import ModalComponent from "../../../../components/ModalComponent";
-import NewSubdealer from "../../../../components/Customer/NewSubdealer";
-import { UseDebounce } from "../../../../utils/hooks";
-import customerService from "../../../../redux/features/customer/customer-services";
-import { BasicSearch } from "../../../../components/Filters/BasicInputs";
-import { SummaryCard } from "../../../../styles/dashboard.styles";
-import { formatCurrency } from "../../../../utils/currency";
-import { Table, TableComponent } from "../../../../styles/table.styles";
+import NewPage from "../../../components/NewPage";
+import CoverImg from "../../../assets/defaults/supply.png";
+import ModalComponent from "../../../components/ModalComponent";
+import NewSupplier from "../../../components/Customer/NewSupplier";
+import { UseDebounce } from "../../../utils/hooks";
+import customerService from "../../../redux/features/customer/customer-services";
+import { BasicSearch } from "../../../components/Filters/BasicInputs";
+import { SummaryCard } from "../../../styles/dashboard.styles";
+import { formatCurrency } from "../../../utils/currency";
+import SkeletonTable from "../../../components/Loaders/SkeletonTable";
+import Paginate from "../../../components/Paginate";
+import { Table, TableComponent } from "../../../styles/table.styles";
 import dateFormat from "dateformat";
 import { Link, useNavigate } from "react-router-dom";
-import SuccessIcon from "../../../../assets/icons/success.svg";
-import FailedIcon from "../../../../assets/icons/failed.svg";
-import SkeletonTable from "../../../../components/Loaders/SkeletonTable";
-import Paginate from "../../../../components/Paginate";
-import DropDowns from "../../../../components/Customer/DropDowns";
-import ConfirmModal from "../../../../components/Modals/ConfirmModal";
-import { displayError } from "../../../../utils/errors";
+import DropDowns from "../../../components/Customer/DropDowns";
+import SuccessIcon from "../../../assets/icons/success.svg";
+import FailedIcon from "../../../assets/icons/failed.svg";
+import ConfirmModal from "../../../components/Modals/ConfirmModal";
 import { toast } from "react-toastify";
+import { displayError } from "../../../utils/errors";
 
-const Subdealer = () => {
+const Supplier = () => {
 	const navigate = useNavigate();
 
 	const { token, details } = useAppSelector((state) => state.auth);
@@ -31,12 +31,12 @@ const Subdealer = () => {
 	const [openModal, setOpenModal] = useState(false);
 	const [lists, setLists] = useState<any>({});
 	const [summary, setSummary] = useState<any>({});
-	const [load, setLoad] = useState(false);
+	const [ids, setIds] = useState<any>({});
 	const [search, setSearch] = useState("");
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(20);
 	const [openConfirmation, setOpenConfirmation] = useState(false);
-	const [ids, setIds] = useState<any>({});
+	const [load, setLoad] = useState(false);
 
 	const debouncedSearch = UseDebounce(search);
 
@@ -45,17 +45,17 @@ const Subdealer = () => {
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		if (debouncedSearch) {
-			searchSubdealers();
+			searchSuppliers();
 		} else {
-			listSubdealers();
+			listSuppliers();
 		}
 		getSummary();
 	}, [filters, debouncedSearch]);
 
-	const searchSubdealers = async () => {
+	const searchSuppliers = async () => {
 		try {
 			setLoad(true);
-			let res = await customerService.searchSubdealers(
+			let res = await customerService.searchSuppliers(
 				token,
 				filters,
 				debouncedSearch
@@ -67,10 +67,10 @@ const Subdealer = () => {
 		}
 	};
 
-	const listSubdealers = async () => {
+	const listSuppliers = async () => {
 		try {
 			setLoad(true);
-			let res = await customerService.getSubdealers(token, filters);
+			let res = await customerService.getSuppliers(token, filters);
 			setLoad(false);
 			setLists(res);
 		} catch (err) {
@@ -80,7 +80,7 @@ const Subdealer = () => {
 
 	const getSummary = async () => {
 		try {
-			let res = await customerService.subdealerSummary(
+			let res = await customerService.supplierSummary(
 				token,
 				debouncedSearch
 			);
@@ -93,7 +93,7 @@ const Subdealer = () => {
 			setOpenConfirmation(false);
 			await customerService.actionUser(
 				token,
-				"subdealer",
+				"supplier",
 				ids.id,
 				ids.isActive ? "suspend" : "activate",
 				{ id: ids.id }
@@ -101,7 +101,7 @@ const Subdealer = () => {
 			toast.success(
 				`Subdealer has been ${ids.isActive ? "Suspended" : "Activated"}`
 			);
-			listSubdealers();
+			listSuppliers();
 		} catch (err) {
 			displayError(err, true);
 		}
@@ -109,12 +109,12 @@ const Subdealer = () => {
 
 	return (
 		<>
-			{details.business.onboardingSteps?.subdealer === "completed" ? (
+			{details.business.onboardingSteps?.supplier === "completed" ? (
 				<div>
 					<TitleCover
-						title="Subdealers"
+						title="Suppliers"
 						dataCount={lists?.count}
-						button="Add Subdealer"
+						button="Add Supplier"
 						buttonIcon={<IoCartSharp />}
 						buttonClick={() => {
 							setIds(null);
@@ -166,14 +166,12 @@ const Subdealer = () => {
 										<thead>
 											<tr>
 												<th>Last Transaction</th>
-												<th>Customer</th>
+												<th>Supplier Name</th>
 												<th>Phone</th>
 												<th className="price">
 													Wallet Balance
 												</th>
-												<th className="price">
-													Credit Limit
-												</th>
+
 												<th>Status</th>
 												<th>Actions</th>
 											</tr>
@@ -218,12 +216,7 @@ const Subdealer = () => {
 																l.balance
 															)}
 														</td>
-														<td className="price">
-															₦{" "}
-															{formatCurrency(
-																l.creditLimit
-															)}
-														</td>
+
 														<td className="status">
 															<img
 																src={
@@ -285,19 +278,21 @@ const Subdealer = () => {
 				</div>
 			) : (
 				<NewPage
-					title={"Subdealer"}
+					title={"Suppliers"}
 					img={CoverImg}
-					cover="Customer Management"
-					desc={`Maintain a reliable database of your customer’s information and easily build a loyalty plans. Manage Customer accounts and get transaction histories in one place. Download reports to PDF and CSV.`}
-					btnTitle={"Add Subdealer"}
+					cover="Create Supplier"
+					desc={
+						"Maintain a database of suppliers information and track your financial records via an integrated supplier wallet design."
+					}
+					btnTitle={"Create Supplier"}
 					linkTo={() => setOpenModal(true)}
 				/>
 			)}
 			<ModalComponent open={openModal} close={() => setOpenModal(false)}>
-				<NewSubdealer
+				<NewSupplier
 					submit={(arg: any) => {
 						setOpenModal(false);
-						listSubdealers();
+						listSuppliers();
 					}}
 					editInfo={ids}
 				/>
@@ -311,4 +306,4 @@ const Subdealer = () => {
 	);
 };
 
-export default Subdealer;
+export default Supplier;

@@ -199,3 +199,105 @@ export const Drop = styled(Dropdown)`
 		font-size: 0.9rem;
 	}
 `;
+
+export const WalletDiv = styled.div`
+	margin: 25px 0;
+	background: #f5f5f5;
+	padding: 20px 40px;
+	border-radius: 4px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	@media (max-width: 991px) {
+		flex-direction: column;
+
+		.info {
+			margin-bottom: 20px;
+		}
+	}
+
+	h6,
+	p {
+		margin: 0;
+		padding: 0;
+	}
+	h6 {
+		font-weight: 600;
+		font-size: 1.1rem;
+	}
+	.info {
+		div {
+			display: flex;
+			align-items: center;
+			margin-bottom: 20px;
+		}
+
+		.initials {
+			padding: 10px 15px;
+			border-radius: 20px;
+			background: #000d33;
+			color: #fff;
+			margin-right: 10px;
+		}
+	}
+	.balance {
+		.amount {
+			display: flex;
+			margin-bottom: 20px;
+			div {
+				margin-left: 20px;
+			}
+		}
+		.buttons {
+			display: flex;
+			align-items: center;
+
+			@media (max-width: 991px) {
+				flex-direction: column;
+
+				button.custom {
+					margin-top: 20px;
+				}
+			}
+
+			button {
+				margin-left: 20px;
+			}
+
+			button.custom {
+				background: none;
+				border: 1px solid #f44336;
+				color: #f44336;
+				outline: 0;
+				padding: 10px 18px;
+				border-radius: 4px;
+				display: flex;
+				align-items: center;
+				font-size: 0.9rem;
+				font-weight: 600;
+
+				img {
+					margin-right: 10px;
+				}
+			}
+		}
+	}
+`;
+
+export const Confirmation = styled.div`
+	button {
+		border: 0;
+		outline: 0;
+		background: none;
+		padding: 10px 20px;
+		border-radius: 5px;
+		font-weight: 600;
+		margin: 0 10px;
+
+		&.yes {
+			background: #0241ff;
+			color: #fff;
+		}
+	}
+`;

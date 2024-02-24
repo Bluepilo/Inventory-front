@@ -9,12 +9,14 @@ interface Props {
 	changeStartDate?: (arg: any) => void;
 	endDate?: any;
 	changeEndDate?: (arg: any) => void;
-	shopId: any;
+	shopId?: any;
 	changeShopId?: (arg: any) => void;
-	staffId: any;
+	staffId?: any;
 	changeStaffId?: (arg: any) => void;
-	customerType: any;
+	customerType?: any;
 	changeCustomerType?: (arg: any) => void;
+	transactionType?: any;
+	changeTransactionType?: (arg: any) => void;
 	isSearchable?: boolean;
 	searchVal?: string;
 	changeSearchVal?: (arg: string) => void;
@@ -36,6 +38,8 @@ const Filters = ({
 	shopId,
 	staffId,
 	customerType,
+	transactionType,
+	changeTransactionType,
 }: Props) => {
 	const { details } = useAppSelector((state) => state.auth);
 
@@ -109,6 +113,19 @@ const Filters = ({
 							]}
 							label="Customer Type"
 							changeSelected={changeCustomerType}
+						/>
+					</div>
+				)}
+				{changeTransactionType && (
+					<div className="col-lg-2 col-md-4 col-6 mb-3">
+						<BasicSelect
+							value={transactionType}
+							options={[
+								{ label: "Sales", value: "sales" },
+								{ label: "Payment", value: "payment" },
+							]}
+							label="Transaction Type"
+							changeSelected={changeTransactionType}
 						/>
 					</div>
 				)}

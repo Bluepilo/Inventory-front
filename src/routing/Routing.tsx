@@ -18,6 +18,10 @@ import NewSale from "../pages/user/Sales/NewSale";
 import SaleDetails from "../pages/user/Sales/SaleDetails";
 import WalkIn from "../pages/user/Customers/WalkIn";
 import Subdealer from "../pages/user/Customers/Subdealer";
+import WalkinDetails from "../pages/user/Customers/WalkIn/WalkinDetails";
+import SubdealerDetails from "../pages/user/Customers/Subdealer/SubdealerDetails";
+import Supplier from "../pages/user/Supplier";
+import SupplierDetails from "../pages/user/Supplier/SupplierDetails";
 
 const Routing = () => {
 	return (
@@ -60,6 +64,16 @@ const Routing = () => {
 					/>
 					<Route path="customers/walk-in" element={<WalkIn />} />
 					<Route path="customers/subdealer" element={<Subdealer />} />
+					<Route
+						path="customers/walk-in/:id"
+						element={<WalkinDetails />}
+					/>
+					<Route
+						path="customers/subdealer/:id"
+						element={<SubdealerDetails />}
+					/>
+					<Route path="suppliers" element={<Supplier />} />
+					<Route path="suppliers/:id" element={<SupplierDetails />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

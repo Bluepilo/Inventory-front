@@ -183,7 +183,6 @@ export const DropDownSelect = ({
 			width: "100%",
 			fontSize: "0.9rem",
 			borderRadius: "4px",
-			boxShadow: state.isFocused ? 0 : 0,
 		}),
 		placeholder: (base: any, state: any) => ({
 			...base,
@@ -204,7 +203,7 @@ export const DropDownSelect = ({
 
 	return (
 		<DropDownStyle>
-			<p>{label}</p>
+			<label>{label}</label>
 			<Select
 				options={options}
 				styles={customStyles}

@@ -330,7 +330,7 @@ const Dashboard = () => {
 							</DashboardCard>
 						</div>
 
-						<div className="col-lg-5 mb-4">
+						<div className="col-lg-4 mb-4">
 							<DashboardCard style={{ height: "100%" }}>
 								<div className="head">
 									<h6>Top Subdealers</h6>
@@ -364,7 +364,7 @@ const Dashboard = () => {
 								</div>
 							</DashboardCard>
 						</div>
-						<div className="col-lg-7 mb-4">
+						<div className="col-lg-4 mb-4">
 							<DashboardCard style={{ height: "100%" }}>
 								<div className="head">
 									<h6>Top Selling Items</h6>
@@ -399,7 +399,7 @@ const Dashboard = () => {
 							</DashboardCard>
 						</div>
 
-						<div className="col-lg-5 mb-4">
+						<div className="col-lg-4 mb-4">
 							<DashboardCard style={{ height: "100%" }}>
 								<div className="head">
 									<h6>Top Selling Items By Unit</h6>
@@ -428,22 +428,6 @@ const Dashboard = () => {
 								</div>
 							</DashboardCard>
 						</div>
-						<div className="col-lg-7 mb-4">
-							<DashboardCard>
-								<div className="head">
-									<h6>Expenses</h6>
-								</div>
-								<div className="body">
-									<ExpenseChart
-										arr={
-											dashboardStats.expenseReport
-												?.metrics
-										}
-									/>
-								</div>
-							</DashboardCard>
-						</div>
-
 						<div className="col-lg-6 mb-4">
 							<DashboardCard>
 								<div className="head">
@@ -458,6 +442,21 @@ const Dashboard = () => {
 										labels={
 											dashboardStats.shopReport?.trend
 												?.shops
+										}
+									/>
+								</div>
+							</DashboardCard>
+						</div>
+						<div className="col-lg-6 mb-4">
+							<DashboardCard>
+								<div className="head">
+									<h6>Expenses</h6>
+								</div>
+								<div className="body">
+									<ExpenseChart
+										arr={
+											dashboardStats.expenseReport
+												?.metrics
 										}
 									/>
 								</div>

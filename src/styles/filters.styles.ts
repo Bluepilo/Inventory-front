@@ -130,7 +130,7 @@ export const SaleSelectStyle = styled.div`
 `;
 
 export const DropDownStyle = styled.div`
-	p {
+	label {
 		margin: 0;
 		padding: 0;
 		margin-bottom: 5px;
