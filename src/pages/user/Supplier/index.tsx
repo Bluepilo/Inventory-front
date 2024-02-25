@@ -95,7 +95,7 @@ const Supplier = () => {
 				token,
 				"supplier",
 				ids.id,
-				ids.isActive ? "suspend" : "activate",
+				ids.isActive ? "deactivate" : "activate",
 				{ id: ids.id }
 			);
 			toast.success(
@@ -232,10 +232,7 @@ const Supplier = () => {
 																	l.isActive
 																}
 																suspend={() => {
-																	setIds({
-																		id: l.id,
-																		active: l.isActive,
-																	});
+																	setIds(l);
 																	setOpenConfirmation(
 																		true
 																	);

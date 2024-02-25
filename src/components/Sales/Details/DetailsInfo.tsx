@@ -71,7 +71,9 @@ const DetailsInfo = ({ saleDetails }: { saleDetails: any }) => {
 						<span className="col-4 mb-2">Comment:</span>
 						<b className="col-8 mb-2">{saleDetails.comment}</b>
 						<span className="col-4 mb-2">SMS:</span>
-						<b className="col-8 mb-2">{saleDetails.smsResponse}</b>
+						<b className="col-8 mb-2">
+							{saleDetails.smsResponse || "SMS Not Sent"}
+						</b>
 					</div>
 				</div>
 			</DetailCard>
