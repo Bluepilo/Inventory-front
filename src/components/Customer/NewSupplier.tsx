@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { CheckBox, Form, JointDiv } from "../../styles/form.styles";
-import { DropDownSelect, OptionProp } from "../Filters/BasicInputs";
+import {
+	DropDownSelect,
+	OptionProp,
+	PhoneNumberInput,
+} from "../Filters/BasicInputs";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import CurrencyInput from "react-currency-input-field";
 import Loading from "../Loaders/Loading";
@@ -138,13 +142,7 @@ const NewSupplier = ({
 					</div>
 					<div className="col-lg-6">
 						<label>Phone Number</label>
-						<input
-							type="tel"
-							value={phone}
-							onChange={(e) => setPhone(e.target.value)}
-							required
-							disabled={load}
-						/>
+						<PhoneNumberInput value={phone} setValue={setPhone} />
 					</div>
 					<div className="col-lg-6">
 						<label>State</label>
@@ -198,11 +196,21 @@ const NewSupplier = ({
 										name="input-name"
 										decimalsLimit={2}
 										onValueChange={(values) => {
-											setBalance(Number(values));
+											setBalance(
+												Math.abs(Number(values))
+											);
 										}}
-										prefix={"₦ "}
+										prefix={`${
+											option === "Debit" ? "- " : ""
+										}₦ `}
 										value={balance}
 										disabled={!addBalance}
+										style={{
+											color:
+												option === "Debit"
+													? "#F31B1B"
+													: "#333",
+										}}
 									/>
 								</JointDiv>
 							</div>

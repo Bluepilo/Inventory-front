@@ -3,6 +3,7 @@ import { DetailCard } from "../../../styles/sale.styles";
 import dateFormat from "dateformat";
 import { FaBagShopping } from "react-icons/fa6";
 import { formatCurrency } from "../../../utils/currency";
+import { Link } from "react-router-dom";
 
 const DetailsInfo = ({ saleDetails }: { saleDetails: any }) => {
 	return (
@@ -77,7 +78,17 @@ const DetailsInfo = ({ saleDetails }: { saleDetails: any }) => {
 			<DetailCard>
 				<div className="body-detail">
 					<p>Purchased By:</p>
-					<h4>{saleDetails.user?.fullName}</h4>
+					<h4>
+						<Link
+							to={`/dashboard/customers/${
+								saleDetails.customerId
+									? `walk-in/${saleDetails.customerId}`
+									: `subdealer/${saleDetails.subdealerId}`
+							}`}
+						>
+							{saleDetails.customerName}
+						</Link>
+					</h4>
 					<div className="mt-3">
 						<p>{saleDetails.user?.phoneNo}</p>
 						<p>{saleDetails.user?.email}</p>

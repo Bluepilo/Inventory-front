@@ -239,10 +239,7 @@ const Subdealer = () => {
 																	l.isActive
 																}
 																suspend={() => {
-																	setIds({
-																		id: l.id,
-																		active: l.isActive,
-																	});
+																	setIds(l);
 																	setOpenConfirmation(
 																		true
 																	);

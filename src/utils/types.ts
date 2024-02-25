@@ -33,6 +33,7 @@ interface UserDetailsType {
 	};
 	shop: {
 		name: string;
+		isActive: boolean;
 	};
 	image: string;
 }

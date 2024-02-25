@@ -32,10 +32,22 @@ const searchPurchase = async (token: string, word: string, filters: string) => {
 	return data.data;
 };
 
+const makePurchase = async (token: string, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/purchase/create`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const purchaseService = {
 	getPurchase,
 	getPurchaseSummary,
 	searchPurchase,
+	makePurchase,
 };
 
 export default purchaseService;

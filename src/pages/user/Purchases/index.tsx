@@ -50,7 +50,7 @@ const Purchases = () => {
 		staffId?.value || ""
 	}&startDate=${startDate}&endDate=${endDate}&includeWithdrawn=${
 		withdrawn ? "1" : "0"
-	}`;
+	}&onboarding=0`;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);

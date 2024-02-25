@@ -243,8 +243,8 @@ const CustomerSelect = ({
 						<div>
 							<h6>Minimum Amount Due</h6>
 							<p>
-								total payment due + wallet balance + credit
-								limit
+								total payment due - (wallet balance + credit
+								limit)
 							</p>
 						</div>
 						<h6>

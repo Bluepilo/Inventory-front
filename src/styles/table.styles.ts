@@ -32,8 +32,12 @@ export const Table = styled.table`
 		}
 		&.link {
 			a {
-				color: #333;
+				color: #0047ab;
 				text-decoration: none;
+
+				&:hover {
+					text-decoration: underline;
+				}
 			}
 		}
 	}

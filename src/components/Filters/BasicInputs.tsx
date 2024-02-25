@@ -4,9 +4,11 @@ import DatePicker from "react-datepicker";
 import {
 	DropDownStyle,
 	FilterWrapper,
+	PhoneStyle,
 	SaleSelectStyle,
 	SearchBar,
 } from "../../styles/filters.styles";
+import Flag from "../../assets/icons/nigeria.png";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { useEffect, useRef, useState } from "react";
@@ -123,7 +125,34 @@ export const DateSelect = ({ dateVal, changeDateVal, label }: DateProp) => {
 	);
 };
 
-export const SaleSelect = ({ options, changeSelected, value }: SelectProp2) => {
+export const PhoneNumberInput = ({
+	value,
+	setValue,
+}: {
+	value: string;
+	setValue: (arg: string) => void;
+}) => {
+	return (
+		<PhoneStyle>
+			<div className="country">
+				<img src={Flag} />
+				<span>+234</span>
+			</div>
+			<input
+				value={value}
+				onChange={(e) => setValue(e.target.value)}
+				required
+			/>
+		</PhoneStyle>
+	);
+};
+
+export const SaleSelect = ({
+	options,
+	changeSelected,
+	value,
+	label,
+}: SelectProp2) => {
 	const customStyles = {
 		control: (base: any, state: any) => ({
 			...base,
@@ -154,7 +183,7 @@ export const SaleSelect = ({ options, changeSelected, value }: SelectProp2) => {
 
 	return (
 		<SaleSelectStyle>
-			<p>Selling from</p>
+			<p>{label}</p>
 			<Select
 				options={options}
 				styles={customStyles}
@@ -199,6 +228,12 @@ export const DropDownSelect = ({
 			color: "#333",
 			fontSize: "0.9rem",
 		}),
+		option: (base: any, props: any) => {
+			return {
+				...base,
+				color: props.data?.isService ? "blue" : "black",
+			};
+		},
 	};
 
 	return (

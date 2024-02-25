@@ -453,4 +453,14 @@ export const DetailCard = styled.div`
 			}
 		}
 	}
+	.body-detail {
+		a {
+			color: #0241ff;
+			text-decoration: none;
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
 `;

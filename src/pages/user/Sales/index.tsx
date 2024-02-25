@@ -218,7 +218,7 @@ const Sales = () => {
 													<Link
 														to={`/dashboard/customers/${
 															l.customerId
-																? `walkin/${l.customerId}`
+																? `walk-in/${l.customerId}`
 																: `subdealer/${l.subdealerId}`
 														}`}
 													>

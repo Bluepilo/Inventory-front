@@ -138,3 +138,33 @@ export const DropDownStyle = styled.div`
 		font-size: 0.8rem;
 	}
 `;
+
+export const PhoneStyle = styled.div`
+	width: 100%;
+	display: flex;
+
+	div.country {
+		border: 1px solid #d9dbeb;
+		width: 30%;
+		height: 45px;
+		display: flex;
+		align-items: center;
+		border-right: 0;
+		justify-content: center;
+		border-top-left-radius: 6px;
+		border-bottom-left-radius: 6px;
+
+		img {
+			height: 20px;
+		}
+		span {
+			font-size: 0.7rem;
+			margin-left: 2px;
+		}
+	}
+	input {
+		width: 70%;
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+	}
+`;

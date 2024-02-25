@@ -1,24 +1,20 @@
-import { useEffect, useState } from "react";
-import TitleCover from "../../../components/TitleCover";
-import { SaleSelectDiv, SalesDiv } from "../../../styles/sale.styles";
-import {
-	OptionProp,
-	SaleSelect,
-} from "../../../components/Filters/BasicInputs";
-import { SaleSelectStyle } from "../../../styles/filters.styles";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import PickItems from "../../../components/Sales/PickItems";
-import productService from "../../../redux/features/product/product-service";
-import { formatCurrency } from "../../../utils/currency";
-import CustomerSelect from "../../../components/Sales/CustomerSelect";
-import LoadModal from "../../../components/Loaders/LoadModal";
-import { displayError } from "../../../utils/errors";
-import salesService from "../../../redux/features/sales/sales-service";
+import { useState, useEffect } from "react";
+import { SaleSelectDiv, SalesDiv } from "../../styles/sale.styles";
+import { SaleSelectStyle } from "../../styles/filters.styles";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { OptionProp, SaleSelect } from "../Filters/BasicInputs";
 import { useLocation, useNavigate } from "react-router-dom";
+import productService from "../../redux/features/product/product-service";
+import { formatCurrency } from "../../utils/currency";
+import PickItems from "../Sales/PickItems";
+import SupplierSelect from "./SupplierSelect";
+import purchaseService from "../../redux/features/purchase/purchase-service";
 import { toast } from "react-toastify";
-import { updateOnboardingSteps } from "../../../redux/features/basic/basic-slice";
+import { displayError } from "../../utils/errors";
+import { updateOnboardingSteps } from "../../redux/features/basic/basic-slice";
+import LoadModal from "../Loaders/LoadModal";
 
-const NewSale = () => {
+const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 	const navigate = useNavigate();
 
 	const dispatch = useAppDispatch();
@@ -28,46 +24,24 @@ const NewSale = () => {
 	const { details, token } = useAppSelector((state) => state.auth);
 	const { shops } = useAppSelector((state) => state.basic);
 
-	const [isWalkIn, setIsWalkIn] = useState(true);
+	const [step, setStep] = useState(1);
 	const [selectedShop, setSelectedShop] = useState<OptionProp | null>(null);
 	const [shopList, setShopList] = useState<OptionProp[]>([]);
-	const [step, setStep] = useState(1);
 
 	const [productLoad, setProductLoad] = useState(false);
 	const [productList, setProductList] = useState<any>([]);
-
 	const [selectedProducts, setSelectedProducts] = useState<any>([]);
+
 	const [discountValue, setDiscountValue] = useState(0);
 	const [discountPercent, setDiscountPercent] = useState(true);
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [discountApplied, setDiscountApplied] = useState(0);
-
 	const [load, setLoad] = useState(false);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		filterShops();
 	}, []);
-
-	useEffect(() => {
-		if (cloneState?.id) {
-			if (cloneState?.subdealerId) {
-				setIsWalkIn(false);
-			}
-			let products = JSON.parse(cloneState.productPurchasedPayload);
-			setSelectedProducts(products);
-			setSelectedShop({
-				label: cloneState.shop?.name,
-				value: cloneState.shop?.id,
-			});
-		}
-	}, [cloneState]);
-
-	useEffect(() => {
-		if (selectedShop?.value) {
-			getProducts();
-		}
-	}, [selectedShop]);
 
 	useEffect(() => {
 		if (selectedProducts.length > 0) {
@@ -85,12 +59,18 @@ const NewSale = () => {
 	}, [discountValue, totalPrice, discountPercent]);
 
 	const filterShops = () => {
-		if (shops?.length > 0) {
-			let filter = shops.filter((s) => s.isActive);
-			setShopList(filter);
-			if (filter.length > 0) {
-				setSelectedShop(filter[0]);
-			}
+		let filter: OptionProp[];
+		if (!details.shopId) {
+			filter = shops.filter((s) => s.isActive);
+		} else if (details.shopId && details.shop.isActive) {
+			filter = shops.filter((s) => s.id != details.shopId);
+		} else {
+			filter = [];
+		}
+		setShopList(filter);
+		if (filter.length > 0) {
+			setSelectedShop(filter[0]);
+			getProducts();
 		}
 	};
 
@@ -101,27 +81,24 @@ const NewSale = () => {
 				setSelectedProducts([]);
 			}
 			setProductLoad(true);
-			let res = await productService.getProductsInShop(
+			let res = await productService.allProducts(
 				token,
-				selectedShop?.value
+				"?all=true&type=product_only"
 			);
-			let arr = res?.rows?.filter(
-				(a: any) => (!a.isService && a.totalStock !== 0) || a.isService
-			);
+			let arr = res?.rows;
 			if (Array.isArray(arr)) {
 				let resVal = arr.map((a: any) => {
 					return {
 						value: a.id,
-						label: `${a.summary} - ₦${formatCurrency(a.price)} ${
-							a.isService ? "" : `(${a.totalStock})`
-						}`,
+						label: `${a.summary} - ₦${formatCurrency(
+							a.costPrice
+						)} (${a.totalStock})`,
 						name: a.summary,
-						price: Number(isWalkIn ? a.price : a.costPrice),
+						price: Number(a.costPrice),
 						quantity: 1,
 						total: Number(a.price),
 						id: a.id,
 						sku: a.sku,
-						isService: a.isService,
 					};
 				});
 				setProductList(resVal);
@@ -175,21 +152,26 @@ const NewSale = () => {
 		const data = {
 			...vals,
 			shopId: details.shopId || selectedShop?.value,
-			products: selectedProducts,
-			status: "success",
+			totalPrice: totalPrice - discountApplied,
 			discount: discountApplied,
-			amountExpected: totalPrice - discountApplied,
+			isOnboarding: false,
+			productBreakDown: selectedProducts,
+			totalNoItems: selectedProducts.reduce(
+				(prev: any, curr: any) => prev + curr.quantity,
+				0
+			),
+			status: "success",
 		};
 		try {
 			setLoad(true);
-			let res = await salesService.makeSale(token, data);
+			let res = await purchaseService.makePurchase(token, data);
 			setLoad(false);
 			saveTrialPick();
 			toast.success("Your Transaction was Successful!");
-			if (res) {
-				navigate(`/dashboard/sales/${res?.uniqueRef}`);
+			if (res?.id) {
+				navigate(`/dashboard/purchases/${res?.id}`);
 			} else {
-				navigate("/dashboard/sales");
+				navigate("/dashboard/purchases");
 			}
 		} catch (err) {
 			displayError(err, true);
@@ -198,12 +180,12 @@ const NewSale = () => {
 	};
 
 	const saveTrialPick = () => {
-		if (details.business.onboardingSteps?.sales !== "completed") {
+		if (details.business.onboardingSteps?.purchase !== "completed") {
 			dispatch(
 				updateOnboardingSteps({
 					steps: {
 						...details?.business?.onboardingSteps,
-						sales: "completed",
+						purchase: "completed",
 					},
 				})
 			);
@@ -211,27 +193,14 @@ const NewSale = () => {
 	};
 
 	return (
-		<div>
-			<TitleCover
-				title={`Sell to ${
-					isWalkIn ? "a Walk-in Customer" : "a Subdealer"
-				}`}
-			/>
+		<>
 			{step === 1 && (
 				<div>
 					<SaleSelectDiv>
-						<div className="info">
-							<p>
-								Not a {isWalkIn ? "Walk-in" : "Subdealer"}?{" "}
-								<button onClick={() => setIsWalkIn(!isWalkIn)}>
-									Switch
-								</button>{" "}
-								to {isWalkIn ? "Subdealer" : "Walk-in"}
-							</p>
-						</div>
+						<div className="info"></div>
 						{details.shopId ? (
 							<SaleSelectStyle>
-								<p>Selling from</p>
+								<p>Stocking</p>
 								<div className="shop">{details.shop?.name}</div>
 							</SaleSelectStyle>
 						) : (
@@ -239,7 +208,7 @@ const NewSale = () => {
 								options={shopList}
 								changeSelected={(arg) => setSelectedShop(arg)}
 								value={selectedShop}
-								label="Selling from"
+								label="Stocking"
 							/>
 						)}
 					</SaleSelectDiv>
@@ -266,8 +235,7 @@ const NewSale = () => {
 						totalAmount={totalPrice}
 					/>
 				) : step === 2 ? (
-					<CustomerSelect
-						type={isWalkIn ? "walkin" : "subdealer"}
+					<SupplierSelect
 						onPrev={() => setStep(1)}
 						totalAmount={totalPrice}
 						discountApplied={discountApplied}
@@ -278,8 +246,8 @@ const NewSale = () => {
 				)}
 			</SalesDiv>
 			{load && <LoadModal open={true} />}
-		</div>
+		</>
 	);
 };
 
-export default NewSale;
+export default PurchaseSteps;

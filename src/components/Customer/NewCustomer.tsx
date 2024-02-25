@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Form } from "../../styles/form.styles";
 import { ButtonSubmit } from "../../styles/links.styles";
 import AddIcon from "../../assets/icons/user-add.svg";
+import { PhoneNumberInput } from "../Filters/BasicInputs";
 
 const NewCustomer = ({ submit }: { submit: (arg: any) => void }) => {
 	const [name, setName] = useState("");
@@ -34,12 +35,7 @@ const NewCustomer = ({ submit }: { submit: (arg: any) => void }) => {
 					required
 				/>
 				<label>Phone Number</label>
-				<input
-					type="tel"
-					value={phone}
-					onChange={(e) => setPhone(e.target.value)}
-					required
-				/>
+				<PhoneNumberInput value={phone} setValue={setPhone} />
 				<label>Email</label>
 				<input
 					type="email"
