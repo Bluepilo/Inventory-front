@@ -118,7 +118,7 @@ const NewSale = () => {
 						name: a.summary,
 						price: Number(isWalkIn ? a.price : a.costPrice),
 						quantity: 1,
-						total: Number(a.price),
+						total: Number(isWalkIn ? a.price : a.costPrice),
 						id: a.id,
 						sku: a.sku,
 						isService: a.isService,

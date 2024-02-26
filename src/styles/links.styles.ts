@@ -34,16 +34,17 @@ export const MainButton = styled.button<{
 	bg?: string;
 	color?: string;
 	right?: string;
+	sm?: string;
 }>`
 	background: ${(props) => props.bg || "#0241FF"};
 	color: ${(props) => props.color || "#fff"};
 	outline: 0;
 	border: 0;
-	padding: 10px 18px;
+	padding: ${(props) => (props.sm ? "5px 12px" : "10px 18px")};
 	border-radius: 4px;
 	display: flex;
 	align-items: center;
-	font-size: 0.9rem;
+	font-size: ${(props) => (props.sm ? "0.8rem" : "0.9rem")};
 	font-weight: 600;
 
 	svg,

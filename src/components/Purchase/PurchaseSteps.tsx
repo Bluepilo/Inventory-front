@@ -44,6 +44,30 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 	}, []);
 
 	useEffect(() => {
+		if (cloneState?.id) {
+			let products = cloneState.products.map((p: any) => {
+				return {
+					name: p.summary,
+					quantity: p?.productPurchase?.quantity,
+					price: p.costPrice,
+					total: p?.productPurchase?.quantity * p.costPrice,
+					id: p.id,
+					label: `${p.summary} - ₦${formatCurrency(p.costPrice)} (${
+						p.totalStock
+					})`,
+					sku: p.sku,
+					value: p.id,
+				};
+			});
+			setSelectedProducts(products);
+			setSelectedShop({
+				label: cloneState.shop?.name,
+				value: cloneState.shop?.id,
+			});
+		}
+	}, [cloneState]);
+
+	useEffect(() => {
 		if (selectedProducts.length > 0) {
 			getTotalAmountDue();
 		}
@@ -96,7 +120,7 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 						name: a.summary,
 						price: Number(a.costPrice),
 						quantity: 1,
-						total: Number(a.price),
+						total: Number(a.costPrice),
 						id: a.id,
 						sku: a.sku,
 					};

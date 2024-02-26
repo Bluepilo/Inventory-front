@@ -38,6 +38,7 @@ const PickItems = ({
 	remove,
 }: Props) => {
 	const [val, setVal] = useState<OptionProp | null>(null);
+
 	return Array.isArray(items) ? (
 		<div>
 			{selectedProducts?.length > 0 && (

@@ -210,7 +210,7 @@ export const SummaryCard = styled.div`
 	align-items: center;
 	flex-wrap: wrap;
 	border-radius: 4px;
-	padding: 12px 30px;
+	padding: 12px 20px;
 
 	@media (max-width: 768px) {
 		justify-content: center;
@@ -231,6 +231,7 @@ export const SummaryCard = styled.div`
 				color: #ff9800;
 				margin-left: 5px;
 			}
+			font-size: 1rem;
 		}
 	}
 `;

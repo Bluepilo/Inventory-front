@@ -40,6 +40,29 @@ export const Table = styled.table`
 				}
 			}
 		}
+		&.quantites {
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;
+
+			button {
+				background: #edeef0;
+				color: #000d33;
+				border: 0;
+				outline: 0;
+				padding: 5px 10px;
+				border-radius: 1px;
+				font-weight: 700;
+			}
+
+			input {
+				width: 50px;
+				outline: 0;
+				border: 1px solid #d9dbe9;
+				text-align: center;
+				margin: 0 5px;
+			}
+		}
 	}
 `;
 

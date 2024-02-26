@@ -43,11 +43,59 @@ const makePurchase = async (token: string, obj: any) => {
 	return data.data;
 };
 
+const getPurchaseInfo = async (token: string, id: any) => {
+	const { data } = await axios.get(`${config.baseUrl}/purchase/view/${id}`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const updateSupply = async (token: string, id: string, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/purchase/update-items/${id}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const approveOrDeclineWithdrawal = async (
+	token: string,
+	obj: any,
+	ref: string
+) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/purchase/approve-or-decline-withdrawal/${ref}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const withdrawPurchase = async (token: string, id: any, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/purchase/withdraw/${id}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const purchaseService = {
 	getPurchase,
 	getPurchaseSummary,
 	searchPurchase,
 	makePurchase,
+	getPurchaseInfo,
+	updateSupply,
+	approveOrDeclineWithdrawal,
+	withdrawPurchase,
 };
 
 export default purchaseService;

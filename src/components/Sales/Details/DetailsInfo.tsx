@@ -39,7 +39,11 @@ const DetailsInfo = ({ saleDetails }: { saleDetails: any }) => {
 					<div className="row">
 						<span className="col-4 mb-2">Total Sales:</span>
 						<b className="col-8 mb-2">
-							₦ {formatCurrency(saleDetails.amountExpected)}
+							₦{" "}
+							{formatCurrency(
+								Number(saleDetails.amountExpected) +
+									Number(saleDetails.discount)
+							)}
 						</b>
 						<span className="col-4 mb-2">Discount Amount:</span>
 						<b className="col-8 mb-2">
@@ -92,9 +96,9 @@ const DetailsInfo = ({ saleDetails }: { saleDetails: any }) => {
 						</Link>
 					</h4>
 					<div className="mt-3">
-						<p>{saleDetails.user?.phoneNo}</p>
-						<p>{saleDetails.user?.email}</p>
-						<p>{saleDetails.user?.address}</p>
+						<p>{saleDetails.customerPhoneNo}</p>
+						<p>{saleDetails.customerEmail}</p>
+						<p>{saleDetails.customerAddress}</p>
 					</div>
 				</div>
 			</DetailCard>
