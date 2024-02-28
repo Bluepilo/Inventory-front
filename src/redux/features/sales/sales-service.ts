@@ -69,6 +69,27 @@ const approveOrDeclineWithdrawal = async (
 	return data.data;
 };
 
+const getTransactions = async (token: string, filters: string) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/report/payment-report${filters}`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const verifyTransactions = async (token: string, id: number) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/transaction/verify/${id}`,
+		{},
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const salesService = {
 	getSales,
 	getSalesSummary,
@@ -77,6 +98,8 @@ const salesService = {
 	getSaleInfo,
 	withdrawSale,
 	approveOrDeclineWithdrawal,
+	getTransactions,
+	verifyTransactions,
 };
 
 export default salesService;

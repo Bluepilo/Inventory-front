@@ -25,6 +25,11 @@ import SupplierDetails from "../pages/user/Supplier/SupplierDetails";
 import Purchases from "../pages/user/Purchases";
 import PurchaseDetails from "../pages/user/Purchases/PurchaseDetails";
 import NewPurchase from "../pages/user/Purchases/NewPurchase";
+import Transactions from "../pages/user/Transactions";
+import Transfer from "../pages/user/Transfer";
+import NewTransfer from "../pages/user/Transfer/NewTransfer";
+import TransferDetails from "../pages/user/Transfer/TransferDetails";
+import Expenses from "../pages/user/Expenses";
 
 const Routing = () => {
 	return (
@@ -80,6 +85,11 @@ const Routing = () => {
 					<Route path="purchases" element={<Purchases />} />
 					<Route path="purchases/new" element={<NewPurchase />} />
 					<Route path="purchases/:id" element={<PurchaseDetails />} />
+					<Route path="transactions" element={<Transactions />} />
+					<Route path="transfers" element={<Transfer />} />
+					<Route path="transfers/new" element={<NewTransfer />} />
+					<Route path="transfers/:id" element={<TransferDetails />} />
+					<Route path="expenses" element={<Expenses />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

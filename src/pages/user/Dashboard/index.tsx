@@ -66,7 +66,7 @@ const Dashboard = () => {
 		}
 	};
 
-	return dashboardStats.year ? (
+	return dashboardStats?.year ? (
 		<div className="mt-3">
 			<div className="row align-items-center">
 				<div className="col-lg-5 mb-4">

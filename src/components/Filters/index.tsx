@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useAppSelector } from "../../redux/hooks";
 import { ButtonCancelDiv, FilterStyles } from "../../styles/filters.styles";
 import { BasicSearch, BasicSelect, DateSelect } from "./BasicInputs";
@@ -21,6 +20,8 @@ interface Props {
 	searchVal?: string;
 	changeSearchVal?: (arg: string) => void;
 	clearValues?: () => void;
+	methodId?: any;
+	changeMethodId?: (arg: any) => void;
 }
 
 const Filters = ({
@@ -40,11 +41,12 @@ const Filters = ({
 	customerType,
 	transactionType,
 	changeTransactionType,
+	methodId,
+	changeMethodId,
 }: Props) => {
 	const { details } = useAppSelector((state) => state.auth);
 
-	const { shops, staffs } = useAppSelector((state) => state.basic);
-	const [clear, setClear] = useState(false);
+	const { shops, staffs, methods } = useAppSelector((state) => state.basic);
 
 	return (
 		<FilterStyles>
@@ -129,12 +131,21 @@ const Filters = ({
 						/>
 					</div>
 				)}
+				{changeMethodId && (
+					<div className="col-lg-2 col-md-4 col-6 mb-3">
+						<BasicSelect
+							value={methodId}
+							options={methods}
+							label="Methods"
+							changeSelected={changeMethodId}
+						/>
+					</div>
+				)}
 				{clearValues && (
 					<div className="col-lg-1 col-6">
 						<ButtonCancelDiv>
 							<button
 								onClick={() => {
-									setClear(true);
 									clearValues();
 								}}
 							>

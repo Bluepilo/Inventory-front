@@ -5,10 +5,12 @@ const ConfirmModal = ({
 	open,
 	close,
 	confirm,
+	label,
 }: {
 	open: boolean;
 	close: () => void;
 	confirm: () => void;
+	label?: string;
 }) => {
 	return (
 		<ModalComponent
@@ -17,7 +19,7 @@ const ConfirmModal = ({
 			size="sm"
 		>
 			<Confirmation>
-				<p>Are you sure you want to proceed?</p>
+				<p>{label || "Are you sure you want to proceed?"}</p>
 				<div className="text-center mt-4">
 					<button className="yes" onClick={confirm}>
 						Yes

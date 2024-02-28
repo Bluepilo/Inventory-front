@@ -97,6 +97,14 @@ export const TitleStyles = styled.div`
 		display: flex;
 		justify-content: space-between;
 		align-items: flex-start;
+
+		@media (max-width: 768px) {
+			flex-direction: column;
+
+			.title {
+				margin-bottom: 20px;
+			}
+		}
 	}
 	.title {
 		h5 {
@@ -298,6 +306,71 @@ export const Confirmation = styled.div`
 		&.yes {
 			background: #0241ff;
 			color: #fff;
+		}
+	}
+`;
+
+export const SwitchDiv = styled.div`
+	width: 45%;
+	display: flex;
+	background: #f5f5f5;
+	justify-content: space-between;
+	border: 1px solid #d9dbe9;
+	border-radius: 4px;
+	padding: 4px;
+	margin-top: 20px;
+
+	@media (max-width: 991px) {
+		width: 100%;
+	}
+
+	div {
+		width: 50%;
+		text-align: center;
+		padding: 6px;
+		border-radius: 4px;
+		font-weight: 600;
+		cursor: pointer;
+
+		&.active {
+			border: 1px solid #0241ff;
+			color: #0241ff;
+		}
+	}
+`;
+
+export const DrawerDiv = styled.div`
+	position: fixed;
+	background: #fff;
+	box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+	width: 300px;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 91;
+	transition: all 0.3s ease-in-out;
+	padding: 20px;
+
+	.transactions {
+		margin-top: 25px;
+
+		h6,
+		p {
+			margin: 0;
+			padding: 0;
+		}
+
+		h6 {
+			font-size: 0.8rem;
+			text-transform: uppercase;
+			color: #666;
+			font-weight: 600;
+		}
+
+		p {
+			margin-bottom: 15px;
+			margin-top: 4px;
+			font-weight: 600;
 		}
 	}
 `;

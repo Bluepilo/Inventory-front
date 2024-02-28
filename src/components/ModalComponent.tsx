@@ -19,7 +19,11 @@ const ModalComponent = ({
 			{title && (
 				<Modal.Header closeButton>
 					<Modal.Title
-						style={{ fontSize: "1.1rem", fontWeight: "600" }}
+						style={{
+							fontSize: "1.1rem",
+							fontWeight: "600",
+							textTransform: "capitalize",
+						}}
 					>
 						{title}
 					</Modal.Title>

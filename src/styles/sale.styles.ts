@@ -28,6 +28,22 @@ export const SaleSelectDiv = styled.div`
 		background: none;
 		text-decoration: underline;
 	}
+
+	.a-flex {
+		display: flex;
+
+		.mb {
+			margin-left: 20px;
+		}
+
+		@media (max-width: 991px) {
+			flex-direction: column;
+
+			.mb {
+				margin: 15px 0;
+			}
+		}
+	}
 `;
 
 export const SalesDiv = styled.div`
@@ -57,15 +73,25 @@ export const SalesDiv = styled.div`
 
 export const ItemListStyle = styled.div`
 	margin-bottom: 40px;
+	width: 100%;
 
 	.name {
 		width: 35%;
 	}
 
-	.qty {
+	.sku {
+		width: 5%;
+	}
+
+	.qty,
+	.qty-t {
 		width: 25%;
 		display: flex;
 		align-items: center;
+
+		&.tt {
+			background: blue;
+		}
 
 		button {
 			display: flex;
@@ -138,9 +164,17 @@ export const ItemListStyle = styled.div`
 		justify-content: space-between;
 		font-weight: 800;
 
+		&.head-sm {
+			width: 60%;
+		}
+
 		@media (max-width: 900px) {
 			width: 900px;
 			overflow-x: auto;
+
+			&.head-sm {
+				width: 600px;
+			}
 		}
 	}
 
@@ -154,9 +188,17 @@ export const ItemListStyle = styled.div`
 			border-bottom: 1px solid #d9dbeb;
 			padding: 15px 0;
 
+			&.info-sm {
+				width: 60%;
+			}
+
 			@media (max-width: 900px) {
 				width: 900px;
 				overflow-x: auto;
+
+				&.info-sm {
+					width: 600px;
+				}
 			}
 		}
 	}

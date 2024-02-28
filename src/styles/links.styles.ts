@@ -42,7 +42,7 @@ export const MainButton = styled.button<{
 	border: 0;
 	padding: ${(props) => (props.sm ? "5px 12px" : "10px 18px")};
 	border-radius: 4px;
-	display: flex;
+	display: inline-flex;
 	align-items: center;
 	font-size: ${(props) => (props.sm ? "0.8rem" : "0.9rem")};
 	font-weight: 600;

@@ -236,6 +236,61 @@ export const SummaryCard = styled.div`
 	}
 `;
 
+export const CashSummaryCard = styled.div`
+	background: #000d33;
+	border-radius: 4px;
+	margin-top: 15px;
+	padding: 20px 12px;
+	/* height: 100%; */
+
+	.top {
+		display: flex;
+		align-items: center;
+		margin-bottom: 20px;
+		.icon {
+			background: #ffb900;
+			height: 40px;
+			width: 40px;
+			border-radius: 10px;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			margin-right: 15px;
+		}
+
+		h6 {
+			color: #fff;
+			margin: 0;
+			padding: 0;
+		}
+		p {
+			color: #ffb900;
+			margin: 0;
+			padding: 0;
+			font-size: 0.8rem;
+		}
+	}
+
+	.bottom {
+		div {
+			display: flex;
+			margin-top: 10px;
+
+			h6 {
+				width: 40%;
+				color: #fff;
+				font-size: 0.8rem;
+				margin: 0;
+				padding: 0;
+			}
+		}
+		h6.first {
+			width: 60%;
+			color: #d4e9ff;
+		}
+	}
+`;
+
 export const CheckBoxPrint = styled.div`
 	display: flex;
 	justify-content: flex-end;

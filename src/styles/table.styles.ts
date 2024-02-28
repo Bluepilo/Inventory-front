@@ -7,6 +7,7 @@ export const TableComponent = styled.div`
 export const Table = styled.table`
 	font-size: 0.9rem;
 	color: #333;
+	white-space: nowrap;
 
 	tr {
 		border-color: #d9dbe9;
@@ -63,6 +64,14 @@ export const Table = styled.table`
 				margin: 0 5px;
 			}
 		}
+
+		&.bbtn {
+			button {
+				background: none;
+				outline: 0;
+				border: 0;
+			}
+		}
 	}
 `;
 
@@ -71,6 +80,14 @@ export const PaginateStyles = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+
+	@media (max-width: 991px) {
+		flex-direction: column;
+
+		.clicks {
+			margin: 20px 0;
+		}
+	}
 
 	.select {
 		display: flex;

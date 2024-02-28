@@ -34,6 +34,7 @@ const SaleDetails = () => {
 	const [action, setAction] = useState("");
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		if (params.id) {
 			loadSale();
 		}
