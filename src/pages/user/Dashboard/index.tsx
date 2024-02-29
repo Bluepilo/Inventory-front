@@ -81,7 +81,11 @@ const Dashboard = () => {
 							<span>Record Transaction</span>
 							<img src={EditIcon} />
 						</PrimaryButton>
-						<PrimaryButton bg="#EDEEF0" color="#505BDA">
+						<PrimaryButton
+							bg="#EDEEF0"
+							color="#505BDA"
+							onClick={() => navigate("/dashboard/transfers")}
+						>
 							<span>Transfer Item</span>
 							<img src={TransferIcon} />
 						</PrimaryButton>

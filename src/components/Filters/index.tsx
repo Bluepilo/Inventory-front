@@ -22,6 +22,10 @@ interface Props {
 	clearValues?: () => void;
 	methodId?: any;
 	changeMethodId?: (arg: any) => void;
+	statusId?: any;
+	changeStatusId?: (arg: any) => void;
+	expenseCategory?: any;
+	changeExpenseCategory?: (arg: any) => void;
 }
 
 const Filters = ({
@@ -43,10 +47,16 @@ const Filters = ({
 	changeTransactionType,
 	methodId,
 	changeMethodId,
+	statusId,
+	changeStatusId,
+	expenseCategory,
+	changeExpenseCategory,
 }: Props) => {
 	const { details } = useAppSelector((state) => state.auth);
 
-	const { shops, staffs, methods } = useAppSelector((state) => state.basic);
+	const { shops, staffs, methods, expenseCat } = useAppSelector(
+		(state) => state.basic
+	);
 
 	return (
 		<FilterStyles>
@@ -138,6 +148,31 @@ const Filters = ({
 							options={methods}
 							label="Methods"
 							changeSelected={changeMethodId}
+						/>
+					</div>
+				)}
+				{changeStatusId && (
+					<div className="col-lg-2 col-md-4 col-6 mb-3">
+						<BasicSelect
+							value={statusId}
+							options={[
+								{ label: "All", value: "" },
+								{ label: "Approved", value: "approved" },
+								{ label: "Rejected", value: "rejected" },
+								{ label: "Pending", value: "pending" },
+							]}
+							label="Status"
+							changeSelected={changeStatusId}
+						/>
+					</div>
+				)}
+				{changeExpenseCategory && (
+					<div className="col-lg-2 col-md-4 col-6 mb-3">
+						<BasicSelect
+							value={expenseCategory}
+							options={expenseCat}
+							label="Category"
+							changeSelected={changeExpenseCategory}
 						/>
 					</div>
 				)}

@@ -9,6 +9,7 @@ import {
 	allShops,
 	allStaffs,
 	getDashboardStats,
+	getExpenseCategories,
 	getNotifications,
 	getSettings,
 	getStates,
@@ -35,6 +36,7 @@ const DashboardLayout = () => {
 			dispatch(allStaffs());
 			dispatch(getSettings());
 			dispatch(paymentMethods());
+			dispatch(getExpenseCategories());
 		}
 		dispatch(getStates());
 	};

@@ -14,6 +14,7 @@ const initialState = {
 	staffs: [] as OptionProp[],
 	states: [] as OptionProp[],
 	settings: {} as any,
+	expenseCat: [] as OptionProp[],
 };
 
 export const changeTheme = createAsyncThunk(
@@ -146,6 +147,20 @@ export const getStates = createAsyncThunk(
 	}
 );
 
+export const getExpenseCategories = createAsyncThunk(
+	"basic/expenseCats",
+	async (_, thunkAPI: any) => {
+		try {
+			const { token } = thunkAPI.getState().auth;
+			const res = await basicService.getExpenseCategories(token);
+			let arr = res.data?.map((f: any) => {
+				return { ...f, value: f.id, label: f.name };
+			});
+			return arr;
+		} catch (error) {}
+	}
+);
+
 export const basicSlice = createSlice({
 	name: "basic",
 	initialState,
@@ -174,6 +189,9 @@ export const basicSlice = createSlice({
 		});
 		builder.addCase(getStates.fulfilled, (state, action) => {
 			state.states = action.payload || [];
+		});
+		builder.addCase(getExpenseCategories.fulfilled, (state, action) => {
+			state.expenseCat = action.payload || [];
 		});
 	},
 });

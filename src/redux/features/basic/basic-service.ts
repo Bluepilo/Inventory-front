@@ -129,6 +129,16 @@ const getStates = async () => {
 	return data;
 };
 
+const getExpenseCategories = async (token: string) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/expense/categories/all`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data;
+};
+
 const enableSMS = async (token: string, obj: any) => {
 	const { data } = await axios.post(
 		`${config.baseUrl}/subdealer/set-sms-notification`,
@@ -156,6 +166,7 @@ const basicService = {
 	editSubdealer,
 	getStates,
 	enableSMS,
+	getExpenseCategories,
 };
 
 export default basicService;

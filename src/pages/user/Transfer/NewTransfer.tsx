@@ -4,7 +4,7 @@ import {
 	SaleSelectDiv,
 	SalesDiv,
 } from "../../../styles/sale.styles";
-import { useAppSelector } from "../../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import {
 	DropDownSelect,
 	OptionProp,
@@ -23,13 +23,16 @@ import { toast } from "react-toastify";
 import { displayError } from "../../../utils/errors";
 import transferService from "../../../redux/features/transfer/transfer-service";
 import LoadModal from "../../../components/Loaders/LoadModal";
+import { updateOnboardingSteps } from "../../../redux/features/basic/basic-slice";
 
 const NewTransfer = () => {
 	const navigate = useNavigate();
 
+	const dispatch = useAppDispatch();
+
 	const cloneState = useLocation()?.state?.cloneState;
 
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 	const { shops } = useAppSelector((state) => state.basic);
 
 	const [shopList, setShopList] = useState<OptionProp[]>([]);
@@ -165,6 +168,7 @@ const NewTransfer = () => {
 				let res = await transferService.createTransfer(token, data);
 				setLoad(false);
 				toast.success(`Products has been transferred.`);
+				saveTrialPick();
 
 				if (res?.id) {
 					navigate(`/dashboard/transfers/${res.id}`);
@@ -177,6 +181,19 @@ const NewTransfer = () => {
 			}
 		} else {
 			alert("Please Select shop you are transferring to.");
+		}
+	};
+
+	const saveTrialPick = () => {
+		if (details.business.onboardingSteps?.transfer !== "completed") {
+			dispatch(
+				updateOnboardingSteps({
+					steps: {
+						...details?.business?.onboardingSteps,
+						transfer: "completed",
+					},
+				})
+			);
 		}
 	};
 
