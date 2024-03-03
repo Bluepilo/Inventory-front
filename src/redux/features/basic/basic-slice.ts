@@ -4,6 +4,7 @@ import { displayError } from "../../../utils/errors";
 import { notificationType } from "../../../utils/types";
 import { logout, userProfile } from "../auth/auth-slice";
 import { OptionProp } from "../../../components/Filters/BasicInputs";
+import productService from "../product/product-service";
 
 const initialState = {
 	theme: "light",
@@ -15,6 +16,7 @@ const initialState = {
 	states: [] as OptionProp[],
 	settings: {} as any,
 	expenseCat: [] as OptionProp[],
+	brands: [] as any,
 };
 
 export const changeTheme = createAsyncThunk(
@@ -161,6 +163,17 @@ export const getExpenseCategories = createAsyncThunk(
 	}
 );
 
+export const getManagedBrands = createAsyncThunk(
+	"basic/managedBrands",
+	async (_, thunkAPI: any) => {
+		try {
+			const { token } = thunkAPI.getState().auth;
+			const res = await productService.managedBrands(token);
+			return res;
+		} catch (error) {}
+	}
+);
+
 export const basicSlice = createSlice({
 	name: "basic",
 	initialState,
@@ -192,6 +205,9 @@ export const basicSlice = createSlice({
 		});
 		builder.addCase(getExpenseCategories.fulfilled, (state, action) => {
 			state.expenseCat = action.payload || [];
+		});
+		builder.addCase(getManagedBrands.fulfilled, (state, action) => {
+			state.brands = action.payload || [];
 		});
 	},
 });

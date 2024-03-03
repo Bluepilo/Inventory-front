@@ -2,15 +2,13 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import { Drop } from "../../styles/basic.styles";
 
 const DropDowns = ({
-	suspend,
-	active,
+	download,
 	onEdit,
-	onNavigate,
+	onDelete,
 }: {
-	suspend: () => void;
-	active: boolean;
-	onEdit: () => void;
-	onNavigate: () => void;
+	download: () => void;
+	onEdit?: () => void;
+	onDelete: () => void;
 }) => {
 	return (
 		<Drop>
@@ -19,32 +17,34 @@ const DropDowns = ({
 			</Drop.Toggle>
 
 			<Drop.Menu>
+				{onEdit && (
+					<Drop.Item
+						href="#"
+						onClick={(e) => {
+							e.preventDefault();
+							onEdit();
+						}}
+					>
+						Edit
+					</Drop.Item>
+				)}
 				<Drop.Item
 					href="#"
 					onClick={(e) => {
 						e.preventDefault();
-						onNavigate();
+						download();
 					}}
 				>
-					Details
+					Download XLS
 				</Drop.Item>
 				<Drop.Item
 					href="#2"
 					onClick={(e) => {
 						e.preventDefault();
-						onEdit();
+						onDelete();
 					}}
 				>
-					Edit
-				</Drop.Item>
-				<Drop.Item
-					href="#"
-					onClick={(e) => {
-						e.preventDefault();
-						suspend();
-					}}
-				>
-					{active ? "Suspend" : "Activate"}
+					Delete
 				</Drop.Item>
 			</Drop.Menu>
 		</Drop>

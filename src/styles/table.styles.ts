@@ -9,6 +9,10 @@ export const Table = styled.table`
 	color: #333;
 	white-space: nowrap;
 
+	tbody.line {
+		border-top: 2px solid #333;
+	}
+
 	tr {
 		border-color: #d9dbe9;
 	}

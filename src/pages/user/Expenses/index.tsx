@@ -177,6 +177,7 @@ const Expenses = () => {
 										<ExpenseTable
 											data={lists?.rows}
 											load={load}
+											reload={() => loadExpense()}
 										/>
 									)}
 								</div>
@@ -209,8 +210,17 @@ const Expenses = () => {
 					}}
 				/>
 			)}
-			<ModalComponent open={openModal} close={() => setOpenModal(false)}>
-				<NewExpense />
+			<ModalComponent
+				open={openModal}
+				close={() => setOpenModal(false)}
+				title="Record Expense"
+			>
+				<NewExpense
+					submit={() => {
+						setOpenModal(false);
+						loadExpense();
+					}}
+				/>
 			</ModalComponent>
 		</>
 	);

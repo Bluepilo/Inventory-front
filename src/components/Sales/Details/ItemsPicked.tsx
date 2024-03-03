@@ -17,7 +17,9 @@ const ItemsPicked = ({ saleDetails }: { saleDetails: any }) => {
 								<tr key={p.id || i}>
 									<td>{p.name}</td>
 									<td>{p.quantity}</td>
-									<td>₦ {formatCurrency(p.price)}</td>
+									<td>
+										₦ {formatCurrency(p.price * p.quantity)}
+									</td>
 								</tr>
 							))}
 						</tbody>
@@ -34,7 +36,9 @@ const ItemsPicked = ({ saleDetails }: { saleDetails: any }) => {
 									₦{" "}
 									{formatCurrency(
 										products.reduce(
-											(a, b) => a + Number(b.price),
+											(a, b) =>
+												a +
+												Number(b.price * b.quantity),
 											0
 										)
 									)}

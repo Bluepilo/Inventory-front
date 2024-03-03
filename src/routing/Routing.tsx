@@ -30,6 +30,8 @@ import Transfer from "../pages/user/Transfer";
 import NewTransfer from "../pages/user/Transfer/NewTransfer";
 import TransferDetails from "../pages/user/Transfer/TransferDetails";
 import Expenses from "../pages/user/Expenses";
+import Catalogue from "../pages/user/Catalogue";
+import Product from "../pages/user/Catalogue/Product";
 
 const Routing = () => {
 	return (
@@ -90,6 +92,8 @@ const Routing = () => {
 					<Route path="transfers/new" element={<NewTransfer />} />
 					<Route path="transfers/:id" element={<TransferDetails />} />
 					<Route path="expenses" element={<Expenses />} />
+					<Route path="catalogue" element={<Catalogue />} />
+					<Route path="catalogue/:id" element={<Product />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

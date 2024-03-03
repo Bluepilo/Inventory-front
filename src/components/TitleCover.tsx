@@ -25,8 +25,10 @@ const TitleCover = ({
 				<div className="title">
 					<Flex>
 						<h5>{title}</h5>
-						{dataCount && (
+						{dataCount ? (
 							<span className="count">{dataCount}</span>
+						) : (
+							<></>
 						)}
 					</Flex>
 					<BreadCrumb />

@@ -212,8 +212,9 @@ export const SummaryCard = styled.div`
 	border-radius: 4px;
 	padding: 12px 20px;
 
-	@media (max-width: 768px) {
+	@media (max-width: 576px) {
 		justify-content: center;
+		flex-direction: column;
 	}
 
 	div {
@@ -328,6 +329,58 @@ export const RecordStyles = styled.div`
 
 		span {
 			margin-left: 10px;
+		}
+	}
+`;
+
+export const ExpenseStyle = styled.div`
+	.status-div {
+		display: flex;
+		margin-top: 20px;
+		font-weight: 700;
+
+		.status {
+			text-transform: capitalize;
+			background: rgba(244, 67, 54, 0.1);
+			color: #f44336;
+			padding: 3px 30px;
+			border-radius: 4px;
+			border: 2px solid #f44336;
+
+			svg {
+				margin-right: 10px;
+			}
+
+			&.approved {
+				background: rgba(2, 65, 255, 0.05);
+				color: #4caf50;
+				border: 2px solid #4caf50;
+			}
+			&.pending {
+				background: rgba(255, 152, 0, 0.1);
+				color: #ff9800;
+				border: 2px solid #ff9800;
+			}
+		}
+	}
+
+	.content-comment {
+		border: 1px solid rgba(0, 0, 0, 0.2);
+		margin: 20px 0;
+		padding: 10px;
+
+		h5 {
+			font-weight: 600;
+		}
+
+		.img {
+			background: #f5f5f5;
+			padding: 8px;
+
+			a {
+				color: #000;
+				font-weight: 600;
+			}
 		}
 	}
 `;

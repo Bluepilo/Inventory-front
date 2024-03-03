@@ -374,3 +374,62 @@ export const DrawerDiv = styled.div`
 		}
 	}
 `;
+
+export const UploadWrapper = styled.div`
+	.upload-btn-wrapper {
+		position: relative;
+		overflow: hidden;
+		display: inline-block;
+		width: 100%;
+		cursor: pointer;
+
+		.btn {
+			border: 2px solid gray;
+			color: gray;
+			background-color: white;
+			padding: 8px 20px;
+			border-radius: 8px;
+			font-size: 0.9rem;
+			font-weight: bold;
+			cursor: pointer;
+
+			&.wide {
+				width: 100%;
+			}
+		}
+		input[type="file"] {
+			font-size: 100px;
+			position: absolute;
+			left: 0;
+			top: 0;
+			opacity: 0;
+			cursor: pointer;
+		}
+	}
+
+	.img-box {
+		border: 1px solid rgba(0, 0, 0, 0.2);
+		display: flex;
+		align-items: center;
+		padding: 5px 20px;
+
+		a {
+			color: #0241ff;
+
+			&:hover {
+				color: #0241ff;
+			}
+		}
+
+		button {
+			padding: 0;
+			margin: 0;
+			color: red;
+			font-size: 1.1rem;
+			background: none;
+			margin-left: 20px;
+			border: 0;
+			font-weight: 600;
+		}
+	}
+`;
