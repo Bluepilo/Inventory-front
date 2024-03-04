@@ -140,6 +140,9 @@ const Catalogue = () => {
 														<td className="link">
 															<Link
 																to={`${m.id}`}
+																state={{
+																	name: m.name,
+																}}
 															>
 																{m.name}
 															</Link>
@@ -199,6 +202,9 @@ const Catalogue = () => {
 															<td className="link">
 																<Link
 																	to={`${s.id}`}
+																	state={{
+																		name: s.name,
+																	}}
 																>
 																	{s.name}
 																</Link>

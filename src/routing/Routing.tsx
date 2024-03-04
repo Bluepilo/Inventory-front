@@ -32,6 +32,9 @@ import TransferDetails from "../pages/user/Transfer/TransferDetails";
 import Expenses from "../pages/user/Expenses";
 import Catalogue from "../pages/user/Catalogue";
 import Product from "../pages/user/Catalogue/Product";
+import NewProduct from "../pages/user/Catalogue/NewProduct";
+import UploadProduct from "../pages/user/Catalogue/UploadProduct";
+import Services from "../pages/user/Services";
 
 const Routing = () => {
 	return (
@@ -94,6 +97,12 @@ const Routing = () => {
 					<Route path="expenses" element={<Expenses />} />
 					<Route path="catalogue" element={<Catalogue />} />
 					<Route path="catalogue/:id" element={<Product />} />
+					<Route path="catalogue/:id/new" element={<NewProduct />} />
+					<Route
+						path="catalogue/:id/upload"
+						element={<UploadProduct />}
+					/>
+					<Route path="services" element={<Services />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

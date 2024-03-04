@@ -433,3 +433,17 @@ export const UploadWrapper = styled.div`
 		}
 	}
 `;
+
+export const Alert = styled.div`
+	background: #cfeaff;
+	color: #0241ff;
+	display: inline-flex;
+	align-items: center;
+	padding: 5px 15px;
+	border-radius: 3px;
+	font-weight: 600;
+
+	svg {
+		margin-right: 5px;
+	}
+`;

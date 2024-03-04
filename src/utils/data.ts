@@ -105,4 +105,67 @@ const onboardingsteps = [
 	},
 ];
 
-export { faqsHints, onboardingsteps };
+const uploadData = [
+	{
+		brandName: "Drawal",
+		category: "Art & Craft",
+		productName: "Cat ",
+		size: " 6 feet",
+		type: "Clay Red",
+		colour: "",
+		year: "",
+		productCode: "",
+		costPrice: "50,000",
+		price: "55,000",
+	},
+	{
+		brandName: "Toyota",
+		category: "Automobile",
+		productName: "Camry ",
+		size: " ",
+		type: " Sport",
+		colour: "Black",
+		year: "2021",
+		productCode: "",
+		costPrice: " 1,200,000",
+		price: "1,500,000",
+	},
+	{
+		brandName: "Samsung",
+		category: "Electronics",
+		productName: "Crystal TV  ",
+		size: ' 85"',
+		type: " UHD 4K Smart",
+		colour: "",
+		year: "",
+		productCode: "CU7000",
+		costPrice: "123,000",
+		price: "",
+	},
+	{
+		brandName: "Unilever",
+		category: "Beauty & Personal Care",
+		productName: "Lux Bright Camelia",
+		size: "  500 ml",
+		type: "  Body Wash",
+		colour: "",
+		year: "",
+		productCode: "",
+		costPrice: "6,700",
+		price: "8,000",
+	},
+	{
+		brandName: "Landa Foam",
+		category: " Mattress",
+		productName: "Comfy ",
+		size: " 75X54X12",
+		type: "",
+		colour: "",
+		year: "",
+		productCode: "",
+		costPrice: "70,000",
+		price: "77,000",
+	},
+];
+
+export { faqsHints, onboardingsteps, uploadData };

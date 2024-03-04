@@ -52,8 +52,6 @@ export const Form = styled.form`
 	}
 `;
 
-export const BasicInput = styled.input``;
-
 export const TextAreaComment = styled.div`
 	textarea {
 		border: 1px solid #d9dbeb;
@@ -100,8 +98,19 @@ export const CheckBox = styled.div`
 export const JointDiv = styled.div`
 	input {
 		width: 60%;
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
 	}
 	select {
 		width: 40%;
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+		border-right: 0;
 	}
+`;
+
+export const FormBody = styled.div`
+	border: 1px solid #d9dbeb;
+	padding: 25px;
+	border-radius: 4px;
 `;

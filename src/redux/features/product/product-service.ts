@@ -91,6 +91,72 @@ const requestBrand = async (token: string, obj: any) => {
 	return data.data;
 };
 
+const productCategories = async (token: string) => {
+	const { data } = await axios.get(`${config.baseUrl}/product/categories`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const createProduct = async (token: string, obj: any) => {
+	const { data } = await axios.post(`${config.baseUrl}/product/create`, obj, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const editProduct = async (token: string, obj: any, id: string) => {
+	const { data } = await axios.put(
+		`${config.baseUrl}/product/update/${id}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const viewBrand = async (token: string, id: string) => {
+	const { data } = await axios.get(`${config.baseUrl}/brand/view/${id}`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const listBrandProducts = async (
+	token: string,
+	filters: string,
+	id: string
+) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/product/all?brandId=${id}${filters}`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const searchProducts = async (token: string, filters: string) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/product/search${filters}`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const deleteProduct = async (token: string, id: string) => {
+	const { data } = await axios.delete(
+		`${config.baseUrl}/product/delete/${id}`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const productService = {
 	getProductsInShop,
 	allProducts,
@@ -101,6 +167,13 @@ const productService = {
 	editBrand,
 	createBrand,
 	requestBrand,
+	productCategories,
+	createProduct,
+	editProduct,
+	listBrandProducts,
+	viewBrand,
+	searchProducts,
+	deleteProduct,
 };
 
 export default productService;
