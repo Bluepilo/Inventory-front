@@ -10,6 +10,7 @@ import {
 	allStaffs,
 	getDashboardStats,
 	getExpenseCategories,
+	getLogTypes,
 	getManagedBrands,
 	getNotifications,
 	getSettings,
@@ -39,6 +40,7 @@ const DashboardLayout = () => {
 			dispatch(paymentMethods());
 			dispatch(getExpenseCategories());
 			dispatch(getManagedBrands());
+			dispatch(getLogTypes());
 		}
 		dispatch(getStates());
 	};

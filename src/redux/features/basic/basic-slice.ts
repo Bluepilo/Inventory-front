@@ -17,6 +17,8 @@ const initialState = {
 	settings: {} as any,
 	expenseCat: [] as OptionProp[],
 	brands: [] as any,
+	countries: [] as OptionProp[],
+	logTypes: [] as OptionProp[],
 };
 
 export const changeTheme = createAsyncThunk(
@@ -136,18 +138,28 @@ export const paymentMethods = createAsyncThunk(
 	}
 );
 
-export const getStates = createAsyncThunk(
-	"basic/states",
-	async (_, thunkAPI: any) => {
+export const getAllCountries = createAsyncThunk(
+	"basic/countries",
+	async (_) => {
 		try {
-			const res = await basicService.getStates();
+			const res = await basicService.getCountries();
 			let arr = res.data?.map((f: any) => {
-				return { ...f, value: f.id, label: f.name };
+				return { ...f, value: f.code, label: f.name };
 			});
 			return arr;
 		} catch (error) {}
 	}
 );
+
+export const getStates = createAsyncThunk("basic/states", async (_) => {
+	try {
+		const res = await basicService.getStates();
+		let arr = res.data?.map((f: any) => {
+			return { ...f, value: f.id, label: f.name };
+		});
+		return arr;
+	} catch (error) {}
+});
 
 export const getExpenseCategories = createAsyncThunk(
 	"basic/expenseCats",
@@ -170,6 +182,20 @@ export const getManagedBrands = createAsyncThunk(
 			const { token } = thunkAPI.getState().auth;
 			const res = await productService.managedBrands(token);
 			return res;
+		} catch (error) {}
+	}
+);
+
+export const getLogTypes = createAsyncThunk(
+	"basic/logTypes",
+	async (_, thunkAPI: any) => {
+		try {
+			const { token } = thunkAPI.getState().auth;
+			const res = await productService.getLogTypes(token);
+			let arr = res?.map((f: any) => {
+				return { ...f, value: f.id, label: f.name };
+			});
+			return arr;
 		} catch (error) {}
 	}
 );
@@ -200,6 +226,9 @@ export const basicSlice = createSlice({
 		builder.addCase(paymentMethods.fulfilled, (state, action) => {
 			state.methods = action.payload || [];
 		});
+		builder.addCase(getAllCountries.fulfilled, (state, action) => {
+			state.countries = action.payload || [];
+		});
 		builder.addCase(getStates.fulfilled, (state, action) => {
 			state.states = action.payload || [];
 		});
@@ -208,6 +237,9 @@ export const basicSlice = createSlice({
 		});
 		builder.addCase(getManagedBrands.fulfilled, (state, action) => {
 			state.brands = action.payload || [];
+		});
+		builder.addCase(getLogTypes.fulfilled, (state, action) => {
+			state.logTypes = action.payload || [];
 		});
 	},
 });

@@ -122,6 +122,13 @@ const editSubdealer = async (token: string, obj: any, id: number) => {
 	return data;
 };
 
+const getCountries = async () => {
+	const { data } = await axios.get(`${config.baseUrl}/other/countries`, {
+		headers,
+	});
+	return data;
+};
+
 const getStates = async () => {
 	const { data } = await axios.get(`${config.baseUrl}/other/states`, {
 		headers,
@@ -150,6 +157,17 @@ const enableSMS = async (token: string, obj: any) => {
 	return data;
 };
 
+const createBusiness = async (token: string, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/business/create`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data;
+};
+
 const basicService = {
 	getNotifications,
 	saveTrialPick,
@@ -164,9 +182,11 @@ const basicService = {
 	createWalkIn,
 	createSubdealer,
 	editSubdealer,
+	getCountries,
 	getStates,
 	enableSMS,
 	getExpenseCategories,
+	createBusiness,
 };
 
 export default basicService;

@@ -50,6 +50,24 @@ export const Form = styled.form`
 		font-size: 0.9rem;
 		color: #333;
 	}
+
+	.error-check {
+		color: #f44336;
+		ul {
+			margin: 0;
+			padding: 0;
+			margin-bottom: 20px;
+			margin-left: 20px;
+			li {
+				font-size: 0.7rem;
+			}
+		}
+		p {
+			margin: 0;
+			padding: 0;
+			font-size: 0.7rem;
+		}
+	}
 `;
 
 export const TextAreaComment = styled.div`

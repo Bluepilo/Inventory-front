@@ -10,6 +10,13 @@ const login = async (obj: any) => {
 	return data;
 };
 
+const register = async (obj: any) => {
+	const { data } = await axios.post(`${config.baseUrl}/auth/register`, obj, {
+		headers,
+	});
+	return data?.data;
+};
+
 const forgotPassword = async (obj: any) => {
 	const { data } = await axios.post(
 		`${config.baseUrl}/auth/send-password-reset-token`,
@@ -44,6 +51,7 @@ const authService = {
 	forgotPassword,
 	resetPassword,
 	getProfile,
+	register,
 };
 
 export default authService;

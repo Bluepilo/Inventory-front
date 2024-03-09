@@ -147,3 +147,113 @@ export const HintBoard = styled.div`
 		}
 	}
 `;
+
+export const ProgressStyle = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 20px;
+
+	.round {
+		border: 1px solid #0241ff;
+		height: 25px;
+		width: 25px;
+		border-radius: 50%;
+		align-items: center;
+		justify-content: center;
+		display: inline-flex;
+
+		span {
+			height: 5px;
+			width: 5px;
+			background: #0241ff;
+			border-radius: 50%;
+		}
+	}
+
+	.line {
+		width: 200px;
+		height: 1px;
+		background: #d9dbe9;
+
+		&.green {
+			background: #4caf50;
+		}
+	}
+
+	.check {
+		background: #4caf50;
+		color: #fff;
+		height: 25px;
+		width: 25px;
+		align-items: center;
+		justify-content: center;
+		display: inline-flex;
+		border-radius: 50%;
+	}
+
+	.number {
+		border: 1px solid #c4c7db;
+		color: #666666;
+		height: 25px;
+		width: 25px;
+		border-radius: 50%;
+		align-items: center;
+		justify-content: center;
+		display: inline-flex;
+		font-size: 0.7rem;
+	}
+`;
+
+export const OTPStyle = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-top: 30px;
+	color: #666;
+
+	h6 {
+		margin-bottom: 25px;
+	}
+
+	input {
+		border: 1.3px solid #c2c7df;
+		border-radius: 10px;
+		outline: 0 !important;
+		background: #f5f5f5;
+
+		@media (max-width: 768px) {
+			height: 45px !important;
+			width: 45px !important;
+			border-radius: 5px !important;
+			margin: 0 5px !important;
+		}
+	}
+
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+
+	input[type="number"] {
+		-moz-appearance: textfield;
+		appearance: textfield;
+	}
+`;
+
+export const ResendBox = styled.div`
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 45px;
+	border: 1px solid #d9dbe9;
+	padding: 20px;
+	border-radius: 4px;
+
+	p {
+		font-weight: 600;
+	}
+`;

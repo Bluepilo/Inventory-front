@@ -35,6 +35,11 @@ import Product from "../pages/user/Catalogue/Product";
 import NewProduct from "../pages/user/Catalogue/NewProduct";
 import UploadProduct from "../pages/user/Catalogue/UploadProduct";
 import Services from "../pages/user/Services";
+import VerifyOtp from "../pages/auth/VerifyOtp";
+import NewBusiness from "../pages/auth/NewBusiness";
+import Stocks from "../pages/user/Reports/Stocks";
+import ProductHistory from "../pages/user/Reports/Stocks/ProductHistory";
+import Returns from "../pages/user/Reports/Returns";
 
 const Routing = () => {
 	return (
@@ -48,6 +53,8 @@ const Routing = () => {
 						path="forgot-password"
 						element={<ForgotPassword />}
 					/>
+					<Route path="verify-otp" element={<VerifyOtp />} />
+					<Route path="add-business" element={<NewBusiness />} />
 				</Route>
 				<Route
 					path="/dashboard"
@@ -103,6 +110,12 @@ const Routing = () => {
 						element={<UploadProduct />}
 					/>
 					<Route path="services" element={<Services />} />
+					<Route path="reports/stocks" element={<Stocks />} />
+					<Route
+						path="reports/stocks/:id"
+						element={<ProductHistory />}
+					/>
+					<Route path="reports/returns" element={<Returns />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

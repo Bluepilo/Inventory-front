@@ -1,6 +1,11 @@
 import { useAppSelector } from "../../redux/hooks";
 import { ButtonCancelDiv, FilterStyles } from "../../styles/filters.styles";
-import { BasicSearch, BasicSelect, DateSelect } from "./BasicInputs";
+import {
+	BasicSearch,
+	BasicSelect,
+	DateSelect,
+	OptionProp,
+} from "./BasicInputs";
 import { FaTimes } from "react-icons/fa";
 
 interface Props {
@@ -26,6 +31,12 @@ interface Props {
 	changeStatusId?: (arg: any) => void;
 	expenseCategory?: any;
 	changeExpenseCategory?: (arg: any) => void;
+	categoryList?: OptionProp[];
+	brandList?: OptionProp[];
+	brand?: any;
+	changeBrand?: (arg: any) => void;
+	logType?: any;
+	changeLogType?: (arg: any) => void;
 }
 
 const Filters = ({
@@ -51,10 +62,16 @@ const Filters = ({
 	changeStatusId,
 	expenseCategory,
 	changeExpenseCategory,
+	categoryList,
+	brand,
+	changeBrand,
+	brandList,
+	logType,
+	changeLogType,
 }: Props) => {
 	const { details } = useAppSelector((state) => state.auth);
 
-	const { shops, staffs, methods, expenseCat } = useAppSelector(
+	const { shops, staffs, methods, expenseCat, logTypes } = useAppSelector(
 		(state) => state.basic
 	);
 
@@ -170,9 +187,29 @@ const Filters = ({
 					<div className="col-lg-2 col-md-4 col-6 mb-3">
 						<BasicSelect
 							value={expenseCategory}
-							options={expenseCat}
+							options={categoryList || expenseCat}
 							label="Category"
 							changeSelected={changeExpenseCategory}
+						/>
+					</div>
+				)}
+				{changeBrand && (
+					<div className="col-lg-2 col-md-4 col-6 mb-3">
+						<BasicSelect
+							value={brand}
+							options={brandList || []}
+							label="Brand"
+							changeSelected={changeBrand}
+						/>
+					</div>
+				)}
+				{changeLogType && (
+					<div className="col-lg-2 col-md-4 col-6 mb-3">
+						<BasicSelect
+							value={logType}
+							options={logTypes}
+							label="Type"
+							changeSelected={changeLogType}
 						/>
 					</div>
 				)}

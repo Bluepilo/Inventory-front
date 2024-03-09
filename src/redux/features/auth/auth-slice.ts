@@ -18,10 +18,6 @@ export const login = createAsyncThunk(
 		try {
 			const res = await authService.login(data);
 			let response = res.data;
-			axios.defaults.headers.common = {
-				Authorization: `Bearer ${response?.accessToken}`,
-				"Content-Type": "application/json",
-			};
 			toast.success(`Welcome back, ${response?.user?.firstName}`);
 			return response;
 		} catch (error) {

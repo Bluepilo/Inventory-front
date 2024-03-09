@@ -29,6 +29,13 @@ const allBrands = async (token: string) => {
 	return data.data;
 };
 
+const filterBrands = async (token: string, filters: string) => {
+	const { data } = await axios.get(`${config.baseUrl}/brand/all${filters}`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
 const managedBrands = async (token: string) => {
 	const { data } = await axios.get(`${config.baseUrl}/brand/managed/all`, {
 		headers: authHeader(token),
@@ -157,6 +164,69 @@ const deleteProduct = async (token: string, id: string) => {
 	return data.data;
 };
 
+const removeServices = async (token: string, id: any, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/shop/${id}/remove-services`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const addServices = async (token: string, id: any, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/shop/${id}/add-services`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const stockReports = async (token: string, filters: string) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/report/stock-report${filters}`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const setMinStockAlert = async (token: string, id: string, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/product/set-min-stock/${id}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const getLogTypes = async (token: string) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/other/product-log-types`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const getLogReports = async (token: string, filters: string) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/report/product-report${filters}`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const productService = {
 	getProductsInShop,
 	allProducts,
@@ -174,6 +244,13 @@ const productService = {
 	viewBrand,
 	searchProducts,
 	deleteProduct,
+	removeServices,
+	addServices,
+	filterBrands,
+	stockReports,
+	setMinStockAlert,
+	getLogTypes,
+	getLogReports,
 };
 
 export default productService;

@@ -77,6 +77,29 @@ export const Table = styled.table`
 			}
 		}
 	}
+
+	.stock-alert {
+		display: flex;
+		align-items: center;
+
+		input {
+			width: 70px;
+			border: 1px solid #d9dbeb;
+			border-radius: 2px;
+			margin-right: 5px;
+			outline: 0;
+			padding-left: 5px;
+		}
+
+		button {
+			background: #000d33;
+			color: #fff;
+			border: 0;
+			outline: 0;
+			padding: 3px 10px;
+			border-radius: 2px;
+		}
+	}
 `;
 
 export const PaginateStyles = styled.div`

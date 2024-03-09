@@ -8,10 +8,13 @@ import HintPage from "../components/HintPage";
 import OutsideClick from "../components/OutsideClick";
 import Logo from "../assets/images/logo.svg";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { getAllCountries } from "../redux/features/basic/basic-slice";
 
 const AuthLayout = () => {
 	const navigate = useNavigate();
+
+	const dispatch = useAppDispatch();
 
 	const [openHint, setOpenHint] = useState(false);
 
@@ -22,6 +25,10 @@ const AuthLayout = () => {
 			signIn();
 		}
 	}, [details]);
+
+	useEffect(() => {
+		dispatch(getAllCountries());
+	}, []);
 
 	const signIn = () => {
 		if (details.businessId) {
