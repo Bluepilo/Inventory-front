@@ -4,8 +4,16 @@ import { useLocation, useNavigate } from "react-router-dom";
 import AuthProgress from "../../components/Auth/AuthProgress";
 import { OTPStyle, ResendBox } from "../../styles/auth.styles";
 import { MainButton } from "../../styles/links.styles";
+import { displayError } from "../../utils/errors";
+import authService from "../../redux/features/auth/auth-service";
+import { useAppDispatch } from "../../redux/hooks";
+import { saveToken } from "../../redux/features/auth/auth-slice";
+import LoadModal from "../../components/Loaders/LoadModal";
+import { toast } from "react-toastify";
 
 const VerifyOtp = () => {
+	const dispatch = useAppDispatch();
+
 	const navigate = useNavigate();
 
 	const email = useLocation().state?.email;
@@ -19,10 +27,34 @@ const VerifyOtp = () => {
 		}
 	}, [email]);
 
-	const changeOtp = (val: string) => {
+	const changeOtp = async (val: string) => {
 		setOtp(val);
-		if (val.length === 6) {
-			navigate("/add-business");
+		if (val.length === 5) {
+			try {
+				setLoad(true);
+				let res = await authService.verifyOtp({ email, code: val });
+				setLoad(false);
+				if (res && res?.accessToken) {
+					dispatch(saveToken(res.accessToken));
+				}
+				console.log(res, "RES");
+				navigate("/add-business", { state: { id: res?.user?.id } });
+			} catch (err) {
+				setLoad(false);
+				displayError(err, true);
+			}
+		}
+	};
+
+	const resendHandler = async () => {
+		try {
+			setLoad(true);
+			await authService.resendOTP({ email });
+			setLoad(false);
+			toast.success("OTP has been sent!");
+		} catch (err) {
+			setLoad(false);
+			displayError(err, true);
 		}
 	};
 
@@ -36,7 +68,7 @@ const VerifyOtp = () => {
 				<OTPInput
 					value={otp}
 					onChange={changeOtp}
-					numInputs={6}
+					numInputs={5}
 					renderSeparator={<span></span>}
 					renderInput={(props) => (
 						<input {...props} disabled={load} />
@@ -47,13 +79,15 @@ const VerifyOtp = () => {
 						marginRight: 20,
 						paddingLeft: 1,
 					}}
-					inputType="number"
 				/>
 			</OTPStyle>
 			<ResendBox>
 				<p>{email}</p>
-				<MainButton sm="true">Resend OTP</MainButton>
+				<MainButton sm="true" onClick={resendHandler}>
+					Resend OTP
+				</MainButton>
 			</ResendBox>
+			{load && <LoadModal open={true} />}
 		</div>
 	);
 };

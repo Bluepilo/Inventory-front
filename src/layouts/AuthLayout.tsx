@@ -31,10 +31,12 @@ const AuthLayout = () => {
 	}, []);
 
 	const signIn = () => {
-		if (details.businessId) {
+		if (details.role.isAdmin) {
+			navigate("/admin");
+		} else if (details.businessId) {
 			navigate("/dashboard");
 		} else {
-			navigate("/admin");
+			navigate("/add-business");
 		}
 	};
 

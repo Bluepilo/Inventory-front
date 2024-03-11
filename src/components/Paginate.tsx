@@ -19,17 +19,14 @@ const Paginate = ({
 	onNext,
 	onPrev,
 }: Props) => {
-	const [entry, setEntry] = useState("20");
-
 	const pages = Math.ceil(count / limit);
 
 	return (
 		<PaginateStyles>
 			<div className="select">
 				<select
-					value={entry}
+					value={limit}
 					onChange={(e) => {
-						setEntry(e.target.value);
 						changeLimit(Number(e.target.value));
 					}}
 				>

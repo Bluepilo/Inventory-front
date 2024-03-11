@@ -273,7 +273,7 @@ const Purchases = () => {
 						</div>
 						{load && <SkeletonTable />}
 					</TableComponent>
-					{lists?.count ? (
+					{!load && lists?.count ? (
 						<Paginate
 							changeLimit={(l) => setLimit(l)}
 							limit={lists.limit}

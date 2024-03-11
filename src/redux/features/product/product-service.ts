@@ -227,6 +227,49 @@ const getLogReports = async (token: string, filters: string) => {
 	return data.data;
 };
 
+const getProductReturns = async (token: string, filters: string) => {
+	const { data } = await axios.get(`${config.baseUrl}/return/all${filters}`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const returnProduct = async (token: string, obj: any) => {
+	const { data } = await axios.post(`${config.baseUrl}/return/create`, obj, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const logDetails = async (token: string, id: any) => {
+	const { data } = await axios.get(`${config.baseUrl}/return/view/${id}`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const resolveReturn = async (token: string, id: any, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/return/resolve/${id}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const adjustStock = async (token: string, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/product/adjust-stock`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const productService = {
 	getProductsInShop,
 	allProducts,
@@ -251,6 +294,11 @@ const productService = {
 	setMinStockAlert,
 	getLogTypes,
 	getLogReports,
+	getProductReturns,
+	returnProduct,
+	logDetails,
+	resolveReturn,
+	adjustStock,
 };
 
 export default productService;

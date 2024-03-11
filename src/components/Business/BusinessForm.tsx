@@ -1,13 +1,17 @@
 import { useState } from "react";
 import { Form } from "../../styles/form.styles";
-import { DropDownSelect, OptionProp } from "../Filters/BasicInputs";
+import {
+	DropDownSelect,
+	OptionProp,
+	PhoneNumberInput,
+} from "../Filters/BasicInputs";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { ButtonSubmit } from "../../styles/links.styles";
+import { ButtonSubmit, WideButton } from "../../styles/links.styles";
 import { displayError } from "../../utils/errors";
 import basicService from "../../redux/features/basic/basic-service";
 import Loading from "../Loaders/Loading";
 import { useLocation } from "react-router-dom";
-import { userProfile } from "../../redux/features/auth/auth-slice";
+import { logout, userProfile } from "../../redux/features/auth/auth-slice";
 
 const BusinessForm = ({ onComplete }: { onComplete: () => void }) => {
 	const dispatch = useAppDispatch();
@@ -85,12 +89,7 @@ const BusinessForm = ({ onComplete }: { onComplete: () => void }) => {
 				</div>
 				<div className="col-lg-6">
 					<label>Phone</label>
-					<input
-						type="tel"
-						value={phone}
-						onChange={(e) => setPhone(e.target.value)}
-						disabled={load}
-					/>
+					<PhoneNumberInput value={phone} setValue={setPhone} />
 				</div>
 				<div className="col-lg-6 mb-4">
 					<DropDownSelect
@@ -126,6 +125,18 @@ const BusinessForm = ({ onComplete }: { onComplete: () => void }) => {
 							Create Business
 						</ButtonSubmit>
 					)}
+				</div>
+				<div className="mt-4">
+					<WideButton
+						bg="#EDEEF0"
+						color="#505BDA"
+						onClick={(e) => {
+							e.preventDefault();
+							dispatch(logout());
+						}}
+					>
+						<span>Logout</span>
+					</WideButton>
 				</div>
 			</div>
 		</Form>

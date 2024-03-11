@@ -17,6 +17,7 @@ interface UserDetailsType {
 	firstName: string;
 	role: {
 		name: string;
+		isAdmin: boolean;
 	};
 	roleId: number;
 	shopId: number;

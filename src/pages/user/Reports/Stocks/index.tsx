@@ -101,9 +101,10 @@ const Stocks = () => {
 				categoryList={categories}
 				expenseCategory={categoryId}
 				changeExpenseCategory={setCategoryId}
-				brand={brandId}
-				changeBrand={setBrandId}
-				brandList={brands}
+				others={brandId}
+				changeOthers={setBrandId}
+				othersList={brands}
+				othersLabel={"Brands"}
 				clearValues={clearFilters}
 			/>
 			<div className="row align-items-center mt-4">

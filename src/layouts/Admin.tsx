@@ -9,7 +9,7 @@ const Admin = () => {
 	const { details } = useAppSelector((state) => state.auth);
 
 	useEffect(() => {
-		if (!details?.id) {
+		if (!details?.role.isAdmin) {
 			navigate("/");
 		}
 	}, [details]);

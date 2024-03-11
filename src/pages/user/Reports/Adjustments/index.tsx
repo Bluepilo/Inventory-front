@@ -1,21 +1,17 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { OptionProp } from "../../../../components/Filters/BasicInputs";
 import TitleCover from "../../../../components/TitleCover";
 import Filters from "../../../../components/Filters";
-import { OptionProp } from "../../../../components/Filters/BasicInputs";
-import { Link, useNavigate } from "react-router-dom";
-import { IoCartSharp } from "react-icons/io5";
-import { Table, TableComponent } from "../../../../styles/table.styles";
-import SkeletonTable from "../../../../components/Loaders/SkeletonTable";
-import productService from "../../../../redux/features/product/product-service";
+import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../../redux/hooks";
+import { IoCartSharp } from "react-icons/io5";
+import productService from "../../../../redux/features/product/product-service";
+import { Table, TableComponent } from "../../../../styles/table.styles";
 import dateFormat from "dateformat";
 import { formatCurrency } from "../../../../utils/currency";
-import SuccessIcon from "../../../../assets/icons/success.svg";
-import PendingIcon from "../../../../assets/icons/pending.svg";
-import RestockedIcon from "../../../../assets/icons/restocked.svg";
-import Paginate from "../../../../components/Paginate";
+import SkeletonTable from "../../../../components/Loaders/SkeletonTable";
 
-const Returns = () => {
+const Adjustments = () => {
 	const navigate = useNavigate();
 
 	const { token } = useAppSelector((state) => state.auth);
@@ -32,9 +28,13 @@ const Returns = () => {
 	);
 	const [productId, setProductId] = useState<OptionProp | null>(null);
 	const [productList, setProductList] = useState<OptionProp[]>([]);
-	const [page, setPage] = useState(1);
-	const [limit, setLimit] = useState(20);
 	const [load, setLoad] = useState(false);
+
+	let filters = `?shopId=${shopId?.value || ""}&userId=${
+		staffId?.value || ""
+	}&productId=${
+		productId?.value || ""
+	}&startDate=${startDate}&endDate=${endDate}&adjustment=true`;
 
 	const clearFilters = () => {
 		setProductId(null);
@@ -45,10 +45,6 @@ const Returns = () => {
 		);
 		setEndDate(new Date(new Date().setDate(new Date().getDate() + 1)));
 	};
-
-	let filters = `?limit=${limit}&page=${page}&startDate=${startDate}&endDate=${endDate}&userId=${
-		staffId?.value || ""
-	}&shopId=${shopId?.value || ""}&productId=${productId?.value || ""}`;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -62,7 +58,7 @@ const Returns = () => {
 	const getReports = async () => {
 		try {
 			setLoad(true);
-			let res = await productService.getProductReturns(token, filters);
+			let res = await productService.getLogReports(token, filters);
 			setLoad(false);
 			setLists(res);
 		} catch (err) {
@@ -83,9 +79,9 @@ const Returns = () => {
 	return (
 		<div>
 			<TitleCover
-				title="Product Returns"
-				dataCount={lists?.count}
-				button="Log Return"
+				title="Stock Adjustments"
+				dataCount={lists?.log?.length}
+				button="Adjust Stock"
 				buttonIcon={<IoCartSharp />}
 				buttonClick={() => navigate("new")}
 			/>
@@ -112,18 +108,15 @@ const Returns = () => {
 								<tr>
 									<th>Date</th>
 									<th>Product</th>
-									<th>Customer</th>
 									<th>Staff</th>
 									<th>Shop</th>
 									<th>Units</th>
-									<th className="price">Price</th>
-									<th>Status</th>
-									<th></th>
+									<th className="price">Value</th>
 								</tr>
 							</thead>
 							{!load && (
 								<tbody>
-									{lists?.rows?.map((l: any) => (
+									{lists?.log?.map((l: any) => (
 										<tr key={l.id}>
 											<td>
 												{dateFormat(
@@ -132,31 +125,11 @@ const Returns = () => {
 												)}
 											</td>
 											<td>{l.product?.summary}</td>
-											<td>{l.customer?.fullName}</td>
-											<td>{l.createdByUser?.fullName}</td>
+											<td>{l.user?.fullName}</td>
 											<td>{l.shop?.name}</td>
 											<td>{l.quantity}</td>
 											<td className="price">
-												₦ {formatCurrency(l.totalValue)}
-											</td>
-											<td className="status">
-												<img
-													src={
-														l.status.toLowerCase() ===
-														"resolved"
-															? SuccessIcon
-															: l.status.toLowerCase() ===
-															  "pending"
-															? PendingIcon
-															: RestockedIcon
-													}
-												/>
-												<span>{l.status}</span>
-											</td>
-											<td className="link">
-												<Link to={`${l.id}`}>
-													Details
-												</Link>
+												₦ {formatCurrency(l.total)}
 											</td>
 										</tr>
 									))}
@@ -166,21 +139,9 @@ const Returns = () => {
 					</div>
 					{load && <SkeletonTable />}
 				</TableComponent>
-				{!load && lists?.count ? (
-					<Paginate
-						changeLimit={(l) => setLimit(Number(l))}
-						limit={lists.limit}
-						count={lists.count}
-						pageNumber={page}
-						onPrev={(n) => setPage(n)}
-						onNext={(n) => setPage(n)}
-					/>
-				) : (
-					<></>
-				)}
 			</div>
 		</div>
 	);
 };
 
-export default Returns;
+export default Adjustments;

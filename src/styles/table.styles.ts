@@ -25,8 +25,16 @@ export const Table = styled.table`
 
 	td {
 		&.status {
+			display: flex;
+			align-items: center;
 			img {
 				height: 20px;
+			}
+
+			span {
+				text-transform: capitalize;
+				margin-left: 3px;
+				font-size: 0.8rem;
 			}
 		}
 		&.price {

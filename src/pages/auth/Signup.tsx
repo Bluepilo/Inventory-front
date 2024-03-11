@@ -52,27 +52,27 @@ const Signup = () => {
 		if (!passwordError) {
 			if (check) {
 				try {
-					// setLoad(true);
-					// let data = {
-					// 	name,
-					// 	email,
-					// 	phone,
-					// 	ownerFirstName: firstName,
-					// 	ownerLastName: lastName,
-					// 	adminPassword: password,
-					// 	passwordConfirmation: passwordConfirm,
-					// 	acceptTerms: check,
-					// 	countryCode: countryCode?.value,
-					// 	address: "address",
-					// 	regNo: "",
-					// };
-					// let res = await authService.register(data);
-					// setLoad(false);
-					// if (res) {
-					// 	navigate("/verify-otp", {
-					// 		state: { email, id: res?.id },
-					// 	});
-					// }
+					setLoad(true);
+					let data = {
+						name,
+						email,
+						phone,
+						ownerFirstName: firstName,
+						ownerLastName: lastName,
+						adminPassword: password,
+						passwordConfirmation: passwordConfirm,
+						acceptTerms: check,
+						countryCode: countryCode?.value,
+						address: "address",
+						regNo: "",
+					};
+					let res = await authService.register(data);
+					setLoad(false);
+					if (res) {
+						navigate("/verify-otp", {
+							state: { email },
+						});
+					}
 				} catch (err) {
 					setLoad(false);
 					displayError(err, true);

@@ -32,6 +32,12 @@ export const Flex = styled.div`
 	flex-wrap: wrap;
 `;
 
+export const FlexCenter = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+`;
+
 export const FlexBetween = styled.div`
 	display: flex;
 	align-items: center;

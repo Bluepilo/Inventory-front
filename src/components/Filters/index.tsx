@@ -32,9 +32,10 @@ interface Props {
 	expenseCategory?: any;
 	changeExpenseCategory?: (arg: any) => void;
 	categoryList?: OptionProp[];
-	brandList?: OptionProp[];
-	brand?: any;
-	changeBrand?: (arg: any) => void;
+	othersList?: OptionProp[];
+	others?: any;
+	othersLabel?: string;
+	changeOthers?: (arg: any) => void;
 	logType?: any;
 	changeLogType?: (arg: any) => void;
 }
@@ -63,11 +64,12 @@ const Filters = ({
 	expenseCategory,
 	changeExpenseCategory,
 	categoryList,
-	brand,
-	changeBrand,
-	brandList,
+	others,
+	changeOthers,
+	othersList,
 	logType,
 	changeLogType,
+	othersLabel,
 }: Props) => {
 	const { details } = useAppSelector((state) => state.auth);
 
@@ -193,13 +195,13 @@ const Filters = ({
 						/>
 					</div>
 				)}
-				{changeBrand && (
+				{changeOthers && (
 					<div className="col-lg-2 col-md-4 col-6 mb-3">
 						<BasicSelect
-							value={brand}
-							options={brandList || []}
-							label="Brand"
-							changeSelected={changeBrand}
+							value={others}
+							options={othersList || []}
+							label={othersLabel}
+							changeSelected={changeOthers}
 						/>
 					</div>
 				)}

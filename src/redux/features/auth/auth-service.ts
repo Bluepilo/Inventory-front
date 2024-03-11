@@ -17,6 +17,28 @@ const register = async (obj: any) => {
 	return data?.data;
 };
 
+const verifyOtp = async (obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/auth/verify-email`,
+		obj,
+		{
+			headers,
+		}
+	);
+	return data?.data;
+};
+
+const resendOTP = async (obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/auth/resend-email-verification`,
+		obj,
+		{
+			headers,
+		}
+	);
+	return data?.data;
+};
+
 const forgotPassword = async (obj: any) => {
 	const { data } = await axios.post(
 		`${config.baseUrl}/auth/send-password-reset-token`,
@@ -52,6 +74,8 @@ const authService = {
 	resetPassword,
 	getProfile,
 	register,
+	verifyOtp,
+	resendOTP,
 };
 
 export default authService;

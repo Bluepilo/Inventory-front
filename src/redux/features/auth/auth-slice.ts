@@ -3,7 +3,6 @@ import { displayError } from "../../../utils/errors";
 import authService from "./auth-service";
 import { toast } from "react-toastify";
 import { userDetailsType } from "../../../utils/types";
-import axios from "axios";
 
 const initialState = {
 	details: userDetailsType,
@@ -41,12 +40,25 @@ export const userProfile = createAsyncThunk(
 	}
 );
 
+export const saveToken = createAsyncThunk(
+	"auth/token",
+	async (token: string, thunkAPI: any) => {
+		try {
+			return token;
+		} catch (error) {
+			const message = displayError(error, true);
+			return thunkAPI.rejectWithValue(message);
+		}
+	}
+);
+
 export const authSlice = createSlice({
 	name: "auth",
 	initialState,
 	reducers: {
 		clearLoad: (state) => {
 			state.loading = false;
+			state.error = null;
 		},
 		logout: (state) => {
 			state.details = {};
@@ -71,6 +83,9 @@ export const authSlice = createSlice({
 		});
 		builder.addCase(userProfile.fulfilled, (state, action) => {
 			state.details = action.payload;
+		});
+		builder.addCase(saveToken.fulfilled, (state, action) => {
+			state.token = action.payload;
 		});
 	},
 });

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Form } from "../../styles/form.styles";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BasicLink, ButtonSubmit } from "../../styles/links.styles";
 import Terms from "../../components/Terms";
 import Loading from "../../components/Loaders/Loading";
@@ -9,17 +9,25 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { clearLoad, login } from "../../redux/features/auth/auth-slice";
 
 const Login = () => {
+	const navigate = useNavigate();
+
 	const dispatch = useAppDispatch();
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
 
-	const { loading } = useAppSelector((state) => state.auth);
+	const { loading, error } = useAppSelector((state) => state.auth);
 
 	useEffect(() => {
 		dispatch(clearLoad());
 	}, []);
+
+	useEffect(() => {
+		if (error?.startsWith("Please verify your organization")) {
+			navigate("/verify-otp", { state: { email } });
+		}
+	}, [error]);
 
 	const submitHandler = (e: any) => {
 		e.preventDefault();

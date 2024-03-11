@@ -40,6 +40,10 @@ import NewBusiness from "../pages/auth/NewBusiness";
 import Stocks from "../pages/user/Reports/Stocks";
 import ProductHistory from "../pages/user/Reports/Stocks/ProductHistory";
 import Returns from "../pages/user/Reports/Returns";
+import ReturnDetails from "../pages/user/Reports/Returns/ReturnDetails";
+import NewReturns from "../pages/user/Reports/Returns/NewReturns";
+import Adjustments from "../pages/user/Reports/Adjustments";
+import NewAdjustments from "../pages/user/Reports/Adjustments/NewAdjustments";
 
 const Routing = () => {
 	return (
@@ -116,6 +120,22 @@ const Routing = () => {
 						element={<ProductHistory />}
 					/>
 					<Route path="reports/returns" element={<Returns />} />
+					<Route
+						path="reports/returns/new"
+						element={<NewReturns />}
+					/>
+					<Route
+						path="reports/returns/:id"
+						element={<ReturnDetails />}
+					/>
+					<Route
+						path="reports/adjustments"
+						element={<Adjustments />}
+					/>
+					<Route
+						path="reports/adjustments/new"
+						element={<NewAdjustments />}
+					/>
 				</Route>
 			</Routes>
 		</BrowserRouter>
