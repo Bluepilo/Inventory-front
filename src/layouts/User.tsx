@@ -14,7 +14,10 @@ const User = () => {
 		}
 	}, [details]);
 
-	return details?.businessId ? <DashboardLayout /> : <></>;
+	let check =
+		details.businessId || details?.organization?.businesses?.length > 0;
+
+	return check ? <DashboardLayout /> : <></>;
 };
 
 export default User;

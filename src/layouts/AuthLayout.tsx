@@ -33,7 +33,10 @@ const AuthLayout = () => {
 	const signIn = () => {
 		if (details.role.isAdmin) {
 			navigate("/admin");
-		} else if (details.businessId) {
+		} else if (
+			details.businessId ||
+			details?.organization?.businesses?.length > 0
+		) {
 			navigate("/dashboard");
 		} else {
 			navigate("/add-business");

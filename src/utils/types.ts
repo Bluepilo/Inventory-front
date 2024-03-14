@@ -37,6 +37,11 @@ interface UserDetailsType {
 		isActive: boolean;
 	};
 	image: string;
+	organization: {
+		businesses: {
+			name: string;
+		}[];
+	};
 }
 
 interface NotifcationType {

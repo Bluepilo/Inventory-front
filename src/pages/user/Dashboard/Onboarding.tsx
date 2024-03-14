@@ -15,12 +15,12 @@ const Onboarding = () => {
 	const [openModalTrial, setOpenModalTrial] = useState(false);
 
 	useEffect(() => {
-		if (details.business.onboardingSteps?.trialPick !== "completed") {
+		if (details?.business?.onboardingSteps?.trialPick !== "completed") {
 			setOpenModalTrial(true);
 		}
 	}, []);
 
-	return (
+	return details?.business ? (
 		<div className="mt-3">
 			<div className="row">
 				<div className="col-lg-6 mb-3">
@@ -97,6 +97,8 @@ const Onboarding = () => {
 				<Trial closeTrial={() => setOpenModalTrial(false)} />
 			</ModalComponent>
 		</div>
+	) : (
+		<></>
 	);
 };
 

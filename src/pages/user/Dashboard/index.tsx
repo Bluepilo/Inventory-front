@@ -50,7 +50,7 @@ const Dashboard = () => {
 	}, [selectedFilter]);
 
 	const checkOnboardingTrial = () => {
-		if (details.business.onboardingSteps?.trialPick !== "completed") {
+		if (details?.business?.onboardingSteps?.trialPick !== "completed") {
 			navigate("onboarding");
 		}
 	};
@@ -66,7 +66,7 @@ const Dashboard = () => {
 		}
 	};
 
-	return dashboardStats?.year ? (
+	return dashboardStats?.year && details?.business ? (
 		<div className="mt-3">
 			<div className="row align-items-center">
 				<div className="col-lg-5 mb-4">
@@ -95,7 +95,7 @@ const Dashboard = () => {
 					<div className="col-lg-7 mb-4">
 						<DashboardCard>
 							<div className="head-btwn">
-								<h5>{details.business.name}</h5>
+								<h5>{details.business?.name}</h5>
 								<DropDownSelect
 									value={selectedFilter}
 									options={[
