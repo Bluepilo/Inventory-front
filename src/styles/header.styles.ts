@@ -27,6 +27,7 @@ export const Progress = styled.div<{ color: string }>`
 	padding: 10px 20px;
 	border-radius: 5px;
 	margin-left: 15px;
+	cursor: pointer;
 
 	span {
 		font-weight: 600;

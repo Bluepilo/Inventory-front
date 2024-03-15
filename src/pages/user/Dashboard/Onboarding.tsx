@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import ModalComponent from "../../../components/ModalComponent";
-import Trial from "../../../components/Home/Trial";
 import { useAppSelector } from "../../../redux/hooks";
 import { HelpBox, OnboardingStyles } from "../../../styles/home.styles";
 import { onboardingsteps } from "../../../utils/data";
@@ -11,14 +8,6 @@ import { MainLink } from "../../../styles/links.styles";
 
 const Onboarding = () => {
 	const { details } = useAppSelector((state) => state.auth);
-
-	const [openModalTrial, setOpenModalTrial] = useState(false);
-
-	useEffect(() => {
-		if (details?.business?.onboardingSteps?.trialPick !== "completed") {
-			setOpenModalTrial(true);
-		}
-	}, []);
 
 	return details?.business ? (
 		<div className="mt-3">
@@ -90,12 +79,6 @@ const Onboarding = () => {
 					</HelpBox>
 				</div>
 			</div>
-			<ModalComponent
-				open={openModalTrial}
-				close={() => setOpenModalTrial(true)}
-			>
-				<Trial closeTrial={() => setOpenModalTrial(false)} />
-			</ModalComponent>
 		</div>
 	) : (
 		<></>

@@ -1,4 +1,3 @@
-import { FaCircleCheck } from "react-icons/fa6";
 import { useAppSelector } from "../../redux/hooks";
 import { Link } from "react-router-dom";
 import CheckIcon from "../../assets/icons/circle-check.svg";
@@ -17,8 +16,12 @@ const OnboardStep = ({ step }: { step: Step }) => {
 	const { details } = useAppSelector((state) => state.auth);
 
 	const getActiveClasss = () => {
-		if (details.business.onboardingSteps[step.type] === "completed") {
-			return "active";
+		if (details.business?.onboardingSteps) {
+			if (details.business.onboardingSteps[step.type] === "completed") {
+				return "active";
+			} else {
+				return "";
+			}
 		} else {
 			return "";
 		}

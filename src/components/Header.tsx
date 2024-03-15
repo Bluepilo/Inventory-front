@@ -14,8 +14,11 @@ import HeaderDropDown from "./Header/HeaderDropDown";
 import NotificationDropDown from "./Header/NotificationDropDown";
 import { useAppSelector } from "../redux/hooks";
 import { haveRole } from "../utils/role";
+import { useNavigate } from "react-router-dom";
 
 const Header = ({ openMenu }: { openMenu: () => void }) => {
+	const navigate = useNavigate();
+
 	const { details } = useAppSelector((state) => state.auth);
 	const { notify } = useAppSelector((state) => state.basic);
 
@@ -64,6 +67,7 @@ const Header = ({ openMenu }: { openMenu: () => void }) => {
 				</div>
 				{details.businessId && showCount() && (
 					<Progress
+						onClick={() => navigate("/dashboard/home/onboarding")}
 						color={
 							calcPercent() >= 60
 								? "#505BDA"
@@ -80,17 +84,17 @@ const Header = ({ openMenu }: { openMenu: () => void }) => {
 			<HeaderInfo>
 				{details.businessId && (
 					<>
-						{details?.business?.isTrialOn ? (
+						{details?.organization?.isTrialOn ? (
 							<p>You are on Free Trial</p>
 						) : (
 							<p>
 								Currently on{" "}
-								{details?.business?.subscriptionPlan?.name}
+								{details?.organization?.subscriptionPlan?.name}
 							</p>
 						)}
 						{haveRole(details.roleId).isBusinessAdmin &&
-							!details?.business?.isTrialOn &&
-							details?.business?.subscriptionPlan?.id < 4 && (
+							!details?.organization?.isTrialOn &&
+							details?.organization?.subscriptionPlan?.id < 4 && (
 								<button className="upgrade">Upgrade</button>
 							)}
 

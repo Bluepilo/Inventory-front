@@ -1,4 +1,3 @@
-import React from "react";
 import { ResendBox } from "../../styles/auth.styles";
 import Loading from "../../components/Loaders/Loading";
 

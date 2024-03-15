@@ -23,13 +23,6 @@ interface UserDetailsType {
 	shopId: number;
 	business: {
 		name: string;
-		subscriptionPlan: {
-			name: string;
-			id: number;
-			noOfShops: number;
-			noOfUsers: number;
-		};
-		isTrialOn: boolean;
 		onboardingSteps: any;
 	};
 	shop: {
@@ -38,10 +31,18 @@ interface UserDetailsType {
 	};
 	image: string;
 	organization: {
-		businesses: {
+		id: number;
+		isTrialOn: boolean;
+		subscriptionPlan: {
 			name: string;
-		}[];
+			id: number;
+			noOfShops: number;
+			noOfUsers: number;
+		};
 	};
+	allowedBusinesses: {
+		id: number;
+	}[];
 }
 
 interface NotifcationType {

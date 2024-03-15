@@ -168,6 +168,17 @@ const createBusiness = async (token: string, obj: any) => {
 	return data;
 };
 
+const switchBusiness = async (token: string, bizId: number) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/user/switch-business/${bizId}`,
+		{},
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data;
+};
+
 const basicService = {
 	getNotifications,
 	saveTrialPick,
@@ -187,6 +198,7 @@ const basicService = {
 	enableSMS,
 	getExpenseCategories,
 	createBusiness,
+	switchBusiness,
 };
 
 export default basicService;

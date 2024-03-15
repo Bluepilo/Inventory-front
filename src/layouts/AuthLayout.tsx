@@ -35,7 +35,7 @@ const AuthLayout = () => {
 			navigate("/admin");
 		} else if (
 			details.businessId ||
-			details?.organization?.businesses?.length > 0
+			details.allowedBusinesses?.length > 0
 		) {
 			navigate("/dashboard");
 		} else {

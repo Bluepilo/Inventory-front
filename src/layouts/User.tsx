@@ -14,8 +14,7 @@ const User = () => {
 		}
 	}, [details]);
 
-	let check =
-		details.businessId || details?.organization?.businesses?.length > 0;
+	let check = details.businessId || details.allowedBusinesses?.length > 0;
 
 	return check ? <DashboardLayout /> : <></>;
 };

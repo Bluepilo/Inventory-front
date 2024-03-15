@@ -19,7 +19,7 @@ const BusinessForm = ({ onComplete }: { onComplete: () => void }) => {
 	const id = useLocation().state?.id;
 
 	const { countries, states } = useAppSelector((state) => state.basic);
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [name, setName] = useState("");
@@ -44,11 +44,11 @@ const BusinessForm = ({ onComplete }: { onComplete: () => void }) => {
 				stateId: stateId?.value,
 				countryCode: countryCode?.value,
 			};
-			setLoad(false);
 			let res = await basicService.createBusiness(token, data);
+			setLoad(false);
 			if (res) {
 				onComplete();
-				dispatch(userProfile(id));
+				dispatch(userProfile(id || details.id));
 			}
 		} catch (err) {
 			setLoad(false);

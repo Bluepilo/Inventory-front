@@ -22,6 +22,9 @@ import {
 	OptionProp,
 } from "../../../components/Filters/BasicInputs";
 import { getDashboardStats } from "../../../redux/features/basic/basic-slice";
+import { displayError } from "../../../utils/errors";
+import basicService from "../../../redux/features/basic/basic-service";
+import { userProfile } from "../../../redux/features/auth/auth-slice";
 
 const Dashboard = () => {
 	const navigate = useNavigate();
@@ -33,12 +36,12 @@ const Dashboard = () => {
 		value: "month",
 	});
 	const [openModal, setOpenModal] = useState(false);
-	const { details } = useAppSelector((state) => state.auth);
+	const { details, token } = useAppSelector((state) => state.auth);
 	const { dashboardStats } = useAppSelector((state) => state.basic);
 
 	useEffect(() => {
 		checkOnboardingTrial();
-	}, []);
+	}, [details]);
 
 	useEffect(() => {
 		dispatch(
@@ -50,8 +53,24 @@ const Dashboard = () => {
 	}, [selectedFilter]);
 
 	const checkOnboardingTrial = () => {
-		if (details?.business?.onboardingSteps?.trialPick !== "completed") {
-			navigate("onboarding");
+		if (details?.businessId) {
+			if (details?.business?.onboardingSteps?.trialPick !== "completed") {
+				navigate("onboarding");
+			}
+		} else {
+			switchBusiness();
+		}
+	};
+
+	const switchBusiness = async () => {
+		try {
+			await basicService.switchBusiness(
+				token,
+				details.allowedBusinesses[0].id
+			);
+			dispatch(userProfile(details.id));
+		} catch (err) {
+			displayError(err, true);
 		}
 	};
 
@@ -127,7 +146,7 @@ const Dashboard = () => {
 												width: `${
 													(dashboardStats.userReport
 														?.metrics?.active /
-														details.business
+														details.organization
 															?.subscriptionPlan
 															?.noOfUsers) *
 													100
@@ -154,7 +173,7 @@ const Dashboard = () => {
 												width: `${
 													(dashboardStats.shopReport
 														?.activeShops /
-														details.business
+														details.organization
 															?.subscriptionPlan
 															?.noOfShops) *
 													100
