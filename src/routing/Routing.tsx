@@ -44,6 +44,9 @@ import ReturnDetails from "../pages/user/Reports/Returns/ReturnDetails";
 import NewReturns from "../pages/user/Reports/Returns/NewReturns";
 import Adjustments from "../pages/user/Reports/Adjustments";
 import NewAdjustments from "../pages/user/Reports/Adjustments/NewAdjustments";
+import Organization from "../pages/user/Organization";
+import CreateBusiness from "../pages/user/Organization/CreateBusiness";
+import Users from "../pages/user/Organization/Users";
 
 const Routing = () => {
 	return (
@@ -136,6 +139,12 @@ const Routing = () => {
 						path="reports/adjustments/new"
 						element={<NewAdjustments />}
 					/>
+					<Route path="organization" element={<Organization />} />
+					<Route
+						path="organization/business"
+						element={<CreateBusiness />}
+					/>
+					<Route path="organization/users" element={<Users />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

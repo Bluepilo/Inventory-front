@@ -9,7 +9,7 @@ export const HeaderStyle = styled.div`
 	background: #fff;
 `;
 
-export const HeaderDetail = styled.div`
+export const HeaderDetail = styled.div<{ color: string }>`
 	display: flex;
 	align-items: center;
 
@@ -17,6 +17,59 @@ export const HeaderDetail = styled.div`
 		margin: 0;
 		padding: 0;
 		font-weight: 700;
+	}
+
+	.business {
+		display: flex;
+		align-items: center;
+		margin-right: 20px;
+		cursor: pointer;
+		border: 1px solid #d9dbeb;
+		padding: 8px 20px;
+		border-radius: 3px;
+
+		svg {
+			margin-left: 6px;
+		}
+	}
+
+	.switch-drop {
+		position: absolute;
+		top: 30px;
+		left: 30px;
+		z-index: 99991;
+		display: flex;
+		flex-direction: column;
+		background-color: ${(props) =>
+			props.color == "dark" ? "#000D33" : "#CFEAFF"};
+		align-items: flex-start;
+		padding: 20px;
+		border: 1px solid #d9dbeb;
+
+		button {
+			margin-bottom: 10px;
+			color: ${(props) => (props.color == "dark" ? "#FFF" : "#333")};
+			border: 0;
+			outline: 0;
+			background: none;
+			padding: 0;
+
+			span.active {
+				font-weight: 700;
+			}
+
+			svg {
+				color: ${(props) =>
+					props.color == "dark" ? "#FFB500" : "#0241ff"};
+				margin-left: 10px;
+			}
+		}
+
+		a {
+			color: ${(props) =>
+				props.color == "dark" ? "#FFB500" : "#0241ff"};
+			font-weight: 600;
+		}
 	}
 `;
 

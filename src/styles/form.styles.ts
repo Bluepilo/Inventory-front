@@ -13,6 +13,8 @@ export const Form = styled.form`
 		padding-left: 20px;
 		margin-bottom: 20px;
 
+		/* &:not() */
+
 		&.no-m {
 			margin-bottom: 0;
 		}

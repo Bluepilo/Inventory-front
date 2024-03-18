@@ -15,12 +15,13 @@ import NotificationDropDown from "./Header/NotificationDropDown";
 import { useAppSelector } from "../redux/hooks";
 import { haveRole } from "../utils/role";
 import { useNavigate } from "react-router-dom";
+import SwitchBusiness from "./Header/SwitchBusiness";
 
 const Header = ({ openMenu }: { openMenu: () => void }) => {
 	const navigate = useNavigate();
 
 	const { details } = useAppSelector((state) => state.auth);
-	const { notify } = useAppSelector((state) => state.basic);
+	const { notify, theme } = useAppSelector((state) => state.basic);
 
 	const [openDrop, setOpenDrop] = useState(false);
 	const [openNoti, setOpenNoti] = useState(false);
@@ -57,14 +58,8 @@ const Header = ({ openMenu }: { openMenu: () => void }) => {
 
 	return (
 		<HeaderStyle>
-			<HeaderDetail>
-				<div className="business">
-					<h6>
-						{details.businessId
-							? details?.business?.name
-							: "Bluepilo"}
-					</h6>
-				</div>
+			<HeaderDetail color={theme}>
+				<SwitchBusiness />
 				{details.businessId && showCount() && (
 					<Progress
 						onClick={() => navigate("/dashboard/home/onboarding")}

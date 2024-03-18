@@ -179,6 +179,40 @@ const switchBusiness = async (token: string, bizId: number) => {
 	return data;
 };
 
+const organizationReports = async (token: string) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/report/organization-dashboard-report`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const addOrRemoveUserBusiness = async (
+	token: string,
+	action: string,
+	bizId: number,
+	id: number
+) => {
+	let link = action == "add" ? "add-user" : "remove-user";
+	const { data } = await axios.patch(
+		`${config.baseUrl}/business/${bizId}/${link}/${id}`,
+		{},
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const currencyList = async (token: string) => {
+	const { data } = await axios.get(`${config.baseUrl}/other/currencies`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
 const basicService = {
 	getNotifications,
 	saveTrialPick,
@@ -199,6 +233,9 @@ const basicService = {
 	getExpenseCategories,
 	createBusiness,
 	switchBusiness,
+	organizationReports,
+	addOrRemoveUserBusiness,
+	currencyList,
 };
 
 export default basicService;

@@ -32,6 +32,7 @@ interface UserDetailsType {
 	image: string;
 	organization: {
 		id: number;
+		name: string;
 		isTrialOn: boolean;
 		subscriptionPlan: {
 			name: string;
@@ -42,6 +43,7 @@ interface UserDetailsType {
 	};
 	allowedBusinesses: {
 		id: number;
+		name: string;
 	}[];
 }
 

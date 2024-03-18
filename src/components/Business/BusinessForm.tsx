@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form } from "../../styles/form.styles";
 import {
 	DropDownSelect,
@@ -13,7 +13,13 @@ import Loading from "../Loaders/Loading";
 import { useLocation } from "react-router-dom";
 import { logout, userProfile } from "../../redux/features/auth/auth-slice";
 
-const BusinessForm = ({ onComplete }: { onComplete: () => void }) => {
+const BusinessForm = ({
+	onComplete,
+	dashboard,
+}: {
+	onComplete: () => void;
+	dashboard?: boolean;
+}) => {
 	const dispatch = useAppDispatch();
 
 	const id = useLocation().state?.id;
@@ -25,10 +31,23 @@ const BusinessForm = ({ onComplete }: { onComplete: () => void }) => {
 	const [name, setName] = useState("");
 	const [regNo, setRegNo] = useState("");
 	const [countryCode, setCountryCode] = useState<OptionProp | null>(null);
+	const [currency, setCurrency] = useState<OptionProp | null>(null);
+	const [currencyList, setCurrencyList] = useState<OptionProp[]>([]);
 	const [stateId, setStateId] = useState<OptionProp | null>(null);
 	const [email, setEmail] = useState("");
 	const [phone, setPhone] = useState("");
 	const [address, setAddress] = useState("");
+
+	useEffect(() => {
+		loadCurrency();
+	}, []);
+
+	const loadCurrency = async () => {
+		try {
+			let res = await basicService.currencyList(token);
+			// console.log(res);
+		} catch (err) {}
+	};
 
 	const submitHandler = async (e: any) => {
 		e.preventDefault();
@@ -57,7 +76,10 @@ const BusinessForm = ({ onComplete }: { onComplete: () => void }) => {
 	};
 
 	return (
-		<Form style={{ marginTop: "30px" }} onSubmit={submitHandler}>
+		<Form
+			style={{ marginTop: dashboard ? "10px" : "30px" }}
+			onSubmit={submitHandler}
+		>
 			<div className="row">
 				<div className="col-lg-6">
 					<label>Name of Business</label>
@@ -107,7 +129,15 @@ const BusinessForm = ({ onComplete }: { onComplete: () => void }) => {
 						changeSelected={setStateId}
 					/>
 				</div>
-				<div className="col-lg-12">
+				<div className="col-lg-6 mb-4">
+					<label>Currency</label>
+					<DropDownSelect
+						options={[]}
+						value={currency}
+						changeSelected={setCurrency}
+					/>
+				</div>
+				<div className="col-lg-6 mb-4">
 					<label>Address</label>
 					<input
 						type="text"
@@ -126,18 +156,20 @@ const BusinessForm = ({ onComplete }: { onComplete: () => void }) => {
 						</ButtonSubmit>
 					)}
 				</div>
-				<div className="mt-4">
-					<WideButton
-						bg="#EDEEF0"
-						color="#505BDA"
-						onClick={(e) => {
-							e.preventDefault();
-							dispatch(logout());
-						}}
-					>
-						<span>Logout</span>
-					</WideButton>
-				</div>
+				{!dashboard && (
+					<div className="mt-4">
+						<WideButton
+							bg="#EDEEF0"
+							color="#505BDA"
+							onClick={(e) => {
+								e.preventDefault();
+								dispatch(logout());
+							}}
+						>
+							<span>Logout</span>
+						</WideButton>
+					</div>
+				)}
 			</div>
 		</Form>
 	);

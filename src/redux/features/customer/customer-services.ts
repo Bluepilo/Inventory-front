@@ -206,6 +206,20 @@ const getSuppliers = async (token: string, filters: string) => {
 	return data.data;
 };
 
+const listUsers = async (token: string, filters: string) => {
+	const { data } = await axios.get(`${config.baseUrl}/user/all`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const createUser = async (token: string, obj: any) => {
+	const { data } = await axios.post(`${config.baseUrl}/user/add`, obj, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
 const customerService = {
 	getWalkIns,
 	searchWalkIns,
@@ -223,6 +237,8 @@ const customerService = {
 	searchSuppliers,
 	supplierSummary,
 	getSuppliers,
+	listUsers,
+	createUser,
 };
 
 export default customerService;

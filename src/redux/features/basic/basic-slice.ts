@@ -19,6 +19,7 @@ const initialState = {
 	brands: [] as any,
 	countries: [] as OptionProp[],
 	logTypes: [] as OptionProp[],
+	organization: {} as any,
 };
 
 export const changeTheme = createAsyncThunk(
@@ -200,6 +201,17 @@ export const getLogTypes = createAsyncThunk(
 	}
 );
 
+export const getOrganizationReport = createAsyncThunk(
+	"basic/organization",
+	async (_, thunkAPI: any) => {
+		try {
+			const { token } = thunkAPI.getState().auth;
+			const res = await basicService.organizationReports(token);
+			return res;
+		} catch (error) {}
+	}
+);
+
 export const basicSlice = createSlice({
 	name: "basic",
 	initialState,
@@ -240,6 +252,9 @@ export const basicSlice = createSlice({
 		});
 		builder.addCase(getLogTypes.fulfilled, (state, action) => {
 			state.logTypes = action.payload || [];
+		});
+		builder.addCase(getOrganizationReport.fulfilled, (state, action) => {
+			state.organization = action.payload || [];
 		});
 	},
 });

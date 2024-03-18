@@ -14,25 +14,27 @@ const NotificationDropDown = ({
 
 	return (
 		<NotifcationStyles>
-			<OutsideClick handleToggle={() => setOpenNoti(false)}>
-				<div className="noti-body">
-					{notify?.notifications?.rows.map((noti) => (
-						<div
-							onClick={() => readNotification(noti)}
-							className={`${noti.readAt ? "" : "active"}`}
-							key={noti.id}
-						>
-							<span>{noti.message}</span>
-							<span className="time">
-								<ReactTimeAgo
-									date={noti.createdAt}
-									locale="en-US"
-								/>
-							</span>
-						</div>
-					))}
-				</div>
-			</OutsideClick>
+			{notify?.notifications?.rows?.length > 0 && (
+				<OutsideClick handleToggle={() => setOpenNoti(false)}>
+					<div className="noti-body">
+						{notify?.notifications?.rows.map((noti) => (
+							<div
+								onClick={() => readNotification(noti)}
+								className={`${noti.readAt ? "" : "active"}`}
+								key={noti.id}
+							>
+								<span>{noti.message}</span>
+								<span className="time">
+									<ReactTimeAgo
+										date={noti.createdAt}
+										locale="en-US"
+									/>
+								</span>
+							</div>
+						))}
+					</div>
+				</OutsideClick>
+			)}
 		</NotifcationStyles>
 	);
 };
