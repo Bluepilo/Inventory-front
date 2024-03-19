@@ -45,7 +45,10 @@ const BusinessForm = ({
 	const loadCurrency = async () => {
 		try {
 			let res = await basicService.currencyList(token);
-			// console.log(res);
+			let arr = res?.map((r: any) => {
+				return { label: `${r.name} ${r.symbol}`, value: r.id };
+			});
+			setCurrencyList(arr);
 		} catch (err) {}
 	};
 
@@ -62,6 +65,7 @@ const BusinessForm = ({
 				acceptTerms: true,
 				stateId: stateId?.value,
 				countryCode: countryCode?.value,
+				currencyId: currency?.value,
 			};
 			let res = await basicService.createBusiness(token, data);
 			setLoad(false);
@@ -132,7 +136,7 @@ const BusinessForm = ({
 				<div className="col-lg-6 mb-4">
 					<label>Currency</label>
 					<DropDownSelect
-						options={[]}
+						options={currencyList}
 						value={currency}
 						changeSelected={setCurrency}
 					/>
