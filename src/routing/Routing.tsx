@@ -47,6 +47,8 @@ import NewAdjustments from "../pages/user/Reports/Adjustments/NewAdjustments";
 import Organization from "../pages/user/Organization";
 import CreateBusiness from "../pages/user/Organization/CreateBusiness";
 import Users from "../pages/user/Organization/Users";
+import Shop from "../pages/user/Business/Shop";
+import Staff from "../pages/user/Business/Staff";
 
 const Routing = () => {
 	return (
@@ -145,6 +147,8 @@ const Routing = () => {
 						element={<CreateBusiness />}
 					/>
 					<Route path="organization/users" element={<Users />} />
+					<Route path="business/shops" element={<Shop />} />
+					<Route path="business/staff" element={<Staff />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

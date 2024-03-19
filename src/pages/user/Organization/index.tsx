@@ -4,18 +4,19 @@ import { OrgDashboard } from "../../../styles/org.styles";
 import { getOrganizationReport } from "../../../redux/features/basic/basic-slice";
 import Dashboard from "../../../components/Organization/Dashboard";
 import Businesses from "../../../components/Organization/Businesses";
+import PageLoad from "../../../components/Loaders/PageLoad";
 
 const Organization = () => {
 	const dispatch = useAppDispatch();
 
-	const { details } = useAppSelector((state) => state.auth);
+	const { organization } = useAppSelector((state) => state.basic);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		dispatch(getOrganizationReport());
 	}, []);
 
-	return details.organization ? (
+	return organization?.organization ? (
 		<div className="row">
 			<div className="col-lg-11">
 				<OrgDashboard>
@@ -25,7 +26,7 @@ const Organization = () => {
 			</div>
 		</div>
 	) : (
-		<></>
+		<PageLoad />
 	);
 };
 

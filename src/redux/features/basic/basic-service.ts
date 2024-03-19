@@ -35,17 +35,37 @@ const dashboardStats = async (year: string, period: string, token: string) => {
 	return data;
 };
 
-const allShops = async (token: string) => {
-	const { data } = await axios.get(`${config.baseUrl}/shop/all?all=true`, {
+const allShops = async (token: string, filters: string) => {
+	const { data } = await axios.get(`${config.baseUrl}/shop/all${filters}`, {
 		headers: authHeader(token),
 	});
 	return data;
 };
 
-const allStaffs = async (token: string) => {
-	const { data } = await axios.get(`${config.baseUrl}/user/all?all=true`, {
+const searchShops = async (token: string, filters: string, word: string) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/shop/search?search=${word}${filters}`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data;
+};
+
+const allStaffs = async (token: string, filters: string) => {
+	const { data } = await axios.get(`${config.baseUrl}/user/all${filters}`, {
 		headers: authHeader(token),
 	});
+	return data;
+};
+
+const searchStaff = async (token: string, filters: string, word: string) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/user/search?search=${word}${filters}`,
+		{
+			headers: authHeader(token),
+		}
+	);
 	return data;
 };
 
@@ -213,6 +233,42 @@ const currencyList = async (token: string) => {
 	return data.data;
 };
 
+const actionShop = async (token: string, action: string, id: string) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/shop/${action}/${id}`,
+		{ id },
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const createShop = async (token: string, obj: any) => {
+	const { data } = await axios.post(`${config.baseUrl}/shop/create`, obj, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const editShop = async (token: string, obj: any, id: string) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/shop/update/${id}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const deleteShop = async (token: string, id: string) => {
+	const { data } = await axios.delete(`${config.baseUrl}/shop/delete/${id}`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
 const basicService = {
 	getNotifications,
 	saveTrialPick,
@@ -236,6 +292,12 @@ const basicService = {
 	organizationReports,
 	addOrRemoveUserBusiness,
 	currencyList,
+	searchShops,
+	actionShop,
+	createShop,
+	editShop,
+	deleteShop,
+	searchStaff,
 };
 
 export default basicService;

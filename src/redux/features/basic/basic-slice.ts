@@ -91,7 +91,7 @@ export const allShops = createAsyncThunk(
 	async (_, thunkAPI: any) => {
 		try {
 			const { token } = thunkAPI.getState().auth;
-			const res = await basicService.allShops(token);
+			const res = await basicService.allShops(token, "?all=true");
 			let arr = res.data?.map((f: any) => {
 				return { value: f.id, label: f.name, isActive: f.isActive };
 			});
@@ -105,7 +105,7 @@ export const allStaffs = createAsyncThunk(
 	async (_, thunkAPI: any) => {
 		try {
 			const { token } = thunkAPI.getState().auth;
-			const res = await basicService.allStaffs(token);
+			const res = await basicService.allStaffs(token, "?all=true");
 			let arr = res.data?.map((f: any) => {
 				return { value: f.id, label: f.fullName, id: f.shopId };
 			});
