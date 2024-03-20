@@ -11,7 +11,12 @@ const PurchaseInfo = ({ purchaseDetails }: { purchaseDetails: any }) => {
 			<DetailCard>
 				<div className="head">
 					<div className="sale-info">
-						<h6>Purchase {purchaseDetails.uniqueRef}</h6>
+						<h6>
+							{purchaseDetails.isOnboarding
+								? "Import"
+								: "Purchase"}{" "}
+							{purchaseDetails.uniqueRef}
+						</h6>
 						<div>
 							<span
 								className={`status ${purchaseDetails.status}`}
@@ -38,61 +43,79 @@ const PurchaseInfo = ({ purchaseDetails }: { purchaseDetails: any }) => {
 					</div>
 				</div>
 				<div className="body">
-					<div className="row">
-						<span className="col-4 mb-2">Total Purchase:</span>
-						<b className="col-8 mb-2">
-							₦{" "}
-							{formatCurrency(
-								Number(purchaseDetails.totalPrice) +
-									Number(purchaseDetails.discount)
-							)}
-						</b>
-						<span className="col-4 mb-2">Discount Amount:</span>
-						<b className="col-8 mb-2">
-							₦ {formatCurrency(purchaseDetails.discount)}
-						</b>
-						<span className="col-4 mb-2">
-							Discount Total Purchase:
-						</span>
-						<b className="col-8 mb-2">
-							₦ {formatCurrency(purchaseDetails.totalPrice)}
-						</b>
-						<span className="col-4 mb-2">Amount Paid:</span>
-						<b className="col-8 mb-2">
-							₦ {formatCurrency(purchaseDetails.totalAmountPaid)}
-						</b>
-						<span className="col-4 mb-2">New Wallet Balance:</span>
-						<b className="col-8 mb-2">
-							₦{" "}
-							{purchaseDetails.transaction?.length > 0
-								? formatCurrency(
-										purchaseDetails.transaction[0]
-											.balanceAfter
-								  )
-								: "--"}
-						</b>
-						<span className="col-4 mb-2">Comment:</span>
-						<b className="col-8 mb-2">{purchaseDetails.comment}</b>
-					</div>
+					{purchaseDetails.isOnboarding ? (
+						<div className="row">
+							<span className="col-4 mb-2">Total Price:</span>
+							<b className="col-8 mb-2">
+								₦ {formatCurrency(purchaseDetails.totalPrice)}
+							</b>
+						</div>
+					) : (
+						<div className="row">
+							<span className="col-4 mb-2">Total Purchase:</span>
+							<b className="col-8 mb-2">
+								₦{" "}
+								{formatCurrency(
+									Number(purchaseDetails.totalPrice) +
+										Number(purchaseDetails.discount)
+								)}
+							</b>
+							<span className="col-4 mb-2">Discount Amount:</span>
+							<b className="col-8 mb-2">
+								₦ {formatCurrency(purchaseDetails.discount)}
+							</b>
+							<span className="col-4 mb-2">
+								Discount Total Purchase:
+							</span>
+							<b className="col-8 mb-2">
+								₦ {formatCurrency(purchaseDetails.totalPrice)}
+							</b>
+							<span className="col-4 mb-2">Amount Paid:</span>
+							<b className="col-8 mb-2">
+								₦{" "}
+								{formatCurrency(
+									purchaseDetails.totalAmountPaid
+								)}
+							</b>
+							<span className="col-4 mb-2">
+								New Wallet Balance:
+							</span>
+							<b className="col-8 mb-2">
+								₦{" "}
+								{purchaseDetails.transaction?.length > 0
+									? formatCurrency(
+											purchaseDetails.transaction[0]
+												.balanceAfter
+									  )
+									: "--"}
+							</b>
+							<span className="col-4 mb-2">Comment:</span>
+							<b className="col-8 mb-2">
+								{purchaseDetails.comment}
+							</b>
+						</div>
+					)}
 				</div>
 			</DetailCard>
-			<DetailCard>
-				<div className="body-detail">
-					<p>Supplied By:</p>
-					<h4>
-						<Link
-							to={`/dashboard/suppliers/${purchaseDetails.supplierId}`}
-						>
-							{purchaseDetails.supplier?.name}
-						</Link>
-					</h4>
-					<div className="mt-3">
-						<p>{purchaseDetails.supplier?.phoneNo}</p>
-						<p>{purchaseDetails.supplier?.email}</p>
-						<p>{purchaseDetails.supplier?.address}</p>
+			{!purchaseDetails.isOnboarding && (
+				<DetailCard>
+					<div className="body-detail">
+						<p>Supplied By:</p>
+						<h4>
+							<Link
+								to={`/dashboard/suppliers/${purchaseDetails.supplierId}`}
+							>
+								{purchaseDetails.supplier?.name}
+							</Link>
+						</h4>
+						<div className="mt-3">
+							<p>{purchaseDetails.supplier?.phoneNo}</p>
+							<p>{purchaseDetails.supplier?.email}</p>
+							<p>{purchaseDetails.supplier?.address}</p>
+						</div>
 					</div>
-				</div>
-			</DetailCard>
+				</DetailCard>
+			)}
 		</>
 	);
 };

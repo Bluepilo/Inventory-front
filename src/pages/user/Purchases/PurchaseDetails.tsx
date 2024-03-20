@@ -95,7 +95,9 @@ const PurchaseDetails = () => {
 	return (
 		<div>
 			<TitleCover
-				title={`Purchase ${
+				title={`${
+					purchaseDetails?.isOnboarding ? "Import" : "Purchase"
+				} ${
 					purchaseDetails?.status === "withdrawn"
 						? "Withdrawn!"
 						: "Completed!"

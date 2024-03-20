@@ -49,6 +49,9 @@ import CreateBusiness from "../pages/user/Organization/CreateBusiness";
 import Users from "../pages/user/Organization/Users";
 import Shop from "../pages/user/Business/Shop";
 import Staff from "../pages/user/Business/Staff";
+import ImportInventory from "../pages/user/Business/ImportInventory";
+import NewInventory from "../pages/user/Business/ImportInventory/NewInventory";
+import ProfitLoss from "../pages/user/Reports/ProfitLoss";
 
 const Routing = () => {
 	return (
@@ -141,6 +144,10 @@ const Routing = () => {
 						path="reports/adjustments/new"
 						element={<NewAdjustments />}
 					/>
+					<Route
+						path="reports/profits-loss"
+						element={<ProfitLoss />}
+					/>
 					<Route path="organization" element={<Organization />} />
 					<Route
 						path="organization/business"
@@ -149,6 +156,14 @@ const Routing = () => {
 					<Route path="organization/users" element={<Users />} />
 					<Route path="business/shops" element={<Shop />} />
 					<Route path="business/staff" element={<Staff />} />
+					<Route
+						path="business/import-inventory"
+						element={<ImportInventory />}
+					/>
+					<Route
+						path="business/import-inventory/new"
+						element={<NewInventory />}
+					/>
 				</Route>
 			</Routes>
 		</BrowserRouter>

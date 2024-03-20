@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Form } from "../../styles/form.styles";
 import { DropDownSelect, OptionProp } from "../Filters/BasicInputs";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import Loading from "../Loaders/Loading";
 import { ButtonSubmit } from "../../styles/links.styles";
 import { displayError } from "../../utils/errors";
 import basicService from "../../redux/features/basic/basic-service";
 import { toast } from "react-toastify";
+import { updateOnboardingSteps } from "../../redux/features/basic/basic-slice";
 
 const ShopForm = ({
 	detail,
@@ -15,8 +16,10 @@ const ShopForm = ({
 	detail: any;
 	onComplete: () => void;
 }) => {
-	const { countries, states } = useAppSelector((state) => state.basic);
-	const { token } = useAppSelector((state) => state.auth);
+	const dispatch = useAppDispatch();
+
+	const { states } = useAppSelector((state) => state.basic);
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	const [name, setName] = useState("");
 	const [address, setAddress] = useState("");
@@ -48,6 +51,7 @@ const ShopForm = ({
 				res = await basicService.editShop(token, payload, detail.id);
 			} else {
 				res = await basicService.createShop(token, payload);
+				saveTrialPick();
 			}
 			if (res) {
 				toast.success(
@@ -58,6 +62,19 @@ const ShopForm = ({
 		} catch (err) {
 			setLoad(false);
 			displayError(err, true);
+		}
+	};
+
+	const saveTrialPick = () => {
+		if (details.business.onboardingSteps?.shop !== "completed") {
+			dispatch(
+				updateOnboardingSteps({
+					steps: {
+						...details?.business?.onboardingSteps,
+						shop: "completed",
+					},
+				})
+			);
 		}
 	};
 

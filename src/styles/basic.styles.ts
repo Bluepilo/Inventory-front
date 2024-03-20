@@ -453,3 +453,7 @@ export const Alert = styled.div`
 		margin-right: 5px;
 	}
 `;
+
+export const ComingSoon = styled.div`
+	margin-top: 40px;
+`;

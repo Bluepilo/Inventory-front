@@ -173,19 +173,38 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 	};
 
 	const paymentHandler = async (vals: any) => {
-		const data = {
-			...vals,
-			shopId: details.shopId || selectedShop?.value,
-			totalPrice: totalPrice - discountApplied,
-			discount: discountApplied,
-			isOnboarding: false,
-			productBreakDown: selectedProducts,
-			totalNoItems: selectedProducts.reduce(
-				(prev: any, curr: any) => prev + curr.quantity,
-				0
-			),
-			status: "success",
-		};
+		let data;
+		if (onboarding) {
+			data = {
+				shopId: details.shopId || selectedShop?.value,
+				totalPrice,
+				totalAmountPaid: totalPrice - discountApplied,
+				discount: discountApplied,
+				isOnboarding: true,
+				productBreakDown: selectedProducts,
+				totalNoItems: selectedProducts.reduce(
+					(prev: any, curr: any) => prev + curr.quantity,
+					0
+				),
+				status: "success",
+				comment: "Imported",
+			};
+		} else {
+			data = {
+				...vals,
+				shopId: details.shopId || selectedShop?.value,
+				totalPrice: totalPrice - discountApplied,
+				discount: discountApplied,
+				isOnboarding: false,
+				productBreakDown: selectedProducts,
+				totalNoItems: selectedProducts.reduce(
+					(prev: any, curr: any) => prev + curr.quantity,
+					0
+				),
+				status: "success",
+			};
+		}
+
 		try {
 			setLoad(true);
 			let res = await purchaseService.makePurchase(token, data);
@@ -195,7 +214,11 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 			if (res?.id) {
 				navigate(`/dashboard/purchases/${res?.id}`);
 			} else {
-				navigate("/dashboard/purchases");
+				if (onboarding) {
+					navigate("/dashboard/business/import-inventory");
+				} else {
+					navigate("/dashboard/purchases");
+				}
 			}
 		} catch (err) {
 			displayError(err, true);
@@ -243,7 +266,19 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 					<PickItems
 						load={productLoad}
 						items={productList}
-						onNext={() => setStep(2)}
+						onNext={() => {
+							if (onboarding) {
+								if (
+									window.confirm(
+										"Are you sure you want to proceed with the import?"
+									)
+								) {
+									paymentHandler({});
+								}
+							} else {
+								setStep(2);
+							}
+						}}
 						selectedProducts={selectedProducts}
 						setSelectedProducts={addItems}
 						remove={removeItem}
