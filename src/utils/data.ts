@@ -68,7 +68,7 @@ const onboardingsteps = [
 		title: "Add Business Locations",
 		desc: `Input your business locations to manage stock across different places effortlessly.`,
 		type: "shop",
-		href: "/dashboard/shops",
+		href: "/dashboard/business/shops",
 	},
 	{
 		id: 2,
@@ -76,7 +76,7 @@ const onboardingsteps = [
 		title: "Create Products",
 		desc: `Add products under the "Create Products" section. This is the foundation of your inventory.`,
 		type: "product",
-		href: "/dashboard/brands",
+		href: "/dashboard/catalogue",
 	},
 	{
 		id: 3,
@@ -93,7 +93,8 @@ const onboardingsteps = [
 		title2: "Make Purchase",
 		desc: `Import existing Inventory OR make a Purchase from your supplier.`,
 		type: "purchase",
-		href: "/dashboard/purchases",
+		href: "/dashboard/business/import-inventory",
+		href2: "/dashboard/purchases",
 	},
 	{
 		id: 5,

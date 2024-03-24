@@ -269,6 +269,16 @@ const deleteShop = async (token: string, id: string) => {
 	return data.data;
 };
 
+const getLogs = async (token: string, filters: string) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/report/activity-log${filters}`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const basicService = {
 	getNotifications,
 	saveTrialPick,
@@ -298,6 +308,7 @@ const basicService = {
 	editShop,
 	deleteShop,
 	searchStaff,
+	getLogs,
 };
 
 export default basicService;

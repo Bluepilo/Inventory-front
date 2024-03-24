@@ -52,6 +52,10 @@ import Staff from "../pages/user/Business/Staff";
 import ImportInventory from "../pages/user/Business/ImportInventory";
 import NewInventory from "../pages/user/Business/ImportInventory/NewInventory";
 import ProfitLoss from "../pages/user/Reports/ProfitLoss";
+import Subscription from "../pages/user/Subscription";
+import Upgrade from "../pages/user/Subscription/Upgrade";
+import ActivityLogs from "../pages/user/ActivityLogs";
+import PaymentConfirm from "../pages/user/Subscription/PaymentConfirm";
 
 const Routing = () => {
 	return (
@@ -79,6 +83,10 @@ const Routing = () => {
 				<Route path="/admin" element={<Admin />}>
 					<Route path="home" element={<AdminDashboard />} />
 				</Route>
+				<Route
+					path="/payment-confirmation"
+					element={<PaymentConfirm />}
+				/>
 				<Route path="/dashboard" element={<User />}>
 					<Route path="home" element={<Dashboard />} />
 					<Route path="home/onboarding" element={<Onboarding />} />
@@ -164,6 +172,9 @@ const Routing = () => {
 						path="business/import-inventory/new"
 						element={<NewInventory />}
 					/>
+					<Route path="subscription" element={<Subscription />} />
+					<Route path="subscription/upgrade" element={<Upgrade />} />
+					<Route path="logs" element={<ActivityLogs />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

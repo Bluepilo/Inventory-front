@@ -18,6 +18,7 @@ import {
 	paymentMethods,
 } from "../redux/features/basic/basic-slice";
 import { Outlet } from "react-router-dom";
+import { userProfile } from "../redux/features/auth/auth-slice";
 
 const DashboardLayout = () => {
 	const dispatch = useAppDispatch();
@@ -33,6 +34,7 @@ const DashboardLayout = () => {
 
 	const runActions = () => {
 		if (details.businessId) {
+			dispatch(userProfile(details.id));
 			dispatch(getNotifications());
 			dispatch(allShops());
 			dispatch(allStaffs());

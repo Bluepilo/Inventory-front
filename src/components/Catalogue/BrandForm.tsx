@@ -3,9 +3,10 @@ import { Form } from "../../styles/form.styles";
 import { displayError } from "../../utils/errors";
 import { ButtonSubmit, WideButton } from "../../styles/links.styles";
 import productService from "../../redux/features/product/product-service";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { toast } from "react-toastify";
 import Loading from "../Loaders/Loading";
+import { updateOnboardingSteps } from "../../redux/features/basic/basic-slice";
 
 const BrandForm = ({
 	brandDetail,
@@ -16,7 +17,9 @@ const BrandForm = ({
 	onComplete: () => void;
 	onCancel?: () => void;
 }) => {
-	const { token } = useAppSelector((state) => state.auth);
+	const dispatch = useAppDispatch();
+
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [name, setName] = useState("");
@@ -57,6 +60,7 @@ const BrandForm = ({
 					email,
 					address,
 				});
+				saveTrialPick();
 			}
 			toast.success(
 				`Brand has been ${brandDetail?.id ? "Updated" : "Created"}`
@@ -65,6 +69,19 @@ const BrandForm = ({
 		} catch (err) {
 			setLoad(false);
 			displayError(err, true);
+		}
+	};
+
+	const saveTrialPick = () => {
+		if (details.business.onboardingSteps?.product !== "completed") {
+			dispatch(
+				updateOnboardingSteps({
+					steps: {
+						...details?.business?.onboardingSteps,
+						product: "completed",
+					},
+				})
+			);
 		}
 	};
 

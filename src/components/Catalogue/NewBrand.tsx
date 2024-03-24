@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BasicSearch } from "../Filters/BasicInputs";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { MainButton } from "../../styles/links.styles";
 import {
 	BrandSearchResult,
@@ -15,6 +15,7 @@ import productService from "../../redux/features/product/product-service";
 import { toast } from "react-toastify";
 import BrandForm from "./BrandForm";
 import { Form } from "../../styles/form.styles";
+import { updateOnboardingSteps } from "../../redux/features/basic/basic-slice";
 
 const SearchBrands = ({ nextScreen }: { nextScreen: (arg: any) => void }) => {
 	const { brands } = useAppSelector((state) => state.basic);
@@ -117,7 +118,9 @@ const ManagedFound = ({
 	onCancel: () => void;
 	onComplete: () => void;
 }) => {
-	const { token } = useAppSelector((state) => state.auth);
+	const dispatch = useAppDispatch();
+
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [name, setName] = useState(brand.val);
@@ -133,10 +136,24 @@ const ManagedFound = ({
 			});
 			setLoad(false);
 			toast.success("Brand request successful");
+			saveTrialPick();
 			onComplete();
 		} catch (err) {
 			setLoad(false);
 			displayError(err, true);
+		}
+	};
+
+	const saveTrialPick = () => {
+		if (details.business.onboardingSteps?.product !== "completed") {
+			dispatch(
+				updateOnboardingSteps({
+					steps: {
+						...details?.business?.onboardingSteps,
+						product: "completed",
+					},
+				})
+			);
 		}
 	};
 

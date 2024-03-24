@@ -40,6 +40,9 @@ interface UserDetailsType {
 			noOfShops: number;
 			noOfUsers: number;
 		};
+		wallet: {
+			balance: string;
+		};
 	};
 	allowedBusinesses: {
 		id: number;

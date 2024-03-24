@@ -457,3 +457,25 @@ export const Alert = styled.div`
 export const ComingSoon = styled.div`
 	margin-top: 40px;
 `;
+
+export const LogStyles = styled.div`
+	.content {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		font-size: 0.8rem;
+		border-bottom: 1px solid #d9dbeb;
+		padding: 10px;
+
+		h6 {
+			font-size: 0.9rem;
+			font-weight: 600;
+		}
+
+		h6,
+		p {
+			padding: 0;
+			margin: 0;
+		}
+	}
+`;

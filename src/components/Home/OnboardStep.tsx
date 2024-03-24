@@ -10,6 +10,7 @@ interface Step {
 	title2?: string;
 	icon: any;
 	href: string;
+	href2?: string;
 }
 
 const OnboardStep = ({ step }: { step: Step }) => {
@@ -38,7 +39,9 @@ const OnboardStep = ({ step }: { step: Step }) => {
 				<div>
 					<h6>
 						<Link to={step.href}>{step.title}</Link>
-						{step.title2 && <Link to={"/"}> {step.title2}</Link>}
+						{step.title2 && (
+							<Link to={step.href2 || "/"}> {step.title2}</Link>
+						)}
 					</h6>
 					<p>{step.desc}</p>
 				</div>

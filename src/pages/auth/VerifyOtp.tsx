@@ -68,7 +68,7 @@ const VerifyOtp = () => {
 				<OTPInput
 					value={otp}
 					onChange={changeOtp}
-					numInputs={5}
+					numInputs={6}
 					renderSeparator={<span></span>}
 					renderInput={(props) => (
 						<input {...props} disabled={load} />
@@ -79,6 +79,7 @@ const VerifyOtp = () => {
 						marginRight: 20,
 						paddingLeft: 1,
 					}}
+					inputType="number"
 				/>
 			</OTPStyle>
 			<ResendBox>

@@ -17,7 +17,7 @@ const NewExpense = ({ submit }: { submit: any }) => {
 	const { token, details } = useAppSelector((state) => state.auth);
 	const { expenseCat, shops } = useAppSelector((state) => state.basic);
 
-	let arr = [{ label: "New Category", value: "new-category" }, ...expenseCat];
+	let arr = [{ label: "New Category", value: "" }, ...expenseCat];
 
 	const [load, setLoad] = useState(false);
 	const [name, setName] = useState("");
@@ -61,7 +61,7 @@ const NewExpense = ({ submit }: { submit: any }) => {
 		e.preventDefault();
 		try {
 			let obj = {
-				expenseCategoryId: catId?.value,
+				expenseCategoryId: catId?.value || null,
 				name,
 				date: expenseDate,
 				cost,

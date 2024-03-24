@@ -7,11 +7,8 @@ import OutsideClick from "../OutsideClick";
 import { displayError } from "../../utils/errors";
 import basicService from "../../redux/features/basic/basic-service";
 import { Spinner } from "react-bootstrap";
-import { userProfile } from "../../redux/features/auth/auth-slice";
 
 const SwitchBusiness = () => {
-	const dispatch = useAppDispatch();
-
 	const [openDrop, setOpenDrop] = useState(false);
 	const [load, setLoad] = useState(false);
 
@@ -24,7 +21,7 @@ const SwitchBusiness = () => {
 				setLoad(true);
 				await basicService.switchBusiness(token, id);
 				setLoad(false);
-				dispatch(userProfile(details.id));
+				window.location.reload();
 			} catch (err) {
 				setLoad(false);
 				displayError(err, false);
