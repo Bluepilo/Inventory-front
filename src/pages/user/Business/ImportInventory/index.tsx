@@ -16,6 +16,7 @@ import PendingIcon from "../../../../assets/icons/pending.svg";
 import FailedIcon from "../../../../assets/icons/failed.svg";
 import SkeletonTable from "../../../../components/Loaders/SkeletonTable";
 import Paginate from "../../../../components/Paginate";
+import { Alert } from "../../../../styles/basic.styles";
 
 const ImportInventory = () => {
 	const navigate = useNavigate();
@@ -67,124 +68,137 @@ const ImportInventory = () => {
 	};
 
 	return details.business.onboardingSteps?.purchase === "completed" ? (
-		<div>
-			<TitleCover
-				title="Imported Inventories"
-				dataCount={lists?.count}
-				button="Import"
-				buttonIcon={<IoCartSharp />}
-				buttonClick={() => navigate("new")}
-			/>
+		details.business.canOnboard ? (
 			<div>
-				<Filters
-					startDate={startDate}
-					changeStartDate={setStartDate}
-					endDate={endDate}
-					changeEndDate={setEndDate}
-					shopId={shopId}
-					staffId={staffId}
-					changeShopId={setShopId}
-					changeStaffId={setStaffId}
-					isSearchable={true}
-					clearValues={clearFilters}
+				<TitleCover
+					title="Imported Inventories"
+					dataCount={lists?.count}
+					button="Import"
+					buttonIcon={<IoCartSharp />}
+					buttonClick={() => navigate("new")}
 				/>
-				<div className="mt-4">
-					<TableComponent>
-						<div className="table-responsive">
-							<Table className="table">
-								<thead>
-									<tr>
-										<th>Date</th>
-										<th className="price">Order Number</th>
-										<th>Staff</th>
-										<th>Shop</th>
-										<th className="price">Price</th>
-										<th>Status</th>
-									</tr>
-								</thead>
+				<div>
+					<Filters
+						startDate={startDate}
+						changeStartDate={setStartDate}
+						endDate={endDate}
+						changeEndDate={setEndDate}
+						shopId={shopId}
+						staffId={staffId}
+						changeShopId={setShopId}
+						changeStaffId={setStaffId}
+						isSearchable={true}
+						clearValues={clearFilters}
+					/>
+					<div className="mt-4">
+						<TableComponent>
+							<div className="table-responsive">
+								<Table className="table">
+									<thead>
+										<tr>
+											<th>Date</th>
+											<th className="price">
+												Order Number
+											</th>
+											<th>Staff</th>
+											<th>Shop</th>
+											<th className="price">Price</th>
+											<th>Status</th>
+										</tr>
+									</thead>
 
-								{!load && (
-									<tbody>
-										{lists?.rows?.map((l: any) => (
-											<tr key={l.id}>
-												<td>
-													{dateFormat(
-														l.createdAt,
-														"mmm dd, yyyy"
-													)}
-												</td>
+									{!load && (
+										<tbody>
+											{lists?.rows?.map((l: any) => (
+												<tr key={l.id}>
+													<td>
+														{dateFormat(
+															l.createdAt,
+															"mmm dd, yyyy"
+														)}
+													</td>
 
-												<td className="price link">
-													<Link
-														to={`/dashboard/purchases/${l.id}`}
-													>
-														{l.uniqueRef}
-													</Link>
-												</td>
-												<td>
-													{l?.user?.fullName.slice(
-														0,
-														15
-													) || ""}{" "}
-													{l?.user?.fullName?.length >
-														15 && "..."}
-												</td>
-												<td>
-													{l?.shop?.name.slice(0, 15)}{" "}
-													{l?.shop?.name?.length >
-														15 && "..."}
-												</td>
+													<td className="price link">
+														<Link
+															to={`/dashboard/purchases/${l.id}`}
+														>
+															{l.uniqueRef}
+														</Link>
+													</td>
+													<td>
+														{l?.user?.fullName.slice(
+															0,
+															15
+														) || ""}{" "}
+														{l?.user?.fullName
+															?.length > 15 &&
+															"..."}
+													</td>
+													<td>
+														{l?.shop?.name.slice(
+															0,
+															15
+														)}{" "}
+														{l?.shop?.name?.length >
+															15 && "..."}
+													</td>
 
-												<td className="price bold">
-													₦{" "}
-													{formatCurrency(
-														l.totalPrice
-													)}
-												</td>
+													<td className="price bold">
+														₦{" "}
+														{formatCurrency(
+															l.totalPrice
+														)}
+													</td>
 
-												<td className="status">
-													<img
-														src={
-															l.status.toLowerCase() ===
-															"success"
-																? SuccessIcon
-																: l.status.toLowerCase() ===
-																  "pending"
-																? PendingIcon
-																: FailedIcon
-														}
-													/>
-												</td>
-											</tr>
-										))}
-									</tbody>
-								)}
-							</Table>
-						</div>
-						{load && <SkeletonTable />}
-					</TableComponent>
-					{!load && lists?.count ? (
-						<Paginate
-							changeLimit={(l) => setLimit(l)}
-							limit={lists.limit}
-							count={lists.count}
-							pageNumber={page}
-							onPrev={(n) => setPage(n)}
-							onNext={(n) => setPage(n)}
-						/>
-					) : (
-						<></>
-					)}
+													<td className="status">
+														<img
+															src={
+																l.status.toLowerCase() ===
+																"success"
+																	? SuccessIcon
+																	: l.status.toLowerCase() ===
+																	  "pending"
+																	? PendingIcon
+																	: FailedIcon
+															}
+														/>
+													</td>
+												</tr>
+											))}
+										</tbody>
+									)}
+								</Table>
+							</div>
+							{load && <SkeletonTable />}
+						</TableComponent>
+						{!load && lists?.count ? (
+							<Paginate
+								changeLimit={(l) => setLimit(l)}
+								limit={lists.limit}
+								count={lists.count}
+								pageNumber={page}
+								onPrev={(n) => setPage(n)}
+								onNext={(n) => setPage(n)}
+							/>
+						) : (
+							<></>
+						)}
+					</div>
 				</div>
 			</div>
-		</div>
+		) : (
+			<Alert>
+				You don't have permission to import Inventories. Go to Settings
+				to enable.
+			</Alert>
+		)
 	) : (
 		<NewPage
 			title={"Purchase"}
 			img={CoverImg}
-			cover="Record Purchases & Track Supplies"
-			desc={`Place and manage purchase orders for new inventory. \n Track pending and completed purchases with advance supply tracker \n Supplier integration for efficient order processing.`}
-			btnTitle={"Record Purchase"}
+			cover="Import Inventory"
+			desc={`Effortless import your current stock and start managing your business with ease.`}
+			btnTitle={"Import Inventory"}
 			linkTo={() => navigate("new")}
 		/>
 	);

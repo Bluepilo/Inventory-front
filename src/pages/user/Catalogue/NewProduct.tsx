@@ -169,6 +169,7 @@ const NewProduct = () => {
 										onChange={(e) =>
 											setName(e.target.value)
 										}
+										className="height"
 									/>
 								</div>
 								{!isService && (
@@ -180,6 +181,7 @@ const NewProduct = () => {
 											onChange={(e) =>
 												setTotalStock(e.target.value)
 											}
+											className="height"
 										/>
 									</div>
 								)}
@@ -203,6 +205,7 @@ const NewProduct = () => {
 										prefix={"₦ "}
 										value={costPrice}
 										disabled={load}
+										className="height"
 									/>
 								</div>
 								<div className="col-lg-6">
@@ -217,6 +220,7 @@ const NewProduct = () => {
 										prefix={"₦ "}
 										value={sellingPrice}
 										disabled={load}
+										className="height"
 									/>
 								</div>
 								<div className="col-lg-12 mb-2">
@@ -224,10 +228,11 @@ const NewProduct = () => {
 								</div>
 								<div className="col-lg-4">
 									<JointDiv>
-										<select disabled>
+										<select className="height" disabled>
 											<option value={""}>Size</option>
 										</select>
 										<input
+											className="height"
 											type="text"
 											value={size}
 											onChange={(e) =>
@@ -239,10 +244,11 @@ const NewProduct = () => {
 								</div>
 								<div className="col-lg-4">
 									<JointDiv>
-										<select disabled>
+										<select disabled className="height">
 											<option value={""}>Year</option>
 										</select>
 										<input
+											className="height"
 											type="text"
 											value={year}
 											onChange={(e) =>
@@ -254,10 +260,11 @@ const NewProduct = () => {
 								</div>
 								<div className="col-lg-4">
 									<JointDiv>
-										<select disabled>
+										<select className="height" disabled>
 											<option value={""}>Color</option>
 										</select>
 										<input
+											className="height"
 											type="text"
 											value={color}
 											onChange={(e) =>
@@ -269,10 +276,11 @@ const NewProduct = () => {
 								</div>
 								<div className="col-lg-4">
 									<JointDiv>
-										<select disabled>
+										<select disabled className="height">
 											<option value={""}>Type</option>
 										</select>
 										<input
+											className="height"
 											type="text"
 											value={productType}
 											onChange={(e) =>
@@ -284,10 +292,11 @@ const NewProduct = () => {
 								</div>
 								<div className="col-lg-4">
 									<JointDiv>
-										<select disabled>
+										<select disabled className="height">
 											<option value={""}>Code</option>
 										</select>
 										<input
+											className="height"
 											type="text"
 											value={productCode}
 											onChange={(e) =>

@@ -234,6 +234,7 @@ const NewReturns = () => {
 											setQuantity(e.target.value)
 										}
 										required
+										className="height"
 									/>
 								</div>
 								<div className="col-sm-6">
@@ -248,6 +249,7 @@ const NewReturns = () => {
 										prefix={"₦ "}
 										value={value}
 										disabled={load}
+										className="height"
 									/>
 								</div>
 							</div>
@@ -263,6 +265,7 @@ const NewReturns = () => {
 										value={ref}
 										onChange={(e) => setRef(e.target.value)}
 										type="text"
+										className="height"
 									/>
 								</div>
 								<div className="col-sm-6">

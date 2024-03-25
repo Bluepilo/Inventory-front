@@ -142,6 +142,7 @@ export const PhoneNumberInput = ({
 				value={value}
 				onChange={(e) => setValue(e.target.value)}
 				required
+				className="height"
 			/>
 		</PhoneStyle>
 	);

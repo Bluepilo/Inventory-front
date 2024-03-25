@@ -56,6 +56,9 @@ import Subscription from "../pages/user/Subscription";
 import Upgrade from "../pages/user/Subscription/Upgrade";
 import ActivityLogs from "../pages/user/ActivityLogs";
 import PaymentConfirm from "../pages/user/Subscription/PaymentConfirm";
+import Settings from "../pages/user/Settings";
+import EditBusiness from "../pages/user/Settings/EditBusiness";
+import CloseAccount from "../pages/user/Settings/CloseAccount";
 
 const Routing = () => {
 	return (
@@ -175,6 +178,15 @@ const Routing = () => {
 					<Route path="subscription" element={<Subscription />} />
 					<Route path="subscription/upgrade" element={<Upgrade />} />
 					<Route path="logs" element={<ActivityLogs />} />
+					<Route path="settings" element={<Settings />} />
+					<Route
+						path="settings/edit-business"
+						element={<EditBusiness />}
+					/>
+					<Route
+						path="settings/close-account"
+						element={<CloseAccount />}
+					/>
 				</Route>
 			</Routes>
 		</BrowserRouter>

@@ -328,6 +328,7 @@ export const SwitchDiv = styled.div`
 
 	@media (max-width: 991px) {
 		width: 100%;
+		flex-wrap: wrap;
 	}
 
 	div {
@@ -440,6 +441,25 @@ export const UploadWrapper = styled.div`
 	}
 `;
 
+export const Avatar = styled.div`
+	display: flex;
+	align-items: center;
+	span {
+		height: 60px;
+		width: 60px;
+		background: #000d33;
+		border-radius: 50%;
+		margin-right: 10px;
+	}
+
+	img {
+		height: 60px;
+		width: 60px;
+		border-radius: 50%;
+		margin-right: 10px;
+	}
+`;
+
 export const Alert = styled.div`
 	background: #cfeaff;
 	color: #0241ff;
@@ -476,6 +496,25 @@ export const LogStyles = styled.div`
 		p {
 			padding: 0;
 			margin: 0;
+		}
+	}
+`;
+
+export const CloseStyle = styled.div`
+	.svg {
+		span {
+			display: inline-flex;
+			background: #f44336;
+			height: 40px;
+			width: 40px;
+			justify-content: center;
+			align-items: center;
+			border-radius: 50%;
+			margin-bottom: 25px;
+
+			svg {
+				font-size: 1.5rem;
+			}
 		}
 	}
 `;

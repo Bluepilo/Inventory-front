@@ -42,7 +42,7 @@ const Forgot = ({
 				value={email}
 				onChange={(e) => setEmail(e.target.value)}
 				required
-				className="no-m"
+				className="no-m height"
 				disabled={load}
 			/>
 			<div className="forgot">

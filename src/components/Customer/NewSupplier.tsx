@@ -129,6 +129,7 @@ const NewSupplier = ({
 							onChange={(e) => setName(e.target.value)}
 							required
 							disabled={load}
+							className="height"
 						/>
 					</div>
 					<div className="col-lg-6">
@@ -138,6 +139,7 @@ const NewSupplier = ({
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 							disabled={load}
+							className="height"
 						/>
 					</div>
 					<div className="col-lg-6">
@@ -160,6 +162,7 @@ const NewSupplier = ({
 							onChange={(e) => setAddress(e.target.value)}
 							required
 							disabled={load}
+							className="height"
 						/>
 					</div>
 					{!editInfo?.id && (

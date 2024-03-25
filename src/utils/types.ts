@@ -24,6 +24,11 @@ interface UserDetailsType {
 	business: {
 		name: string;
 		onboardingSteps: any;
+		image: string;
+		email: string;
+		phone: string;
+		address: string;
+		canOnboard: boolean;
 	};
 	shop: {
 		name: string;
@@ -33,7 +38,12 @@ interface UserDetailsType {
 	organization: {
 		id: number;
 		name: string;
+		email: string;
+		phone: string;
 		isTrialOn: boolean;
+		image: string;
+		ownerFirstName: string;
+		ownerLastName: string;
 		subscriptionPlan: {
 			name: string;
 			id: number;

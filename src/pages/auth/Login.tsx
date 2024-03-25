@@ -46,6 +46,7 @@ const Login = () => {
 					required
 					disabled={loading}
 					autoComplete="email"
+					className="height"
 				/>
 				<label>Enter Password</label>
 				<div className="pos">
@@ -53,7 +54,7 @@ const Login = () => {
 						type={showPassword ? "text" : "password"}
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
-						className="no-m"
+						className="no-m height"
 						required
 						disabled={loading}
 						autoComplete="password"

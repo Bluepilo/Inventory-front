@@ -143,6 +143,7 @@ const NewSubdealer = ({
 							onChange={(e) => setName(e.target.value)}
 							required
 							disabled={load}
+							className="height"
 						/>
 					</div>
 					<div className="col-lg-6">
@@ -152,6 +153,7 @@ const NewSubdealer = ({
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 							disabled={load}
+							className="height"
 						/>
 					</div>
 					<div className="col-lg-6">
@@ -166,6 +168,7 @@ const NewSubdealer = ({
 							onChange={(e) => setAddress(e.target.value)}
 							required
 							disabled={load}
+							className="height"
 						/>
 					</div>
 					<div className="col-lg-6">

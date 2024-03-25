@@ -33,6 +33,7 @@ const NewCustomer = ({ submit }: { submit: (arg: any) => void }) => {
 					value={name}
 					onChange={(e) => setName(e.target.value)}
 					required
+					className="height"
 				/>
 				<label>Phone Number</label>
 				<PhoneNumberInput value={phone} setValue={setPhone} />
@@ -41,11 +42,13 @@ const NewCustomer = ({ submit }: { submit: (arg: any) => void }) => {
 					type="email"
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
+					className="height"
 				/>
 				<label>Address</label>
 				<textarea
 					value={address}
 					onChange={(e) => setAddress(e.target.value)}
+					className="height"
 				/>
 				<div className="mt-2">
 					<ButtonSubmit type="submit">

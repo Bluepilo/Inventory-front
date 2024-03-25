@@ -7,7 +7,10 @@ import { ButtonSubmit } from "../../styles/links.styles";
 import { displayError } from "../../utils/errors";
 import basicService from "../../redux/features/basic/basic-service";
 import { toast } from "react-toastify";
-import { updateOnboardingSteps } from "../../redux/features/basic/basic-slice";
+import {
+	allShops,
+	updateOnboardingSteps,
+} from "../../redux/features/basic/basic-slice";
 
 const ShopForm = ({
 	detail,
@@ -53,6 +56,7 @@ const ShopForm = ({
 				res = await basicService.createShop(token, payload);
 				saveTrialPick();
 			}
+			dispatch(allShops());
 			if (res) {
 				toast.success(
 					`Shop has been ${detail?.id ? "Updated" : "Created"}`
@@ -87,6 +91,7 @@ const ShopForm = ({
 				onChange={(e) => setName(e.target.value)}
 				required
 				disabled={load}
+				className="height"
 			/>
 			<label>Address</label>
 			<input
@@ -95,6 +100,7 @@ const ShopForm = ({
 				onChange={(e) => setAddress(e.target.value)}
 				required
 				disabled={load}
+				className="height"
 			/>
 			<label>Phone Number</label>
 			<input
@@ -102,6 +108,7 @@ const ShopForm = ({
 				value={phoneNo}
 				onChange={(e) => setPhoneNo(e.target.value)}
 				disabled={load}
+				className="height"
 			/>
 			<label>State</label>
 			<DropDownSelect

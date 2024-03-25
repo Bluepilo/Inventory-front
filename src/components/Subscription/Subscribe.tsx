@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Form } from "../../styles/form.styles";
 import CurrencyInput from "react-currency-input-field";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
@@ -54,7 +54,7 @@ const Subscribe = ({
 	const paymentHandler = async () => {
 		let req = {
 			amount: amount > balance ? amount - balance : amount,
-			calbackUrl: `${window.location.origin}/payment-confirmation`,
+			callbackUrl: `${window.location.origin}/payment-confirmation`,
 			subscriptionPlanId: subscriptionType,
 			monthly: duration === "monthly" ? true : false,
 			autoRenew: renew,
@@ -105,6 +105,7 @@ const Subscribe = ({
 					value={subscriptionType}
 					onChange={(e) => setSubscriptionType(e.target.value)}
 					required
+					className="height"
 				>
 					<option value={""}></option>
 					{plans?.map((p: any) => (
@@ -116,6 +117,7 @@ const Subscribe = ({
 					value={duration}
 					onChange={(e) => setDuration(e.target.value)}
 					required
+					className="height"
 				>
 					<option value={"yearly"}>Yearly</option>
 					<option value={"monthly"}>Monthly</option>
@@ -129,6 +131,7 @@ const Subscribe = ({
 					prefix={"₦ "}
 					value={amount}
 					required
+					className="height"
 				/>
 				<label>Wallet Balance</label>
 				<CurrencyInput
@@ -149,7 +152,9 @@ const Subscribe = ({
 					}}
 					value={details?.organization?.wallet?.balance || 0}
 					required
+					className="height"
 				/>
+
 				{amount > Number(details?.organization?.wallet?.balance) && (
 					<div className="error-check mb-3">
 						Insufficient Wallet Balance

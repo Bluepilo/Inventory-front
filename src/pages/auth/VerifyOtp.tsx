@@ -29,7 +29,7 @@ const VerifyOtp = () => {
 
 	const changeOtp = async (val: string) => {
 		setOtp(val);
-		if (val.length === 5) {
+		if (val.length === 6) {
 			try {
 				setLoad(true);
 				let res = await authService.verifyOtp({ email, code: val });

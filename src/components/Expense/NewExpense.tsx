@@ -120,6 +120,7 @@ const NewExpense = ({ submit }: { submit: any }) => {
 								onChange={(e) => setName(e.target.value)}
 								required
 								disabled={load}
+								className="height"
 							/>
 						</div>
 					)}
@@ -131,6 +132,7 @@ const NewExpense = ({ submit }: { submit: any }) => {
 							onChange={(e) => setExpenseDate(e.target.value)}
 							required
 							disabled={load}
+							className="height"
 						/>
 					</div>
 					<div className="col-lg-6">
@@ -208,7 +210,7 @@ const NewExpense = ({ submit }: { submit: any }) => {
 						disabled={load || !isRecurrent}
 						value={frequency}
 						onChange={(e) => setFrequency(e.target.value)}
-						className="new-form"
+						className="new-form height"
 					>
 						<option value={"once"}>Once</option>
 						<option value="daily">Daily</option>

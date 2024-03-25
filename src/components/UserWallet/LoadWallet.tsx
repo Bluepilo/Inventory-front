@@ -66,6 +66,7 @@ const LoadWallet = ({
 						prefix={"₦ "}
 						value={amount}
 						disabled={load}
+						className="height"
 					/>
 				</div>
 				<div className="col-lg-6">
@@ -91,6 +92,7 @@ const LoadWallet = ({
 						value={comment}
 						onChange={(e) => setComment(e.target.value)}
 						disabled={load}
+						className="height"
 					/>
 				</div>
 				<div className="col-lg-12 mt-3">

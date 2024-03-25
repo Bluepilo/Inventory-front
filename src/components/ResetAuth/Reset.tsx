@@ -54,7 +54,7 @@ const Reset = ({
 				value={token}
 				onChange={(e) => setToken(e.target.value)}
 				required
-				className="no-m"
+				className="no-m height"
 				disabled={load}
 			/>
 			<div className="forgot">

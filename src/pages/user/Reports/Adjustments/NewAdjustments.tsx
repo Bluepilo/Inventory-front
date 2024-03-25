@@ -138,6 +138,7 @@ const NewAdjustments = () => {
 											setQuantity(e.target.value)
 										}
 										required
+										className="height"
 									/>
 								</div>
 								<div className="col-sm-6">
@@ -220,6 +221,7 @@ const NewAdjustments = () => {
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
 						required
+						className="height"
 					/>
 					<div className="text-center">
 						<MainButton type="submit">

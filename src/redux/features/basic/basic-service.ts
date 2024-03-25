@@ -177,9 +177,31 @@ const enableSMS = async (token: string, obj: any) => {
 	return data;
 };
 
+const enableSmsBusiness = async (token: string, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/business/set-sms-notification`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data;
+};
+
 const createBusiness = async (token: string, obj: any) => {
 	const { data } = await axios.post(
 		`${config.baseUrl}/business/create`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data;
+};
+
+const updateBusiness = async (token: string, obj: any, id: any) => {
+	const { data } = await axios.patch(
+		`${config.baseUrl}/business/update/${id}`,
 		obj,
 		{
 			headers: authHeader(token),
@@ -279,6 +301,51 @@ const getLogs = async (token: string, filters: string) => {
 	return data.data;
 };
 
+const closeAccount = async (token: string, id: any, filters: string) => {
+	const { data } = await axios.delete(
+		`${config.baseUrl}/organization/delete/${id}${filters}`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data;
+};
+
+const setWaitingPeriod = async (token: string, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/business/set-waiting-period`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data;
+};
+
+const setCreditLimit = async (token: string, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/business/set-credit-limit`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data;
+};
+
+const importPermit = async (token: string, allow: boolean, id: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/business/onboarding-${
+			allow ? "allow" : "stop"
+		}/${id}`,
+		{},
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data;
+};
+
 const basicService = {
 	getNotifications,
 	saveTrialPick,
@@ -309,6 +376,12 @@ const basicService = {
 	deleteShop,
 	searchStaff,
 	getLogs,
+	updateBusiness,
+	closeAccount,
+	setWaitingPeriod,
+	setCreditLimit,
+	enableSmsBusiness,
+	importPermit,
 };
 
 export default basicService;

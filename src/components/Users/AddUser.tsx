@@ -53,6 +53,7 @@ const AddUser = ({ onComplete }: { onComplete: () => void }) => {
 						onChange={(e) => setFirstName(e.target.value)}
 						required
 						disabled={load}
+						className="height"
 					/>
 				</div>
 				<div className="col-lg-6">
@@ -62,6 +63,7 @@ const AddUser = ({ onComplete }: { onComplete: () => void }) => {
 						value={lastName}
 						onChange={(e) => setLastName(e.target.value)}
 						disabled={load}
+						className="height"
 					/>
 				</div>
 				<div className="col-lg-6">
@@ -71,6 +73,7 @@ const AddUser = ({ onComplete }: { onComplete: () => void }) => {
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 						disabled={load}
+						className="height"
 					/>
 				</div>
 				<div className="col-lg-6">
@@ -81,6 +84,7 @@ const AddUser = ({ onComplete }: { onComplete: () => void }) => {
 						onChange={(e) => setPhone(e.target.value)}
 						disabled={load}
 						required
+						className="height"
 					/>
 				</div>
 				<div className="col-lg-6">
@@ -90,6 +94,7 @@ const AddUser = ({ onComplete }: { onComplete: () => void }) => {
 						value={address}
 						onChange={(e) => setAddress(e.target.value)}
 						disabled={load}
+						className="height"
 					/>
 				</div>
 				<div className="col-lg-6">
@@ -100,6 +105,7 @@ const AddUser = ({ onComplete }: { onComplete: () => void }) => {
 						onChange={(e) => setPassword(e.target.value)}
 						required
 						disabled={load}
+						className="height"
 					/>
 				</div>
 				<div className="col-lg-12">

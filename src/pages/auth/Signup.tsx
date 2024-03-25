@@ -97,6 +97,7 @@ const Signup = () => {
 							onChange={(e) => setName(e.target.value)}
 							required
 							disabled={load}
+							className="height"
 						/>
 					</div>
 					<div className="col-lg-6">
@@ -107,6 +108,7 @@ const Signup = () => {
 							onChange={(e) => setEmail(e.target.value)}
 							required
 							disabled={load}
+							className="height"
 						/>
 					</div>
 					<div className="col-lg-6">
@@ -117,6 +119,7 @@ const Signup = () => {
 							onChange={(e) => setLastName(e.target.value)}
 							required
 							disabled={load}
+							className="height"
 						/>
 					</div>
 					<div className="col-lg-6">
@@ -127,6 +130,7 @@ const Signup = () => {
 							onChange={(e) => setFirstName(e.target.value)}
 							required
 							disabled={load}
+							className="height"
 						/>
 					</div>
 					<div className="col-lg-6 mb-4">
@@ -145,6 +149,7 @@ const Signup = () => {
 							onChange={(e) => setPhone(e.target.value)}
 							required
 							disabled={load}
+							className="height"
 						/>
 					</div>
 					<div className="col-lg-6">
@@ -158,6 +163,7 @@ const Signup = () => {
 								}
 								required
 								disabled={load}
+								className="height"
 							/>
 							<button
 								onClick={(e) => {
@@ -194,6 +200,7 @@ const Signup = () => {
 								}
 								required
 								disabled={load}
+								className="height"
 							/>
 							<button
 								onClick={(e) => {

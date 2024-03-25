@@ -97,6 +97,7 @@ const BrandForm = ({
 						onChange={(e) => setName(e.target.value)}
 						required
 						disabled={load}
+						className="height"
 					/>
 				</div>
 				<div className="col-lg-6">
@@ -106,6 +107,7 @@ const BrandForm = ({
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 						disabled={load}
+						className="height"
 					/>
 				</div>
 				<div className="col-lg-6">
@@ -115,6 +117,7 @@ const BrandForm = ({
 						value={phone}
 						onChange={(e) => setPhone(e.target.value)}
 						disabled={load}
+						className="height"
 					/>
 				</div>
 				<div className="col-lg-6">
@@ -124,6 +127,7 @@ const BrandForm = ({
 						value={address}
 						onChange={(e) => setAddress(e.target.value)}
 						disabled={load}
+						className="height"
 					/>
 				</div>
 			</div>

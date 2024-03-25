@@ -168,6 +168,7 @@ const ManagedFound = ({
 						onChange={(e) => setName(e.target.value)}
 						required
 						disabled={load}
+						className="height"
 					/>
 					<label>Description</label>
 					<input
@@ -175,6 +176,7 @@ const ManagedFound = ({
 						value={desc}
 						onChange={(e) => setDesc(e.target.value)}
 						disabled={load}
+						className="height"
 					/>
 				</Form>
 			) : (

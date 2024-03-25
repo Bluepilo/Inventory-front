@@ -19,7 +19,7 @@ const MakePayment = ({ close }: { close: () => void }) => {
 		if (amount > 100) {
 			let req = {
 				amount,
-				calbackUrl: `${window.location.origin}/payment-confirmation`,
+				callbackUrl: `${window.location.origin}/payment-confirmation`,
 			};
 			try {
 				setLoad(true);
@@ -57,6 +57,7 @@ const MakePayment = ({ close }: { close: () => void }) => {
 					prefix={"₦ "}
 					value={amount}
 					required
+					className="height"
 				/>
 				{load ? (
 					<Loading />

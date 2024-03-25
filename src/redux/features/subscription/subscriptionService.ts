@@ -51,12 +51,23 @@ const makePayment = async (token: string, obj: any) => {
 	return data.data;
 };
 
+const verifyPayment = async (token: string, ref: string) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/payment/verify/${ref}`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const subscriptionService = {
 	getSubHistory,
 	getPaymentHistory,
 	getPlans,
 	makeSubscription,
 	makePayment,
+	verifyPayment,
 };
 
 export default subscriptionService;

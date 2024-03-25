@@ -144,7 +144,10 @@ const ProductHistory = () => {
 													<Link
 														to={`/dashboard/purchases/${l.purchaseId}`}
 													>
-														Purchase
+														{l.purchase
+															?.isOnboarding
+															? "Imported"
+															: "Purchase"}
 													</Link>
 												) : (
 													l.logType?.name

@@ -58,7 +58,7 @@ const HeaderDropDown = ({
 						<p>Logout</p>
 					</a>
 					<Link
-						to="/"
+						to="/dashboard/settings"
 						onClick={() => setOpenDrop(false)}
 						className="box"
 					>

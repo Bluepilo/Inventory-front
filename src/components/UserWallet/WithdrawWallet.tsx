@@ -74,6 +74,7 @@ const WithdrawWallet = ({
 						prefix={"₦ "}
 						value={amount}
 						disabled={load}
+						className="height"
 					/>
 				</div>
 				<div className="col-lg-6">
@@ -99,6 +100,7 @@ const WithdrawWallet = ({
 						value={comment}
 						onChange={(e) => setComment(e.target.value)}
 						disabled={load}
+						className="height"
 					/>
 				</div>
 				<div className="col-lg-12 mt-3">
@@ -134,6 +136,7 @@ const WithdrawWallet = ({
 					onChange={(e) => setPassword(e.target.value)}
 					disabled={load}
 					required
+					className="height"
 				/>
 			</div>
 			<div className="col-lg-12 mt-3">

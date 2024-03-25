@@ -9,7 +9,7 @@ import FailedIcon from "../../../../assets/icons/failed.svg";
 import SkeletonTable from "../../../../components/Loaders/SkeletonTable";
 import Paginate from "../../../../components/Paginate";
 import basicService from "../../../../redux/features/basic/basic-service";
-import { useAppSelector } from "../../../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
 import { Drop } from "../../../../styles/basic.styles";
 import { HiDotsVertical } from "react-icons/hi";
 import ConfirmModal from "../../../../components/Modals/ConfirmModal";
@@ -20,8 +20,11 @@ import ModalComponent from "../../../../components/ModalComponent";
 import ShopForm from "../../../../components/Shop/ShopForm";
 import NewPage from "../../../../components/NewPage";
 import CoverImg from "../../../../assets/defaults/report.png";
+import { allShops } from "../../../../redux/features/basic/basic-slice";
 
 const Shop = () => {
+	const dispatch = useAppDispatch();
+
 	const { token, details } = useAppSelector((state) => state.auth);
 
 	const [lists, setList] = useState<any>({});
@@ -80,6 +83,7 @@ const Shop = () => {
 			await basicService.actionShop(token, action, shopDetail?.id);
 			toast.success(`Shop has been ${action}d.`);
 			listShops();
+			dispatch(allShops());
 		} catch (err) {
 			setLoad(false);
 			displayError(err, true);
@@ -93,6 +97,7 @@ const Shop = () => {
 				await basicService.deleteShop(token, id);
 				toast.success(`Shop has been deleted.`);
 				listShops();
+				dispatch(allShops());
 			} catch (err) {
 				setLoad(false);
 				displayError(err, true);

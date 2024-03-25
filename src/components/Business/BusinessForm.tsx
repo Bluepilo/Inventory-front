@@ -16,9 +16,11 @@ import { logout, userProfile } from "../../redux/features/auth/auth-slice";
 const BusinessForm = ({
 	onComplete,
 	dashboard,
+	editDetail,
 }: {
 	onComplete: () => void;
 	dashboard?: boolean;
+	editDetail?: any;
 }) => {
 	const dispatch = useAppDispatch();
 
@@ -41,6 +43,20 @@ const BusinessForm = ({
 	useEffect(() => {
 		loadCurrency();
 	}, []);
+
+	useEffect(() => {
+		if (editDetail?.id) {
+			setName(editDetail.name);
+			setRegNo(editDetail.regNo);
+			setEmail(editDetail.email);
+			setPhone(editDetail.phone);
+			setCurrency({
+				label: `${editDetail.currency?.name} ${editDetail.currency?.symbol}`,
+				value: editDetail.currency?.id,
+			});
+			setAddress(editDetail.address);
+		}
+	}, [editDetail]);
 
 	const loadCurrency = async () => {
 		try {
@@ -67,7 +83,16 @@ const BusinessForm = ({
 				countryCode: countryCode?.value,
 				currencyId: currency?.value,
 			};
-			let res = await basicService.createBusiness(token, data);
+			let res;
+			if (editDetail?.id) {
+				res = await basicService.updateBusiness(
+					token,
+					data,
+					editDetail.id
+				);
+			} else {
+				res = await basicService.createBusiness(token, data);
+			}
 			setLoad(false);
 			if (res) {
 				onComplete();
@@ -93,6 +118,7 @@ const BusinessForm = ({
 						onChange={(e) => setName(e.target.value)}
 						required
 						disabled={load}
+						className="height"
 					/>
 				</div>
 				<div className="col-lg-6">
@@ -102,6 +128,7 @@ const BusinessForm = ({
 						value={regNo}
 						onChange={(e) => setRegNo(e.target.value)}
 						disabled={load}
+						className="height"
 					/>
 				</div>
 				<div className="col-lg-6">
@@ -111,6 +138,7 @@ const BusinessForm = ({
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 						disabled={load}
+						className="height"
 					/>
 				</div>
 				<div className="col-lg-6">
@@ -118,16 +146,16 @@ const BusinessForm = ({
 					<PhoneNumberInput value={phone} setValue={setPhone} />
 				</div>
 				<div className="col-lg-6 mb-4">
+					<label>Country</label>
 					<DropDownSelect
-						label="Country"
 						options={countries}
 						value={countryCode}
 						changeSelected={setCountryCode}
 					/>
 				</div>
 				<div className="col-lg-6 mb-4">
+					<label>State</label>
 					<DropDownSelect
-						label="State"
 						options={countryCode?.value == "234" ? states : []}
 						value={stateId}
 						changeSelected={setStateId}
@@ -149,6 +177,7 @@ const BusinessForm = ({
 						onChange={(e) => setAddress(e.target.value)}
 						disabled={load}
 						required
+						className="height"
 					/>
 				</div>
 				<div className="col-lg-12 mt-3">
@@ -156,7 +185,7 @@ const BusinessForm = ({
 						<Loading />
 					) : (
 						<ButtonSubmit type="submit">
-							Create Business
+							{editDetail?.id ? "Update" : "Create"} Business
 						</ButtonSubmit>
 					)}
 				</div>
