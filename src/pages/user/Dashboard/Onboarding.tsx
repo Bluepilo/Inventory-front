@@ -1,13 +1,34 @@
-import { useAppSelector } from "../../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { HelpBox, OnboardingStyles } from "../../../styles/home.styles";
 import { onboardingsteps } from "../../../utils/data";
 import OnboardStep from "../../../components/Home/OnboardStep";
 import BouyIcon from "../../../assets/icons/lifebouy.svg";
 import PhoneIcon from "../../../assets/icons/phone.svg";
 import { MainLink } from "../../../styles/links.styles";
+import { useEffect } from "react";
+import { updateOnboardingSteps } from "../../../redux/features/basic/basic-slice";
 
 const Onboarding = () => {
+	const dispatch = useAppDispatch();
+
 	const { details } = useAppSelector((state) => state.auth);
+
+	useEffect(() => {
+		saveTrialPick();
+	}, []);
+
+	const saveTrialPick = () => {
+		if (details.business.onboardingSteps?.trialPick !== "completed") {
+			dispatch(
+				updateOnboardingSteps({
+					steps: {
+						...details?.business?.onboardingSteps,
+						trialPick: "completed",
+					},
+				})
+			);
+		}
+	};
 
 	return details?.business ? (
 		<div className="mt-3">

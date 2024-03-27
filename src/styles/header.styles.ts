@@ -312,7 +312,7 @@ export const NotifcationStyles = styled.div`
 
 	.noti-body {
 		width: 400px;
-		max-height: 80vh;
+		max-height: 70vh;
 		overflow-y: auto;
 		border: 1px solid rgba(0, 0, 0, 0.2);
 		padding: 10px 20px;
@@ -322,7 +322,7 @@ export const NotifcationStyles = styled.div`
 		-webkit-transition: all 0.3s ease-in-out;
 		transition: all 0.3s ease-in-out;
 		font-size: 0.85rem;
-		div {
+		div.noti {
 			display: block;
 			color: #333;
 			text-decoration: none;
@@ -343,6 +343,35 @@ export const NotifcationStyles = styled.div`
 					font-weight: 600;
 				}
 			}
+		}
+	}
+
+	.btns {
+		justify-content: flex-end;
+		display: flex;
+		margin-bottom: 10px;
+
+		button {
+			font-size: 0.9rem;
+			border: 0;
+			outline: 0;
+			color: #0241ff;
+			background: none;
+			display: inline;
+		}
+	}
+	.paginate {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		button {
+			outline: 0;
+			border: 1px solid rgba(0, 0, 0, 0.2);
+			margin: 0 10px;
+			background: #f5f5f5;
+			padding: 3px 15px;
+			border-radius: 4px;
 		}
 	}
 `;

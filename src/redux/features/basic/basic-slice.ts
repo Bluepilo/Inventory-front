@@ -50,10 +50,10 @@ export const updateOnboardingSteps = createAsyncThunk(
 
 export const getNotifications = createAsyncThunk(
 	"basic/notification",
-	async (_, thunkAPI: any) => {
+	async (page: number, thunkAPI: any) => {
 		try {
 			const { token } = thunkAPI.getState().auth;
-			const res = await basicService.getNotifications(token);
+			const res = await basicService.getNotifications(token, page);
 			return res.data;
 		} catch (error) {
 			const message = displayError(error, false);

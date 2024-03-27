@@ -2,11 +2,28 @@ import axios from "axios";
 import config from "../../../utils/config";
 import { authHeader, headers } from "../../../utils/headers";
 
-const getNotifications = async (token: string) => {
+const getNotifications = async (token: string, page: number) => {
 	const { data } = await axios.get(
-		`${config.baseUrl}/notification/user-notification`,
+		`${config.baseUrl}/notification/user-notification?page=${page || 1}`,
 		{ headers: authHeader(token) }
 	);
+	return data;
+};
+
+const readNotification = async (id: any, token: string) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/notification/read/${id}`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data;
+};
+
+const readAllNotifications = async (token: string) => {
+	const { data } = await axios.get(`${config.baseUrl}/notification/readAll`, {
+		headers: authHeader(token),
+	});
 	return data;
 };
 
@@ -346,8 +363,39 @@ const importPermit = async (token: string, allow: boolean, id: any) => {
 	return data;
 };
 
+const changePassword = async (token: string, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/user/update-my-password`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data;
+};
+
+const setNotification = async (token: string, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/business/set-notification`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data;
+};
+
+const loadFaqs = async (token: string) => {
+	const { data } = await axios.get(`${config.baseUrl}/faq/all`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
 const basicService = {
 	getNotifications,
+	readAllNotifications,
+	readNotification,
 	saveTrialPick,
 	updateOnboardingSteps,
 	dashboardStats,
@@ -382,6 +430,9 @@ const basicService = {
 	setCreditLimit,
 	enableSmsBusiness,
 	importPermit,
+	changePassword,
+	setNotification,
+	loadFaqs,
 };
 
 export default basicService;

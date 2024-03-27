@@ -59,6 +59,8 @@ import PaymentConfirm from "../pages/user/Subscription/PaymentConfirm";
 import Settings from "../pages/user/Settings";
 import EditBusiness from "../pages/user/Settings/EditBusiness";
 import CloseAccount from "../pages/user/Settings/CloseAccount";
+import Resources from "../pages/user/Resources";
+import ResourceDetail from "../pages/user/Resources/ResourceDetail";
 
 const Routing = () => {
 	return (
@@ -186,6 +188,11 @@ const Routing = () => {
 					<Route
 						path="settings/close-account"
 						element={<CloseAccount />}
+					/>
+					<Route path="resources" element={<Resources />} />
+					<Route
+						path="resources/:name"
+						element={<ResourceDetail />}
 					/>
 				</Route>
 			</Routes>

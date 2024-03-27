@@ -89,11 +89,23 @@ const Header = ({ openMenu }: { openMenu: () => void }) => {
 						)}
 						{haveRole(details.roleId).isBusinessAdmin &&
 							!details?.organization?.isTrialOn &&
-							details?.organization?.subscriptionPlan?.id < 4 && (
-								<button className="upgrade">Upgrade</button>
+							details?.organization?.subscriptionPlan?.id < 5 && (
+								<button
+									onClick={() =>
+										navigate(
+											"/dashboard/subscription/upgrade"
+										)
+									}
+									className="upgrade"
+								>
+									Upgrade
+								</button>
 							)}
 
-						<button className="support hide">
+						<button
+							onClick={() => navigate("/dashboard/resources")}
+							className="support hide"
+						>
 							<img src={MessageIcon} alt="Support" />
 						</button>
 						<button
