@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import TitleCover from "../../../../components/TitleCover";
 import { useAppSelector } from "../../../../redux/hooks";
 import { UseDebounce } from "../../../../utils/hooks";
@@ -6,12 +6,11 @@ import { BasicSearch } from "../../../../components/Filters/BasicInputs";
 import basicService from "../../../../redux/features/basic/basic-service";
 import { Table, TableComponent } from "../../../../styles/table.styles";
 import dateFormat from "dateformat";
-import { Drop } from "../../../../styles/basic.styles";
-import { HiDotsVertical } from "react-icons/hi";
 import SkeletonTable from "../../../../components/Loaders/SkeletonTable";
 import Paginate from "../../../../components/Paginate";
 import SuccessIcon from "../../../../assets/icons/success.svg";
 import FailedIcon from "../../../../assets/icons/failed.svg";
+import ActionsUser from "../../../../components/Users/ActionsUser";
 
 const Staff = () => {
 	const { token } = useAppSelector((state) => state.auth);
@@ -106,7 +105,14 @@ const Staff = () => {
 												<td>{l.email}</td>
 												<td>{l.phoneNo}</td>
 												<td>{l.role?.name || "--"}</td>
-												<td>{l.shop?.name}</td>
+												<td>
+													{l.shop?.name ||
+														(l.role?.name.includes(
+															"Business"
+														)
+															? "All Shops"
+															: "")}
+												</td>
 												<td className="status">
 													<img
 														src={
@@ -117,14 +123,12 @@ const Staff = () => {
 													/>
 												</td>
 												<td>
-													<Drop>
-														<Drop.Toggle
-															size="sm"
-															id="dropdown-basic"
-														>
-															<HiDotsVertical />
-														</Drop.Toggle>
-													</Drop>
+													<ActionsUser
+														detail={l}
+														reload={() =>
+															listStaff()
+														}
+													/>
 												</td>
 											</tr>
 										))}

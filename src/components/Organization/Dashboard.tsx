@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { CiShop } from "react-icons/ci";
 import { HiDotsVertical, HiOutlineUsers } from "react-icons/hi";
 import { TbReceipt } from "react-icons/tb";
@@ -7,12 +8,16 @@ import SubIcon from "../../assets/menus/subscription.svg";
 import { Drop } from "../../styles/basic.styles";
 import { FiUserPlus } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import ModalComponent from "../ModalComponent";
+import OrganizationProfile from "../Settings/OrganizationProfile";
 
 const Dashboard = () => {
 	const navigate = useNavigate();
 
 	const { details } = useAppSelector((state) => state.auth);
 	const { organization } = useAppSelector((state) => state.basic);
+
+	const [openOrg, setOpenOrg] = useState(false);
 
 	const getPercent = (a: number, b: number) => {
 		let calcA = a || 0;
@@ -37,6 +42,9 @@ const Dashboard = () => {
 									href="#"
 									onClick={(e) => {
 										e.preventDefault();
+										navigate(
+											"/dashboard/subscription/upgrade"
+										);
 									}}
 									className="mb-2 mt-1"
 								>
@@ -50,6 +58,7 @@ const Dashboard = () => {
 									href="#2"
 									onClick={(e) => {
 										e.preventDefault();
+										setOpenOrg(true);
 									}}
 									className="mb-2"
 								>
@@ -179,6 +188,20 @@ const Dashboard = () => {
 					</div>
 				</div>
 			</div>
+			<ModalComponent
+				open={openOrg}
+				close={() => setOpenOrg(false)}
+				title="Organization Profile"
+			>
+				<OrganizationProfile
+					close={(arg: string) => {
+						setOpenOrg(false);
+						if (arg === "close") {
+							navigate("close-account");
+						}
+					}}
+				/>
+			</ModalComponent>
 		</div>
 	);
 };

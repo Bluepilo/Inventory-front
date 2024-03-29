@@ -6,7 +6,7 @@ export const FaqDiv = styled.div<{ active: boolean }>`
 	background: ${(props) => (props.active ? "#000d33" : "#ffffff")};
 	font-size: 0.9rem;
 	color: ${(props) => (!props.active ? "#000d33" : "#ffffff")};
-	border: 1px #d9dbeb #d9dbeb;
+	border: 1px solid #d9dbeb;
 	margin-bottom: 10px;
 	border-radius: 8px;
 	cursor: pointer;
@@ -58,7 +58,7 @@ export const TermsDiv = styled.div`
 			padding: 0 10px;
 		}
 		a:first-child {
-			border-right: 1px #d9dbeb #666;
+			border-right: 1px solid #666;
 		}
 	}
 `;
@@ -281,7 +281,7 @@ export const WalletDiv = styled.div`
 
 			button.custom {
 				background: none;
-				border: 1px #d9dbeb #f44336;
+				border: 1px solid #f44336;
 				color: #f44336;
 				outline: 0;
 				padding: 10px 18px;
@@ -321,7 +321,7 @@ export const SwitchDiv = styled.div`
 	display: flex;
 	background: #f5f5f5;
 	justify-content: space-between;
-	border: 1px #d9dbeb #d9dbe9;
+	border: 1px solid #d9dbe9;
 	border-radius: 4px;
 	padding: 4px;
 	margin-top: 20px;
@@ -340,7 +340,7 @@ export const SwitchDiv = styled.div`
 		cursor: pointer;
 
 		&.active {
-			border: 1px #d9dbeb #0241ff;
+			border: 1px solid #0241ff;
 			color: #0241ff;
 		}
 	}
@@ -415,7 +415,7 @@ export const UploadWrapper = styled.div`
 	}
 
 	.img-box {
-		border: 1px #d9dbeb rgba(0, 0, 0, 0.2);
+		border: 1px solid rgba(0, 0, 0, 0.2);
 		display: flex;
 		align-items: center;
 		padding: 5px 20px;
@@ -484,7 +484,7 @@ export const LogStyles = styled.div`
 		align-items: center;
 		justify-content: space-between;
 		font-size: 0.8rem;
-		border-bottom: 1px #d9dbeb #d9dbeb;
+		border-bottom: 1px solid #d9dbeb;
 		padding: 10px;
 
 		h6 {

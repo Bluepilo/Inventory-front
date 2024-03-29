@@ -72,7 +72,7 @@ const Onboarding = () => {
 									onboarding experts for <span>FREE</span>
 								</p>
 								<MainLink
-									href="https://calendar.app.google/hBttV1W89XZH3nZ76"
+									href="https://bluepilo.com/book-an-appointment/"
 									target="_blank"
 								>
 									<img src={PhoneIcon} />

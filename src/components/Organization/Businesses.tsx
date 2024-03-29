@@ -11,6 +11,7 @@ import { displayError } from "../../utils/errors";
 import basicService from "../../redux/features/basic/basic-service";
 import { userProfile } from "../../redux/features/auth/auth-slice";
 import { toast } from "react-toastify";
+import { useState } from "react";
 
 const Businesses = () => {
 	const navigate = useNavigate();
@@ -19,6 +20,40 @@ const Businesses = () => {
 
 	const { details, token } = useAppSelector((state) => state.auth);
 	const { organization } = useAppSelector((state) => state.basic);
+
+	const [load, setLoad] = useState(false);
+
+	const switchHandler = async (id: any, to: string) => {
+		if (details.businessId !== id) {
+			if (
+				window.confirm("You will be switched to this business first.")
+			) {
+				try {
+					setLoad(true);
+					await basicService.switchBusiness(token, id);
+					setLoad(false);
+					if (to === "edit") {
+						window.location.replace("/dashboard/settings");
+					} else {
+						window.location.replace("/dashboard/business/shops");
+					}
+				} catch (err) {
+					setLoad(false);
+					displayError(err, false);
+				}
+			}
+		} else {
+			navigateTo(to);
+		}
+	};
+
+	const navigateTo = (to: string) => {
+		if (to === "edit") {
+			navigate("/dashboard/settings");
+		} else {
+			navigate("/dashboard/business/shops");
+		}
+	};
 
 	const addOrRemoveUserBusiness = async (action: string, bizId: any) => {
 		if (
@@ -69,6 +104,7 @@ const Businesses = () => {
 										href="#2"
 										onClick={(e) => {
 											e.preventDefault();
+											switchHandler(biz.id, "edit");
 										}}
 									>
 										<FaRegEdit />
@@ -80,6 +116,7 @@ const Businesses = () => {
 										href="#"
 										onClick={(e) => {
 											e.preventDefault();
+											switchHandler(biz.id, "shop");
 										}}
 										className="mb-2 mt-1"
 									>

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const SubSwitch = styled.div`
+export const SubSwitch = styled.div<{ isMonthly: string }>`
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -37,8 +37,10 @@ export const SubSwitch = styled.div`
 			}
 
 			&.active {
-				background: #0241ff;
-				color: #fff;
+				background-color: ${(props) =>
+					props.isMonthly == "true" ? "#FFB500" : "#0241ff"};
+				color: ${(props) =>
+					props.isMonthly == "true" ? "#000D33" : "#fff"};
 
 				.count {
 					border: 1px solid #fff;
@@ -70,7 +72,6 @@ export const Plan = styled.div`
 			align-items: center;
 
 			svg {
-				color: #0241ff;
 				margin-right: 6px;
 			}
 			span {

@@ -11,6 +11,7 @@ import { displayError } from "../../../utils/errors";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { logout } from "../../../redux/features/auth/auth-slice";
 import basicService from "../../../redux/features/basic/basic-service";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 
 const CloseAccount = () => {
 	const navigate = useNavigate();
@@ -23,6 +24,7 @@ const CloseAccount = () => {
 	const [reason, setReason] = useState("");
 	const [comment, setComment] = useState("");
 	const [password, setPassword] = useState("");
+	const [showPassword, setShowPassword] = useState(false);
 
 	const closeHandler = () => {
 		if (reason && comment) {
@@ -150,12 +152,23 @@ const CloseAccount = () => {
 			>
 				<Form onSubmit={submitHandler}>
 					<label>Enter Password</label>
-					<input
-						className="height"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-						required
-					/>
+					<div className="pos">
+						<input
+							className="height"
+							type={showPassword ? "text" : "password"}
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+							required
+						/>
+						<button
+							onClick={(e) => {
+								e.preventDefault();
+								setShowPassword(!showPassword);
+							}}
+						>
+							{showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+						</button>
+					</div>
 					<div className="mt-3 text-center">
 						<MainButton bg="#f44336" type="submit">
 							<span>Close</span>

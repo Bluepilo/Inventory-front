@@ -20,6 +20,7 @@ import FailedIcon from "../../../assets/icons/failed.svg";
 import PendingIcon from "../../../assets/icons/pending.svg";
 import SkeletonTable from "../../../components/Loaders/SkeletonTable";
 import Paginate from "../../../components/Paginate";
+import { haveRole } from "../../../utils/role";
 
 const Purchases = () => {
 	const navigate = useNavigate();
@@ -109,7 +110,11 @@ const Purchases = () => {
 			<TitleCover
 				title="Purchase Records"
 				dataCount={lists?.count}
-				button="Make Purchase"
+				button={
+					haveRole(details.roleId).isBusinessAdmin
+						? "Make Purchase"
+						: ""
+				}
 				buttonIcon={<IoCartSharp />}
 				buttonClick={() => navigate("new")}
 			/>

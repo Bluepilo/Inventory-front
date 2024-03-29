@@ -7,6 +7,7 @@ import OutsideClick from "../OutsideClick";
 import { displayError } from "../../utils/errors";
 import basicService from "../../redux/features/basic/basic-service";
 import { Spinner } from "react-bootstrap";
+import { haveRole } from "../../utils/role";
 
 const SwitchBusiness = () => {
 	const [openDrop, setOpenDrop] = useState(false);
@@ -60,13 +61,14 @@ const SwitchBusiness = () => {
 								)}
 							</button>
 						))}
-
-						<Link
-							to="/dashboard/organization"
-							onClick={() => setOpenDrop(false)}
-						>
-							See all Businesses
-						</Link>
+						{haveRole(details.roleId).isBusinessOwner && (
+							<Link
+								to="/dashboard/organization"
+								onClick={() => setOpenDrop(false)}
+							>
+								See all Businesses
+							</Link>
+						)}
 					</div>
 				)}
 			</OutsideClick>

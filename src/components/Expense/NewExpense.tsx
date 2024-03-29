@@ -17,7 +17,7 @@ const NewExpense = ({ submit }: { submit: any }) => {
 	const { token, details } = useAppSelector((state) => state.auth);
 	const { expenseCat, shops } = useAppSelector((state) => state.basic);
 
-	let arr = [{ label: "New Category", value: "" }, ...expenseCat];
+	let arr = [{ label: "New Category", value: "new" }, ...expenseCat];
 
 	const [load, setLoad] = useState(false);
 	const [name, setName] = useState("");
@@ -61,7 +61,7 @@ const NewExpense = ({ submit }: { submit: any }) => {
 		e.preventDefault();
 		try {
 			let obj = {
-				expenseCategoryId: catId?.value || null,
+				expenseCategoryId: catId?.value === "new" ? null : catId?.value,
 				name,
 				date: expenseDate,
 				cost,
@@ -111,7 +111,7 @@ const NewExpense = ({ submit }: { submit: any }) => {
 							changeSelected={setCatId}
 						/>
 					</div>
-					{catId?.value === "new-category" && (
+					{catId?.value === "new" && (
 						<div className="col-lg-6">
 							<label>Enter Type Name</label>
 							<input
@@ -147,10 +147,11 @@ const NewExpense = ({ submit }: { submit: any }) => {
 							prefix={"₦ "}
 							value={cost}
 							disabled={load}
+							className="height"
 						/>
 					</div>
 					{!details.shopId && (
-						<div className="col-lg-6">
+						<div className="col-lg-6 mb-3">
 							<label>Shop</label>
 							<DropDownSelect
 								options={shops.filter((f) => f.isActive)}

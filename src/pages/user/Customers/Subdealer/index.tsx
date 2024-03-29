@@ -40,7 +40,7 @@ const Subdealer = () => {
 
 	const debouncedSearch = UseDebounce(search);
 
-	let filters = `?page=${page}&limit=${limit}`;
+	let filters = `?page=${page}&limit=${limit}&shopId=${details.shopId || ""}`;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);

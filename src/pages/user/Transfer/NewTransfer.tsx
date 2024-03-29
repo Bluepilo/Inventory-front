@@ -24,6 +24,7 @@ import { displayError } from "../../../utils/errors";
 import transferService from "../../../redux/features/transfer/transfer-service";
 import LoadModal from "../../../components/Loaders/LoadModal";
 import { updateOnboardingSteps } from "../../../redux/features/basic/basic-slice";
+import { SaleSelectStyle } from "../../../styles/filters.styles";
 
 const NewTransfer = () => {
 	const navigate = useNavigate();
@@ -52,7 +53,7 @@ const NewTransfer = () => {
 	}, []);
 
 	useEffect(() => {
-		if (fromShop?.value) {
+		if (fromShop?.value || details.shopId) {
 			getProducts();
 		}
 	}, [fromShop]);
@@ -93,7 +94,7 @@ const NewTransfer = () => {
 			setProductLoad(true);
 			let res = await productService.getProductsInShop(
 				token,
-				fromShop?.value
+				fromShop?.value || details.shopId
 			);
 			let arr = res?.rows?.filter(
 				(a: any) => !a.isService && a.totalStock !== 0
@@ -203,12 +204,20 @@ const NewTransfer = () => {
 			<SaleSelectDiv>
 				<div className="info"></div>
 				<div className="a-flex">
-					<SaleSelect
-						options={shopList}
-						changeSelected={(arg) => setFromShop(arg)}
-						value={fromShop}
-						label="From"
-					/>
+					{details.shopId ? (
+						<SaleSelectStyle>
+							<p>From</p>
+							<div className="shop">{details.shop?.name}</div>
+						</SaleSelectStyle>
+					) : (
+						<SaleSelect
+							options={shopList}
+							changeSelected={(arg) => setFromShop(arg)}
+							value={fromShop}
+							label="From"
+						/>
+					)}
+
 					<div className="mb">
 						<SaleSelect
 							options={shopList}

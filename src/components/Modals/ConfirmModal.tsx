@@ -19,7 +19,9 @@ const ConfirmModal = ({
 			size="sm"
 		>
 			<Confirmation>
-				<p>{label || "Are you sure you want to proceed?"}</p>
+				<p className="text-center">
+					{label || "Are you sure you want to proceed?"}
+				</p>
 				<div className="text-center mt-4">
 					<button className="yes" onClick={confirm}>
 						Yes

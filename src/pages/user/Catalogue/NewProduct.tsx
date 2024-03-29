@@ -30,6 +30,7 @@ const NewProduct = () => {
 	const [load, setLoad] = useState(false);
 
 	const [name, setName] = useState("");
+	const [categoryName, setCategoryName] = useState("");
 	const [categoryList, setCategoryList] = useState<OptionProp[]>([]);
 	const [selectedCategory, setSelectedCategory] = useState<OptionProp | null>(
 		null
@@ -57,7 +58,8 @@ const NewProduct = () => {
 				let arr = res.map((r) => {
 					return { label: r.name, value: r.id };
 				});
-				setCategoryList(arr);
+				let listArr = [{ label: "New Category", value: "new" }, ...arr];
+				setCategoryList(listArr);
 			}
 		} catch (err) {}
 	};
@@ -84,7 +86,11 @@ const NewProduct = () => {
 		let obj = {
 			name,
 			brandId: params.id,
-			categoryId: selectedCategory?.value,
+			categoryId:
+				selectedCategory?.value === "new"
+					? null
+					: selectedCategory?.value,
+			categoryName,
 			costPrice,
 			price: sellingPrice,
 			size,
@@ -173,7 +179,13 @@ const NewProduct = () => {
 									/>
 								</div>
 								{!isService && (
-									<div className="col-lg-6">
+									<div
+										className={`col-lg-${
+											selectedCategory?.value === "new"
+												? "4"
+												: "6"
+										}`}
+									>
 										<label>Amount In Stock</label>
 										<input
 											type="number"
@@ -185,12 +197,29 @@ const NewProduct = () => {
 										/>
 									</div>
 								)}
-								<div className="col-lg-6 mb-3">
+								<div
+									className={`col-lg-${
+										selectedCategory?.value === "new"
+											? "4"
+											: "6"
+									} mb-3`}
+								>
 									<label>Category</label>
 									<DropDownSelect
 										options={categoryList}
 										value={selectedCategory}
 										changeSelected={setSelectedCategory}
+									/>
+								</div>
+								<div className="col-lg-4">
+									<label>Category Name</label>
+									<input
+										type="text"
+										className="height"
+										value={categoryName}
+										onChange={(e) =>
+											setCategoryName(e.target.value)
+										}
 									/>
 								</div>
 								<div className="col-lg-6">

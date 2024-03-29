@@ -34,7 +34,7 @@ const Upgrade = () => {
 	return (
 		<div>
 			<TitleCover title="Upgrade your Subscription" />
-			<SubSwitch>
+			<SubSwitch isMonthly={`${isMonthly}`}>
 				<div className="b-switch">
 					<button
 						onClick={() => setIsMonthly(true)}
@@ -67,17 +67,35 @@ const Upgrade = () => {
 								</p>
 								<div className="mt-2">
 									<p className="content">
-										<FaCircleCheck />
+										<FaCircleCheck
+											color={
+												!isMonthly
+													? "#0241ff"
+													: "#FFB500"
+											}
+										/>
 										<span>
 											{p.noOfShops} Outlet/Shop/Office
 										</span>
 									</p>
 									<p className="content">
-										<FaCircleCheck />
+										<FaCircleCheck
+											color={
+												!isMonthly
+													? "#0241ff"
+													: "#FFB500"
+											}
+										/>
 										<span>{p.noOfUsers} Active Users</span>
 									</p>
 									<p className="content">
-										<FaCircleCheck />
+										<FaCircleCheck
+											color={
+												!isMonthly
+													? "#0241ff"
+													: "#FFB500"
+											}
+										/>
 										{p.name === "Premium" ? (
 											<span>Transaction Limited</span>
 										) : (
@@ -92,40 +110,90 @@ const Upgrade = () => {
 										)}
 									</p>
 									<p className="content">
-										<FaCircleCheck />
+										<FaCircleCheck
+											color={
+												!isMonthly
+													? "#0241ff"
+													: "#FFB500"
+											}
+										/>
 										<span>Products Unlimited</span>
 									</p>
 									<p className="content">
-										<FaCircleCheck />
+										<FaCircleCheck
+											color={
+												!isMonthly
+													? "#0241ff"
+													: "#FFB500"
+											}
+										/>
 										<span>Customers Unlimited</span>
 									</p>
 									<p className="content">
-										<FaCircleCheck />
+										<FaCircleCheck
+											color={
+												!isMonthly
+													? "#0241ff"
+													: "#FFB500"
+											}
+										/>
 										<span>Suppliers Unlimited</span>
 									</p>
 									<p className="content">
-										<FaCircleCheck />
+										<FaCircleCheck
+											color={
+												!isMonthly
+													? "#0241ff"
+													: "#FFB500"
+											}
+										/>
 										<span>File Library 1GB</span>
 									</p>
 									<p className="content">
-										<FaCircleCheck />
+										<FaCircleCheck
+											color={
+												!isMonthly
+													? "#0241ff"
+													: "#FFB500"
+											}
+										/>
 										<span>Transaction sms alert Addon</span>
 									</p>
 									<p className="content">
-										<FaCircleCheck />
+										<FaCircleCheck
+											color={
+												!isMonthly
+													? "#0241ff"
+													: "#FFB500"
+											}
+										/>
 										<span>Advance Report</span>
 									</p>
 									<p className="content">
-										<FaCircleCheck />
+										<FaCircleCheck
+											color={
+												!isMonthly
+													? "#0241ff"
+													: "#FFB500"
+											}
+										/>
 										<span>Managed Catalogue</span>
 									</p>
 									<p className="content">
-										<FaCircleCheck />
+										<FaCircleCheck
+											color={
+												!isMonthly
+													? "#0241ff"
+													: "#FFB500"
+											}
+										/>
 										<span>Expense Manager</span>
 									</p>
 								</div>
 								<MainButton
 									className="mt-3"
+									bg={!isMonthly ? "#0241ff" : "#FFB500"}
+									color={!isMonthly ? "#fff" : "#000D33"}
 									onClick={() => {
 										setPlanDetail(p);
 										setOpenModal(true);

@@ -392,6 +392,27 @@ const loadFaqs = async (token: string) => {
 	return data.data;
 };
 
+const deleteBusiness = async (token: string, id: any) => {
+	const { data } = await axios.delete(
+		`${config.baseUrl}//business/delete/${id}`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data;
+};
+
+const actionUser = async (token: string, action: string, id: string) => {
+	const { data } = await axios.patch(
+		`${config.baseUrl}/user/${action}/${id}`,
+		{},
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const basicService = {
 	getNotifications,
 	readAllNotifications,
@@ -433,6 +454,8 @@ const basicService = {
 	changePassword,
 	setNotification,
 	loadFaqs,
+	deleteBusiness,
+	actionUser,
 };
 
 export default basicService;

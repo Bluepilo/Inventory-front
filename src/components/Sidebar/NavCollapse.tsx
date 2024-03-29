@@ -5,6 +5,7 @@ import { useLocation } from "react-router";
 import { NavLink } from "react-router-dom";
 import { SidebarDropDown } from "../../styles/dashboard.styles";
 import OutsideClick from "../OutsideClick";
+import { useAppSelector } from "../../redux/hooks";
 
 const NavCollapse = ({
 	links,
@@ -19,6 +20,8 @@ const NavCollapse = ({
 	onClose: () => void;
 	permitted: boolean;
 }) => {
+	const { details } = useAppSelector((state) => state.auth);
+
 	const [open, setOpen] = useState(false);
 
 	const location = useLocation();
@@ -33,6 +36,14 @@ const NavCollapse = ({
 			setOpen(true);
 		}
 	}, []);
+
+	const allowUser = (permit: any) => {
+		if (details.shopId && permit?.includes("admin")) {
+			return false;
+		} else {
+			return true;
+		}
+	};
 
 	return permitted ? (
 		<OutsideClick handleToggle={() => setOpen(false)}>
@@ -50,7 +61,13 @@ const NavCollapse = ({
 					<ul className="side-dropdown" onClick={() => onClose()}>
 						{links.children.map((link) => (
 							<li key={link.id}>
-								<NavLink to={link.href}>{link.name}</NavLink>
+								{allowUser(link.permission) ? (
+									<NavLink to={link.href}>
+										{link.name}
+									</NavLink>
+								) : (
+									<></>
+								)}
 							</li>
 						))}
 					</ul>
