@@ -391,7 +391,7 @@ export const UploadWrapper = styled.div`
 		cursor: pointer;
 
 		.btn {
-			border: 2px #d9dbeb gray;
+			border: 2px solid gray;
 			color: gray;
 			background-color: white;
 			padding: 8px 20px;

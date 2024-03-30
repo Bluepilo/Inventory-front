@@ -413,6 +413,17 @@ const actionUser = async (token: string, action: string, id: string) => {
 	return data.data;
 };
 
+const updateUser = async (token: string, obj: any, id: number) => {
+	const { data } = await axios.put(
+		`${config.baseUrl}/user/update/${id}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const basicService = {
 	getNotifications,
 	readAllNotifications,
@@ -456,6 +467,7 @@ const basicService = {
 	loadFaqs,
 	deleteBusiness,
 	actionUser,
+	updateUser,
 };
 
 export default basicService;

@@ -30,6 +30,9 @@ const LoadWallet = ({
 	const [selectedShop, setSelectedShop] = useState<OptionProp | null>(null);
 	const [comment, setComment] = useState("");
 
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
+
 	const submitHandler = async (e: any) => {
 		e.preventDefault();
 		try {
@@ -63,7 +66,7 @@ const LoadWallet = ({
 						onValueChange={(values) => {
 							setAmount(Number(values));
 						}}
-						prefix={"₦ "}
+						prefix={`${currency} `}
 						value={amount}
 						disabled={load}
 						className="height"

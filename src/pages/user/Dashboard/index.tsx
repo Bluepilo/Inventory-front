@@ -39,6 +39,9 @@ const Dashboard = () => {
 	const { details, token } = useAppSelector((state) => state.auth);
 	const { dashboardStats } = useAppSelector((state) => state.basic);
 
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
+
 	useEffect(() => {
 		checkOnboardingTrial();
 	}, [details]);
@@ -92,23 +95,25 @@ const Dashboard = () => {
 					<h5>
 						Good {greetings()}, <b>{details.firstName}</b>
 					</h5>
-					<div className="mt-3">
-						<PrimaryButton
-							style={{ marginRight: "20px" }}
-							onClick={() => setOpenModal(true)}
-						>
-							<span>Record Transaction</span>
-							<img src={EditIcon} />
-						</PrimaryButton>
-						<PrimaryButton
-							bg="#EDEEF0"
-							color="#505BDA"
-							onClick={() => navigate("/dashboard/transfers")}
-						>
-							<span>Transfer Item</span>
-							<img src={TransferIcon} />
-						</PrimaryButton>
-					</div>
+					{haveRole(details.roleId).isBusinessActioners && (
+						<div className="mt-3">
+							<PrimaryButton
+								style={{ marginRight: "20px" }}
+								onClick={() => setOpenModal(true)}
+							>
+								<span>Record Transaction</span>
+								<img src={EditIcon} />
+							</PrimaryButton>
+							<PrimaryButton
+								bg="#EDEEF0"
+								color="#505BDA"
+								onClick={() => navigate("/dashboard/transfers")}
+							>
+								<span>Transfer Item</span>
+								<img src={TransferIcon} />
+							</PrimaryButton>
+						</div>
+					)}
 				</div>
 				{haveRole(details.roleId).isBusinessAdmin ? (
 					<div className="col-lg-7 mb-4">
@@ -242,7 +247,7 @@ const Dashboard = () => {
 									<div className="content">
 										<h6>Total Purchases</h6>
 										<h4>
-											₦{" "}
+											{currency}{" "}
 											{formatCurrency(
 												dashboardStats.purchaseReport
 													?.metrics?.totalPrice
@@ -252,7 +257,7 @@ const Dashboard = () => {
 									<div className="content">
 										<h6>Paid to Supplier</h6>
 										<h4>
-											₦{" "}
+											{currency}{" "}
 											{formatCurrency(
 												dashboardStats.purchaseReport
 													.totalPaidToSupplier
@@ -277,7 +282,7 @@ const Dashboard = () => {
 								<div className="content">
 									<h6>Total Sales</h6>
 									<h4>
-										₦{" "}
+										{currency}{" "}
 										{formatCurrency(
 											dashboardStats.totalSale
 										)}
@@ -286,7 +291,7 @@ const Dashboard = () => {
 								<div className="content">
 									<h6>Payment Recieved</h6>
 									<h4>
-										₦{" "}
+										{currency}{" "}
 										{formatCurrency(
 											dashboardStats.salesReport
 												?.totalRecievedFromCustomers
@@ -296,7 +301,7 @@ const Dashboard = () => {
 								<div className="content">
 									<h6>Sales Margin</h6>
 									<h4>
-										₦{" "}
+										{currency}{" "}
 										{formatCurrency(
 											dashboardStats.salesReport?.metrics
 												?.totalEstimatedProfit
@@ -330,7 +335,8 @@ const Dashboard = () => {
 												<td>{t.brand}</td>
 												<td>{t.totalStock}</td>
 												<td className="text-end">
-													₦ {formatCurrency(t.worth)}
+													{currency}{" "}
+													{formatCurrency(t.worth)}
 												</td>
 											</tr>
 										)
@@ -374,7 +380,7 @@ const Dashboard = () => {
 													<tr key={i + 1}>
 														<td>{t.name}</td>
 														<td className="text-end">
-															₦{" "}
+															{currency}{" "}
 															{formatCurrency(
 																t.tradeValue
 															)}
@@ -408,7 +414,7 @@ const Dashboard = () => {
 													<tr key={i + 1}>
 														<td>{t.name}</td>
 														<td className="text-end">
-															₦{" "}
+															{currency}{" "}
 															{formatCurrency(
 																t.salesValue
 															)}

@@ -35,7 +35,7 @@ const CustomerSelect = ({
 	discountApplied,
 	complete,
 }: Props) => {
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 	const { methods, settings } = useAppSelector((state) => state.basic);
 
 	const [load, setLoad] = useState(false);
@@ -51,6 +51,9 @@ const CustomerSelect = ({
 	const [isDeposit, setIsDeposit] = useState(false);
 	const [openModal, setOpenModal] = useState(false);
 	const [openCreate, setOpenCreate] = useState(false);
+
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		fetchCustomer();
@@ -116,7 +119,9 @@ const CustomerSelect = ({
 		let amount = minAmount - Number(amountReceived);
 
 		let val = isNaN(amount) || !errorAmount ? 0 : amount;
-		return val > paid ? `₦0.00` : `₦${formatCurrency(Math.abs(val))}`;
+		return val > paid
+			? `${currency}0.00`
+			: `${currency}${formatCurrency(Math.abs(val))}`;
 	};
 
 	const validateAmount = (val: number) => {
@@ -204,7 +209,7 @@ const CustomerSelect = ({
 								<div>
 									<h6>Wallet Balance</h6>
 									<h4>
-										₦
+										{currency}
 										{formatCurrency(
 											selectedCustomer.balance
 										)}
@@ -213,7 +218,7 @@ const CustomerSelect = ({
 								<div>
 									<h6>Credit Limit</h6>
 									<h4>
-										₦{" "}
+										{currency}{" "}
 										{formatCurrency(
 											selectedCustomer.creditLimit ||
 												settings.creditLimit
@@ -236,7 +241,8 @@ const CustomerSelect = ({
 					<div className="line">
 						<h6>Total Payment Due</h6>
 						<h6>
-							₦ {formatCurrency(totalAmount - discountApplied)}
+							{currency}{" "}
+							{formatCurrency(totalAmount - discountApplied)}
 						</h6>
 					</div>
 					<div className="line">
@@ -248,7 +254,8 @@ const CustomerSelect = ({
 							</p>
 						</div>
 						<h6>
-							₦ {formatCurrency(minAmount > 0 ? minAmount : 0)}
+							{currency}{" "}
+							{formatCurrency(minAmount > 0 ? minAmount : 0)}
 						</h6>
 					</div>
 					<div className="line">
@@ -261,7 +268,7 @@ const CustomerSelect = ({
 								onValueChange={(values) => {
 									validateAmount(values ? Number(values) : 0);
 								}}
-								prefix={`₦`}
+								prefix={`${currency}`}
 								value={amountReceived}
 								style={{
 									border: `1px solid ${

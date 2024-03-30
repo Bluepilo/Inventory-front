@@ -4,8 +4,14 @@ import dateFormat from "dateformat";
 import { FaBagShopping } from "react-icons/fa6";
 import { formatCurrency } from "../../../utils/currency";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../../../redux/hooks";
 
 const PurchaseInfo = ({ purchaseDetails }: { purchaseDetails: any }) => {
+	const { details } = useAppSelector((state) => state.auth);
+
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
+
 	return (
 		<>
 			<DetailCard>
@@ -47,14 +53,15 @@ const PurchaseInfo = ({ purchaseDetails }: { purchaseDetails: any }) => {
 						<div className="row">
 							<span className="col-4 mb-2">Total Price:</span>
 							<b className="col-8 mb-2">
-								₦ {formatCurrency(purchaseDetails.totalPrice)}
+								{currency}{" "}
+								{formatCurrency(purchaseDetails.totalPrice)}
 							</b>
 						</div>
 					) : (
 						<div className="row">
 							<span className="col-4 mb-2">Total Purchase:</span>
 							<b className="col-8 mb-2">
-								₦{" "}
+								{currency}{" "}
 								{formatCurrency(
 									Number(purchaseDetails.totalPrice) +
 										Number(purchaseDetails.discount)
@@ -62,17 +69,19 @@ const PurchaseInfo = ({ purchaseDetails }: { purchaseDetails: any }) => {
 							</b>
 							<span className="col-4 mb-2">Discount Amount:</span>
 							<b className="col-8 mb-2">
-								₦ {formatCurrency(purchaseDetails.discount)}
+								{currency}{" "}
+								{formatCurrency(purchaseDetails.discount)}
 							</b>
 							<span className="col-4 mb-2">
 								Discount Total Purchase:
 							</span>
 							<b className="col-8 mb-2">
-								₦ {formatCurrency(purchaseDetails.totalPrice)}
+								{currency}{" "}
+								{formatCurrency(purchaseDetails.totalPrice)}
 							</b>
 							<span className="col-4 mb-2">Amount Paid:</span>
 							<b className="col-8 mb-2">
-								₦{" "}
+								{currency}{" "}
 								{formatCurrency(
 									purchaseDetails.totalAmountPaid
 								)}
@@ -81,7 +90,7 @@ const PurchaseInfo = ({ purchaseDetails }: { purchaseDetails: any }) => {
 								New Wallet Balance:
 							</span>
 							<b className="col-8 mb-2">
-								₦{" "}
+								{currency}{" "}
 								{purchaseDetails.transaction?.length > 0
 									? formatCurrency(
 											purchaseDetails.transaction[0]

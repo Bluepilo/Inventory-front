@@ -38,6 +38,9 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 	const [discountApplied, setDiscountApplied] = useState(0);
 	const [load, setLoad] = useState(false);
 
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		filterShops();
@@ -114,7 +117,7 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 				let resVal = arr.map((a: any) => {
 					return {
 						value: a.id,
-						label: `${a.summary} - ₦${formatCurrency(
+						label: `${a.summary} - ${currency}${formatCurrency(
 							a.costPrice
 						)} (${a.totalStock})`,
 						name: a.summary,

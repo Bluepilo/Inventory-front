@@ -19,6 +19,9 @@ const NewExpense = ({ submit }: { submit: any }) => {
 
 	let arr = [{ label: "New Category", value: "new" }, ...expenseCat];
 
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
+
 	const [load, setLoad] = useState(false);
 	const [name, setName] = useState("");
 	const [catId, setCatId] = useState<OptionProp | null>(null);
@@ -144,7 +147,7 @@ const NewExpense = ({ submit }: { submit: any }) => {
 							onValueChange={(values) => {
 								setCost(Number(values));
 							}}
-							prefix={"₦ "}
+							prefix={`${currency} `}
 							value={cost}
 							disabled={load}
 							className="height"

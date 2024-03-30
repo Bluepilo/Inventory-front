@@ -1,9 +1,16 @@
 import React from "react";
 import { Table } from "../../styles/table.styles";
 import { formatCurrency } from "../../utils/currency";
+import { useAppSelector } from "../../redux/hooks";
 
 const ItemsPicked = ({ transferDetails }: { transferDetails: any }) => {
 	let products = transferDetails.products;
+
+	const { details } = useAppSelector((state) => state.auth);
+
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
+
 	return (
 		<div className="mb-4">
 			<h6 style={{ color: "#0241ff", fontWeight: "500" }}>
@@ -33,7 +40,7 @@ const ItemsPicked = ({ transferDetails }: { transferDetails: any }) => {
 									)}
 								</th>
 								<th>
-									₦{" "}
+									{currency}{" "}
 									{formatCurrency(
 										products.reduce(
 											(a, b) => a + Number(b.price),

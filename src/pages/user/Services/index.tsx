@@ -39,6 +39,9 @@ const Services = () => {
 	const [showBtn, setShowBtn] = useState(false);
 	const [openConfirm, setOpenConfirm] = useState(false);
 
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		filterShops();
@@ -187,7 +190,7 @@ const Services = () => {
 												<tr key={p.id}>
 													<td>{p.summary}</td>
 													<td className="price">
-														₦{" "}
+														{currency}{" "}
 														{formatCurrency(
 															p.price
 														)}

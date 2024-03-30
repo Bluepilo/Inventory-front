@@ -24,7 +24,7 @@ const NewProduct = () => {
 
 	const editState = useLocation().state;
 
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	const [isService, setIsService] = useState(false);
 	const [load, setLoad] = useState(false);
@@ -43,6 +43,9 @@ const NewProduct = () => {
 	const [productCode, setProductCode] = useState("");
 	const [color, setColor] = useState("");
 	const [productType, setProductType] = useState("");
+
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		getCategories();
@@ -211,17 +214,19 @@ const NewProduct = () => {
 										changeSelected={setSelectedCategory}
 									/>
 								</div>
-								<div className="col-lg-4">
-									<label>Category Name</label>
-									<input
-										type="text"
-										className="height"
-										value={categoryName}
-										onChange={(e) =>
-											setCategoryName(e.target.value)
-										}
-									/>
-								</div>
+								{selectedCategory?.value === "new" && (
+									<div className="col-lg-4">
+										<label>Category Name</label>
+										<input
+											type="text"
+											className="height"
+											value={categoryName}
+											onChange={(e) =>
+												setCategoryName(e.target.value)
+											}
+										/>
+									</div>
+								)}
 								<div className="col-lg-6">
 									<label>Cost Price</label>
 									<CurrencyInput
@@ -231,7 +236,7 @@ const NewProduct = () => {
 										onValueChange={(values) => {
 											setCostPrice(Number(values));
 										}}
-										prefix={"₦ "}
+										prefix={`${currency}`}
 										value={costPrice}
 										disabled={load}
 										className="height"
@@ -246,7 +251,7 @@ const NewProduct = () => {
 										onValueChange={(values) => {
 											setSellingPrice(Number(values));
 										}}
-										prefix={"₦ "}
+										prefix={`${currency} `}
 										value={sellingPrice}
 										disabled={load}
 										className="height"

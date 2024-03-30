@@ -14,7 +14,7 @@ import SkeletonTable from "../../../../components/Loaders/SkeletonTable";
 const Adjustments = () => {
 	const navigate = useNavigate();
 
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	const [lists, setLists] = useState<any>({});
 
@@ -35,6 +35,9 @@ const Adjustments = () => {
 	}&productId=${
 		productId?.value || ""
 	}&startDate=${startDate}&endDate=${endDate}&adjustment=true`;
+
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
 
 	const clearFilters = () => {
 		setProductId(null);
@@ -129,7 +132,8 @@ const Adjustments = () => {
 											<td>{l.shop?.name}</td>
 											<td>{l.quantity}</td>
 											<td className="price">
-												₦ {formatCurrency(l.total)}
+												{currency}{" "}
+												{formatCurrency(l.total)}
 											</td>
 										</tr>
 									))}

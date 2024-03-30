@@ -53,6 +53,9 @@ const Purchases = () => {
 		withdrawn ? "1" : "0"
 	}&onboarding=0`;
 
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		if (debouncedSearch) {
@@ -140,7 +143,7 @@ const Purchases = () => {
 								<h6>Total Purchases: </h6>
 								<h6>
 									{summary?.totalPrice
-										? `₦ ${formatCurrency(
+										? `${currency} ${formatCurrency(
 												summary.totalPrice
 										  )}`
 										: "--"}
@@ -150,7 +153,7 @@ const Purchases = () => {
 								<h6>Total Amount Paid: </h6>
 								<h6>
 									{summary?.totalAmountPaid
-										? `₦ ${formatCurrency(
+										? `${currency} ${formatCurrency(
 												summary.totalAmountPaid
 										  )}`
 										: "--"}
@@ -242,13 +245,13 @@ const Purchases = () => {
 														15 && "..."}
 												</td>
 												<td className="price bold">
-													₦{" "}
+													{currency}{" "}
 													{formatCurrency(
 														l.totalPrice
 													)}
 												</td>
 												<td className="price bold">
-													₦{" "}
+													{currency}{" "}
 													{formatCurrency(
 														l.totalAmountPaid
 													)}

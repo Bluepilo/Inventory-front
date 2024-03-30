@@ -7,6 +7,7 @@ import { formatCurrency } from "../../utils/currency";
 import CurrencyInput from "react-currency-input-field";
 import { MainButton } from "../../styles/links.styles";
 import ArrowIcon from "../../assets/icons/arrow.svg";
+import { useAppSelector } from "../../redux/hooks";
 
 interface Props {
 	items: any;
@@ -38,6 +39,11 @@ const PickItems = ({
 	remove,
 }: Props) => {
 	const [val, setVal] = useState<OptionProp | null>(null);
+
+	const { details } = useAppSelector((state) => state.auth);
+
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
 
 	return Array.isArray(items) ? (
 		<div>
@@ -84,7 +90,9 @@ const PickItems = ({
 				<TotalBox>
 					<div className="summary">
 						<p>Total Picked Items:</p>
-						<p>₦ {formatCurrency(totalAmount)}</p>
+						<p>
+							{currency} {formatCurrency(totalAmount)}
+						</p>
 					</div>
 					<div className="input">
 						<label>Discount:</label>
@@ -93,7 +101,8 @@ const PickItems = ({
 								className="percent"
 								onClick={() => changeDiscount(!discountPercent)}
 							>
-								{discountPercent ? "%" : "₦"} <FaAngleDown />
+								{discountPercent ? "%" : `${currency}`}{" "}
+								<FaAngleDown />
 							</button>
 							<CurrencyInput
 								id="input-example"
@@ -109,7 +118,9 @@ const PickItems = ({
 										changeDiscountValue(Number(values));
 									}
 								}}
-								prefix={`${discountPercent ? "%" : "₦"} `}
+								prefix={`${
+									discountPercent ? "%" : `${currency}`
+								} `}
 								value={discountValue}
 							/>
 						</div>
@@ -120,7 +131,9 @@ const PickItems = ({
 							<input
 								type="text"
 								className="expand"
-								value={`₦ ${formatCurrency(discountApplied)}`}
+								value={`{currency} ${formatCurrency(
+									discountApplied
+								)}`}
 								disabled
 							/>
 						</div>

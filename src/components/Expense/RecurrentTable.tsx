@@ -6,7 +6,15 @@ import PendingIcon from "../../assets/icons/pending.svg";
 import FailedIcon from "../../assets/icons/failed.svg";
 import { MainButton } from "../../styles/links.styles";
 
-const RecurrentTable = ({ data, load }: { data: any; load: boolean }) => {
+const RecurrentTable = ({
+	data,
+	load,
+	currency,
+}: {
+	data: any;
+	load: boolean;
+	currency: string;
+}) => {
 	return (
 		<Table className="table">
 			<thead>
@@ -37,7 +45,7 @@ const RecurrentTable = ({ data, load }: { data: any; load: boolean }) => {
 								{dateFormat(d.nextRecordDate, "mmm dd, yyyy")}
 							</td>
 							<td className="price bold">
-								₦ {formatCurrency(d.cost)}
+								{currency} {formatCurrency(d.cost)}
 							</td>
 							<td>
 								<img

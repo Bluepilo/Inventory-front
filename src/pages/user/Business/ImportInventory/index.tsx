@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../../redux/hooks";
 import NewPage from "../../../../components/NewPage";
@@ -41,6 +41,9 @@ const ImportInventory = () => {
 	}&userId=${
 		staffId?.value || ""
 	}&startDate=${startDate}&endDate=${endDate}&includeWithdrawn=0&onboarding=1`;
+
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -144,7 +147,7 @@ const ImportInventory = () => {
 													</td>
 
 													<td className="price bold">
-														₦{" "}
+														{currency}{" "}
 														{formatCurrency(
 															l.totalPrice
 														)}

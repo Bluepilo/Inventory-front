@@ -3,6 +3,7 @@ import CashInIcon from "../../assets/icons/cash-in.svg";
 import CashOutIcon from "../../assets/icons/cash-out.svg";
 import WalletIcon from "../../assets/icons/wallet-dark.svg";
 import { formatCurrency } from "../../utils/currency";
+import { useAppSelector } from "../../redux/hooks";
 
 const SummaryInfo = ({
 	transactions,
@@ -11,6 +12,8 @@ const SummaryInfo = ({
 	transactions: any;
 	isCustomer: boolean;
 }) => {
+	const { details } = useAppSelector((state) => state.auth);
+
 	const totalInPayment = () => {
 		return transactions.reduce((prev: any, trn: any) => {
 			if (trn.mode === "in") return prev + +trn.amountPaid;
@@ -76,6 +79,9 @@ const SummaryInfo = ({
 		}, 0);
 	};
 
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
+
 	return transactions && Array.isArray(transactions) ? (
 		<div className="row">
 			<div className="col-lg-4 col-md-6">
@@ -85,19 +91,23 @@ const SummaryInfo = ({
 							<img src={CashInIcon} />
 						</div>
 						<div>
-							<h6>₦ {formatCurrency(totalInPayment())}</h6>
+							<h6>
+								{currency} {formatCurrency(totalInPayment())}
+							</h6>
 							<p>Total Cash In</p>
 						</div>
 					</div>
 					<div className="bottom">
 						<div>
 							<h6 className="first">Total Cash Out:</h6>
-							<h6>₦ {formatCurrency(totalOutPayment())}</h6>
+							<h6>
+								{currency} {formatCurrency(totalOutPayment())}
+							</h6>
 						</div>
 						<div>
 							<h6 className="first">Difference:</h6>
 							<h6>
-								₦{" "}
+								{currency}{" "}
 								{formatCurrency(
 									totalInPayment() - totalOutPayment()
 								)}
@@ -113,7 +123,9 @@ const SummaryInfo = ({
 							<img src={WalletIcon} />
 						</div>
 						<div>
-							<h6>₦ {formatCurrency(deposit())}</h6>
+							<h6>
+								{currency} {formatCurrency(deposit())}
+							</h6>
 							<p>Total Deposits</p>
 						</div>
 					</div>

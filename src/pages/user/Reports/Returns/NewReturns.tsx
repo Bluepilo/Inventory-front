@@ -40,6 +40,9 @@ const NewReturns = () => {
 	const [productList, setProductList] = useState<OptionProp[]>([]);
 	const [prodPrice, setProdPrice] = useState(0);
 
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		getWalkIns();
@@ -246,7 +249,7 @@ const NewReturns = () => {
 										onValueChange={(values) => {
 											setValue(Number(values));
 										}}
-										prefix={"₦ "}
+										prefix={`${currency} `}
 										value={value}
 										disabled={load}
 										className="height"

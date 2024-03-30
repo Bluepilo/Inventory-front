@@ -16,6 +16,9 @@ interface UserDetailsType {
 	businessId: number;
 	fullName: string;
 	firstName: string;
+	lastName: string;
+	phoneNo: string;
+	email: string;
 	role: {
 		name: string;
 		isAdmin: boolean;
@@ -30,12 +33,18 @@ interface UserDetailsType {
 		phone: string;
 		address: string;
 		canOnboard: boolean;
+		currencyCode: string;
+		currency: {
+			symbol: string;
+		};
 	};
 	shop: {
 		name: string;
 		isActive: boolean;
 	};
 	image: string;
+	address: string;
+	username: string;
 	organization: {
 		id: number;
 		name: string;

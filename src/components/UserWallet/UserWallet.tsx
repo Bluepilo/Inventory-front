@@ -22,7 +22,7 @@ const UserWallet = ({
 	userType: string;
 	id: string | number;
 }) => {
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 	const { settings } = useAppSelector((state) => state.basic);
 
 	const [load, setLoad] = useState(false);
@@ -43,6 +43,9 @@ const UserWallet = ({
 	let filters = `?startDate=${startDate}&endDate=${endDate}&transactionType=${
 		transactionType?.value || ""
 	}`;
+
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
 
 	const getInitials = (string: any) => {
 		let names = string.split(" "),
@@ -132,7 +135,7 @@ const UserWallet = ({
 									<div>
 										<p>Wallet Balance</p>
 										<h6>
-											₦{" "}
+											{currency}{" "}
 											{formatCurrency(
 												userDetails.balance
 											)}
@@ -142,7 +145,7 @@ const UserWallet = ({
 										<div>
 											<p>Credit Limit</p>
 											<h6>
-												₦{" "}
+												{currency}{" "}
 												{formatCurrency(
 													userType === "customer"
 														? settings?.creditLimit
@@ -202,19 +205,19 @@ const UserWallet = ({
 											<td className="price">
 												{tr.mode === "out"
 													? "-"
-													: `₦ ${formatCurrency(
+													: `${currency} ${formatCurrency(
 															tr.amountPaid
 													  )}`}
 											</td>
 											<td className="price">
 												{tr.mode === "in"
 													? "-"
-													: `₦ ${formatCurrency(
+													: `${currency} ${formatCurrency(
 															tr.amountPaid
 													  )}`}
 											</td>
 											<td className="price">
-												₦{" "}
+												{currency}{" "}
 												{formatCurrency(
 													tr.balanceAfter
 												)}

@@ -17,10 +17,12 @@ const ExpenseTable = ({
 	data,
 	load,
 	reload,
+	currency,
 }: {
 	data: any;
 	load: boolean;
 	reload: () => void;
+	currency: string;
 }) => {
 	const { token } = useAppSelector((state) => state.auth);
 
@@ -85,7 +87,7 @@ const ExpenseTable = ({
 								<td>{d.shop?.name}</td>
 								<td>{d.createdBy?.fullName}</td>
 								<td className="price bold">
-									₦ {formatCurrency(d.cost)}
+									{currency} {formatCurrency(d.cost)}
 								</td>
 								<td>
 									<img

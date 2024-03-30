@@ -37,6 +37,9 @@ const NewSupplier = ({
 	const [addBalance, setAddBalance] = useState(false);
 	const [option, setOption] = useState("Credit");
 
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
+
 	useEffect(() => {
 		if (editInfo?.id) {
 			setName(editInfo.fullName);
@@ -205,7 +208,7 @@ const NewSupplier = ({
 										}}
 										prefix={`${
 											option === "Debit" ? "- " : ""
-										}₦ `}
+										}${currency} `}
 										value={balance}
 										disabled={!addBalance}
 										style={{

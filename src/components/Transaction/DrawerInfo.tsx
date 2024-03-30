@@ -6,6 +6,7 @@ import { formatCurrency } from "../../utils/currency";
 import dateFormat from "dateformat";
 import PrintLogo from "../../assets/icons/print.svg";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../redux/hooks";
 
 const DrawerInfo = ({
 	close,
@@ -15,6 +16,11 @@ const DrawerInfo = ({
 	details: any;
 }) => {
 	const navigate = useNavigate();
+
+	const { details: user } = useAppSelector((state) => state.auth);
+
+	const currency =
+		user.business?.currency?.symbol || user.business.currencyCode;
 
 	return (
 		<OutsideClick handleToggle={() => close()}>
@@ -33,7 +39,9 @@ const DrawerInfo = ({
 						<h6>Payment Ref:</h6>
 						<p>{details.uniqueRef}</p>
 						<h6>Amount Paid:</h6>
-						<p>₦ {formatCurrency(details.amountPaid)}</p>
+						<p>
+							{currency} {formatCurrency(details.amountPaid)}
+						</p>
 						<h6>Date Made:</h6>
 						<p>{dateFormat(details.createdAt, "mmm dd, yyyy")}</p>
 						<h6>Payment Method:</h6>

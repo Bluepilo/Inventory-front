@@ -1,9 +1,15 @@
+import { useAppSelector } from "../../../redux/hooks";
 import { DetailCard } from "../../../styles/sale.styles";
 import { Table } from "../../../styles/table.styles";
 import { formatCurrency } from "../../../utils/currency";
 import dateFormat from "dateformat";
 
 const History = ({ saleDetails }: { saleDetails: any }) => {
+	const { details } = useAppSelector((state) => state.auth);
+
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
+
 	return (
 		<DetailCard>
 			<h6>Transaction History</h6>
@@ -23,7 +29,8 @@ const History = ({ saleDetails }: { saleDetails: any }) => {
 								(s: any, i: number) => (
 									<tr key={i}>
 										<td>
-											₦ {formatCurrency(s.amountPaid)}
+											{currency}{" "}
+											{formatCurrency(s.amountPaid)}
 										</td>
 										<td>{s.transactionType?.name}</td>
 										<td>

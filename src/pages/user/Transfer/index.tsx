@@ -14,6 +14,7 @@ import FailedIcon from "../../../assets/icons/failed.svg";
 import PendingIcon from "../../../assets/icons/pending.svg";
 import Paginate from "../../../components/Paginate";
 import SkeletonTable from "../../../components/Loaders/SkeletonTable";
+import { haveRole } from "../../../utils/role";
 
 const Transfer = () => {
 	const navigate = useNavigate();
@@ -49,7 +50,11 @@ const Transfer = () => {
 			<TitleCover
 				title="Transfer Records"
 				dataCount={lists?.count}
-				button="Make Transfer"
+				button={
+					haveRole(details.roleId).isBusinessActioners
+						? "Make Transfer"
+						: ""
+				}
 				buttonIcon={<IoCartSharp />}
 				buttonClick={() => navigate("new")}
 			/>

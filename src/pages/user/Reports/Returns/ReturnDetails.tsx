@@ -19,12 +19,15 @@ import { toast } from "react-toastify";
 const ReturnDetails = () => {
 	const params = useParams();
 
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [logDetails, setLogDetails] = useState<any>({});
 	const [openComment, setOpenComment] = useState(false);
 	const [action, setAction] = useState("");
+
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -140,7 +143,7 @@ const ReturnDetails = () => {
 													Price:
 												</span>
 												<b className="col-8 mb-2">
-													₦{" "}
+													{currency}{" "}
 													{formatCurrency(
 														Number(logDetails.price)
 													)}
@@ -149,7 +152,7 @@ const ReturnDetails = () => {
 													Value:
 												</span>
 												<b className="col-8 mb-2">
-													₦{" "}
+													{currency}{" "}
 													{formatCurrency(
 														Number(
 															logDetails.price

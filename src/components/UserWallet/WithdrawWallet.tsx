@@ -32,6 +32,9 @@ const WithdrawWallet = ({
 	const [password, setPassword] = useState("");
 	const [inputPassword, setInputPassword] = useState(false);
 
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
+
 	const passwordHandler = (e: any) => {
 		e.preventDefault();
 		setInputPassword(true);
@@ -71,7 +74,7 @@ const WithdrawWallet = ({
 						onValueChange={(values) => {
 							setAmount(Number(values));
 						}}
-						prefix={"₦ "}
+						prefix={`${currency} `}
 						value={amount}
 						disabled={load}
 						className="height"

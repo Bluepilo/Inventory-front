@@ -40,6 +40,9 @@ const NewSubdealer = ({
 	const { states } = useAppSelector((state) => state.basic);
 	const { token, details } = useAppSelector((state) => state.auth);
 
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
+
 	useEffect(() => {
 		if (editInfo?.id) {
 			setName(editInfo.fullName);
@@ -188,7 +191,7 @@ const NewSubdealer = ({
 							onValueChange={(values) => {
 								setCreditLimit(Number(values));
 							}}
-							prefix={"₦ "}
+							prefix={`${currency} `}
 							value={creditLimit}
 							disabled={load}
 						/>
@@ -231,7 +234,7 @@ const NewSubdealer = ({
 										}}
 										prefix={`${
 											option === "Debit" ? "- " : ""
-										}₦ `}
+										}${currency} `}
 										value={balance}
 										disabled={!addBalance}
 										style={{

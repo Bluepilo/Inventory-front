@@ -46,7 +46,7 @@ const Upgrade = () => {
 						onClick={() => setIsMonthly(false)}
 						className={!isMonthly ? "active" : ""}
 					>
-						Billed Annually <span className="count">Save 20%</span>
+						Billed Annually <span className="count">Save 33%</span>
 					</button>
 				</div>
 			</SubSwitch>

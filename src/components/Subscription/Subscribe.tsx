@@ -31,6 +31,9 @@ const Subscribe = ({
 
 	const balance = Number(details?.organization?.wallet?.balance);
 
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
+
 	useEffect(() => {
 		if (subscriptionType) {
 			let find = plans.find((p: any) => p.id == subscriptionType);
@@ -128,7 +131,7 @@ const Subscribe = ({
 					name="input-name"
 					decimalsLimit={2}
 					disabled={true}
-					prefix={"₦ "}
+					prefix={`${currency}`}
 					value={amount}
 					required
 					className="height"
@@ -146,7 +149,7 @@ const Subscribe = ({
 								: " #d9dbeb",
 					}}
 					disabled={true}
-					prefix={"₦ "}
+					prefix={`${currency} `}
 					onValueChange={(values) => {
 						setAmount(Number(values));
 					}}

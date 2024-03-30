@@ -1,7 +1,13 @@
+import { useAppSelector } from "../../../redux/hooks";
 import { Table } from "../../../styles/table.styles";
 import { formatCurrency } from "../../../utils/currency";
 
 const ItemsPicked = ({ saleDetails }: { saleDetails: any }) => {
+	const { details } = useAppSelector((state) => state.auth);
+
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
+
 	let products = JSON.parse(saleDetails.productPurchasedPayload);
 
 	return (
@@ -18,7 +24,8 @@ const ItemsPicked = ({ saleDetails }: { saleDetails: any }) => {
 									<td>{p.name}</td>
 									<td>{p.quantity}</td>
 									<td>
-										₦ {formatCurrency(p.price * p.quantity)}
+										{currency}{" "}
+										{formatCurrency(p.price * p.quantity)}
 									</td>
 								</tr>
 							))}
@@ -33,7 +40,7 @@ const ItemsPicked = ({ saleDetails }: { saleDetails: any }) => {
 									)}
 								</th>
 								<th>
-									₦{" "}
+									{currency}{" "}
 									{formatCurrency(
 										products.reduce(
 											(a, b) =>

@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { changeTheme } from "../../redux/features/basic/basic-slice";
 import { logout } from "../../redux/features/auth/auth-slice";
+import CryptoJS from "crypto-js";
 
 const HeaderDropDown = ({
 	setOpenDrop,
@@ -17,7 +18,21 @@ const HeaderDropDown = ({
 }) => {
 	const dispatch = useAppDispatch();
 
-	const { details } = useAppSelector((state) => state.auth);
+	const { details, token } = useAppSelector((state) => state.auth);
+
+	let ciphertext = CryptoJS.AES.encrypt(
+		JSON.stringify({
+			token,
+			user_id: details.id,
+		}),
+		"bluepilo"
+	).toString();
+
+	let smsUrl = `${
+		window.location.host.startsWith("app.bluepilo")
+			? "https://sms.bluepilo.com"
+			: "https://dev-sms.bluepilo.com"
+	}?token=${ciphertext}`;
 
 	return (
 		<HeaderProfile>
@@ -35,7 +50,11 @@ const HeaderDropDown = ({
 				</div>
 				{details.businessId && (
 					<div className="apps mb-3">
-						<a href={"#"} target="_blank" className="box bluepilo">
+						<a
+							href={smsUrl}
+							target="_blank"
+							className="box bluepilo"
+						>
 							<img src={SmsIcon} alt="Bluepilo" />
 							<p>Bluepilo SMS</p>
 						</a>

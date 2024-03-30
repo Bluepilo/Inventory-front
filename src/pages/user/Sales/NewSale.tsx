@@ -44,6 +44,9 @@ const NewSale = () => {
 
 	const [load, setLoad] = useState(false);
 
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		filterShops();
@@ -112,9 +115,9 @@ const NewSale = () => {
 				let resVal = arr.map((a: any) => {
 					return {
 						value: a.id,
-						label: `${a.summary} - ₦${formatCurrency(a.price)} ${
-							a.isService ? "" : `(${a.totalStock})`
-						}`,
+						label: `${a.summary} - ${currency}${formatCurrency(
+							a.price
+						)} ${a.isService ? "" : `(${a.totalStock})`}`,
 						name: a.summary,
 						price: Number(isWalkIn ? a.price : a.costPrice),
 						quantity: 1,

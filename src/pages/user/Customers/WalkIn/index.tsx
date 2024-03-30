@@ -28,6 +28,9 @@ const WalkIn = () => {
 
 	let filters = `?page=${page}&limit=${limit}&shopId=${details.shopId || ""}`;
 
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		if (debouncedSearch) {
@@ -95,7 +98,7 @@ const WalkIn = () => {
 								<h6>Total in Wallets: </h6>
 								<h6>
 									{summary?.totalInWallet
-										? `₦ ${formatCurrency(
+										? `${currency} ${formatCurrency(
 												summary.totalInWallet
 										  )}`
 										: "--"}
@@ -106,7 +109,7 @@ const WalkIn = () => {
 								<h6>Total Debts in Wallets:</h6>
 								<h6>
 									{summary?.totalDebts
-										? `₦ ${formatCurrency(
+										? `${currency} ${formatCurrency(
 												summary.totalDebts
 										  )}`
 										: "--"}
@@ -167,7 +170,7 @@ const WalkIn = () => {
 																: "red",
 													}}
 												>
-													₦{" "}
+													{currency}{" "}
 													{formatCurrency(l.balance)}
 												</td>
 												<td className="status">

@@ -14,11 +14,12 @@ import SuccessIcon from "../../../../assets/icons/success.svg";
 import PendingIcon from "../../../../assets/icons/pending.svg";
 import RestockedIcon from "../../../../assets/icons/restocked.svg";
 import Paginate from "../../../../components/Paginate";
+import { haveRole } from "../../../../utils/role";
 
 const Returns = () => {
 	const navigate = useNavigate();
 
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	const [lists, setLists] = useState<any>({});
 
@@ -49,6 +50,9 @@ const Returns = () => {
 	let filters = `?limit=${limit}&page=${page}&startDate=${startDate}&endDate=${endDate}&userId=${
 		staffId?.value || ""
 	}&shopId=${shopId?.value || ""}&productId=${productId?.value || ""}`;
+
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -85,7 +89,11 @@ const Returns = () => {
 			<TitleCover
 				title="Product Returns"
 				dataCount={lists?.count}
-				button="Log Return"
+				button={
+					haveRole(details.roleId).isBusinessActioners
+						? "Log Return"
+						: ""
+				}
 				buttonIcon={<IoCartSharp />}
 				buttonClick={() => navigate("new")}
 			/>
@@ -137,7 +145,8 @@ const Returns = () => {
 											<td>{l.shop?.name}</td>
 											<td>{l.quantity}</td>
 											<td className="price">
-												₦ {formatCurrency(l.totalValue)}
+												{currency}{" "}
+												{formatCurrency(l.totalValue)}
 											</td>
 											<td className="status">
 												<img

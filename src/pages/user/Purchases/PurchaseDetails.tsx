@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import TitleCover from "../../../components/TitleCover";
 import SkeletonDetails from "../../../components/Loaders/SkeletonDetails";
 import { ActionDetailsDiv, DetailCard } from "../../../styles/sale.styles";

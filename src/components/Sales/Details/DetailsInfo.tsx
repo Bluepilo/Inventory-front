@@ -4,8 +4,14 @@ import dateFormat from "dateformat";
 import { FaBagShopping } from "react-icons/fa6";
 import { formatCurrency } from "../../../utils/currency";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../../../redux/hooks";
 
 const DetailsInfo = ({ saleDetails }: { saleDetails: any }) => {
+	const { details } = useAppSelector((state) => state.auth);
+
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
+
 	return (
 		<>
 			<DetailCard>
@@ -39,7 +45,7 @@ const DetailsInfo = ({ saleDetails }: { saleDetails: any }) => {
 					<div className="row">
 						<span className="col-4 mb-2">Total Sales:</span>
 						<b className="col-8 mb-2">
-							₦{" "}
+							{currency}{" "}
 							{formatCurrency(
 								Number(saleDetails.amountExpected) +
 									Number(saleDetails.discount)
@@ -47,21 +53,22 @@ const DetailsInfo = ({ saleDetails }: { saleDetails: any }) => {
 						</b>
 						<span className="col-4 mb-2">Discount Amount:</span>
 						<b className="col-8 mb-2">
-							₦ {formatCurrency(saleDetails.discount)}
+							{currency} {formatCurrency(saleDetails.discount)}
 						</b>
 						<span className="col-4 mb-2">
 							Discounted Total Sales:
 						</span>
 						<b className="col-8 mb-2">
-							₦ {formatCurrency(saleDetails.amountPaid)}
+							{currency} {formatCurrency(saleDetails.amountPaid)}
 						</b>
 						<span className="col-4 mb-2">Actual Amount Paid:</span>
 						<b className="col-8 mb-2">
-							₦ {formatCurrency(saleDetails.actualAmountPaid)}
+							{currency}{" "}
+							{formatCurrency(saleDetails.actualAmountPaid)}
 						</b>
 						<span className="col-4 mb-2">New Wallet Balance:</span>
 						<b className="col-8 mb-2">
-							₦{" "}
+							{currency}{" "}
 							{saleDetails.transactions?.length > 0
 								? formatCurrency(
 										saleDetails.transactions[0].balanceAfter
@@ -70,7 +77,8 @@ const DetailsInfo = ({ saleDetails }: { saleDetails: any }) => {
 						</b>
 						<span className="col-4 mb-2">Sales Margin:</span>
 						<b className="col-8 mb-2">
-							₦ {formatCurrency(saleDetails.estimatedProfit)}
+							{currency}{" "}
+							{formatCurrency(saleDetails.estimatedProfit)}
 						</b>
 						<span className="col-4 mb-2">Comment:</span>
 						<b className="col-8 mb-2">{saleDetails.comment}</b>

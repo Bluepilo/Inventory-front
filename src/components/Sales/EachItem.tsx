@@ -3,6 +3,7 @@ import { FaPlus, FaMinus } from "react-icons/fa6";
 import { FaTimes } from "react-icons/fa";
 import CurrencyInput from "react-currency-input-field";
 import { useState } from "react";
+import { useAppSelector } from "../../redux/hooks";
 
 interface Props {
 	s: any;
@@ -11,6 +12,11 @@ interface Props {
 }
 
 const EachItem = ({ s, changeQty, remove }: Props) => {
+	const { details } = useAppSelector((state) => state.auth);
+
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
+
 	const [amount, setAmount] = useState<number>(s.price);
 
 	return (
@@ -60,11 +66,14 @@ const EachItem = ({ s, changeQty, remove }: Props) => {
 						setAmount(Number(values));
 						changeQty({ ...s, amount: values });
 					}}
-					prefix="₦ "
+					prefix={`${currency}`}
 					value={amount}
 				/>
 			</div>
-			<div className="price">₦{formatCurrency(s.total)}</div>
+			<div className="price">
+				{currency}
+				{formatCurrency(s.total)}
+			</div>
 			<div className="cancel">
 				<button onClick={() => remove(s.value)}>
 					<FaTimes />

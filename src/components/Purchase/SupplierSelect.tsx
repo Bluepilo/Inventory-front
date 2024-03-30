@@ -31,7 +31,7 @@ const SupplierSelect = ({
 	discountApplied,
 	complete,
 }: Props) => {
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 	const { methods } = useAppSelector((state) => state.basic);
 
 	const [load, setLoad] = useState(false);
@@ -43,6 +43,9 @@ const SupplierSelect = ({
 		null
 	);
 	const [openModal, setOpenModal] = useState(false);
+
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		fetchSuppliers();
@@ -146,7 +149,7 @@ const SupplierSelect = ({
 								<div>
 									<h6>Wallet Balance</h6>
 									<h4>
-										₦
+										{currency}
 										{formatCurrency(
 											selectedCustomer.balance
 										)}
@@ -168,7 +171,8 @@ const SupplierSelect = ({
 					<div className="line">
 						<h6>Total Payment Due</h6>
 						<h6>
-							₦ {formatCurrency(totalAmount - discountApplied)}
+							{currency}{" "}
+							{formatCurrency(totalAmount - discountApplied)}
 						</h6>
 					</div>
 					<div className="line">
@@ -181,7 +185,7 @@ const SupplierSelect = ({
 								onValueChange={(values) => {
 									setAmountPaid(values ? Number(values) : 0);
 								}}
-								prefix={`₦`}
+								prefix={`${currency} `}
 								value={amountPaid}
 							/>
 						</div>

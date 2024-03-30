@@ -62,7 +62,7 @@ const BusinessForm = ({
 		try {
 			let res = await basicService.currencyList(token);
 			let arr = res?.map((r: any) => {
-				return { label: `${r.name} ${r.symbol}`, value: r.id };
+				return { label: `${r.name} ${r.symbol}`, value: r.code };
 			});
 			setCurrencyList(arr);
 		} catch (err) {}

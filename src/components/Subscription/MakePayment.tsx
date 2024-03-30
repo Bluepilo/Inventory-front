@@ -9,10 +9,13 @@ import { WideButton } from "../../styles/links.styles";
 import { toast } from "react-toastify";
 
 const MakePayment = ({ close }: { close: () => void }) => {
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [amount, setAmount] = useState(0);
+
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
 
 	const paymentHandler = async (e: any) => {
 		e.preventDefault();
@@ -54,7 +57,7 @@ const MakePayment = ({ close }: { close: () => void }) => {
 					onValueChange={(values) => {
 						setAmount(Number(values));
 					}}
-					prefix={"₦ "}
+					prefix={`${currency}`}
 					value={amount}
 					required
 					className="height"

@@ -18,6 +18,7 @@ import SkeletonTable from "../../../components/Loaders/SkeletonTable";
 import Paginate from "../../../components/Paginate";
 import ModalComponent from "../../../components/ModalComponent";
 import NewExpense from "../../../components/Expense/NewExpense";
+import { haveRole } from "../../../utils/role";
 
 const Expenses = () => {
 	const { details, token } = useAppSelector((state) => state.auth);
@@ -56,6 +57,9 @@ const Expenses = () => {
 	}&shopId=${shopId?.value || ""}&status=${
 		statusId?.value || ""
 	}&startDate=${startDate}&endDate=${endDate}`;
+
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -97,7 +101,11 @@ const Expenses = () => {
 					<TitleCover
 						title="My Expenses"
 						dataCount={lists?.count}
-						button="Add Expense"
+						button={
+							haveRole(details.roleId).isBusinessActioners
+								? "Add Expense"
+								: ""
+						}
 						buttonIcon={<TiTag />}
 						buttonClick={() => {
 							setOpenModal(true);
@@ -130,7 +138,7 @@ const Expenses = () => {
 										</h6>
 										<h6>
 											{lists?.rows
-												? `₦ ${formatCurrency(
+												? `${currency} ${formatCurrency(
 														lists?.rows?.reduce(
 															(a: any, b: any) =>
 																a +
@@ -172,12 +180,14 @@ const Expenses = () => {
 										<RecurrentTable
 											data={lists?.rows}
 											load={load}
+											currency={currency}
 										/>
 									) : (
 										<ExpenseTable
 											data={lists?.rows}
 											load={load}
 											reload={() => loadExpense()}
+											currency={currency}
 										/>
 									)}
 								</div>

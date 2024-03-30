@@ -56,6 +56,9 @@ const Sales = () => {
 		withdrawn ? "1" : "0"
 	}`;
 
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		if (debouncedSearch) {
@@ -114,7 +117,11 @@ const Sales = () => {
 			<TitleCover
 				title="Sales Records"
 				dataCount={lists?.count}
-				button="Make Sales"
+				button={
+					haveRole(details.roleId).isBusinessActioners
+						? "Make Sales"
+						: ""
+				}
 				buttonIcon={<IoCartSharp />}
 				buttonClick={() => navigate("new")}
 			/>
@@ -142,7 +149,7 @@ const Sales = () => {
 								<h6>Total Sales: </h6>
 								<h6>
 									{summary?.totalAmountExpected
-										? `₦ ${formatCurrency(
+										? `${currency} ${formatCurrency(
 												summary.totalAmountExpected
 										  )}`
 										: "--"}
@@ -153,7 +160,7 @@ const Sales = () => {
 									<h6>Total Sales Margin:</h6>
 									<h6>
 										{summary?.totalEstimatedProfit
-											? `₦ ${formatCurrency(
+											? `${currency} ${formatCurrency(
 													summary.totalEstimatedProfit
 											  )}`
 											: "--"}
@@ -249,7 +256,7 @@ const Sales = () => {
 														15 && "..."}
 												</td>
 												<td className="price bold">
-													₦{" "}
+													{currency}{" "}
 													{formatCurrency(
 														l.amountExpected
 													)}
@@ -265,7 +272,7 @@ const Sales = () => {
 																	: "inherit",
 														}}
 													>
-														₦{" "}
+														{currency}{" "}
 														{formatCurrency(
 															l.estimatedProfit
 														)}

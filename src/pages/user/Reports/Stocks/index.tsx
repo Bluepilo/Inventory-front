@@ -19,7 +19,7 @@ import Paginate from "../../../../components/Paginate";
 import StockAlert from "../../../../components/Reports/StockAlert";
 
 const Stocks = () => {
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	const [lists, setLists] = useState<any>({});
 
@@ -42,6 +42,9 @@ const Stocks = () => {
 	}&categoryId=${categoryId?.value || ""}&brandId=${
 		brandId?.value || ""
 	}&minStock=${minStock}&searchWord=${debouncedSearch}`;
+
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		listData();
@@ -118,7 +121,9 @@ const Stocks = () => {
 							<h6>Worth: </h6>
 							<h6>
 								{lists?.summary?.worth
-									? `₦ ${formatCurrency(lists.summary.worth)}`
+									? `${currency} ${formatCurrency(
+											lists.summary.worth
+									  )}`
 									: "--"}
 							</h6>
 						</div>
@@ -175,7 +180,7 @@ const Stocks = () => {
 												<StockAlert stock={l} />
 											</td>
 											<td className="price">
-												₦{" "}
+												{currency}{" "}
 												{formatCurrency(
 													l.costPrice * l.totalStock
 												)}

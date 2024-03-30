@@ -30,6 +30,9 @@ const Account = () => {
 	const [sms, setSms] = useState(settings?.salesSms);
 	const [inventory, setInventory] = useState(details.business.canOnboard);
 
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
+
 	const changeLimit = async (val: any) => {
 		try {
 			setLoadWaiting(true);
@@ -163,7 +166,7 @@ const Account = () => {
 							onValueChange={(values) => {
 								setCreditLimit(Number(values));
 							}}
-							prefix={"₦ "}
+							prefix={`${currency} `}
 							value={creditLimit}
 							disabled={loadCredit}
 						/>

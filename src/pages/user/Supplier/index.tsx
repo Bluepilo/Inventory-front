@@ -42,6 +42,9 @@ const Supplier = () => {
 
 	let filters = `?page=${page}&limit=${limit}`;
 
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		if (debouncedSearch) {
@@ -139,7 +142,7 @@ const Supplier = () => {
 										<h6>Total in Wallets: </h6>
 										<h6>
 											{summary?.totalInWallet
-												? `₦ ${formatCurrency(
+												? `${currency} ${formatCurrency(
 														summary.totalInWallet
 												  )}`
 												: "--"}
@@ -150,7 +153,7 @@ const Supplier = () => {
 										<h6>Total Debts in Wallets:</h6>
 										<h6>
 											{summary?.totalDebts
-												? `₦ ${formatCurrency(
+												? `${currency} ${formatCurrency(
 														summary.totalDebts
 												  )}`
 												: "--"}
@@ -211,7 +214,7 @@ const Supplier = () => {
 																		: "red",
 															}}
 														>
-															₦{" "}
+															{currency}{" "}
 															{formatCurrency(
 																l.balance
 															)}

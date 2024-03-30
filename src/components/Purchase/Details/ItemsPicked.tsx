@@ -4,6 +4,7 @@ import { formatCurrency } from "../../../utils/currency";
 import { MainButton } from "../../../styles/links.styles";
 import { HiCheckBadge } from "react-icons/hi2";
 import { IoMdRefreshCircle } from "react-icons/io";
+import { useAppSelector } from "../../../redux/hooks";
 
 const Quantites = ({ p, changeProduct }: { p: any; changeProduct: any }) => {
 	const changeVal = (no: string) => {
@@ -63,6 +64,11 @@ const ItemsPicked = ({
 	supplyItems: (arg: any) => void;
 }) => {
 	const [products, setProducts] = useState<any>([]);
+
+	const { details } = useAppSelector((state) => state.auth);
+
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		let arr =
@@ -134,7 +140,9 @@ const ItemsPicked = ({
 								<tr key={p.id || i}>
 									<td>{p.summary || p.name}</td>
 									<td>{p.quantity}</td>
-									<td>₦ {formatCurrency(p.price)}</td>
+									<td>
+										{currency} {formatCurrency(p.price)}
+									</td>
 									<Quantites
 										p={p}
 										changeProduct={changeProduct}
@@ -152,7 +160,7 @@ const ItemsPicked = ({
 									)}
 								</th>
 								<th>
-									₦{" "}
+									{currency}{" "}
 									{formatCurrency(
 										products.reduce(
 											(a, b) =>
@@ -176,35 +184,42 @@ const ItemsPicked = ({
 							<tr>
 								<th>Supply Status</th>
 								<td>
-									{products.length} out of{" "}
+									{purchaseDetails.totalSupplied} out of{" "}
 									{products.reduce(
 										(a, b) => a + b.quantity,
 										0
 									)}{" "}
 									ordered items
 								</td>
-								<td>
-									<MainButton
-										onClick={markAll}
-										bg="#EDEEF0"
-										color="#505BDA"
-										sm="true"
-										right="true"
-									>
-										<span>Mark All Supplied</span>
-										<HiCheckBadge />
-									</MainButton>
-								</td>
-								<td>
-									<MainButton
-										sm="true"
-										right="true"
-										onClick={() => supplyItems(products)}
-									>
-										<span>Update</span>
-										<IoMdRefreshCircle />
-									</MainButton>
-								</td>
+								{purchaseDetails.totalNoItems !==
+									purchaseDetails.totalSupplied && (
+									<>
+										<td>
+											<MainButton
+												onClick={markAll}
+												bg="#EDEEF0"
+												color="#505BDA"
+												sm="true"
+												right="true"
+											>
+												<span>Mark All Supplied</span>
+												<HiCheckBadge />
+											</MainButton>
+										</td>
+										<td>
+											<MainButton
+												sm="true"
+												right="true"
+												onClick={() =>
+													supplyItems(products)
+												}
+											>
+												<span>Update</span>
+												<IoMdRefreshCircle />
+											</MainButton>
+										</td>
+									</>
+								)}
 							</tr>
 						</tfoot>
 					</Table>

@@ -47,6 +47,9 @@ const Transactions = () => {
 		shopId?.value || ""
 	}&paymentMethod=${methodId?.value || ""}`;
 
+	const currency =
+		user.business?.currency?.symbol || user.business?.currencyCode;
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		getTransactions();
@@ -181,14 +184,14 @@ const Transactions = () => {
 											<td>{tr.paymentMethod?.name}</td>
 											<td>
 												{tr.mode === "in"
-													? `₦ ${formatCurrency(
+													? `${currency} ${formatCurrency(
 															tr.amountPaid
 													  )}`
 													: "--"}
 											</td>
 											<td>
 												{tr.mode === "out"
-													? `₦ ${formatCurrency(
+													? `${currency} ${formatCurrency(
 															tr.amountPaid
 													  )}`
 													: "--"}

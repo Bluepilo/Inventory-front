@@ -22,6 +22,7 @@ import DropDowns from "../../../../components/Customer/DropDowns";
 import ConfirmModal from "../../../../components/Modals/ConfirmModal";
 import { displayError } from "../../../../utils/errors";
 import { toast } from "react-toastify";
+import { haveRole } from "../../../../utils/role";
 
 const Subdealer = () => {
 	const navigate = useNavigate();
@@ -41,6 +42,9 @@ const Subdealer = () => {
 	const debouncedSearch = UseDebounce(search);
 
 	let filters = `?page=${page}&limit=${limit}&shopId=${details.shopId || ""}`;
+
+	const currency =
+		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -114,7 +118,11 @@ const Subdealer = () => {
 					<TitleCover
 						title="Subdealers"
 						dataCount={lists?.count}
-						button="Add Subdealer"
+						button={
+							haveRole(details.roleId).isBusinessActioners
+								? "Add Subdealer"
+								: ""
+						}
 						buttonIcon={<IoCartSharp />}
 						buttonClick={() => {
 							setIds(null);
@@ -139,7 +147,7 @@ const Subdealer = () => {
 										<h6>Total in Wallets: </h6>
 										<h6>
 											{summary?.totalInWallet
-												? `₦ ${formatCurrency(
+												? `${currency} ${formatCurrency(
 														summary.totalInWallet
 												  )}`
 												: "--"}
@@ -150,7 +158,7 @@ const Subdealer = () => {
 										<h6>Total Debts in Wallets:</h6>
 										<h6>
 											{summary?.totalDebts
-												? `₦ ${formatCurrency(
+												? `${currency} ${formatCurrency(
 														summary.totalDebts
 												  )}`
 												: "--"}
@@ -213,13 +221,13 @@ const Subdealer = () => {
 																		: "red",
 															}}
 														>
-															₦{" "}
+															{currency}{" "}
 															{formatCurrency(
 																l.balance
 															)}
 														</td>
 														<td className="price">
-															₦{" "}
+															{currency}{" "}
 															{formatCurrency(
 																l.creditLimit
 															)}
