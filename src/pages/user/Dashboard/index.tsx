@@ -69,7 +69,7 @@ const Dashboard = () => {
 		try {
 			await basicService.switchBusiness(
 				token,
-				details.allowedBusinesses[0].id
+				details.allowedBusinesses[0].business?.id
 			);
 			dispatch(userProfile(details.id));
 		} catch (err) {

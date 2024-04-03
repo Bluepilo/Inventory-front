@@ -486,6 +486,11 @@ export const DetailCard = styled.div`
 		.user-info {
 			padding-left: 12px;
 
+			img {
+				height: 30px;
+				border-radius: 50%;
+			}
+
 			p {
 				margin-bottom: 10px;
 
@@ -502,6 +507,37 @@ export const DetailCard = styled.div`
 
 			&:hover {
 				text-decoration: underline;
+			}
+		}
+	}
+
+	.biz-detail {
+		h5,
+		h6 {
+			font-weight: 600;
+		}
+		h5 {
+			text-decoration: underline;
+			margin-bottom: 15px;
+		}
+
+		h6 {
+			margin-bottom: 10px;
+			display: flex;
+			align-items: center;
+
+			span {
+				margin-left: 10px;
+			}
+		}
+		.body {
+			border-bottom: 0.5px solid #d9dbeb;
+			padding-bottom: 10px;
+			margin-bottom: 10px;
+			.para {
+				span {
+					margin-right: 10px;
+				}
 			}
 		}
 	}

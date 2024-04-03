@@ -61,6 +61,7 @@ import EditBusiness from "../pages/user/Settings/EditBusiness";
 import CloseAccount from "../pages/user/Settings/CloseAccount";
 import Resources from "../pages/user/Resources";
 import ResourceDetail from "../pages/user/Resources/ResourceDetail";
+import Details from "../pages/user/Users/Details";
 
 const Routing = () => {
 	return (
@@ -194,6 +195,7 @@ const Routing = () => {
 						path="resources/:name"
 						element={<ResourceDetail />}
 					/>
+					<Route path="users/:id" element={<Details />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

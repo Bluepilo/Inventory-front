@@ -92,7 +92,7 @@ const Dashboard = () => {
 								Organization ID
 							</span>
 							<span className="col-6 mt-3">
-								{details.organization.id}
+								{details.organizationId}
 							</span>
 							<span className="col-6 ss mt-3">
 								Active Subscription

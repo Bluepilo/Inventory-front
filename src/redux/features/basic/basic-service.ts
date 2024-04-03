@@ -216,6 +216,13 @@ const createBusiness = async (token: string, obj: any) => {
 	return data;
 };
 
+const businessDetails = async (token: string, id: any) => {
+	const { data } = await axios.get(`${config.baseUrl}/business/view/${id}`, {
+		headers: authHeader(token),
+	});
+	return data;
+};
+
 const updateBusiness = async (token: string, obj: any, id: any) => {
 	const { data } = await axios.patch(
 		`${config.baseUrl}/business/update/${id}`,
@@ -318,9 +325,10 @@ const getLogs = async (token: string, filters: string) => {
 	return data.data;
 };
 
-const closeAccount = async (token: string, id: any, filters: string) => {
-	const { data } = await axios.delete(
-		`${config.baseUrl}/organization/delete/${id}${filters}`,
+const closeAccount = async (token: string, id: any, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/organization/delete/${id}`,
+		obj,
 		{
 			headers: authHeader(token),
 		}
@@ -468,6 +476,7 @@ const basicService = {
 	deleteBusiness,
 	actionUser,
 	updateUser,
+	businessDetails,
 };
 
 export default basicService;

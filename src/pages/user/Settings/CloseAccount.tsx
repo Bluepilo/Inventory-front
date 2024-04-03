@@ -38,11 +38,10 @@ const CloseAccount = () => {
 		e.preventDefault();
 		setOpenModal(false);
 		try {
-			await basicService.closeAccount(
-				token,
-				details.organization.id,
-				`?reason=${reason + " " + comment}&password=${password}`
-			);
+			await basicService.closeAccount(token, details.organization.id, {
+				reason: reason + " " + comment,
+				password,
+			});
 			dispatch(logout());
 		} catch (err) {
 			displayError(err, true);

@@ -44,19 +44,19 @@ const SwitchBusiness = () => {
 					<div className="switch-drop shadow-sm">
 						{details.allowedBusinesses?.map((biz) => (
 							<button
-								key={biz.id}
-								onClick={() => switchHandler(biz.id)}
+								key={biz.business?.id}
+								onClick={() => switchHandler(biz.business?.id)}
 							>
 								<span
 									className={
-										biz.id == details.businessId
+										biz.business?.id == details.businessId
 											? "active"
 											: ""
 									}
 								>
-									{biz.name}
+									{biz.business?.name}
 								</span>
-								{biz.id == details.businessId && (
+								{biz.business?.id == details.businessId && (
 									<IoCheckmarkDoneCircle />
 								)}
 							</button>

@@ -11,9 +11,14 @@ import Paginate from "../../../../components/Paginate";
 import SuccessIcon from "../../../../assets/icons/success.svg";
 import FailedIcon from "../../../../assets/icons/failed.svg";
 import ActionsUser from "../../../../components/Users/ActionsUser";
+import { FaUsers } from "react-icons/fa6";
+import { Link, useNavigate } from "react-router-dom";
+import { haveRole } from "../../../../utils/role";
 
 const Staff = () => {
-	const { token } = useAppSelector((state) => state.auth);
+	const navigate = useNavigate();
+
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	const [lists, setList] = useState<any>({});
 	const [search, setSearch] = useState("");
@@ -62,7 +67,17 @@ const Staff = () => {
 
 	return (
 		<div>
-			<TitleCover title="Staff" dataCount={lists?.count} />
+			<TitleCover
+				title="Staff"
+				dataCount={lists?.count}
+				button={
+					haveRole(details.roleId).isBusinessAdmin
+						? "Manage Users"
+						: ""
+				}
+				buttonIcon={<FaUsers />}
+				buttonClick={() => navigate(`/dashboard/organization/users`)}
+			/>
 			<div className="mt-3">
 				<div className="row">
 					<div className="col-md-6">
@@ -100,7 +115,13 @@ const Staff = () => {
 														"mmm dd, yyyy"
 													)}
 												</td>
-												<td>{l.fullName}</td>
+												<td className="link">
+													<Link
+														to={`/dashboard/users/${l.id}`}
+													>
+														{l.fullName}
+													</Link>
+												</td>
 
 												<td>{l.email}</td>
 												<td>{l.phoneNo}</td>

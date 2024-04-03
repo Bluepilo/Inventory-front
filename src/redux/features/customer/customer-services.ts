@@ -207,7 +207,7 @@ const getSuppliers = async (token: string, filters: string) => {
 };
 
 const listUsers = async (token: string, filters: string) => {
-	const { data } = await axios.get(`${config.baseUrl}/user/all`, {
+	const { data } = await axios.get(`${config.baseUrl}/user/all${filters}`, {
 		headers: authHeader(token),
 	});
 	return data.data;
@@ -217,6 +217,55 @@ const createUser = async (token: string, obj: any) => {
 	const { data } = await axios.post(`${config.baseUrl}/user/add`, obj, {
 		headers: authHeader(token),
 	});
+	return data.data;
+};
+
+const updateUser = async (token: string, obj: any, id: any) => {
+	const { data } = await axios.put(
+		`${config.baseUrl}/user/update/${id}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const listRoles = async (token: string) => {
+	const { data } = await axios.get(`${config.baseUrl}/other/roles`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const addUserToBusiness = async (
+	token: string,
+	bizId: any,
+	userId: string,
+	obj: any
+) => {
+	const { data } = await axios.patch(
+		`${config.baseUrl}/business/${bizId}/add-user/${userId}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const removeUserFromBusiness = async (
+	token: string,
+	bizId: any,
+	userId: string
+) => {
+	const { data } = await axios.patch(
+		`${config.baseUrl}/business/${bizId}/remove-user/${userId}`,
+		{},
+		{
+			headers: authHeader(token),
+		}
+	);
 	return data.data;
 };
 
@@ -239,6 +288,10 @@ const customerService = {
 	getSuppliers,
 	listUsers,
 	createUser,
+	updateUser,
+	listRoles,
+	addUserToBusiness,
+	removeUserFromBusiness,
 };
 
 export default customerService;

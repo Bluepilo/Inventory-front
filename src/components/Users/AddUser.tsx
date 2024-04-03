@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form } from "../../styles/form.styles";
 import { ButtonSubmit } from "../../styles/links.styles";
 import { displayError } from "../../utils/errors";
@@ -7,7 +7,13 @@ import { useAppSelector } from "../../redux/hooks";
 import { toast } from "react-toastify";
 import Loading from "../Loaders/Loading";
 
-const AddUser = ({ onComplete }: { onComplete: () => void }) => {
+const AddUser = ({
+	onComplete,
+	editDetails,
+}: {
+	editDetails: any;
+	onComplete: () => void;
+}) => {
 	const { token } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
@@ -17,6 +23,18 @@ const AddUser = ({ onComplete }: { onComplete: () => void }) => {
 	const [phone, setPhone] = useState("");
 	const [address, setAddress] = useState("");
 	const [password, setPassword] = useState("");
+	const [username, setUsername] = useState("");
+
+	useEffect(() => {
+		if (editDetails?.id) {
+			setFirstName(editDetails.firstName);
+			setLastName(editDetails.lastName);
+			setEmail(editDetails.email);
+			setPhone(editDetails.phoneNo);
+			setUsername(editDetails.username);
+			setAddress(editDetails.address);
+		}
+	}, [editDetails]);
 
 	const submitHandler = async (e: any) => {
 		e.preventDefault();
@@ -29,11 +47,24 @@ const AddUser = ({ onComplete }: { onComplete: () => void }) => {
 				address,
 				password,
 				phoneNo: phone,
+				username,
 			};
-			let res = await customerService.createUser(token, payload);
+			let res;
+			if (editDetails?.id) {
+				res = await customerService.updateUser(
+					token,
+					payload,
+					editDetails.id
+				);
+			} else {
+				res = await customerService.createUser(token, payload);
+			}
+
 			setLoad(false);
 			if (res) {
-				toast.success("User has been created.");
+				toast.success(
+					`User has been ${editDetails?.id ? "updated" : "created."}`
+				);
 				onComplete();
 			}
 		} catch (err) {
@@ -87,7 +118,34 @@ const AddUser = ({ onComplete }: { onComplete: () => void }) => {
 						className="height"
 					/>
 				</div>
-				<div className="col-lg-6">
+
+				{!editDetails && (
+					<>
+						<div className="col-lg-6">
+							<label>Username</label>
+							<input
+								type="text"
+								value={username}
+								onChange={(e) => setUsername(e.target.value)}
+								required
+								disabled={load}
+								className="height"
+							/>
+						</div>
+						<div className="col-lg-6">
+							<label>Password</label>
+							<input
+								type="text"
+								value={password}
+								onChange={(e) => setPassword(e.target.value)}
+								required
+								disabled={load}
+								className="height"
+							/>
+						</div>
+					</>
+				)}
+				<div className="col-lg-12">
 					<label>Address</label>
 					<input
 						type="text"
@@ -97,22 +155,14 @@ const AddUser = ({ onComplete }: { onComplete: () => void }) => {
 						className="height"
 					/>
 				</div>
-				<div className="col-lg-6">
-					<label>Password</label>
-					<input
-						type="text"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-						required
-						disabled={load}
-						className="height"
-					/>
-				</div>
+
 				<div className="col-lg-12">
 					{load ? (
 						<Loading />
 					) : (
-						<ButtonSubmit>Create User</ButtonSubmit>
+						<ButtonSubmit>
+							{editDetails?.id ? "Update" : "Create User"}
+						</ButtonSubmit>
 					)}
 				</div>
 			</div>

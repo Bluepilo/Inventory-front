@@ -132,7 +132,9 @@ const Businesses = () => {
 												e.preventDefault();
 												addOrRemoveUserBusiness(
 													details?.allowedBusinesses?.find(
-														(b) => b.id == biz.id
+														(b) =>
+															b.business?.id ==
+															biz.id
 													)
 														? "remove"
 														: "add",
@@ -144,7 +146,8 @@ const Businesses = () => {
 											<MdBusiness />
 											<span className="ms-2">
 												{details?.allowedBusinesses?.find(
-													(b) => b.id == biz.id
+													(b) =>
+														b.business?.id == biz.id
 												)
 													? "Remove"
 													: "Add"}{" "}

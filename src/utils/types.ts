@@ -45,6 +45,7 @@ interface UserDetailsType {
 	image: string;
 	address: string;
 	username: string;
+	organizationId: string | number;
 	organization: {
 		id: number;
 		name: string;
@@ -65,8 +66,10 @@ interface UserDetailsType {
 		};
 	};
 	allowedBusinesses: {
-		id: number;
-		name: string;
+		business: {
+			id: number;
+			name: string;
+		};
 	}[];
 }
 
