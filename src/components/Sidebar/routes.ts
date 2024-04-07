@@ -161,6 +161,7 @@ const userRoutes = [
 				id: 3,
 				name: "Import Inventory",
 				href: "/dashboard/business/import-inventory",
+				permission: ["api"],
 			},
 		],
 	},

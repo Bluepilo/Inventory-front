@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import TitleCover from "../../../components/TitleCover";
 import { useNavigate } from "react-router-dom";
-import { FormBody } from "../../../styles/form.styles";
+import { Form, FormBody } from "../../../styles/form.styles";
 import BusinessForm from "../../../components/Business/BusinessForm";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { MainButton } from "../../../styles/links.styles";
-import { FaTrash } from "react-icons/fa6";
-import ConfirmModal from "../../../components/Modals/ConfirmModal";
+import { FaRegEye, FaRegEyeSlash, FaTrash } from "react-icons/fa6";
 import { displayError } from "../../../utils/errors";
 import basicService from "../../../redux/features/basic/basic-service";
 import { logout } from "../../../redux/features/auth/auth-slice";
 import LoadModal from "../../../components/Loaders/LoadModal";
+import ModalComponent from "../../../components/ModalComponent";
 
 const EditBusiness = () => {
 	const navigate = useNavigate();
@@ -22,16 +22,22 @@ const EditBusiness = () => {
 
 	const [openModal, setOpenModal] = useState(false);
 	const [load, setLoad] = useState(false);
+	const [password, setPassword] = useState("");
+	const [showPassword, setShowPassword] = useState(false);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);
 
-	const deleteHandler = async () => {
+	const deleteHandler = async (e: any) => {
+		e.preventDefault();
 		setOpenModal(false);
 		try {
 			setLoad(true);
-			await basicService.deleteBusiness(token, details.businessId);
+			await basicService.deleteBusiness(token, details.businessId, {
+				reason: "Delete Business",
+				password,
+			});
 			toast.success("Business has been deleted.");
 			dispatch(logout());
 		} catch (err) {
@@ -66,15 +72,40 @@ const EditBusiness = () => {
 					</FormBody>
 				</div>
 			</div>
-			<ConfirmModal
+			<ModalComponent
 				open={openModal}
 				close={() => setOpenModal(false)}
-				label={`Are you sure you want to delete this business? You will be logged out and won't have access to this business.`}
-				confirm={() => {
-					setOpenModal(false);
-					deleteHandler();
-				}}
-			/>
+				title="Verify it is you!"
+			>
+				<Form onSubmit={deleteHandler}>
+					<h6 className="mb-3">
+						Your business will be deleted on Submit.
+					</h6>
+					<label>Enter Password</label>
+					<div className="pos">
+						<input
+							className="height"
+							type={showPassword ? "text" : "password"}
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+							required
+						/>
+						<button
+							onClick={(e) => {
+								e.preventDefault();
+								setShowPassword(!showPassword);
+							}}
+						>
+							{showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+						</button>
+					</div>
+					<div className="mt-3 text-center">
+						<MainButton bg="#f44336" type="submit">
+							<span>Delete Business</span>
+						</MainButton>
+					</div>
+				</Form>
+			</ModalComponent>
 			{load && <LoadModal open={true} />}
 		</div>
 	);

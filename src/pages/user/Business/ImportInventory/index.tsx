@@ -70,8 +70,8 @@ const ImportInventory = () => {
 		setShopId(null);
 	};
 
-	return details.business.onboardingSteps?.purchase === "completed" ? (
-		details.business.canOnboard ? (
+	return details.business.canOnboard ? (
+		details.business.onboardingSteps?.purchase === "completed" ? (
 			<div>
 				<TitleCover
 					title="Imported Inventories"
@@ -190,20 +190,20 @@ const ImportInventory = () => {
 				</div>
 			</div>
 		) : (
-			<Alert>
-				You don't have permission to import Inventories. Go to Settings
-				to enable.
-			</Alert>
+			<NewPage
+				title={"Purchase"}
+				img={CoverImg}
+				cover="Import Inventory"
+				desc={`Effortless import your current stock and start managing your business with ease.`}
+				btnTitle={"Import Inventory"}
+				linkTo={() => navigate("new")}
+			/>
 		)
 	) : (
-		<NewPage
-			title={"Purchase"}
-			img={CoverImg}
-			cover="Import Inventory"
-			desc={`Effortless import your current stock and start managing your business with ease.`}
-			btnTitle={"Import Inventory"}
-			linkTo={() => navigate("new")}
-		/>
+		<Alert>
+			You don't have permission to import Inventories. Go to Settings to
+			enable.
+		</Alert>
 	);
 };
 

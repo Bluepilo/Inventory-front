@@ -60,10 +60,12 @@ interface UserDetailsType {
 			id: number;
 			noOfShops: number;
 			noOfUsers: number;
+			noOfTransactions: number;
 		};
 		wallet: {
 			balance: string;
 		};
+		uniqueId: string;
 	};
 	allowedBusinesses: {
 		business: {

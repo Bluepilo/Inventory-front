@@ -149,7 +149,7 @@ const NewSupplier = ({
 						<label>Phone Number</label>
 						<PhoneNumberInput value={phone} setValue={setPhone} />
 					</div>
-					<div className="col-lg-6">
+					<div className="col-lg-6 mb-3">
 						<label>State</label>
 						<DropDownSelect
 							options={states}

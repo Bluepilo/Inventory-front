@@ -400,9 +400,10 @@ const loadFaqs = async (token: string) => {
 	return data.data;
 };
 
-const deleteBusiness = async (token: string, id: any) => {
-	const { data } = await axios.delete(
+const deleteBusiness = async (token: string, id: any, obj: any) => {
+	const data = await axios.post(
 		`${config.baseUrl}//business/delete/${id}`,
+		obj,
 		{
 			headers: authHeader(token),
 		}

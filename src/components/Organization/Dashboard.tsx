@@ -92,7 +92,7 @@ const Dashboard = () => {
 								Organization ID
 							</span>
 							<span className="col-6 mt-3">
-								{details.organizationId}
+								{details.organization.uniqueId}
 							</span>
 							<span className="col-6 ss mt-3">
 								Active Subscription
@@ -115,19 +115,20 @@ const Dashboard = () => {
 								</div>
 								<div className="body">
 									<p>
-										<span>
-											{organization?.users[0]?.isActive}
-										</span>
-										/{organization?.users[0]?.count}
+										<span>{organization?.users}</span>/
+										{
+											details.organization
+												?.subscriptionPlan.noOfUsers
+										}
 									</p>
 									<div className="prog">
 										<div
 											style={{
 												width: `${getPercent(
-													organization?.users[0]
-														?.isActive,
-													organization?.users[0]
-														?.count
+													organization?.users,
+													details.organization
+														?.subscriptionPlan
+														.noOfUsers
 												)}%`,
 											}}
 										/>
@@ -143,20 +144,20 @@ const Dashboard = () => {
 								</div>
 								<div className="body">
 									<p>
-										<span>
-											{organization?.shops[0]?.isActive ||
-												"0"}
-										</span>
-										/{organization?.shops[0]?.count || "0"}
+										<span>{organization?.shops}</span>/
+										{
+											details.organization
+												?.subscriptionPlan.noOfShops
+										}
 									</p>
 									<div className="prog">
 										<div
 											style={{
 												width: `${getPercent(
-													organization?.shops[0]
-														?.isActive,
-													organization?.shops[0]
-														?.count
+													organization?.shops,
+													details.organization
+														?.subscriptionPlan
+														.noOfShops
 												)}%`,
 											}}
 										/>
@@ -173,12 +174,25 @@ const Dashboard = () => {
 								</div>
 								<div className="body">
 									<p>
-										<span>0</span>/0
+										<span>
+											{organization?.transactions}
+										</span>
+										/
+										{
+											details.organization
+												?.subscriptionPlan
+												.noOfTransactions
+										}
 									</p>
 									<div className="prog">
 										<div
 											style={{
-												width: `100%`,
+												width: `${getPercent(
+													organization?.transactions,
+													details.organization
+														?.subscriptionPlan
+														.noOfTransactions
+												)}%`,
 											}}
 										/>
 									</div>

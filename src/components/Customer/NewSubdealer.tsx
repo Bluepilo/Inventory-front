@@ -41,7 +41,7 @@ const NewSubdealer = ({
 	const { token, details } = useAppSelector((state) => state.auth);
 
 	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
+		details.business?.currency?.symbol || details.business?.currencyCode;
 
 	useEffect(() => {
 		if (editInfo?.id) {
@@ -174,7 +174,7 @@ const NewSubdealer = ({
 							className="height"
 						/>
 					</div>
-					<div className="col-lg-6">
+					<div className="col-lg-6 mb-3">
 						<label>State</label>
 						<DropDownSelect
 							options={states}
@@ -187,6 +187,7 @@ const NewSubdealer = ({
 						<CurrencyInput
 							id="input-example"
 							name="input-name"
+							className="height"
 							decimalsLimit={2}
 							onValueChange={(values) => {
 								setCreditLimit(Number(values));
@@ -221,6 +222,7 @@ const NewSubdealer = ({
 											setOption(e.target.value)
 										}
 										disabled={!addBalance}
+										className="height"
 									>
 										<option value="Credit">Credit</option>
 										<option value="Debit">Debit</option>
@@ -229,6 +231,7 @@ const NewSubdealer = ({
 										id="input-example"
 										name="input-name"
 										decimalsLimit={2}
+										className="height"
 										onValueChange={(values) => {
 											setBalance(Number(values));
 										}}

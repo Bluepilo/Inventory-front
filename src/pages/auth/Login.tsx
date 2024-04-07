@@ -38,9 +38,9 @@ const Login = () => {
 		<div style={{ padding: "0 8%" }}>
 			<h5 className="text-center">Login</h5>
 			<Form style={{ marginTop: "30px" }} onSubmit={submitHandler}>
-				<label>Email</label>
+				<label>Email/Username</label>
 				<input
-					type="email"
+					type="text"
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
 					required

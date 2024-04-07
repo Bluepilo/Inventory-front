@@ -41,10 +41,10 @@ const NewExpense = ({ submit }: { submit: any }) => {
 			const formData = new FormData();
 			formData.append("file", file);
 			formData.append("image", file);
-			formData.append("upload_preset", "tagchief");
-			formData.append("cloud_name", "dht5bpbmi");
+			formData.append("upload_preset", "Bluepilo");
+			formData.append("cloud_name", "dikkx8dz4");
 
-			fetch("https://api.cloudinary.com/v1_1/dht5bpbmi/image/upload", {
+			fetch("https://api.cloudinary.com/v1_1/dikkx8dz4/image/upload", {
 				method: "POST",
 				body: formData,
 			})

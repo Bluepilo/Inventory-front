@@ -45,7 +45,7 @@ const Users = () => {
 	return (
 		<div>
 			<TitleCover
-				title="Users"
+				title="All Users"
 				dataCount={lists?.count}
 				button="New User"
 				buttonIcon={<FiUserPlus />}

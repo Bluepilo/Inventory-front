@@ -40,7 +40,7 @@ const Dashboard = () => {
 	const { dashboardStats } = useAppSelector((state) => state.basic);
 
 	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
+		details.business?.currency?.symbol || details.business?.currencyCode;
 
 	useEffect(() => {
 		checkOnboardingTrial();

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import TitleCover from "../../../components/TitleCover";
 import { displayError } from "../../../utils/errors";
 import customerService from "../../../redux/features/customer/customer-services";
@@ -13,6 +13,7 @@ import { UnderlineLink, WideButton } from "../../../styles/links.styles";
 import ModalComponent from "../../../components/ModalComponent";
 import AddUser from "../../../components/Users/AddUser";
 import AddToBusiness from "../../../components/Users/AddToBusiness";
+import NextofKin from "../../../components/Users/NextofKin";
 
 const Details = () => {
 	const [load, setLoad] = useState(false);
@@ -259,6 +260,53 @@ const Details = () => {
 										</div>
 									</DetailCard>
 								</div>
+								<div className="col-lg-6 mb-4">
+									<DetailCard>
+										<div className="biz-detail">
+											<h5>Next of Kin Details</h5>
+										</div>
+										<div className="body">
+											<div className="row">
+												<span className="col-4 mb-2">
+													Full Name:
+												</span>
+												<b className="col-8 mb-2">
+													{detail.nokName}
+												</b>
+												<span className="col-4 mb-2">
+													Email:
+												</span>
+												<b className="col-8 mb-2">
+													{detail.nokEmail}
+												</b>
+												<span className="col-4 mb-2">
+													Phone Number:
+												</span>
+												<b className="col-8 mb-2">
+													{detail.nokPhoneNo}
+												</b>
+												<span className="col-4 mb-2">
+													Address:
+												</span>
+												<b className="col-8 mb-2">
+													{detail.nokAddress}
+												</b>
+											</div>
+											<div className="row mt-3">
+												<div className="col-md-6">
+													<WideButton
+														onClick={() => {
+															setModalType("nok");
+															setOpenModal(true);
+														}}
+													>
+														<span>Update</span>
+													</WideButton>
+												</div>
+											</div>
+										</div>
+									</DetailCard>
+								</div>
 							</div>
 						</ActionDetailsDiv>
 					)
@@ -275,6 +323,14 @@ const Details = () => {
 					/>
 				) : modalType === "add" ? (
 					<AddToBusiness
+						detail={detail}
+						close={() => {
+							setOpenModal(false);
+							getDetails();
+						}}
+					/>
+				) : modalType === "nok" ? (
+					<NextofKin
 						detail={detail}
 						close={() => {
 							setOpenModal(false);

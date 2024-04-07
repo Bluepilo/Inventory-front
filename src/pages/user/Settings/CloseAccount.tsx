@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { logout } from "../../../redux/features/auth/auth-slice";
 import basicService from "../../../redux/features/basic/basic-service";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
+import LoadModal from "../../../components/Loaders/LoadModal";
 
 const CloseAccount = () => {
 	const navigate = useNavigate();
@@ -25,6 +26,7 @@ const CloseAccount = () => {
 	const [comment, setComment] = useState("");
 	const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
+	const [load, setLoad] = useState(false);
 
 	const closeHandler = () => {
 		if (reason && comment) {
@@ -38,12 +40,15 @@ const CloseAccount = () => {
 		e.preventDefault();
 		setOpenModal(false);
 		try {
+			setLoad(true);
 			await basicService.closeAccount(token, details.organization.id, {
 				reason: reason + " " + comment,
 				password,
 			});
+			setLoad(false);
 			dispatch(logout());
 		} catch (err) {
+			setLoad(false);
 			displayError(err, true);
 		}
 	};
@@ -175,6 +180,7 @@ const CloseAccount = () => {
 					</div>
 				</Form>
 			</ModalComponent>
+			{load && <LoadModal open={true} />}
 		</div>
 	);
 };

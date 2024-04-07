@@ -40,9 +40,11 @@ const AddToBusiness = ({
 	const listRoles = async () => {
 		try {
 			let res = await customerService.listRoles(token);
-			let arr = res?.map((a: any) => {
-				return { label: a.name, value: a.id };
-			});
+			let arr = res
+				?.filter((f: any) => f.name !== "Staff")
+				.map((a: any) => {
+					return { label: a.name, value: a.id };
+				});
 			setRoles(arr || []);
 		} catch (err) {}
 	};

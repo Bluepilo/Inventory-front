@@ -131,7 +131,7 @@ const PickItems = ({
 							<input
 								type="text"
 								className="expand"
-								value={`{currency} ${formatCurrency(
+								value={`${currency} ${formatCurrency(
 									discountApplied
 								)}`}
 								disabled

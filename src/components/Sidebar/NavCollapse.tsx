@@ -62,9 +62,14 @@ const NavCollapse = ({
 						{links.children.map((link) => (
 							<li key={link.id}>
 								{allowUser(link.permission) ? (
-									<NavLink to={link.href}>
-										{link.name}
-									</NavLink>
+									link.name === "Import Inventory" &&
+									!details?.business?.canOnboard ? (
+										<></>
+									) : (
+										<NavLink to={link.href}>
+											{link.name}
+										</NavLink>
+									)
 								) : (
 									<></>
 								)}
