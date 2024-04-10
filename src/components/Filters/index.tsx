@@ -21,6 +21,7 @@ interface Props {
 	changeCustomerType?: (arg: any) => void;
 	transactionType?: any;
 	changeTransactionType?: (arg: any) => void;
+	transactionTypeOptions?: OptionProp[];
 	isSearchable?: boolean;
 	searchVal?: string;
 	changeSearchVal?: (arg: string) => void;
@@ -57,6 +58,7 @@ const Filters = ({
 	customerType,
 	transactionType,
 	changeTransactionType,
+	transactionTypeOptions,
 	methodId,
 	changeMethodId,
 	statusId,
@@ -151,10 +153,7 @@ const Filters = ({
 					<div className="col-lg-2 col-md-4 col-6 mb-3">
 						<BasicSelect
 							value={transactionType}
-							options={[
-								{ label: "Sales", value: "sales" },
-								{ label: "Payment", value: "payment" },
-							]}
+							options={transactionTypeOptions || []}
 							label="Transaction Type"
 							changeSelected={changeTransactionType}
 						/>

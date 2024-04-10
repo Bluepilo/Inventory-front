@@ -67,6 +67,7 @@ const NewSupplier = ({
 				email,
 				stateId: selectedState?.value,
 			};
+
 			let res;
 			if (editInfo?.id) {
 				res = await customerService.editSupplier(
@@ -77,10 +78,7 @@ const NewSupplier = ({
 			} else {
 				res = await customerService.createSupplier(token, {
 					...obj,
-					balance:
-						option === "Credit"
-							? balance
-							: Math.abs(Number(balance)),
+					balance: option === "Credit" ? balance : -balance,
 				});
 			}
 			setLoad(false);
@@ -121,8 +119,7 @@ const NewSupplier = ({
 
 	return (
 		<>
-			<h5>Supplier</h5>
-			<Form style={{ marginTop: "30px" }}>
+			<Form>
 				<div className="row">
 					<div className="col-lg-6">
 						<label>Name of Supplier</label>
@@ -193,6 +190,7 @@ const NewSupplier = ({
 											setOption(e.target.value)
 										}
 										disabled={!addBalance}
+										className="height"
 									>
 										<option value="Credit">Credit</option>
 										<option value="Debit">Debit</option>
@@ -200,6 +198,7 @@ const NewSupplier = ({
 									<CurrencyInput
 										id="input-example"
 										name="input-name"
+										className="height"
 										decimalsLimit={2}
 										onValueChange={(values) => {
 											setBalance(

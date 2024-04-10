@@ -37,6 +37,9 @@ interface UserDetailsType {
 		currency: {
 			symbol: string;
 		};
+		country: {
+			name: string;
+		};
 	};
 	shop: {
 		name: string;

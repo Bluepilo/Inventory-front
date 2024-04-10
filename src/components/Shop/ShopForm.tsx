@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Form } from "../../styles/form.styles";
 import { DropDownSelect, OptionProp } from "../Filters/BasicInputs";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
@@ -110,12 +110,17 @@ const ShopForm = ({
 				disabled={load}
 				className="height"
 			/>
-			<label>State</label>
-			<DropDownSelect
-				options={states}
-				value={stateId}
-				changeSelected={setStateId}
-			/>
+			{(!details.business.country ||
+				details.business.country?.name == "Nigeria") && (
+				<>
+					<label>State</label>
+					<DropDownSelect
+						options={states}
+						value={stateId}
+						changeSelected={setStateId}
+					/>
+				</>
+			)}
 			<div className="mt-4">
 				{load ? (
 					<Loading />

@@ -288,7 +288,11 @@ const Supplier = () => {
 					linkTo={() => setOpenModal(true)}
 				/>
 			)}
-			<ModalComponent open={openModal} close={() => setOpenModal(false)}>
+			<ModalComponent
+				open={openModal}
+				close={() => setOpenModal(false)}
+				title="Supplier"
+			>
 				<NewSupplier
 					submit={(arg: any) => {
 						setOpenModal(false);

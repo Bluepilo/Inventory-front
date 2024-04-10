@@ -81,7 +81,7 @@ const BusinessForm = ({
 				acceptTerms: true,
 				stateId: stateId?.value,
 				countryCode: countryCode?.value,
-				currencyId: currency?.value,
+				currencyCode: currency?.value,
 			};
 			let res;
 			if (editDetail?.id) {
@@ -110,23 +110,13 @@ const BusinessForm = ({
 			onSubmit={submitHandler}
 		>
 			<div className="row">
-				<div className="col-lg-6">
+				<div className="col-lg-12">
 					<label>Name of Business</label>
 					<input
 						type="text"
 						value={name}
 						onChange={(e) => setName(e.target.value)}
 						required
-						disabled={load}
-						className="height"
-					/>
-				</div>
-				<div className="col-lg-6">
-					<label>Registration Number</label>
-					<input
-						type="text"
-						value={regNo}
-						onChange={(e) => setRegNo(e.target.value)}
 						disabled={load}
 						className="height"
 					/>
@@ -141,10 +131,7 @@ const BusinessForm = ({
 						className="height"
 					/>
 				</div>
-				<div className="col-lg-6">
-					<label>Phone</label>
-					<PhoneNumberInput value={phone} setValue={setPhone} />
-				</div>
+
 				<div className="col-lg-6 mb-4">
 					<label>Country</label>
 					<DropDownSelect
@@ -168,6 +155,10 @@ const BusinessForm = ({
 						value={currency}
 						changeSelected={setCurrency}
 					/>
+				</div>
+				<div className="col-lg-6">
+					<label>Phone</label>
+					<PhoneNumberInput value={phone} setValue={setPhone} />
 				</div>
 				<div className="col-lg-6 mb-4">
 					<label>Address</label>

@@ -143,10 +143,14 @@ const ItemsPicked = ({
 									<td>
 										{currency} {formatCurrency(p.price)}
 									</td>
-									<Quantites
-										p={p}
-										changeProduct={changeProduct}
-									/>
+									{purchaseDetails?.isOnboarding ? (
+										<td>{p.newTotalSupplied}</td>
+									) : (
+										<Quantites
+											p={p}
+											changeProduct={changeProduct}
+										/>
+									)}
 								</tr>
 							))}
 						</tbody>
@@ -192,34 +196,37 @@ const ItemsPicked = ({
 									ordered items
 								</td>
 								{purchaseDetails.totalNoItems !==
-									purchaseDetails.totalSupplied && (
-									<>
-										<td>
-											<MainButton
-												onClick={markAll}
-												bg="#EDEEF0"
-												color="#505BDA"
-												sm="true"
-												right="true"
-											>
-												<span>Mark All Supplied</span>
-												<HiCheckBadge />
-											</MainButton>
-										</td>
-										<td>
-											<MainButton
-												sm="true"
-												right="true"
-												onClick={() =>
-													supplyItems(products)
-												}
-											>
-												<span>Update</span>
-												<IoMdRefreshCircle />
-											</MainButton>
-										</td>
-									</>
-								)}
+									purchaseDetails.totalSupplied &&
+									!purchaseDetails?.isOnboarding && (
+										<>
+											<td>
+												<MainButton
+													onClick={markAll}
+													bg="#EDEEF0"
+													color="#505BDA"
+													sm="true"
+													right="true"
+												>
+													<span>
+														Mark All Supplied
+													</span>
+													<HiCheckBadge />
+												</MainButton>
+											</td>
+											<td>
+												<MainButton
+													sm="true"
+													right="true"
+													onClick={() =>
+														supplyItems(products)
+													}
+												>
+													<span>Update</span>
+													<IoMdRefreshCircle />
+												</MainButton>
+											</td>
+										</>
+									)}
 							</tr>
 						</tfoot>
 					</Table>

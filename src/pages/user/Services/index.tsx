@@ -230,11 +230,11 @@ const Services = () => {
 				</>
 			) : (
 				<NewPage
-					title={"Catalogue"}
+					title={"Service"}
 					img={CoverImg}
-					cover="Catalogue"
-					desc={`Enjoy the self-service features by creating your own products and services with few clicks or simply upload the list via the CSV import (Excel) \n Request for your favorite brand and we provide you with the current product list and price. (T&C applied)`}
-					btnTitle={"Add Brand"}
+					cover="Service"
+					desc={`Easily attach and detach your product services to business location`}
+					btnTitle={"Add Service"}
 					linkTo={() => navigate("/dashboard/catalogue")}
 				/>
 			)}

@@ -29,7 +29,14 @@ const Signup = () => {
 	const [lastName, setLastName] = useState("");
 	const [password, setPassword] = useState("");
 	const [passwordConfirm, setPasswordConfirm] = useState("");
-	const [countryCode, setCountryCode] = useState<OptionProp | null>(null);
+	const [countryCode, setCountryCode] = useState<OptionProp | null | any>({
+		code: "234",
+		id: 153,
+		iso: "NG",
+		label: "Nigeria",
+		name: "Nigeria",
+		value: "234",
+	});
 	const [check, setCheck] = useState(false);
 
 	const [showPassword, setShowPassword] = useState(false);

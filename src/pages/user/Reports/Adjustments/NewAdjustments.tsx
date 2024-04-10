@@ -62,9 +62,11 @@ const NewAdjustments = () => {
 				token,
 				shopId?.value
 			);
-			let arr = res?.rows.map((a: any) => {
-				return { ...a, label: a.summary, value: a.id };
-			});
+			let arr = res?.rows
+				.filter((f: any) => !f.isService)
+				.map((a: any) => {
+					return { ...a, label: a.summary, value: a.id };
+				});
 			setProductList(arr || []);
 		} catch (err) {}
 	};

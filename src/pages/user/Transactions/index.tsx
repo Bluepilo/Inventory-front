@@ -122,6 +122,13 @@ const Transactions = () => {
 				clearValues={clearFilters}
 				transactionType={transactionId}
 				changeTransactionType={setTransactionId}
+				transactionTypeOptions={[
+					{
+						label: !isCustomer ? "Purchases" : "Sales",
+						value: !isCustomer ? "purchase" : "sales",
+					},
+					{ label: "Payment", value: "payment" },
+				]}
 			/>
 
 			<SummaryInfo

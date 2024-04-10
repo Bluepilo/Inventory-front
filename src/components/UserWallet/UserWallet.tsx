@@ -14,6 +14,7 @@ import dateFormat from "dateformat";
 import ModalComponent from "../ModalComponent";
 import LoadWallet from "./LoadWallet";
 import WithdrawWallet from "./WithdrawWallet";
+import { Link } from "react-router-dom";
 
 const UserWallet = ({
 	userType,
@@ -39,6 +40,7 @@ const UserWallet = ({
 	const [userDetails, setUserDetails] = useState<any>({});
 	const [openDrop, setOpenDrop] = useState(false);
 	const [openType, setOpenType] = useState("");
+	const [totals, setTotals] = useState(0);
 
 	let filters = `?startDate=${startDate}&endDate=${endDate}&transactionType=${
 		transactionType?.value || ""
@@ -90,6 +92,23 @@ const UserWallet = ({
 			);
 			if (res?.transactions) {
 				setTransactionList(res.transactions);
+
+				let totalIn = 0;
+				let totalOut = 0;
+
+				res.transactions?.forEach((trn: any) => {
+					if (trn.mode === "in") {
+						totalIn += +trn.amountPaid;
+					} else {
+						totalOut += +trn.amountPaid;
+					}
+				});
+
+				setTotals(
+					transactionType?.value !== "sales"
+						? totalIn - totalOut
+						: totalOut - totalIn
+				);
 			}
 		} catch (err) {}
 	};
@@ -116,6 +135,19 @@ const UserWallet = ({
 							changeEndDate={setEndDate}
 							transactionType={transactionType}
 							changeTransactionType={setTransactionType}
+							transactionTypeOptions={[
+								{
+									label:
+										userType === "supplier"
+											? "Purchases"
+											: "Sales",
+									value:
+										userType === "supplier"
+											? "purchase"
+											: "sales",
+								},
+								{ label: "Payment", value: "payment" },
+							]}
 							clearValues={clearFilters}
 						/>
 						<WalletDiv className="shadow-sm">
@@ -132,6 +164,21 @@ const UserWallet = ({
 							</div>
 							<div className="balance">
 								<div className="amount">
+									{transactionType?.value && (
+										<div>
+											<p
+												style={{
+													textTransform: "capitalize",
+												}}
+											>
+												Total {transactionType.value}
+											</p>
+											<h6>
+												{currency}{" "}
+												{formatCurrency(totals)}
+											</h6>
+										</div>
+									)}
 									<div>
 										<p>Wallet Balance</p>
 										<h6>
@@ -188,7 +235,9 @@ const UserWallet = ({
 										<th>Transaction Type</th>
 										<th className="price">Credit</th>
 										<th className="price">Debit</th>
-										<th className="price">Balance</th>
+										{!transactionType?.value && (
+											<th className="price">Balance</th>
+										)}
 									</tr>
 								</thead>
 								<tbody>
@@ -201,7 +250,28 @@ const UserWallet = ({
 												)}
 											</td>
 											<td>{tr.user?.fullName}</td>
-											<td>{tr.transactionType?.name}</td>
+											<td className="link">
+												{tr.saleId ? (
+													<Link
+														to={`/dashboard/sales/${tr.saleId}`}
+													>
+														Sale
+													</Link>
+												) : tr.purchaseId ? (
+													<Link
+														to={`/dashboard/purchases/${tr.purchaseId}`}
+													>
+														Purchase
+													</Link>
+												) : (
+													<span>
+														{
+															tr.transactionType
+																?.name
+														}
+													</span>
+												)}
+											</td>
 											<td className="price">
 												{tr.mode === "out"
 													? "-"
@@ -216,12 +286,14 @@ const UserWallet = ({
 															tr.amountPaid
 													  )}`}
 											</td>
-											<td className="price">
-												{currency}{" "}
-												{formatCurrency(
-													tr.balanceAfter
-												)}
-											</td>
+											{!transactionType?.value && (
+												<td className="price">
+													{currency}{" "}
+													{formatCurrency(
+														tr.balanceAfter
+													)}
+												</td>
+											)}
 										</tr>
 									))}
 								</tbody>

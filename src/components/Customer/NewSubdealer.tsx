@@ -79,10 +79,7 @@ const NewSubdealer = ({
 			} else {
 				res = await basicService.createSubdealer(token, {
 					...obj,
-					balance:
-						option === "Credit"
-							? balance
-							: Math.abs(Number(balance)),
+					balance: option === "Credit" ? balance : -balance,
 				});
 			}
 			setLoad(false);

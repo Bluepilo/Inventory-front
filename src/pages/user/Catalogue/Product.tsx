@@ -114,7 +114,10 @@ const Product = () => {
 
 	return (
 		<div>
-			<TitleCover title={`${brandName} Catalogue`} />
+			<TitleCover
+				title={`${brandName} Catalogue`}
+				dataCount={list?.count}
+			/>
 			<div className="row mt-4">
 				<div className="col-lg-6 mb-3">
 					<BasicSearch

@@ -298,16 +298,19 @@ const Dashboard = () => {
 										)}
 									</h4>
 								</div>
-								<div className="content">
-									<h6>Sales Margin</h6>
-									<h4>
-										{currency}{" "}
-										{formatCurrency(
-											dashboardStats.salesReport?.metrics
-												?.totalEstimatedProfit
-										)}
-									</h4>
-								</div>
+								{haveRole(details.roleId).isBusinessAdmin && (
+									<div className="content">
+										<h6>Sales Margin</h6>
+										<h4>
+											{currency}{" "}
+											{formatCurrency(
+												dashboardStats.salesReport
+													?.metrics
+													?.totalEstimatedProfit
+											)}
+										</h4>
+									</div>
+								)}
 							</FlexBetween>
 						</div>
 					</DashboardCard>

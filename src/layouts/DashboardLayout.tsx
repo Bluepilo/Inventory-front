@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import {
 	allShops,
 	allStaffs,
+	getAllCountries,
 	getDashboardStats,
 	getExpenseCategories,
 	getLogTypes,
@@ -43,6 +44,7 @@ const DashboardLayout = () => {
 			dispatch(getExpenseCategories());
 			dispatch(getManagedBrands());
 			dispatch(getLogTypes());
+			dispatch(getAllCountries());
 		}
 		dispatch(getStates());
 	};

@@ -5,6 +5,7 @@ import { FaBagShopping } from "react-icons/fa6";
 import { formatCurrency } from "../../../utils/currency";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../../redux/hooks";
+import { haveRole } from "../../../utils/role";
 
 const DetailsInfo = ({ saleDetails }: { saleDetails: any }) => {
 	const { details } = useAppSelector((state) => state.auth);
@@ -75,11 +76,19 @@ const DetailsInfo = ({ saleDetails }: { saleDetails: any }) => {
 								  )
 								: "--"}
 						</b>
-						<span className="col-4 mb-2">Sales Margin:</span>
-						<b className="col-8 mb-2">
-							{currency}{" "}
-							{formatCurrency(saleDetails.estimatedProfit)}
-						</b>
+						{haveRole(details.roleId).isBusinessAdmin && (
+							<>
+								<span className="col-4 mb-2">
+									Sales Margin:
+								</span>
+								<b className="col-8 mb-2">
+									{currency}{" "}
+									{formatCurrency(
+										saleDetails.estimatedProfit
+									)}
+								</b>
+							</>
+						)}
 						<span className="col-4 mb-2">Comment:</span>
 						<b className="col-8 mb-2">{saleDetails.comment}</b>
 						<span className="col-4 mb-2">SMS:</span>

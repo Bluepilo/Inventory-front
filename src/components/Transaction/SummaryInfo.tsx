@@ -57,11 +57,17 @@ const SummaryInfo = ({
 	};
 
 	const withdrawnSale = () => {
-		return transactions.reduce((prev: any, trn: any) => {
+		let a = transactions.reduce((prev: any, trn: any) => {
 			if (trn.transactionType.name === "Withdrawn Sale")
 				return prev + +trn.amountPaid;
 			return prev;
 		}, 0);
+		let b = transactions.reduce((prev: any, trn: any) => {
+			if (trn.transactionType.name === "Product return")
+				return prev + +trn.amountPaid;
+			return prev;
+		}, 0);
+		return a + b;
 	};
 	const purchases = () => {
 		return transactions.reduce((prev: any, trn: any) => {

@@ -269,6 +269,17 @@ const removeUserFromBusiness = async (
 	return data.data;
 };
 
+const changePassword = async (token: string, obj: any, userId: string) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/user/change-password/${userId}}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const customerService = {
 	getWalkIns,
 	searchWalkIns,
@@ -292,6 +303,7 @@ const customerService = {
 	listRoles,
 	addUserToBusiness,
 	removeUserFromBusiness,
+	changePassword,
 };
 
 export default customerService;

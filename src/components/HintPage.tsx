@@ -32,14 +32,11 @@ const HintPage = () => {
 				</FaqDiv>
 			))}
 			<div className="calls">
-				<a href="tel:08123456789">
+				<a href="tel:09134160765">
 					<span>Call Support</span>
-					<span>0812 345 6789</span>
+					<span>0913 416 0765</span>
 				</a>
-				<a
-					href="https://tawk.to/chat/654436dcf2439e1631eb2b07/1hev4cpo6"
-					target="_blank"
-				>
+				<a href="https://bluepilo.com/contact-us/" target="_blank">
 					<span>Chat with Support</span>
 					<span className="img">
 						<img src={IconSend} />

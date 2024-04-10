@@ -1,22 +1,11 @@
 import { TrialBox } from "../../styles/home.styles";
-import basicService from "../../redux/features/basic/basic-service";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { updateOnboardingSteps } from "../../redux/features/basic/basic-slice";
 
 const Trial = ({ closeTrial }: { closeTrial: () => void }) => {
 	const dispatch = useAppDispatch();
 
-	const { details, token } = useAppSelector((state) => state.auth);
-
-	const pickFreeTrial = async () => {
-		closeTrial();
-		try {
-			await basicService.saveTrialPick();
-			saveTrialPick();
-		} catch (err) {
-			saveTrialPick();
-		}
-	};
+	const { details } = useAppSelector((state) => state.auth);
 
 	const saveTrialPick = async () => {
 		closeTrial();
@@ -32,38 +21,13 @@ const Trial = ({ closeTrial }: { closeTrial: () => void }) => {
 
 	return (
 		<TrialBox>
-			<h5>Start with a free plan that suits your business need.</h5>
-			<div className="pick">
-				<div>
-					<h6>Free Forever Plan</h6>
-					<p>One Business Location, One User</p>
-				</div>
+			<h5>Welcome, {details.firstName}</h5>
+			<p>Congratulations, you are currently on 30days Premium trial!</p>
+			<div className="text-center">
 				<button className="active" onClick={saveTrialPick}>
-					Pick
+					Start Onboarding
 				</button>
 			</div>
-			<div className="pick bord">
-				<div>
-					<h6>Premium Plan 14 days Trial</h6>
-					<p>
-						Multiple business Locations, Multiple Users and lots
-						more
-					</p>
-				</div>
-				<button className="active" onClick={pickFreeTrial}>
-					Pick
-				</button>
-			</div>
-			<a
-				href="#"
-				className="cancels"
-				onClick={(e) => {
-					e.preventDefault();
-					saveTrialPick();
-				}}
-			>
-				Cancel
-			</a>
 		</TrialBox>
 	);
 };

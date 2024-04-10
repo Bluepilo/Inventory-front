@@ -14,6 +14,7 @@ import ModalComponent from "../../../components/ModalComponent";
 import AddUser from "../../../components/Users/AddUser";
 import AddToBusiness from "../../../components/Users/AddToBusiness";
 import NextofKin from "../../../components/Users/NextofKin";
+import ChangePassword from "../../../components/Users/ChangePassword";
 
 const Details = () => {
 	const [load, setLoad] = useState(false);
@@ -155,6 +156,23 @@ const Details = () => {
 													>
 														<span>
 															Edit Details
+														</span>
+													</WideButton>
+												</div>
+											</div>
+											<div className="row mt-3">
+												<div className="col-md-6">
+													<WideButton
+														bg="red"
+														onClick={() => {
+															setModalType(
+																"password"
+															);
+															setOpenModal(true);
+														}}
+													>
+														<span>
+															Reset Password
 														</span>
 													</WideButton>
 												</div>
@@ -331,6 +349,14 @@ const Details = () => {
 					/>
 				) : modalType === "nok" ? (
 					<NextofKin
+						detail={detail}
+						close={() => {
+							setOpenModal(false);
+							getDetails();
+						}}
+					/>
+				) : modalType === "password" ? (
+					<ChangePassword
 						detail={detail}
 						close={() => {
 							setOpenModal(false);

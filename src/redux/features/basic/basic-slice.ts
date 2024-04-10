@@ -145,7 +145,7 @@ export const getAllCountries = createAsyncThunk(
 		try {
 			const res = await basicService.getCountries();
 			let arr = res.data?.map((f: any) => {
-				return { ...f, value: f.code, label: f.name };
+				return { ...f, value: f.iso, label: f.name };
 			});
 			return arr;
 		} catch (error) {}
