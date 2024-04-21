@@ -39,6 +39,7 @@ const NotificationDropDown = ({
 
 	const readAllNotifications = async () => {
 		await basicService.readAllNotifications(token);
+		dispatch(getNotifications(1));
 		setTimeout(() => {
 			setOpenNoti(false);
 		}, 2000);

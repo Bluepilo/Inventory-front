@@ -251,17 +251,25 @@ const UserWallet = ({
 											</td>
 											<td>{tr.user?.fullName}</td>
 											<td className="link">
-												{tr.saleId ? (
+												{tr.transactionType?.name ===
+												"Sale" ? (
 													<Link
 														to={`/dashboard/sales/${tr.saleId}`}
 													>
-														Sale
+														{
+															tr.transactionType
+																?.name
+														}
 													</Link>
-												) : tr.purchaseId ? (
+												) : tr.transactionType?.name ===
+												  "Purchase" ? (
 													<Link
 														to={`/dashboard/purchases/${tr.purchaseId}`}
 													>
-														Purchase
+														{
+															tr.transactionType
+																?.name
+														}
 													</Link>
 												) : (
 													<span>

@@ -5,7 +5,6 @@ import { UseDebounce } from "../../../../utils/hooks";
 import { BasicSearch } from "../../../../components/Filters/BasicInputs";
 import basicService from "../../../../redux/features/basic/basic-service";
 import { Table, TableComponent } from "../../../../styles/table.styles";
-import dateFormat from "dateformat";
 import SkeletonTable from "../../../../components/Loaders/SkeletonTable";
 import Paginate from "../../../../components/Paginate";
 import SuccessIcon from "../../../../assets/icons/success.svg";
@@ -95,7 +94,6 @@ const Staff = () => {
 							<Table className="table">
 								<thead>
 									<tr>
-										<th>Date Added</th>
 										<th>Name</th>
 										<th>Email</th>
 										<th>Phone</th>
@@ -109,12 +107,6 @@ const Staff = () => {
 									<tbody>
 										{lists?.rows?.map((l: any) => (
 											<tr key={l.id}>
-												<td>
-													{dateFormat(
-														l.createdAt,
-														"mmm dd, yyyy"
-													)}
-												</td>
 												<td className="link">
 													<Link
 														to={`/dashboard/users/${l.id}`}

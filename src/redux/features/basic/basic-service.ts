@@ -433,6 +433,13 @@ const updateUser = async (token: string, obj: any, id: number) => {
 	return data.data;
 };
 
+const deleteUser = async (token: string, id: string) => {
+	const { data } = await axios.delete(`${config.baseUrl}/user/delete/${id}`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
 const basicService = {
 	getNotifications,
 	readAllNotifications,
@@ -478,6 +485,7 @@ const basicService = {
 	actionUser,
 	updateUser,
 	businessDetails,
+	deleteUser,
 };
 
 export default basicService;

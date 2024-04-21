@@ -121,6 +121,7 @@ const Returns = () => {
 									<th>Date</th>
 									<th>Product</th>
 									<th>Customer</th>
+									<th>Customer Type</th>
 									<th>Staff</th>
 									<th>Shop</th>
 									<th>Units</th>
@@ -140,7 +141,21 @@ const Returns = () => {
 												)}
 											</td>
 											<td>{l.product?.summary}</td>
-											<td>{l.customer?.fullName}</td>
+
+											<td>
+												{l.subdealerId
+													? l.subdealer?.fullName
+													: l.supplierId
+													? l.supplier?.fullName
+													: l.customer?.fullName}
+											</td>
+											<td>
+												{l.subdealerId
+													? "Subdealer"
+													: l.supplierId
+													? "Supplier"
+													: "Walk-In"}
+											</td>
 											<td>{l.createdByUser?.fullName}</td>
 											<td>{l.shop?.name}</td>
 											<td>{l.quantity}</td>

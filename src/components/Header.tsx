@@ -56,6 +56,17 @@ const Header = ({ openMenu }: { openMenu: () => void }) => {
 		}
 	};
 
+	const showFreeTrial = () => {
+		if (
+			details.organization?.subscriptionPlan?.name === "Free" &&
+			details.organization.isTrialOn
+		) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+
 	return (
 		<HeaderStyle>
 			<HeaderDetail color={theme}>
@@ -79,7 +90,7 @@ const Header = ({ openMenu }: { openMenu: () => void }) => {
 			<HeaderInfo>
 				{details.businessId && (
 					<>
-						{details?.organization?.isTrialOn ? (
+						{showFreeTrial() ? (
 							<p>You are on Free Trial</p>
 						) : (
 							<p>
@@ -88,7 +99,7 @@ const Header = ({ openMenu }: { openMenu: () => void }) => {
 							</p>
 						)}
 						{haveRole(details.roleId).isBusinessAdmin &&
-							!details?.organization?.isTrialOn &&
+							!showFreeTrial() &&
 							details?.organization?.subscriptionPlan?.id < 5 && (
 								<button
 									onClick={() =>

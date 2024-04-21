@@ -39,6 +39,7 @@ interface UserDetailsType {
 		};
 		country: {
 			name: string;
+			code: string;
 		};
 	};
 	shop: {

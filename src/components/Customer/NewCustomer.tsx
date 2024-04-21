@@ -3,8 +3,11 @@ import { Form } from "../../styles/form.styles";
 import { ButtonSubmit } from "../../styles/links.styles";
 import AddIcon from "../../assets/icons/user-add.svg";
 import { PhoneNumberInput } from "../Filters/BasicInputs";
+import { useAppSelector } from "../../redux/hooks";
 
 const NewCustomer = ({ submit }: { submit: (arg: any) => void }) => {
+	const { details } = useAppSelector((state) => state.auth);
+
 	const [name, setName] = useState("");
 	const [phone, setPhone] = useState("");
 	const [address, setAddress] = useState("");
@@ -23,6 +26,8 @@ const NewCustomer = ({ submit }: { submit: (arg: any) => void }) => {
 		submit(obj);
 	};
 
+	const countryCode = details?.business?.country?.code;
+
 	return (
 		<>
 			<h5>Create New Customer</h5>
@@ -36,7 +41,11 @@ const NewCustomer = ({ submit }: { submit: (arg: any) => void }) => {
 					className="height"
 				/>
 				<label>Phone Number</label>
-				<PhoneNumberInput value={phone} setValue={setPhone} />
+				<PhoneNumberInput
+					value={phone}
+					setValue={setPhone}
+					countryCode={countryCode || "234"}
+				/>
 				<label>Email</label>
 				<input
 					type="email"

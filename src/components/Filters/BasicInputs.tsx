@@ -128,15 +128,21 @@ export const DateSelect = ({ dateVal, changeDateVal, label }: DateProp) => {
 export const PhoneNumberInput = ({
 	value,
 	setValue,
+	countryCode,
 }: {
 	value: string;
 	setValue: (arg: string) => void;
+	countryCode?: string;
 }) => {
 	return (
 		<PhoneStyle>
 			<div className="country">
-				<img src={Flag} />
-				<span>+234</span>
+				{countryCode && (
+					<>
+						{countryCode == "234" && <img src={Flag} />}
+						<span>+{countryCode}</span>
+					</>
+				)}
 			</div>
 			<input
 				value={value}

@@ -16,6 +16,7 @@
 		"crypto-js": "^4.2.0",
 		"dateformat": "^5.0.3",
 		"javascript-time-ago": "^2.5.9",
+		"papaparse": "^5.4.1",
 		"react": "^18.2.0",
 		"react-bootstrap": "^2.10.0",
 		"react-chartjs-2": "^5.2.0",
@@ -64,6 +65,7 @@
 		"@babel/plugin-proposal-private-property-in-object": "^7.21.11",
 		"@types/crypto-js": "^4.2.2",
 		"@types/dateformat": "^5.0.2",
+		"@types/papaparse": "^5.3.14",
 		"@types/react-datepicker": "^4.19.6"
 	}
 }

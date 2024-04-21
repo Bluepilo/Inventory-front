@@ -24,12 +24,26 @@ const ActionsUser = ({
 	const [openModal, setOpenModal] = useState(false);
 
 	const activateOrDeactivate = async (action: string) => {
-		try {
-			await basicService.actionUser(token, action, detail.id);
-			toast.success(`Staff has been ${action}d.`);
-			reload();
-		} catch (err) {
-			displayError(err, true);
+		if (window.confirm(`Are you sure you want to ${action}?`)) {
+			try {
+				await basicService.actionUser(token, action, detail.id);
+				toast.success(`Staff has been ${action}d.`);
+				reload();
+			} catch (err) {
+				displayError(err, true);
+			}
+		}
+	};
+
+	const deleteUser = async () => {
+		if (window.confirm(`Are you sure you want delete user?`)) {
+			try {
+				await basicService.deleteUser(token, detail.id);
+				toast.success(`Staff has been deleted.`);
+				reload();
+			} catch (err) {
+				displayError(err, true);
+			}
 		}
 	};
 
@@ -41,17 +55,32 @@ const ActionsUser = ({
 				</Drop.Toggle>
 				<Drop.Menu>
 					{detail.id !== details.id && (
-						<Drop.Item
-							href="#"
-							onClick={(e) => {
-								e.preventDefault();
-								activateOrDeactivate(
-									detail.isActive ? "deactivate" : "activate"
-								);
-							}}
-						>
-							{detail.isActive ? "Deactivate" : "Activate"}
-						</Drop.Item>
+						<>
+							<Drop.Item
+								href="#"
+								onClick={(e) => {
+									e.preventDefault();
+									activateOrDeactivate(
+										detail.isActive
+											? "deactivate"
+											: "activate"
+									);
+								}}
+							>
+								{detail.isActive ? "Deactivate" : "Activate"}
+							</Drop.Item>
+							{detail.transactions?.length === 0 && (
+								<Drop.Item
+									href="#"
+									onClick={(e) => {
+										e.preventDefault();
+										deleteUser();
+									}}
+								>
+									Delete User
+								</Drop.Item>
+							)}
+						</>
 					)}
 					{more && (
 						<>

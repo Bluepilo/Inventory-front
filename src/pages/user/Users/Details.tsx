@@ -220,7 +220,7 @@ const Details = () => {
 																		</b>
 																	</div>
 																	<div className="para">
-																		{!biz?.shopId && (
+																		{biz?.shopId && (
 																			<>
 																				<span>
 																					Shop:
@@ -231,7 +231,6 @@ const Details = () => {
 																							.shop
 																							?.name
 																					}
-																					dfff
 																				</b>
 																			</>
 																		)}

@@ -151,7 +151,7 @@ const NewReturns = () => {
 					supplierId: user === "supplier" ? customerId?.value : "",
 					subdealerId: user === "subdealer" ? customerId?.value : "",
 					salesRef: user !== "supplier" ? ref : "",
-					puchaseRef: user === "supplier" ? ref : "",
+					purchaseRef: user === "supplier" ? ref : "",
 				};
 				setLoad(true);
 				let res = await productService.returnProduct(token, data);

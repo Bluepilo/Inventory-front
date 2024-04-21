@@ -37,7 +37,6 @@ const VerifyOtp = () => {
 				if (res && res?.accessToken) {
 					dispatch(saveToken(res.accessToken));
 				}
-				console.log(res, "RES");
 				navigate("/add-business", { state: { id: res?.user?.id } });
 			} catch (err) {
 				setLoad(false);

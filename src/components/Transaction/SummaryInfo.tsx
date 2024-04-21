@@ -43,7 +43,7 @@ const SummaryInfo = ({
 	};
 	const supplierDeposit = () => {
 		return transactions.reduce((prev: any, trn: any) => {
-			if (trn.transactionType.name === "Supplier Deposit")
+			if (trn.transactionType.name === "Paid Supplier")
 				return prev + +trn.amountPaid;
 			return prev;
 		}, 0);
@@ -63,7 +63,7 @@ const SummaryInfo = ({
 			return prev;
 		}, 0);
 		let b = transactions.reduce((prev: any, trn: any) => {
-			if (trn.transactionType.name === "Product return")
+			if (trn.transactionType.name === "Stock Return")
 				return prev + +trn.amountPaid;
 			return prev;
 		}, 0);
@@ -130,7 +130,10 @@ const SummaryInfo = ({
 						</div>
 						<div>
 							<h6>
-								{currency} {formatCurrency(deposit())}
+								{currency}{" "}
+								{formatCurrency(
+									isCustomer ? deposit() : supplierDeposit()
+								)}
 							</h6>
 							<p>Total Deposits</p>
 						</div>
@@ -138,14 +141,20 @@ const SummaryInfo = ({
 					<div className="bottom">
 						<div>
 							<h6 className="first">Total Withdrawn Payments:</h6>
-							<h6>₦ {formatCurrency(totalWithdrawnPayment())}</h6>
+							<h6>
+								{currency}{" "}
+								{formatCurrency(totalWithdrawnPayment())}
+							</h6>
 						</div>
 						<div>
 							<h6 className="first">Difference:</h6>
 							<h6>
-								₦{" "}
+								{currency}{" "}
 								{formatCurrency(
-									deposit() - totalWithdrawnPayment()
+									isCustomer
+										? deposit() - totalWithdrawnPayment()
+										: supplierDeposit() -
+												totalWithdrawnPayment()
 								)}
 							</h6>
 						</div>
@@ -160,7 +169,7 @@ const SummaryInfo = ({
 						</div>
 						<div>
 							<h6>
-								₦{" "}
+								{currency}{" "}
 								{formatCurrency(
 									isCustomer ? sale() : purchases()
 								)}
@@ -175,7 +184,7 @@ const SummaryInfo = ({
 								{isCustomer ? "Sales" : "Purchases"}:
 							</h6>
 							<h6>
-								₦{" "}
+								{currency}{" "}
 								{formatCurrency(
 									isCustomer
 										? withdrawnSale()
@@ -186,7 +195,7 @@ const SummaryInfo = ({
 						<div>
 							<h6 className="first">Difference:</h6>
 							<h6>
-								₦{" "}
+								{currency}{" "}
 								{formatCurrency(
 									isCustomer
 										? sale() - withdrawnSale()

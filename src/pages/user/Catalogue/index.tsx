@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 import ModalComponent from "../../../components/ModalComponent";
 import BrandForm from "../../../components/Catalogue/BrandForm";
 import NewBrand from "../../../components/Catalogue/NewBrand";
+import Papa from "papaparse";
 
 const Catalogue = () => {
 	const { details, token } = useAppSelector((state) => state.auth);
@@ -63,6 +64,54 @@ const Catalogue = () => {
 				setLoad(false);
 				displayError(err, true);
 			}
+		}
+	};
+
+	const xlsHandler = async (id: any, name: string) => {
+		try {
+			let res = await productService.listBrandProducts(
+				token,
+				"&all=true",
+				id
+			);
+			let data = res.rows;
+			if (data?.length === 0) {
+				toast.error(`No products available for ${name}`);
+				return;
+			}
+
+			const csvData = data?.map((value: any) => ({
+				brandName: value.brand_,
+				productName: value.name,
+				category: value.category_,
+				size: value.size,
+				type: value.type,
+				colour: value.colour,
+				year: value.year,
+				productCode: value.productCode,
+				sellingPrice: value.price,
+				costPrice: value.costPrice,
+			}));
+
+			const csvReport = {
+				filename: `${name}_Catalogue.csv`,
+				headers: [],
+				data: csvData,
+			};
+
+			const csvContent = Papa.unparse(csvData);
+			const blob = new Blob([csvContent], {
+				type: "text/csv;charset=utf-8;",
+			});
+			const url = URL.createObjectURL(blob);
+			const downloadLink = document.createElement("a");
+			downloadLink.href = url;
+			downloadLink.target = "_blank";
+			downloadLink.download = csvReport.filename;
+			downloadLink.click();
+			URL.revokeObjectURL(url);
+		} catch (err) {
+			displayError(err, true);
 		}
 	};
 
@@ -180,8 +229,9 @@ const Catalogue = () => {
 														<td>
 															<DropDowns
 																download={() =>
-																	console.log(
-																		""
+																	xlsHandler(
+																		m.id,
+																		m.name
 																	)
 																}
 																onDelete={() =>

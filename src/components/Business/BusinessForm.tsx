@@ -32,7 +32,9 @@ const BusinessForm = ({
 	const [load, setLoad] = useState(false);
 	const [name, setName] = useState("");
 	const [regNo, setRegNo] = useState("");
-	const [countryCode, setCountryCode] = useState<OptionProp | null>(null);
+	const [countryCode, setCountryCode] = useState<OptionProp | null | any>(
+		null
+	);
 	const [currency, setCurrency] = useState<OptionProp | null>(null);
 	const [currencyList, setCurrencyList] = useState<OptionProp[]>([]);
 	const [stateId, setStateId] = useState<OptionProp | null>(null);
@@ -55,6 +57,23 @@ const BusinessForm = ({
 				value: editDetail.currency?.id,
 			});
 			setAddress(editDetail.address);
+			setCountryCode(
+				editDetail?.country
+					? {
+							value: editDetail.countryCode,
+							label: editDetail.country.name,
+							code: editDetail.country.code,
+					  }
+					: null
+			);
+			setStateId(
+				editDetail?.state
+					? {
+							value: editDetail.state.id,
+							label: editDetail.state.name,
+					  }
+					: null
+			);
 		}
 	}, [editDetail]);
 
@@ -140,14 +159,16 @@ const BusinessForm = ({
 						changeSelected={setCountryCode}
 					/>
 				</div>
-				<div className="col-lg-6 mb-4">
-					<label>State</label>
-					<DropDownSelect
-						options={countryCode?.value == "234" ? states : []}
-						value={stateId}
-						changeSelected={setStateId}
-					/>
-				</div>
+				{countryCode?.value === "NG" && (
+					<div className="col-lg-6 mb-4">
+						<label>State</label>
+						<DropDownSelect
+							options={states}
+							value={stateId}
+							changeSelected={setStateId}
+						/>
+					</div>
+				)}
 				<div className="col-lg-6 mb-4">
 					<label>Currency</label>
 					<DropDownSelect
@@ -158,7 +179,11 @@ const BusinessForm = ({
 				</div>
 				<div className="col-lg-6">
 					<label>Phone</label>
-					<PhoneNumberInput value={phone} setValue={setPhone} />
+					<PhoneNumberInput
+						value={phone}
+						setValue={setPhone}
+						countryCode={countryCode?.code}
+					/>
 				</div>
 				<div className="col-lg-6 mb-4">
 					<label>Address</label>

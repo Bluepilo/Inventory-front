@@ -80,17 +80,18 @@ const NewAdjustments = () => {
 		}
 	};
 
-	const adjustHandler = async () => {
+	const adjustHandler = async (e: any) => {
+		e.preventDefault();
 		setOpenPassword(false);
 
 		try {
 			setLoad(true);
 			let data = {
 				password,
-				productId,
+				productId: productId?.value,
 				quantity,
-				reason: reasonId,
-				shopId,
+				reason: reasonId?.value,
+				shopId: shopId?.value,
 				type,
 				comment,
 			};

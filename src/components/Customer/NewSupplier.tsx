@@ -40,6 +40,8 @@ const NewSupplier = ({
 	const currency =
 		details.business?.currency?.symbol || details.business.currencyCode;
 
+	const countryCode = details?.business?.country?.code;
+
 	useEffect(() => {
 		if (editInfo?.id) {
 			setName(editInfo.fullName);
@@ -144,7 +146,11 @@ const NewSupplier = ({
 					</div>
 					<div className="col-lg-6">
 						<label>Phone Number</label>
-						<PhoneNumberInput value={phone} setValue={setPhone} />
+						<PhoneNumberInput
+							value={phone}
+							setValue={setPhone}
+							countryCode={countryCode || "234"}
+						/>
 					</div>
 					<div className="col-lg-6 mb-3">
 						<label>State</label>

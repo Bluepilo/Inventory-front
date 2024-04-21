@@ -4,11 +4,14 @@ import BusinessForm from "../../components/Business/BusinessForm";
 import Success from "./Success";
 import { useAppSelector } from "../../redux/hooks";
 import { useNavigate } from "react-router-dom";
+import ModalComponent from "../../components/ModalComponent";
+import Trial from "../../components/Home/Trial";
 
 const NewBusiness = () => {
 	const navigate = useNavigate();
 
 	const [successful, setSuccessful] = useState(false);
+	const [openModal, setOpenModal] = useState(true);
 
 	const { token } = useAppSelector((state) => state.auth);
 
@@ -27,6 +30,9 @@ const NewBusiness = () => {
 			) : (
 				<BusinessForm onComplete={() => setSuccessful(true)} />
 			)}
+			<ModalComponent open={openModal} close={() => console.log("close")}>
+				<Trial closeTrial={() => setOpenModal(false)} />
+			</ModalComponent>
 		</div>
 	);
 };
