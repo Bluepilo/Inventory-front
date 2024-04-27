@@ -26,6 +26,17 @@ const Dashboard = () => {
 		return calc;
 	};
 
+	const planName = () => {
+		if (
+			details.organization?.subscriptionPlan?.name?.includes("Free") &&
+			details.organization.isTrialOn
+		) {
+			return "On Free Trial";
+		} else {
+			return details.organization?.subscriptionPlan?.name;
+		}
+	};
+
 	return (
 		<div className="row">
 			<div className="col-md-6">
@@ -75,7 +86,7 @@ const Dashboard = () => {
 									}}
 								>
 									<FiUserPlus />
-									<span className="ms-2">Create Users</span>
+									<span className="ms-2">Manage Users</span>
 								</Drop.Item>
 							</Drop.Menu>
 						</Drop>
@@ -97,9 +108,7 @@ const Dashboard = () => {
 							<span className="col-6 ss mt-3">
 								Active Subscription
 							</span>
-							<span className="col-6 mt-3">
-								{details.organization?.subscriptionPlan?.name}
-							</span>
+							<span className="col-6 mt-3">{planName()}</span>
 						</div>
 					</div>
 				</div>

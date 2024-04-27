@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Form } from "../../styles/form.styles";
 import customerService from "../../redux/features/customer/customer-services";
 import { useAppSelector } from "../../redux/hooks";

@@ -58,6 +58,8 @@ const NewTransfer = () => {
 		}
 	}, [fromShop]);
 
+	useEffect(() => {}, []);
+
 	useEffect(() => {
 		if (cloneState?.id) {
 			let products = cloneState.products.map((a: any) => {
@@ -82,6 +84,12 @@ const NewTransfer = () => {
 		if (shops?.length > 0) {
 			let filter = shops.filter((s) => s.isActive);
 			setShopList(filter);
+			if (details.shopId) {
+				setFromShop({
+					value: details.shopId,
+					label: details.shop.name,
+				});
+			}
 		}
 	};
 
@@ -204,19 +212,12 @@ const NewTransfer = () => {
 			<SaleSelectDiv>
 				<div className="info"></div>
 				<div className="a-flex">
-					{details.shopId ? (
-						<SaleSelectStyle>
-							<p>From</p>
-							<div className="shop">{details.shop?.name}</div>
-						</SaleSelectStyle>
-					) : (
-						<SaleSelect
-							options={shopList}
-							changeSelected={(arg) => setFromShop(arg)}
-							value={fromShop}
-							label="From"
-						/>
-					)}
+					<SaleSelect
+						options={shopList}
+						changeSelected={(arg) => setFromShop(arg)}
+						value={fromShop}
+						label="From"
+					/>
 
 					<div className="mb">
 						<SaleSelect

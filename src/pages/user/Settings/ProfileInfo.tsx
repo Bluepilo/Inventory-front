@@ -17,7 +17,7 @@ const ProfileInfo = () => {
 
 	return (
 		<div>
-			{haveRole(details.roleId).isBusinessAdmin && (
+			{haveRole(details.businessRoleId).isBusinessAdmin && (
 				<>
 					<h5>Organization Profile</h5>
 					<ProfileBox>

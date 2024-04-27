@@ -92,7 +92,7 @@ const TransferDetails = () => {
 								</div>
 								<div className="col-lg-6">
 									{transferDetails.status === "pending" &&
-										haveRole(details.roleId)
+										haveRole(details.businessRoleId)
 											.isBusinessActioners && (
 											<DetailCard
 												style={{

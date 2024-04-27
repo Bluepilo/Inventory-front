@@ -76,7 +76,7 @@ const DetailsInfo = ({ saleDetails }: { saleDetails: any }) => {
 								  )
 								: "--"}
 						</b>
-						{haveRole(details.roleId).isBusinessAdmin && (
+						{haveRole(details.businessRoleId).isBusinessAdmin && (
 							<>
 								<span className="col-4 mb-2">
 									Sales Margin:

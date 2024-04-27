@@ -118,7 +118,7 @@ const Sales = () => {
 				title="Sales Records"
 				dataCount={lists?.count}
 				button={
-					haveRole(details.roleId).isBusinessActioners
+					haveRole(details.businessRoleId).isBusinessActioners
 						? "Make Sales"
 						: ""
 				}
@@ -155,7 +155,8 @@ const Sales = () => {
 										: "--"}
 								</h6>
 							</div>
-							{haveRole(details.roleId).isBusinessAdmin && (
+							{haveRole(details.businessRoleId)
+								.isBusinessAdmin && (
 								<div>
 									<h6>Total Sales Margin:</h6>
 									<h6>
@@ -205,7 +206,7 @@ const Sales = () => {
 										<th>Staff</th>
 										<th>Shop</th>
 										<th className="price">Price</th>
-										{haveRole(details.roleId)
+										{haveRole(details.businessRoleId)
 											.isBusinessAdmin && <th>Margin</th>}
 										<th>Status</th>
 									</tr>
@@ -261,8 +262,9 @@ const Sales = () => {
 														l.amountExpected
 													)}
 												</td>
-												{haveRole(details.roleId)
-													.isBusinessAdmin && (
+												{haveRole(
+													details.businessRoleId
+												).isBusinessAdmin && (
 													<td
 														style={{
 															color:

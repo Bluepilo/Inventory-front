@@ -19,11 +19,15 @@ interface UserDetailsType {
 	lastName: string;
 	phoneNo: string;
 	email: string;
+	businessRole: {
+		name: string;
+		isAdmin: boolean;
+	};
 	role: {
 		name: string;
 		isAdmin: boolean;
 	};
-	roleId: number;
+	businessRoleId: number;
 	shopId: number;
 	business: {
 		name: string;

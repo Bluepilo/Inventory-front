@@ -19,7 +19,7 @@ const Organization = () => {
 	}, []);
 
 	return organization?.organization &&
-		haveRole(details.roleId).isBusinessOwner ? (
+		haveRole(details.businessRoleId).isBusinessOwner ? (
 		<div className="row">
 			<div className="col-lg-11">
 				<OrgDashboard>

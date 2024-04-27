@@ -94,7 +94,7 @@ const SaleDetails = () => {
 								<div className="col-lg-6 mb-3">
 									{saleDetails.status ===
 										"awaiting withdrawal" &&
-										haveRole(details.roleId)
+										haveRole(details.businessRoleId)
 											.isBusinessAdmin && (
 											<DetailCard
 												style={{

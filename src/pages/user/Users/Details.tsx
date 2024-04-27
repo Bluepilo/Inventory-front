@@ -192,7 +192,10 @@ const Details = () => {
 														(biz: any) => (
 															<div
 																className="each"
-																key={biz.id}
+																key={
+																	biz.business
+																		?.id
+																}
 															>
 																<h6>
 																	<IoBusinessOutline />{" "}

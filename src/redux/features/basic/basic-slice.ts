@@ -254,7 +254,7 @@ export const basicSlice = createSlice({
 			state.logTypes = action.payload || [];
 		});
 		builder.addCase(getOrganizationReport.fulfilled, (state, action) => {
-			state.organization = action.payload || [];
+			state.organization = action.payload || {};
 		});
 	},
 });

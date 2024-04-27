@@ -49,7 +49,10 @@ const Header = ({ openMenu }: { openMenu: () => void }) => {
 	};
 
 	const showCount = () => {
-		if (haveRole(details.roleId).isAppAdmin || calcPercent() == 100) {
+		if (
+			haveRole(details.businessRoleId).isAppAdmin ||
+			calcPercent() == 100
+		) {
 			return false;
 		} else {
 			return true;
@@ -58,7 +61,7 @@ const Header = ({ openMenu }: { openMenu: () => void }) => {
 
 	const showFreeTrial = () => {
 		if (
-			details.organization?.subscriptionPlan?.name === "Free" &&
+			details.organization?.subscriptionPlan?.name?.includes("Free") &&
 			details.organization.isTrialOn
 		) {
 			return true;
@@ -98,7 +101,7 @@ const Header = ({ openMenu }: { openMenu: () => void }) => {
 								{details?.organization?.subscriptionPlan?.name}
 							</p>
 						)}
-						{haveRole(details.roleId).isBusinessAdmin &&
+						{haveRole(details.businessRoleId).isBusinessAdmin &&
 							!showFreeTrial() &&
 							details?.organization?.subscriptionPlan?.id < 5 && (
 								<button

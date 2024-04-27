@@ -281,8 +281,9 @@ const Catalogue = () => {
 															<td>
 																<DropDowns
 																	download={() =>
-																		console.log(
-																			""
+																		xlsHandler(
+																			s.id,
+																			s.name
 																		)
 																	}
 																	onDelete={() =>

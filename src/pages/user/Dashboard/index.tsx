@@ -95,7 +95,7 @@ const Dashboard = () => {
 					<h5>
 						Good {greetings()}, <b>{details.firstName}</b>
 					</h5>
-					{haveRole(details.roleId).isBusinessActioners && (
+					{haveRole(details.businessRoleId).isBusinessActioners && (
 						<div className="mt-3">
 							<PrimaryButton
 								style={{ marginRight: "20px" }}
@@ -115,7 +115,7 @@ const Dashboard = () => {
 						</div>
 					)}
 				</div>
-				{haveRole(details.roleId).isBusinessAdmin ? (
+				{haveRole(details.businessRoleId).isBusinessAdmin ? (
 					<div className="col-lg-7 mb-4">
 						<DashboardCard>
 							<div className="head-btwn">
@@ -230,7 +230,7 @@ const Dashboard = () => {
 				)}
 			</div>
 			<div className="row mt-1">
-				{haveRole(details.roleId).isBusinessAdmin && (
+				{haveRole(details.businessRoleId).isBusinessAdmin && (
 					<div className="col-lg-5 mb-4">
 						<DashboardCard>
 							<div className="head">
@@ -298,7 +298,8 @@ const Dashboard = () => {
 										)}
 									</h4>
 								</div>
-								{haveRole(details.roleId).isBusinessAdmin && (
+								{haveRole(details.businessRoleId)
+									.isBusinessAdmin && (
 									<div className="content">
 										<h6>Sales Margin</h6>
 										<h4>
@@ -349,7 +350,7 @@ const Dashboard = () => {
 						</div>
 					</DashboardCard>
 				</div>
-				{haveRole(details.roleId).isBusinessAdmin && (
+				{haveRole(details.businessRoleId).isBusinessAdmin && (
 					<>
 						<div className="col-lg-7 mb-4">
 							<DashboardCard>

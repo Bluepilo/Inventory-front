@@ -119,7 +119,7 @@ const Subdealer = () => {
 						title="Subdealers"
 						dataCount={lists?.count}
 						button={
-							haveRole(details.roleId).isBusinessActioners
+							haveRole(details.businessRoleId).isBusinessActioners
 								? "Add Subdealer"
 								: ""
 						}

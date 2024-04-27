@@ -16,8 +16,8 @@ const NewPage = ({ img, title, cover, desc, btnTitle, linkTo }: Props) => {
 
 	const permit = () => {
 		if (
-			haveRole(details.roleId).isBusinessAdminActioners ||
-			haveRole(details.roleId).isShopAdmin
+			haveRole(details.businessRoleId).isBusinessAdminActioners ||
+			haveRole(details.businessRoleId).isShopAdmin
 		) {
 			return true;
 		} else {

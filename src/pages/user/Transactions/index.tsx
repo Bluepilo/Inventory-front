@@ -151,9 +151,8 @@ const Transactions = () => {
 									<th>Method</th>
 									<th>Credit</th>
 									<th>Debit</th>
-									{haveRole(user.roleId).isBusinessAdmin && (
-										<th>Verify</th>
-									)}
+									{haveRole(user.businessRoleId)
+										.isBusinessAdmin && <th>Verify</th>}
 								</tr>
 							</thead>
 							{!load && (
@@ -203,7 +202,7 @@ const Transactions = () => {
 													  )}`
 													: "--"}
 											</td>
-											{haveRole(user.roleId)
+											{haveRole(user.businessRoleId)
 												.isBusinessAdmin && (
 												<td className="bbtn">
 													<button

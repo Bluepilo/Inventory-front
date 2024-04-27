@@ -102,7 +102,7 @@ const Expenses = () => {
 						title="My Expenses"
 						dataCount={lists?.count}
 						button={
-							haveRole(details.roleId).isBusinessActioners
+							haveRole(details.businessRoleId).isBusinessActioners
 								? "Add Expense"
 								: ""
 						}

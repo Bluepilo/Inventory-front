@@ -61,7 +61,7 @@ const SwitchBusiness = () => {
 								)}
 							</button>
 						))}
-						{haveRole(details.roleId).isBusinessOwner && (
+						{haveRole(details.businessRoleId).isBusinessOwner && (
 							<Link
 								to="/dashboard/organization"
 								onClick={() => setOpenDrop(false)}

@@ -28,6 +28,7 @@ const Purchases = () => {
 	const { details, token } = useAppSelector((state) => state.auth);
 
 	const [lists, setLists] = useState<any>({});
+	const [incompleteLists, setIncompleteLists] = useState<any>({});
 	const [startDate, setStartDate] = useState(
 		new Date(new Date().getFullYear(), new Date().getMonth(), 1)
 	);
@@ -42,6 +43,7 @@ const Purchases = () => {
 	const [withdrawn, setWithdrawn] = useState(false);
 	const [summary, setSummary] = useState<any>({});
 	const [load, setLoad] = useState(false);
+	const [incomplete, setIncomplete] = useState(false);
 
 	const debouncedSearch = UseDebounce(search);
 
@@ -81,6 +83,10 @@ const Purchases = () => {
 			let res = await purchaseService.getPurchase(token, filters);
 			setLoad(false);
 			setLists(res);
+			let filter = res.rows?.filter(
+				(f: any) => f.totalSupplied < f.totalNoItems
+			);
+			setIncompleteLists({ ...res, rows: filter });
 		} catch (err) {
 			setLoad(false);
 		}
@@ -102,9 +108,22 @@ const Purchases = () => {
 				filters
 			);
 			setLoad(false);
+
 			setLists(res);
+			let filter = res.rows?.filter(
+				(f: any) => f.totalSupplied < f.totalNoItems
+			);
+			setIncompleteLists({ ...res, rows: filter });
 		} catch (err) {
 			setLoad(false);
+		}
+	};
+
+	const arrToShow = () => {
+		if (incomplete) {
+			return incompleteLists;
+		} else {
+			return lists;
 		}
 	};
 
@@ -114,7 +133,7 @@ const Purchases = () => {
 				title="Purchase Records"
 				dataCount={lists?.count}
 				button={
-					haveRole(details.roleId).isBusinessAdmin
+					haveRole(details.businessRoleId).isBusinessAdmin
 						? "Make Purchase"
 						: ""
 				}
@@ -163,19 +182,35 @@ const Purchases = () => {
 					</div>
 					<div className="col-lg-5 mb-3">
 						<CheckBoxPrint>
-							<div className="checks">
-								<input
-									type="checkbox"
-									checked={withdrawn}
-									onChange={(e) =>
-										setWithdrawn(e.target.checked)
-									}
-									name="withdrawn"
-								/>
-								<label htmlFor="withdrawn">
-									Withdrawn Purchases
-								</label>
+							<div>
+								<div className="checks">
+									<input
+										type="checkbox"
+										checked={withdrawn}
+										onChange={(e) =>
+											setWithdrawn(e.target.checked)
+										}
+										name="withdrawn"
+									/>
+									<label htmlFor="withdrawn">
+										Withdrawn Purchases
+									</label>
+								</div>
+								<div className="checks">
+									<input
+										type="checkbox"
+										checked={incomplete}
+										onChange={(e) =>
+											setIncomplete(e.target.checked)
+										}
+										name="withdrawn"
+									/>
+									<label htmlFor="withdrawn">
+										Incomplete Supplies
+									</label>
+								</div>
 							</div>
+
 							<MainButton>
 								<img src={PrintLogo} />
 								<span>Print</span>
@@ -205,7 +240,7 @@ const Purchases = () => {
 
 								{!load && (
 									<tbody>
-										{lists?.rows?.map((l: any) => (
+										{arrToShow()?.rows?.map((l: any) => (
 											<tr key={l.id}>
 												<td>
 													{dateFormat(

@@ -51,7 +51,7 @@ const Transfer = () => {
 				title="Transfer Records"
 				dataCount={lists?.count}
 				button={
-					haveRole(details.roleId).isBusinessActioners
+					haveRole(details.businessRoleId).isBusinessActioners
 						? "Make Transfer"
 						: ""
 				}

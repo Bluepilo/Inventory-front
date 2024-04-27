@@ -70,7 +70,7 @@ const Staff = () => {
 				title="Staff"
 				dataCount={lists?.count}
 				button={
-					haveRole(details.roleId).isBusinessAdmin
+					haveRole(details.businessRoleId).isBusinessAdmin
 						? "Manage Users"
 						: ""
 				}
@@ -117,10 +117,13 @@ const Staff = () => {
 
 												<td>{l.email}</td>
 												<td>{l.phoneNo}</td>
-												<td>{l.role?.name || "--"}</td>
+												<td>
+													{l.businessRole?.name ||
+														"--"}
+												</td>
 												<td>
 													{l.shop?.name ||
-														(l.role?.name.includes(
+														(l.businessRole?.name.includes(
 															"Business"
 														)
 															? "All Shops"
