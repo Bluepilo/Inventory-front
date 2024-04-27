@@ -20,7 +20,7 @@ const ProductHistory = () => {
 
 	const id = useParams()?.id;
 
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	const [lists, setLists] = useState<any>({});
 
@@ -35,7 +35,7 @@ const ProductHistory = () => {
 	const [load, setLoad] = useState(false);
 
 	let filters = `?startDate=${startDate}&endDate=${endDate}&productId=${id}&shopId=${
-		shopId?.value || ""
+		details.shopId || shopId?.value || ""
 	}&productLogTypeId=${typeId?.value || ""}`;
 
 	useEffect(() => {
@@ -61,8 +61,6 @@ const ProductHistory = () => {
 		setTypeId(null);
 		setShopId(null);
 	};
-
-	console.log(lists);
 
 	return (
 		<div>

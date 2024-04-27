@@ -3,12 +3,20 @@ import { Doughnut } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const PieChart = ({ arr, labels }: { arr: any; labels: any }) => {
+const PieChart = ({
+	arr,
+	labels,
+	admin,
+}: {
+	arr: any;
+	labels: any;
+	admin?: boolean;
+}) => {
 	const options = {
 		responsive: true,
 		plugins: {
 			legend: {
-				position: "right" as const,
+				position: `${admin ? "bottom" : "right"}` as const,
 			},
 		},
 	};
@@ -43,7 +51,7 @@ const PieChart = ({ arr, labels }: { arr: any; labels: any }) => {
 		],
 	};
 
-	return <Doughnut data={data} options={options} height={200} />;
+	return <Doughnut data={data} options={options} height={200} width={400} />;
 };
 
 export default PieChart;

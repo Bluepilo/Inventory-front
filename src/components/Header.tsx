@@ -131,6 +131,7 @@ const Header = ({ openMenu }: { openMenu: () => void }) => {
 						</button>
 					</>
 				)}
+				{details.role.isAdmin && <span>{details.fullName}</span>}
 				<button className="profile" onClick={() => setOpenDrop(true)}>
 					{details.image ? (
 						<img src={details.image} />
@@ -138,10 +139,12 @@ const Header = ({ openMenu }: { openMenu: () => void }) => {
 						<FaRegUser />
 					)}
 				</button>
+
 				<button className="support menu" onClick={openMenu}>
 					<MdMenu />
 				</button>
 			</HeaderInfo>
+
 			{openDrop && <HeaderDropDown setOpenDrop={setOpenDrop} />}
 			{openNoti && <NotificationDropDown setOpenNoti={setOpenNoti} />}
 		</HeaderStyle>

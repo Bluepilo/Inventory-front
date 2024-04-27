@@ -287,7 +287,7 @@ const Sales = () => {
 															"success"
 																? SuccessIcon
 																: l.status.toLowerCase() ===
-																  "pending"
+																  "awaiting withdrawal"
 																? PendingIcon
 																: FailedIcon
 														}

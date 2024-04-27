@@ -9,6 +9,8 @@ import Error404 from "../pages/Error404";
 
 // Admin Routes
 import AdminDashboard from "../pages/admin/Dashboard";
+import AllOrganization from "../pages/admin/Organization";
+import OrganizationDetails from "../pages/admin/Organization/OrganizationDetails";
 
 // User Routes
 import Dashboard from "../pages/user/Dashboard";
@@ -88,6 +90,11 @@ const Routing = () => {
 				/>
 				<Route path="/admin" element={<Admin />}>
 					<Route path="home" element={<AdminDashboard />} />
+					<Route path="organizations" element={<AllOrganization />} />
+					<Route
+						path="organizations/:id"
+						element={<OrganizationDetails />}
+					/>
 				</Route>
 				<Route
 					path="/payment-confirmation"

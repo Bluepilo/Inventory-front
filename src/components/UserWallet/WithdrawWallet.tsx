@@ -88,15 +88,17 @@ const WithdrawWallet = ({
 						changeSelected={setSelectedMethod}
 					/>
 				</div>
-				<div className="col-lg-6">
-					<label>Shop:</label>
-					<DropDownSelect
-						options={shops}
-						value={selectedShop}
-						changeSelected={setSelectedShop}
-					/>
-				</div>
-				<div className="col-lg-6">
+				{!details.shopId && (
+					<div className="col-lg-6">
+						<label>Shop:</label>
+						<DropDownSelect
+							options={shops}
+							value={selectedShop}
+							changeSelected={setSelectedShop}
+						/>
+					</div>
+				)}
+				<div className={`col-lg-${details.shopId ? "12" : "6"}`}>
 					<label>Comment:</label>
 					<input
 						type="text"

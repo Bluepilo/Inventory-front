@@ -45,7 +45,11 @@ const HeaderDropDown = ({
 					)}
 					<div>
 						<p>{details.fullName}</p>
-						<p>{details?.businessRole.name}</p>
+						<p>
+							{details.role.isAdmin
+								? details.role.name
+								: details?.businessRole?.name}
+						</p>
 					</div>
 				</div>
 				{details.businessId && (
@@ -76,14 +80,16 @@ const HeaderDropDown = ({
 						<AiOutlineLogout size={20} />
 						<p>Logout</p>
 					</a>
-					<Link
-						to="/dashboard/settings"
-						onClick={() => setOpenDrop(false)}
-						className="box"
-					>
-						<IoSettingsOutline size={20} />
-						<p>Settings</p>
-					</Link>
+					{details.businessId && (
+						<Link
+							to="/dashboard/settings"
+							onClick={() => setOpenDrop(false)}
+							className="box"
+						>
+							<IoSettingsOutline size={20} />
+							<p>Settings</p>
+						</Link>
+					)}
 				</div>
 				<div className="switch-p">
 					<button

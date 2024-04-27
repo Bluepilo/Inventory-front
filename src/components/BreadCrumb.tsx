@@ -5,15 +5,18 @@ import {
 	MdOutlineKeyboardBackspace,
 } from "react-icons/md";
 import { BreadCrumbStyles } from "../styles/basic.styles";
+import { useAppSelector } from "../redux/hooks";
 
 const BreadCrumb = () => {
 	const navigate = useNavigate();
+
+	const { details } = useAppSelector((state) => state.auth);
 
 	const location = useLocation().pathname;
 
 	const lists = location.split("/").slice(2);
 
-	let currentLink = "/dashboard";
+	let currentLink = details.role.isAdmin ? "/admin" : "/dashboard";
 	const crumbs = lists.map((crumb, index) => {
 		currentLink += `/${crumb}`;
 

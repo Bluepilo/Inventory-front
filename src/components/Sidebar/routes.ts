@@ -186,10 +186,109 @@ const userRoutes = [
 const adminRoutes = [
 	{
 		id: 1,
-		name: "Home",
+		name: "Dashboard",
 		href: "/admin/home",
 		icon: HomeIcon,
 		children: [],
+		permission: ["all"],
+	},
+	{
+		id: 2,
+		name: "Organizations",
+		href: "/admin/organizations",
+		icon: SupplierIcon,
+		children: [],
+		permission: ["all"],
+	},
+	{
+		id: 3,
+		name: "Subscriptions",
+		href: "/admin/subscriptions",
+		icon: SubscriptionIcon,
+		children: [],
+		permission: ["all"],
+	},
+	{
+		id: 4,
+		name: "Brands",
+		href: "/admin/brands",
+		icon: CatalogueIcon,
+		children: [
+			{
+				id: 1,
+				name: "Brand Accounts",
+				href: "/dashboard/brands/accounts",
+			},
+			{
+				id: 2,
+				name: "Catalogues",
+				href: "/dashboard/brands/catalogues",
+			},
+			{
+				id: 3,
+				name: "Brand Requests",
+				href: "/dashboard/brands/requests",
+			},
+		],
+		permission: ["all"],
+	},
+	{
+		id: 5,
+		name: "Bluepilo SMS",
+		href: "/admin/sms",
+		icon: TransactionIcon,
+		permission: ["all"],
+		children: [],
+	},
+	{
+		id: 6,
+		name: "Finance",
+		href: "/admin/finance",
+		icon: ExpenseIcon,
+		children: [
+			{
+				id: 1,
+				name: "Transactions",
+				href: "/dashboard/finance/transactions",
+			},
+			{
+				id: 2,
+				name: "Catalogues",
+				href: "/dashboard/finance/expense",
+			},
+		],
+		permission: ["all"],
+	},
+	{
+		id: 7,
+		name: "Resource",
+		href: "/admin/resource",
+		icon: LogsIcon,
+		children: [],
+		permission: ["all"],
+	},
+	{
+		id: 8,
+		name: "Others",
+		href: "/admin/resource",
+		icon: BusinessIcon,
+		children: [
+			{
+				id: 1,
+				name: "App Admins",
+				href: "/dashboard/others/users",
+			},
+			{
+				id: 2,
+				name: "Terms",
+				href: "/dashboard/others/terms",
+			},
+			{
+				id: 3,
+				name: "Adds Carousel",
+				href: "/dashboard/others/carousel",
+			},
+		],
 		permission: ["all"],
 	},
 ];
