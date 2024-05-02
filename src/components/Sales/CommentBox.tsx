@@ -28,6 +28,7 @@ const CommentBox = ({
 					bg={bg}
 					onClick={() => submit(comment)}
 					disabled={disabled ? true : false}
+					style={{ textTransform: "capitalize" }}
 				>
 					{disabled ? "Hold On..." : btnName || "Submit"}
 				</MainButton>

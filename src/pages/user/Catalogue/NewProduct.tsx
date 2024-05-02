@@ -102,7 +102,6 @@ const NewProduct = () => {
 			colour: color,
 			productCode,
 			isService,
-			totalStock,
 		};
 		try {
 			setLoad(true);
@@ -169,7 +168,7 @@ const NewProduct = () => {
 					<FormBody className="mt-4">
 						<Form onSubmit={submitHandler}>
 							<div className="row">
-								<div className="col-lg-12">
+								<div className="col-lg-6">
 									<label>Product Name</label>
 									<input
 										type="text"
@@ -181,7 +180,7 @@ const NewProduct = () => {
 										className="height"
 									/>
 								</div>
-								{!isService && (
+								{/* {!isService && (
 									<div
 										className={`col-lg-${
 											selectedCategory?.value === "new"
@@ -199,11 +198,11 @@ const NewProduct = () => {
 											className="height"
 										/>
 									</div>
-								)}
+								)} */}
 								<div
 									className={`col-lg-${
 										selectedCategory?.value === "new"
-											? "4"
+											? "6"
 											: "6"
 									} mb-3`}
 								>
@@ -215,7 +214,7 @@ const NewProduct = () => {
 									/>
 								</div>
 								{selectedCategory?.value === "new" && (
-									<div className="col-lg-4">
+									<div className="col-lg-6">
 										<label>Category Name</label>
 										<input
 											type="text"

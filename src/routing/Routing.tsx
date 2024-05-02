@@ -11,6 +11,9 @@ import Error404 from "../pages/Error404";
 import AdminDashboard from "../pages/admin/Dashboard";
 import AllOrganization from "../pages/admin/Organization";
 import OrganizationDetails from "../pages/admin/Organization/OrganizationDetails";
+import BrandRequest from "../pages/admin/Brands/BrandRequest";
+import AdminCatalogue from "../pages/admin/Brands/Catalogues";
+import BrandAccounts from "../pages/admin/Brands/Accounts";
 
 // User Routes
 import Dashboard from "../pages/user/Dashboard";
@@ -95,6 +98,12 @@ const Routing = () => {
 						path="organizations/:id"
 						element={<OrganizationDetails />}
 					/>
+					<Route path="brands/requests" element={<BrandRequest />} />
+					<Route
+						path="brands/catalogues"
+						element={<AdminCatalogue />}
+					/>
+					<Route path="brands/accounts" element={<BrandAccounts />} />
 				</Route>
 				<Route
 					path="/payment-confirmation"

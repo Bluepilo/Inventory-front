@@ -140,34 +140,42 @@ const Catalogue = () => {
 
 	return (
 		<>
-			{details.business.onboardingSteps?.product === "completed" ? (
+			{details?.role?.isAdmin ||
+			details?.business?.onboardingSteps?.product === "completed" ? (
 				<div>
 					<TitleCover
-						title="My Catalogue"
-						button="Add Brand"
+						title={`${
+							details?.role?.isAdmin ? "Managed" : "My"
+						} Catalogue`}
+						button={details?.role?.isAdmin ? "" : "Add Brand"}
 						buttonIcon={<CiShop />}
 						buttonClick={() => {
 							setOpenNew(true);
 						}}
 					/>
-					<div className="row align-items-center mt-4">
-						<div className="col-lg-6 mb-3">
-							<SummaryCard>
-								<div>
-									<h6>Managed Brands:</h6>
-									<h6>
-										{load ? "--" : managedBrands.length}
-									</h6>
-								</div>
-								<div>
-									<h6>Self Service Brands:</h6>
-									<h6>
-										{load ? "--" : selfServiceBrands.length}
-									</h6>
-								</div>
-							</SummaryCard>
+					{!details?.role?.isAdmin && (
+						<div className="row align-items-center mt-4">
+							<div className="col-lg-6 mb-3">
+								<SummaryCard>
+									<div>
+										<h6>Managed Brands:</h6>
+										<h6>
+											{load ? "--" : managedBrands.length}
+										</h6>
+									</div>
+
+									<div>
+										<h6>Self Service Brands:</h6>
+										<h6>
+											{load
+												? "--"
+												: selfServiceBrands.length}
+										</h6>
+									</div>
+								</SummaryCard>
+							</div>
 						</div>
-					</div>
+					)}
 					<div className="mt-4">
 						<TableComponent>
 							<div className="table-responsive">
@@ -175,7 +183,9 @@ const Catalogue = () => {
 									<thead>
 										<tr>
 											<th>Brand</th>
-											<th>Updates</th>
+											{!details?.role?.isAdmin && (
+												<th>Updates</th>
+											)}
 											<th>Status</th>
 											<th>Type</th>
 											<th>Actions</th>
@@ -196,26 +206,30 @@ const Catalogue = () => {
 																{m.name}
 															</Link>
 														</td>
-														<td>
-															<FormCheck
-																type="switch"
-																id={`custom-switch-${m.id}`}
-																label=""
-																checked={
-																	m.allowUpdate
-																}
-																onChange={(
-																	e
-																) => {
-																	updateManaged(
-																		m.id,
-																		m.name,
-																		e.target
-																			.checked
-																	);
-																}}
-															/>
-														</td>
+														{!details?.role
+															?.isAdmin && (
+															<td>
+																<FormCheck
+																	type="switch"
+																	id={`custom-switch-${m.id}`}
+																	label=""
+																	checked={
+																		m.allowUpdate
+																	}
+																	onChange={(
+																		e
+																	) => {
+																		updateManaged(
+																			m.id,
+																			m.name,
+																			e
+																				.target
+																				.checked
+																		);
+																	}}
+																/>
+															</td>
+														)}
 														<td className="status">
 															<img
 																src={
