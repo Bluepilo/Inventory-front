@@ -3,7 +3,7 @@ const dev = {
 };
 
 const prod = {
-	baseUrl: "https://app.bluepilo.com/api/v2",
+	baseUrl: "https://api.bluepilo.com/api/v2",
 };
 
 const config = dev;

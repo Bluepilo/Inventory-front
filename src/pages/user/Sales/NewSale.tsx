@@ -106,7 +106,7 @@ const NewSale = () => {
 			setProductLoad(true);
 			let res = await productService.getProductsInShop(
 				token,
-				selectedShop?.value
+				details?.shopId || selectedShop?.value
 			);
 			let arr = res?.rows?.filter(
 				(a: any) => (!a.isService && a.totalStock !== 0) || a.isService

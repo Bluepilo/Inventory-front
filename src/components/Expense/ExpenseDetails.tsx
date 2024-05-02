@@ -11,6 +11,7 @@ import expenseService from "../../redux/features/expense/expense-service";
 import { useAppSelector } from "../../redux/hooks";
 import { toast } from "react-toastify";
 import Loading from "../Loaders/Loading";
+import { haveRole } from "../../utils/role";
 
 const ExpenseDetails = ({
 	details,
@@ -21,7 +22,7 @@ const ExpenseDetails = ({
 	closeDetails: () => void;
 	openComment: (arg: string) => void;
 }) => {
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details: user } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 
@@ -112,19 +113,21 @@ const ExpenseDetails = ({
 				)}
 			</div>
 
-			{!load && details.status === "pending" && (
-				<FlexBetween className="mt-4">
-					<MainButton
-						onClick={() => openComment("reject")}
-						bg="#f44336"
-					>
-						Decline
-					</MainButton>
-					<MainButton onClick={() => openComment("approve")}>
-						Approve
-					</MainButton>
-				</FlexBetween>
-			)}
+			{!load &&
+				details.status === "pending" &&
+				haveRole(user.businessRoleId).isBusinessAdminActioners && (
+					<FlexBetween className="mt-4">
+						<MainButton
+							onClick={() => openComment("reject")}
+							bg="#f44336"
+						>
+							Decline
+						</MainButton>
+						<MainButton onClick={() => openComment("approve")}>
+							Approve
+						</MainButton>
+					</FlexBetween>
+				)}
 		</ExpenseStyle>
 	) : (
 		<></>

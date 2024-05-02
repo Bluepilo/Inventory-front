@@ -217,17 +217,17 @@ const adminRoutes = [
 			{
 				id: 1,
 				name: "Brand Accounts",
-				href: "/dashboard/brands/accounts",
+				href: "/admin/brands/accounts",
 			},
 			{
 				id: 2,
 				name: "Catalogues",
-				href: "/dashboard/brands/catalogues",
+				href: "/admin/brands/catalogues",
 			},
 			{
 				id: 3,
 				name: "Brand Requests",
-				href: "/dashboard/brands/requests",
+				href: "/admin/brands/requests",
 			},
 		],
 		permission: ["all"],

@@ -103,12 +103,14 @@ const Transactions = () => {
 				>
 					Customer Transactions
 				</div>
-				<div
-					className={isCustomer ? "" : "active"}
-					onClick={() => setIsCustomer(false)}
-				>
-					Supplier Transactions
-				</div>
+				{haveRole(user.businessRoleId).isBusinessAdmin && (
+					<div
+						className={isCustomer ? "" : "active"}
+						onClick={() => setIsCustomer(false)}
+					>
+						Supplier Transactions
+					</div>
+				)}
 			</SwitchDiv>
 			<Filters
 				startDate={startDate}
