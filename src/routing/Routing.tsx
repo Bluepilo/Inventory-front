@@ -67,6 +67,7 @@ import CloseAccount from "../pages/user/Settings/CloseAccount";
 import Resources from "../pages/user/Resources";
 import ResourceDetail from "../pages/user/Resources/ResourceDetail";
 import Details from "../pages/user/Users/Details";
+import Reciept from "../pages/user/Sales/Reciept";
 
 const Routing = () => {
 	return (
@@ -115,6 +116,7 @@ const Routing = () => {
 					<Route path="sales" element={<Sales />} />
 					<Route path="sales/new" element={<NewSale />} />
 					<Route path="sales/:id" element={<SaleDetails />} />
+					<Route path="sales/:id/reciept" element={<Reciept />} />
 					<Route
 						path="customers"
 						element={

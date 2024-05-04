@@ -107,6 +107,7 @@ const SupplierSelect = ({
 			paymentMethodId: selectedPayment?.value,
 			supplierBalance: selectedCustomer?.balance,
 		};
+		console.log(data);
 		complete(data);
 	};
 
@@ -216,6 +217,7 @@ const SupplierSelect = ({
 				<NewSupplier
 					submit={(arg: any) => {
 						setOpenCreate(false);
+						console.log(arg);
 						setSelectedCustomer(arg);
 					}}
 					editInfo={null}

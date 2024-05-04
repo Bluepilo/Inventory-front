@@ -93,6 +93,7 @@ const NewSupplier = ({
 					phoneNo: phone,
 					balance,
 					value: 9000000000,
+					id: res.id,
 				});
 				toast.success(
 					editInfo?.id

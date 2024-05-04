@@ -1,0 +1,41 @@
+.thermal {
+	border: 1px dotted rgba(0, 0, 0, 0.6);
+	border-radius: 3px;
+	margin: 20px 0;
+	padding: 20px;
+	background: #fff;
+}
+.thermal .img {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.thermal strong {
+	margin-left: 20px;
+	font-size: 1.4rem;
+}
+
+.thermal .info {
+	margin-top: 15px;
+}
+.thermal .table-print {
+	margin-top: 10px;
+}
+.thermal table {
+	width: 100%;
+}
+
+.thermal table thead {
+	background: #f5f5f5;
+	border: 1px solid;
+	border-bottom: 0;
+}
+.thermal table td .name {
+	width: 60%;
+}
+.thermal table td .qty {
+	width: 10%;
+}
+.thermal table td .price {
+	width: 30%;
+}

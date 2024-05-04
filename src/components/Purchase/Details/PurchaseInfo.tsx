@@ -5,6 +5,7 @@ import { FaBagShopping } from "react-icons/fa6";
 import { formatCurrency } from "../../../utils/currency";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../../redux/hooks";
+import { haveRole } from "../../../utils/role";
 
 const PurchaseInfo = ({ purchaseDetails }: { purchaseDetails: any }) => {
 	const { details } = useAppSelector((state) => state.auth);
@@ -111,11 +112,16 @@ const PurchaseInfo = ({ purchaseDetails }: { purchaseDetails: any }) => {
 					<div className="body-detail">
 						<p>Supplied By:</p>
 						<h4>
-							<Link
-								to={`/dashboard/suppliers/${purchaseDetails.supplierId}`}
-							>
-								{purchaseDetails.supplier?.name}
-							</Link>
+							{haveRole(details.businessRoleId)
+								.isBusinessAdmin ? (
+								<Link
+									to={`/dashboard/suppliers/${purchaseDetails.supplierId}`}
+								>
+									{purchaseDetails.supplier?.name}
+								</Link>
+							) : (
+								<span>{purchaseDetails.supplier?.name}</span>
+							)}
 						</h4>
 						<div className="mt-3">
 							<p>{purchaseDetails.supplier?.phoneNo}</p>

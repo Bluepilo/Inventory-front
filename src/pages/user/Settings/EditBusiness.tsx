@@ -12,6 +12,7 @@ import basicService from "../../../redux/features/basic/basic-service";
 import { logout } from "../../../redux/features/auth/auth-slice";
 import LoadModal from "../../../components/Loaders/LoadModal";
 import ModalComponent from "../../../components/ModalComponent";
+import { haveRole } from "../../../utils/role";
 
 const EditBusiness = () => {
 	const navigate = useNavigate();
@@ -46,7 +47,7 @@ const EditBusiness = () => {
 		}
 	};
 
-	return (
+	return haveRole(details.businessRoleId).isBusinessOwner ? (
 		<div>
 			<TitleCover title="Edit Business" />
 			<div className="row mt-4">
@@ -108,6 +109,8 @@ const EditBusiness = () => {
 			</ModalComponent>
 			{load && <LoadModal open={true} />}
 		</div>
+	) : (
+		<></>
 	);
 };
 

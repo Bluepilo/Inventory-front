@@ -181,7 +181,13 @@ const SaleDetails = () => {
 									<ItemsPicked saleDetails={saleDetails} />
 									<div className="buttons mb-5">
 										<div className="mb-3">
-											<WideButton>
+											<WideButton
+												onClick={() =>
+													navigate("reciept", {
+														state: saleDetails,
+													})
+												}
+											>
 												<span>
 													Generate Sale Receipt
 												</span>

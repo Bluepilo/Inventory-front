@@ -195,7 +195,7 @@ const ItemsPicked = ({
 									)}{" "}
 									ordered items
 								</td>
-								{purchaseDetails.totalNoItems !==
+								{purchaseDetails.totalNoItems !=
 									purchaseDetails.totalSupplied &&
 									!purchaseDetails?.isOnboarding && (
 										<>

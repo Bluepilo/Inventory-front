@@ -549,3 +549,7 @@ export const ResourceList = styled.div`
 `;
 
 export const ResourceBody = styled.div``;
+
+export const ReceiptStyle = styled.div`
+	margin-top: 20px;
+`;

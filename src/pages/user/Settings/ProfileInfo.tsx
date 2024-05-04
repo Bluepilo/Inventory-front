@@ -81,11 +81,15 @@ const ProfileInfo = () => {
 					<p>{details.business?.phone}</p>
 					<p>{details.business?.address}</p>
 				</div>
-				<div className="btns">
-					<button onClick={() => navigate("edit-business")}>
-						Edit
-					</button>
-				</div>
+				{haveRole(details.businessRoleId).isBusinessOwner ? (
+					<div className="btns">
+						<button onClick={() => navigate("edit-business")}>
+							Edit
+						</button>
+					</div>
+				) : (
+					<div />
+				)}
 			</ProfileBox>
 
 			<ModalComponent

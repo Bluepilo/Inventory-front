@@ -5,9 +5,13 @@ import ProfileInfo from "./ProfileInfo";
 import Account from "./Account";
 import Security from "./Security";
 import Notification from "./Notification";
+import { haveRole } from "../../../utils/role";
+import { useAppSelector } from "../../../redux/hooks";
 
 const Settings = () => {
 	const [activePage, setActivePage] = useState("profile");
+
+	const { details } = useAppSelector((state) => state.auth);
 
 	return (
 		<div>
@@ -19,24 +23,30 @@ const Settings = () => {
 				>
 					Profile Information
 				</div>
-				<div
-					className={activePage === "account" ? "active" : ""}
-					onClick={() => setActivePage("account")}
-				>
-					Account Settings
-				</div>
+				{haveRole(details.businessRoleId).isBusinessAdmin && (
+					<div
+						className={activePage === "account" ? "active" : ""}
+						onClick={() => setActivePage("account")}
+					>
+						Account Settings
+					</div>
+				)}
 				<div
 					className={activePage === "security" ? "active" : ""}
 					onClick={() => setActivePage("security")}
 				>
 					Security
 				</div>
-				<div
-					className={activePage === "notification" ? "active" : ""}
-					onClick={() => setActivePage("notification")}
-				>
-					Notification
-				</div>
+				{haveRole(details.businessRoleId).isBusinessAdmin && (
+					<div
+						className={
+							activePage === "notification" ? "active" : ""
+						}
+						onClick={() => setActivePage("notification")}
+					>
+						Notification
+					</div>
+				)}
 			</SwitchDiv>
 			<div className="mt-4">
 				{activePage === "profile" ? (
