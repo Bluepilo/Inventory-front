@@ -21,7 +21,7 @@ const ItemsPicked = ({ saleDetails }: { saleDetails: any }) => {
 						<tbody>
 							{products.map((p, i) => (
 								<tr key={p.id || i}>
-									<td>{p.name}</td>
+									<td>{p.summary || p.name}</td>
 									<td>{p.quantity}</td>
 									<td>
 										{currency}{" "}
