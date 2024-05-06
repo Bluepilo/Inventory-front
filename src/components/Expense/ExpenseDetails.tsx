@@ -1,4 +1,3 @@
-import dateFormat from "dateformat";
 import { ExpenseStyle } from "../../styles/dashboard.styles";
 import { formatCurrency } from "../../utils/currency";
 import { FaCheckCircle } from "react-icons/fa";
@@ -12,6 +11,7 @@ import { useAppSelector } from "../../redux/hooks";
 import { toast } from "react-toastify";
 import Loading from "../Loaders/Loading";
 import { haveRole } from "../../utils/role";
+import dateFormat from "dateformat";
 
 const ExpenseDetails = ({
 	details,
