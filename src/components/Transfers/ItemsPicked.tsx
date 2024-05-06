@@ -1,4 +1,3 @@
-import React from "react";
 import { Table } from "../../styles/table.styles";
 import { formatCurrency } from "../../utils/currency";
 import { useAppSelector } from "../../redux/hooks";
