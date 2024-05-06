@@ -147,7 +147,7 @@ const Catalogue = () => {
 						title={`${
 							details?.role?.isAdmin ? "Managed" : "My"
 						} Catalogue`}
-						button={details?.role?.isAdmin ? "" : "Add Brand"}
+						button={"Add Brand"}
 						buttonIcon={<CiShop />}
 						buttonClick={() => {
 							setOpenNew(true);
@@ -352,12 +352,22 @@ const Catalogue = () => {
 				/>
 			)}
 			<ModalComponent open={openNew} close={() => setOpenNew(false)}>
-				<NewBrand
-					onComplete={() => {
-						setOpenNew(false);
-						getBrands();
-					}}
-				/>
+				{details?.role?.isAdmin ? (
+					<BrandForm
+						brandDetail={null}
+						onComplete={() => {
+							setOpenEdit(false);
+							getBrands();
+						}}
+					/>
+				) : (
+					<NewBrand
+						onComplete={() => {
+							setOpenNew(false);
+							getBrands();
+						}}
+					/>
+				)}
 			</ModalComponent>
 		</>
 	);

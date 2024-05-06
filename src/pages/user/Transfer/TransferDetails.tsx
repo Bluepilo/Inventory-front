@@ -139,7 +139,7 @@ const TransferDetails = () => {
 									/>
 									<div className="buttons mb-5">
 										<div className="row">
-											<div className="col-lg-6 mv-3">
+											<div className="col-lg-6 mb-3">
 												<WideButton
 													bg="#EDEEF0"
 													color="#505BDA"

@@ -20,7 +20,9 @@ const NewExpense = ({ submit }: { submit: any }) => {
 	let arr = [{ label: "New Category", value: "new" }, ...expenseCat];
 
 	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
+		details.business?.currency?.symbol ||
+		details.business?.currencyCode ||
+		"";
 
 	const [load, setLoad] = useState(false);
 	const [name, setName] = useState("");

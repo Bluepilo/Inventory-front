@@ -520,6 +520,24 @@ export const CloseStyle = styled.div`
 `;
 
 export const ResourceList = styled.div`
+	.cover-box {
+		display: flex;
+		align-items: center;
+
+		.box {
+			width: 88%;
+			margin-right: 10px;
+		}
+
+		button {
+			background: red;
+			color: #fff;
+			border: 0;
+			outline: 0;
+			padding: 6px 10px;
+			border-radius: 4px;
+		}
+	}
 	.box {
 		display: flex;
 		align-items: center;

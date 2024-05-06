@@ -59,7 +59,9 @@ const Expenses = () => {
 	}&startDate=${startDate}&endDate=${endDate}`;
 
 	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
+		details.business?.currency?.symbol ||
+		details.business?.currencyCode ||
+		"";
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -96,13 +98,15 @@ const Expenses = () => {
 
 	return (
 		<>
-			{details.business.onboardingSteps?.expense === "completed" ? (
+			{details?.role?.isAdmin ||
+			details?.business?.onboardingSteps?.expense === "completed" ? (
 				<div>
 					<TitleCover
 						title="My Expenses"
 						dataCount={lists?.count}
 						button={
-							haveRole(details.businessRoleId).isBusinessActioners
+							haveRole(details.businessRoleId)
+								.isBusinessActioners || details.role?.isAdmin
 								? "Add Expense"
 								: ""
 						}
