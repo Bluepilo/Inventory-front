@@ -48,6 +48,7 @@ const Resource = () => {
 				await adminService.deleteFaq(token, id);
 				setLoad(false);
 				toast.success("Resource has been deleted.");
+				loadFaqs();
 			} catch (err) {
 				setLoad(false);
 				displayError(err, true);

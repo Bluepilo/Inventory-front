@@ -75,6 +75,13 @@ const BasicDetails = ({ details }: { details: any }) => {
 						<b className="col-8 mb-2">
 							{details.lastBusinessLoginBy?.fullName}
 						</b>
+						<span className="col-4 mb-2">Last login at:</span>
+						<b className="col-8 mb-2">
+							{dateFormat(
+								details.lastBusonessLoginBy?.lastLoginAt,
+								"mmm dd, yyyy | h:MM TT"
+							)}
+						</b>
 						<span className="col-4 mb-2">Wallet Balance:</span>
 						<b className="col-8 mb-2">
 							{formatCurrency(details.wallet?.balance)}
