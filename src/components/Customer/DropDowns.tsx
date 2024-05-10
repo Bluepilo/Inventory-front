@@ -6,11 +6,13 @@ const DropDowns = ({
 	active,
 	onEdit,
 	onNavigate,
+	deleteIt,
 }: {
 	suspend: () => void;
 	active: boolean;
 	onEdit: () => void;
 	onNavigate: () => void;
+	deleteIt?: any;
 }) => {
 	return (
 		<Drop>
@@ -46,6 +48,18 @@ const DropDowns = ({
 				>
 					{active ? "Suspend" : "Activate"}
 				</Drop.Item>
+				{deleteIt && (
+					<Drop.Item
+						href="#"
+						onClick={(e) => {
+							e.preventDefault();
+							deleteIt();
+						}}
+						style={{ color: "red" }}
+					>
+						Delete
+					</Drop.Item>
+				)}
 			</Drop.Menu>
 		</Drop>
 	);

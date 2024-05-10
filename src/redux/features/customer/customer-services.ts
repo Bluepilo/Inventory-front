@@ -169,6 +169,16 @@ const editSupplier = async (token: string, id: any, obj: any) => {
 	return data.data;
 };
 
+const deleteUser = async (token: string, id: any, user: string) => {
+	const { data } = await axios.delete(
+		`${config.baseUrl}/${user}/delete/${id}`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const searchSuppliers = async (
 	token: string,
 	filters: string,
@@ -304,6 +314,7 @@ const customerService = {
 	addUserToBusiness,
 	removeUserFromBusiness,
 	changePassword,
+	deleteUser,
 };
 
 export default customerService;

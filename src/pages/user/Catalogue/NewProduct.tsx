@@ -37,7 +37,6 @@ const NewProduct = () => {
 	);
 	const [sellingPrice, setSellingPrice] = useState(0);
 	const [costPrice, setCostPrice] = useState(0);
-	const [totalStock, setTotalStock] = useState("");
 	const [size, setSize] = useState("");
 	const [year, setYear] = useState("");
 	const [productCode, setProductCode] = useState("");
@@ -45,7 +44,9 @@ const NewProduct = () => {
 	const [productType, setProductType] = useState("");
 
 	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
+		details.business?.currency?.symbol ||
+		details?.business?.currencyCode ||
+		"";
 
 	useEffect(() => {
 		getCategories();
@@ -70,7 +71,6 @@ const NewProduct = () => {
 	const populateFields = () => {
 		setIsService(editState.isService);
 		setName(editState.name);
-		setTotalStock(editState.totalStock);
 		setSelectedCategory({
 			label: editState.category?.name,
 			value: editState.category?.id,

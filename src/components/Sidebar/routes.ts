@@ -249,12 +249,12 @@ const adminRoutes = [
 			{
 				id: 1,
 				name: "Transactions",
-				href: "/dashboard/finance/transactions",
+				href: "/admin/finance/transactions",
 			},
 			{
 				id: 2,
-				name: "Catalogues",
-				href: "/dashboard/finance/expense",
+				name: "Expense",
+				href: "/admin/finance/expense",
 			},
 		],
 		permission: ["all"],
@@ -276,17 +276,17 @@ const adminRoutes = [
 			{
 				id: 1,
 				name: "App Admins",
-				href: "/dashboard/others/users",
+				href: "/admin/others/users",
 			},
 			{
 				id: 2,
 				name: "Terms",
-				href: "/dashboard/others/terms",
+				href: "/admin/others/terms",
 			},
 			{
 				id: 3,
 				name: "Adds Carousel",
-				href: "/dashboard/others/carousel",
+				href: "/admin/others/carousel",
 			},
 		],
 		permission: ["all"],

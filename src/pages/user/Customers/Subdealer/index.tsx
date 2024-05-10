@@ -111,6 +111,19 @@ const Subdealer = () => {
 		}
 	};
 
+	const deleteHandler = async (id: any) => {
+		if (window.confirm("Are you sure you want to delete this subdealer?")) {
+			try {
+				setLoad(true);
+				await customerService.deleteUser(token, id, "subdealer");
+				listSubdealers();
+			} catch (err) {
+				setLoad(false);
+				displayError(err, true);
+			}
+		}
+	};
+
 	return (
 		<>
 			{details.business.onboardingSteps?.subdealer === "completed" ? (
@@ -263,6 +276,17 @@ const Subdealer = () => {
 																	);
 																	setIds(l);
 																}}
+																deleteIt={
+																	l
+																		.transactions
+																		?.length ===
+																	0
+																		? () =>
+																				deleteHandler(
+																					l.id
+																				)
+																		: null
+																}
 															/>
 														</td>
 													</tr>
@@ -273,7 +297,7 @@ const Subdealer = () => {
 								</div>
 								{load && <SkeletonTable />}
 							</TableComponent>
-							{lists?.count ? (
+							{!load && lists?.count ? (
 								<Paginate
 									changeLimit={(l) => setLimit(l)}
 									limit={lists.limit}

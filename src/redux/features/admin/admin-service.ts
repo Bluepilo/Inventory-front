@@ -49,12 +49,69 @@ const actionBrandRequests = async (token: string, id: string, obj: any) => {
 	return data.data;
 };
 
+const listTransactions = async (filter: string, token: string) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/admin/payment-history${filter}`,
+		{ headers: authHeader(token) }
+	);
+	return data.data;
+};
+
+const createFaq = async (obj: any, token: string) => {
+	const { data } = await axios.post(`${config.baseUrl}/faq/add`, obj, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const updateFaq = async (obj: any, token: string, id: string) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/faq/update/${id}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const deleteFaq = async (token: string, id: string) => {
+	const { data } = await axios.delete(`${config.baseUrl}/faq/delete/${id}`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const getTerms = async (token: string) => {
+	const { data } = await axios.get(`${config.baseUrl}/settings/get-terms`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const setTerms = async (token: string, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/settings/set-terms`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const adminService = {
 	dashboardStats,
 	listOrganization,
 	getOrg,
 	fetchRequests,
 	actionBrandRequests,
+	listTransactions,
+	createFaq,
+	updateFaq,
+	deleteFaq,
+	getTerms,
+	setTerms,
 };
 
 export default adminService;

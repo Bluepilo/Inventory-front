@@ -48,7 +48,7 @@ const Product = () => {
 	let searchFilter = `?searchWord=${debouncedSearch}&page=${page}&limit=${limit}&brandId=${params?.id}`;
 
 	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
+		details.business?.currency?.symbol || details?.business?.currencyCode;
 
 	const fetchProducts = async () => {
 		try {

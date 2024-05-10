@@ -14,6 +14,14 @@ import OrganizationDetails from "../pages/admin/Organization/OrganizationDetails
 import BrandRequest from "../pages/admin/Brands/BrandRequest";
 import AdminCatalogue from "../pages/admin/Brands/Catalogues";
 import BrandAccounts from "../pages/admin/Brands/Accounts";
+import SubscriptionTracker from "../pages/admin/Subscription";
+import AdminTransactions from "../pages/admin/Finance/AdminTransactions";
+import AdminResource from "../pages/admin/Resource";
+import AdminResourceDetails from "../pages/admin/Resource/ResourceDetails";
+import AdminUsers from "../pages/admin/Others/AdminUsers";
+import Terms from "../pages/admin/Others/Terms";
+import Carousel from "../pages/admin/Others/Carousel";
+import SMS from "../pages/admin/SMS";
 
 // User Routes
 import Dashboard from "../pages/user/Dashboard";
@@ -104,7 +112,34 @@ const Routing = () => {
 						path="brands/catalogues"
 						element={<AdminCatalogue />}
 					/>
+					<Route path="brands/catalogues/:id" element={<Product />} />
+					<Route
+						path="brands/catalogues/:id/upload"
+						element={<UploadProduct />}
+					/>
+					<Route
+						path="brands/catalogues/:id/new"
+						element={<NewProduct />}
+					/>
 					<Route path="brands/accounts" element={<BrandAccounts />} />
+					<Route
+						path="subscriptions"
+						element={<SubscriptionTracker />}
+					/>
+					<Route
+						path="finance/transactions"
+						element={<AdminTransactions />}
+					/>
+					<Route path="finance/expense" element={<Expenses />} />
+					<Route path="resource" element={<AdminResource />} />
+					<Route
+						path="resource/:slug"
+						element={<AdminResourceDetails />}
+					/>
+					<Route path="others/users" element={<AdminUsers />} />
+					<Route path="others/terms" element={<Terms />} />
+					<Route path="others/carousel" element={<Carousel />} />
+					<Route path="sms" element={<SMS />} />
 				</Route>
 				<Route
 					path="/payment-confirmation"

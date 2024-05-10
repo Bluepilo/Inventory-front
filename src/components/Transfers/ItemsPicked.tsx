@@ -1,4 +1,3 @@
-import React from "react";
 import { Table } from "../../styles/table.styles";
 import { formatCurrency } from "../../utils/currency";
 import { useAppSelector } from "../../redux/hooks";
@@ -24,7 +23,13 @@ const ItemsPicked = ({ transferDetails }: { transferDetails: any }) => {
 								<tr key={p.id || i}>
 									<td>{p.summary}</td>
 									<td>{p.productTransfer?.quantity}</td>
-									<td>₦ {formatCurrency(p.price)}</td>
+									<td>
+										₦{" "}
+										{formatCurrency(
+											p.price *
+												p.productTransfer?.quantity || 1
+										)}
+									</td>
 								</tr>
 							))}
 						</tbody>
@@ -43,7 +48,13 @@ const ItemsPicked = ({ transferDetails }: { transferDetails: any }) => {
 									{currency}{" "}
 									{formatCurrency(
 										products.reduce(
-											(a, b) => a + Number(b.price),
+											(a, b) =>
+												a +
+												Number(
+													b.price *
+														b.productTransfer
+															?.quantity || 1
+												),
 											0
 										)
 									)}

@@ -60,7 +60,9 @@ const BrandForm = ({
 					email,
 					address,
 				});
-				saveTrialPick();
+				if (!details.role?.isAdmin) {
+					saveTrialPick();
+				}
 			}
 			toast.success(
 				`Brand has been ${brandDetail?.id ? "Updated" : "Created"}`
@@ -73,7 +75,7 @@ const BrandForm = ({
 	};
 
 	const saveTrialPick = () => {
-		if (details.business.onboardingSteps?.product !== "completed") {
+		if (details?.business?.onboardingSteps?.product !== "completed") {
 			dispatch(
 				updateOnboardingSteps({
 					steps: {

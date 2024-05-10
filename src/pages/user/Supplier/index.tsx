@@ -110,6 +110,19 @@ const Supplier = () => {
 		}
 	};
 
+	const deleteHandler = async (id: any) => {
+		if (window.confirm("Are you sure you want to delete this supplier?")) {
+			try {
+				setLoad(true);
+				await customerService.deleteUser(token, id, "supplier");
+				listSuppliers();
+			} catch (err) {
+				setLoad(false);
+				displayError(err, true);
+			}
+		}
+	};
+
 	return (
 		<>
 			{details.business.onboardingSteps?.supplier === "completed" ? (
@@ -251,6 +264,17 @@ const Supplier = () => {
 																	);
 																	setIds(l);
 																}}
+																deleteIt={
+																	l
+																		.transactions
+																		?.length ===
+																	0
+																		? () =>
+																				deleteHandler(
+																					l.id
+																				)
+																		: null
+																}
 															/>
 														</td>
 													</tr>

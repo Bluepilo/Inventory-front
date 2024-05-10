@@ -1,4 +1,3 @@
-import React from "react";
 import Catalogue from "../../../user/Catalogue";
 
 const Catalogues = () => {
