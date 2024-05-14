@@ -18,6 +18,7 @@ import {
 import { FilterStyles } from "../../../styles/filters.styles";
 import subscriptionService from "../../../redux/features/subscription/subscriptionService";
 import { Link } from "react-router-dom";
+import { UseDebounce } from "../../../utils/hooks";
 
 const Organization = () => {
 	const [load, setLoad] = useState(false);
@@ -30,17 +31,26 @@ const Organization = () => {
 	const [startDate, setStartDate] = useState(
 		new Date(new Date().getFullYear(), new Date().getMonth(), 1)
 	);
+	const [endDate, setEndDate] = useState(
+		new Date(new Date().setDate(new Date().getDate() + 1))
+	);
 	const [subTypes, setSubTypes] = useState<OptionProp[]>([]);
 	const [subTypeId, setSubTypeId] = useState<OptionProp | null>(null);
 
-	let filters = `?page=${page}&limit=${limit}`;
+	const debouncedSearch = UseDebounce(search);
+
+	let filters = `?page=${page}&limit=${limit}&startDate=${startDate}&endDate=${endDate}&searchWord=${debouncedSearch}`;
 
 	const { token } = useAppSelector((state) => state.auth);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
-		listOrgnaizations();
-	}, [filters]);
+		if (isLive) {
+			listOrgnaizations();
+		} else {
+			listDeletedOrgnaizations();
+		}
+	}, [filters, isLive]);
 
 	useEffect(() => {
 		getPlans();
@@ -50,6 +60,20 @@ const Organization = () => {
 		try {
 			setLoad(true);
 			let res = await adminService.listOrganization(filters, token);
+			setLoad(false);
+			setList(res);
+		} catch (err) {
+			setLoad(false);
+		}
+	};
+
+	const listDeletedOrgnaizations = async () => {
+		try {
+			setLoad(true);
+			let res = await adminService.listDeletedOrganization(
+				filters,
+				token
+			);
 			setLoad(false);
 			setList(res);
 		} catch (err) {
@@ -106,7 +130,14 @@ const Organization = () => {
 						<DateSelect
 							dateVal={startDate}
 							changeDateVal={setStartDate}
-							label="Creation Date"
+							label="Start Date"
+						/>
+					</div>
+					<div className="col-lg-2 col-md-4 col-6 mb-3">
+						<DateSelect
+							dateVal={endDate}
+							changeDateVal={setEndDate}
+							label="End Date"
 						/>
 					</div>
 					<div className="col-lg-2 col-md-4 col-6 mb-3">

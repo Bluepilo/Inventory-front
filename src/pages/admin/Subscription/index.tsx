@@ -1,8 +1,31 @@
+import { useEffect, useState } from "react";
 import TitleCover from "../../../components/TitleCover";
 import { DetailCard } from "../../../styles/sale.styles";
 import { Table } from "../../../styles/table.styles";
+import adminService from "../../../redux/features/admin/admin-service";
+import { useAppSelector } from "../../../redux/hooks";
+import SkeletonTable from "../../../components/Loaders/SkeletonTable";
 
 const Subscription = () => {
+	const [load, setLoad] = useState(false);
+	const [results, setResults] = useState<any>([]);
+
+	const { token } = useAppSelector((state) => state.auth);
+
+	useEffect(() => {
+		getResult();
+	}, []);
+
+	const getResult = async () => {
+		try {
+			setLoad(true);
+			let res = await adminService.subTracker(token);
+			setLoad(false);
+			setResults(res);
+		} catch (err) {
+			setLoad(false);
+		}
+	};
 	return (
 		<div>
 			<TitleCover title={"Subscription Tracker"} />
@@ -17,29 +40,18 @@ const Subscription = () => {
 										<th>Active Units</th>
 									</tr>
 								</thead>
+
 								<tbody>
-									<tr>
-										<td>Free Forever</td>
-										<td>--</td>
-									</tr>
-									<tr>
-										<td>Starter</td>
-										<td>--</td>
-									</tr>
-									<tr>
-										<td>Basic</td>
-										<td>--</td>
-									</tr>
-									<tr>
-										<td>Standard</td>
-										<td>--</td>
-									</tr>
-									<tr>
-										<td>Premium</td>
-										<td>--</td>
-									</tr>
+									{!load &&
+										results?.map((r: any) => (
+											<tr key={r.id}>
+												<td>{r.name}</td>
+												<td>{r.count}</td>
+											</tr>
+										))}
 								</tbody>
 							</Table>
+							{load && <SkeletonTable />}
 						</div>
 					</DetailCard>
 				</div>

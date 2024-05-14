@@ -1,22 +1,47 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import PageLoad from "../../../components/Loaders/PageLoad";
 import { getDashboardStats } from "../../../redux/features/admin/admin-slice";
 import { DashboardCard } from "../../../styles/home.styles";
 import PieChart from "../../../components/Home/PieChart";
 import { formatCurrency } from "../../../utils/currency";
+import AdminPieChart from "../../../components/Home/AdminPieChart";
+import {
+	DropDownSelect,
+	OptionProp,
+} from "../../../components/Filters/BasicInputs";
 
 const Dashboard = () => {
+	const thisYear = new Date().getFullYear();
+
 	const dispatch = useAppDispatch();
+	const [year, setYear] = useState<OptionProp | null>({
+		label: `${thisYear}`,
+		value: `${thisYear}`,
+	});
 
 	const { dashboardStats } = useAppSelector((state) => state.admin);
 
 	useEffect(() => {
-		dispatch(getDashboardStats(`?year=2024&period=today`));
-	}, []);
+		dispatch(getDashboardStats(`?year=${year?.value}`));
+	}, [year]);
 
 	return dashboardStats?.year ? (
 		<div className="mt-3">
+			<div className="row justify-content-end mb-3">
+				<div className="col-lg-3 col-md-4">
+					<DropDownSelect
+						label="Select Year"
+						options={
+							dashboardStats?.years?.map((a: any) => {
+								return { label: a, value: a };
+							}) || []
+						}
+						value={year}
+						changeSelected={setYear}
+					/>
+				</div>
+			</div>
 			<div className="row">
 				<div className="col-lg-4 mb-4">
 					<DashboardCard>
@@ -26,7 +51,7 @@ const Dashboard = () => {
 						<div className="body">
 							<div className="content">
 								<h6>Total</h6>
-								<h4>{dashboardStats.totalBusinesses}</h4>
+								<h4>{dashboardStats.totalOrganizations}</h4>
 							</div>
 						</div>
 					</DashboardCard>
@@ -63,9 +88,8 @@ const Dashboard = () => {
 							<h6>Sales Volume</h6>
 						</div>
 						<div className="body">
-							<PieChart
-								arr={dashboardStats.sales}
-								labels={dashboardStats.businesses}
+							<AdminPieChart
+								list={dashboardStats.sales}
 								admin={true}
 							/>
 							<div className="head" />
