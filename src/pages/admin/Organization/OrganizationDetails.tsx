@@ -48,7 +48,10 @@ const OrganizationDetails = () => {
 						<ActionDetailsDiv>
 							<div className="row">
 								<div className="col-lg-6 mb-3">
-									<BasicDetails details={org} />
+									<BasicDetails
+										details={org}
+										reload={() => loadOrg()}
+									/>
 								</div>
 								<div className="col-lg-6 mb-3">
 									<OnboardSteps steps={org.onboardingSteps} />

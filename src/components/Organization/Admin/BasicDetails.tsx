@@ -1,15 +1,22 @@
 import { DetailCard } from "../../../styles/sale.styles";
 import dateFormat from "dateformat";
 import { formatCurrency } from "../../../utils/currency";
+import { MainButton } from "../../../styles/links.styles";
+import ModalComponent from "../../ModalComponent";
+import { useState } from "react";
+import DeleteOrg from "./DeleteOrg";
+import TopUp from "./TopUp";
+import Subscribe from "./Subscribe";
 
-const BasicDetails = ({ details }: { details: any }) => {
-	const showFreeTrial = (name: string, isTrial: boolean) => {
-		if (name?.includes("Free") && isTrial) {
-			return true;
-		} else {
-			return false;
-		}
-	};
+const BasicDetails = ({
+	details,
+	reload,
+}: {
+	details: any;
+	reload: () => void;
+}) => {
+	const [open, setOpen] = useState(false);
+	const [modalType, setModalType] = useState("");
 
 	return (
 		<>
@@ -87,8 +94,66 @@ const BasicDetails = ({ details }: { details: any }) => {
 							{formatCurrency(details.wallet?.balance)}
 						</b>
 					</div>
+					<div className="mt-3">
+						<MainButton
+							onClick={() => {
+								setModalType("topup");
+								setOpen(true);
+							}}
+						>
+							<span>Top up Wallet</span>
+						</MainButton>
+						<MainButton
+							className="ms-4"
+							onClick={() => {
+								setModalType("subscribe");
+								setOpen(true);
+							}}
+						>
+							<span>Subscribe</span>
+						</MainButton>
+					</div>
+					<div className="mt-3">
+						<MainButton
+							bg="red"
+							onClick={() => {
+								setModalType("delete");
+								setOpen(true);
+							}}
+						>
+							<span>Delete Organization</span>
+						</MainButton>
+					</div>
 				</div>
 			</DetailCard>
+			<ModalComponent
+				open={open}
+				close={() => setOpen(false)}
+				title={modalType.toUpperCase()}
+			>
+				{modalType === "delete" ? (
+					<DeleteOrg id={details.id} />
+				) : modalType === "topup" ? (
+					<TopUp
+						onClose={() => {
+							setOpen(false);
+							reload();
+						}}
+						id={details.id}
+					/>
+				) : modalType === "subscribe" ? (
+					<Subscribe
+						id={details.id}
+						onClose={() => {
+							setOpen(false);
+							reload();
+						}}
+						balance={details.wallet?.balance}
+					/>
+				) : (
+					<></>
+				)}
+			</ModalComponent>
 		</>
 	);
 };

@@ -118,6 +118,39 @@ const subTracker = async (token: string) => {
 	return data.data;
 };
 
+const topWallet = async (token: string, id: any, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/admin/topup-organization/${id}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const subscribeOrg = async (token: string, id: any, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/admin/subscribe-organization/${id}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const deleteOrg = async (token: string, id: any, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/admin/delete-organization/${id}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const adminService = {
 	dashboardStats,
 	listOrganization,
@@ -132,6 +165,9 @@ const adminService = {
 	getTerms,
 	setTerms,
 	subTracker,
+	topWallet,
+	subscribeOrg,
+	deleteOrg,
 };
 
 export default adminService;

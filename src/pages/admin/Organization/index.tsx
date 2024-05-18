@@ -39,7 +39,9 @@ const Organization = () => {
 
 	const debouncedSearch = UseDebounce(search);
 
-	let filters = `?page=${page}&limit=${limit}&startDate=${startDate}&endDate=${endDate}&searchWord=${debouncedSearch}`;
+	let filters = `?page=${page}&limit=${limit}&startDate=${startDate}&endDate=${endDate}&searchWord=${debouncedSearch}&planId=${
+		subTypeId?.value || ""
+	}`;
 
 	const { token } = useAppSelector((state) => state.auth);
 
