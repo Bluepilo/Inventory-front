@@ -40,16 +40,26 @@ const Subscription = () => {
 										<th>Active Units</th>
 									</tr>
 								</thead>
-
-								<tbody>
-									{!load &&
-										results?.map((r: any) => (
-											<tr key={r.id}>
-												<td>{r.name}</td>
-												<td>{r.count}</td>
+								{!load && (
+									<>
+										<tbody>
+											{results?.subscriptions?.map(
+												(r: any) => (
+													<tr key={r.id}>
+														<td>{r.name}</td>
+														<td>{r.count}</td>
+													</tr>
+												)
+											)}
+										</tbody>
+										<tfoot>
+											<tr>
+												<th>On Active Trial</th>
+												<th>{results.activeTrial}</th>
 											</tr>
-										))}
-								</tbody>
+										</tfoot>
+									</>
+								)}
 							</Table>
 							{load && <SkeletonTable />}
 						</div>

@@ -12,7 +12,7 @@ const dashboardStats = async (filter: string, token: string) => {
 
 const listOrganization = async (filter: string, token: string) => {
 	const { data } = await axios.get(
-		`${config.baseUrl}/organization/all${filter}`,
+		`${config.baseUrl}/admin/organization-list${filter}`,
 		{ headers: authHeader(token) }
 	);
 	return data.data;
@@ -151,6 +151,16 @@ const deleteOrg = async (token: string, id: any, obj: any) => {
 	return data.data;
 };
 
+const getPlans = async (token: string) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/other/subscription-plans`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const adminService = {
 	dashboardStats,
 	listOrganization,
@@ -168,6 +178,7 @@ const adminService = {
 	topWallet,
 	subscribeOrg,
 	deleteOrg,
+	getPlans,
 };
 
 export default adminService;

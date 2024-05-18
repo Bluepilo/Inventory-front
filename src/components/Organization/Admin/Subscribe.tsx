@@ -43,11 +43,8 @@ const Subscribe = ({
 
 	const getPlans = async () => {
 		try {
-			let res = await subscriptionService.getPlans(token);
-			let arr = res?.map((a: any) => {
-				return { label: a.name, value: a.id };
-			});
-			setSubTypes(arr || []);
+			let res = await adminService.getPlans(token);
+			setSubTypes(res || []);
 		} catch (err) {}
 	};
 
@@ -82,7 +79,7 @@ const Subscribe = ({
 					required
 					className="height"
 				>
-					<option value={""}></option>
+					<option value={""}>Select Subscription</option>
 					{subTypes?.map((p: any) => (
 						<option value={p.id}>{p.name}</option>
 					))}
