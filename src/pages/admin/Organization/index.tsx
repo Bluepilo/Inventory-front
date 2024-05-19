@@ -19,6 +19,7 @@ import { FilterStyles } from "../../../styles/filters.styles";
 import subscriptionService from "../../../redux/features/subscription/subscriptionService";
 import { Link } from "react-router-dom";
 import { UseDebounce } from "../../../utils/hooks";
+import DeletedList from "../../../components/Organization/DeletedList";
 
 const Organization = () => {
 	const [load, setLoad] = useState(false);
@@ -60,6 +61,7 @@ const Organization = () => {
 
 	const listOrgnaizations = async () => {
 		try {
+			setList([]);
 			setLoad(true);
 			let res = await adminService.listOrganization(filters, token);
 			setLoad(false);
@@ -71,6 +73,7 @@ const Organization = () => {
 
 	const listDeletedOrgnaizations = async () => {
 		try {
+			setList([]);
 			setLoad(true);
 			let res = await adminService.listDeletedOrganization(
 				filters,
@@ -154,85 +157,92 @@ const Organization = () => {
 			</FilterStyles>
 
 			<div className="mt-3">
-				<TableComponent>
-					<div className="table-responsive">
-						<Table className="table">
-							<thead>
-								<tr>
-									<th>Name</th>
-									<th>Email</th>
-									<th>Phone</th>
-									<th>Owner Name</th>
-									<th>Organization ID</th>
-									<th>Active Subscription</th>
-									<th>Expiry Date</th>
-									<th>Date Registered</th>
-								</tr>
-							</thead>
-							<tbody>
-								{!load &&
-									list?.rows?.map((org: any) => (
-										<tr key={org.id}>
-											<td className="link">
-												<Link to={`${org.id}`}>
-													{org.name}
-												</Link>{" "}
-											</td>
-											<td>
-												<span className="me-2">
-													{org.email}
-												</span>
-												{org.emailVerifiedAt ? (
-													<FaCircleCheck color="green" />
-												) : (
-													<FcCancel />
-												)}
-											</td>
-											<td>{org.phone}</td>
-											<td>
-												{org.ownerFirstName}{" "}
-												{org.ownerLastName}
-											</td>
-											<td>{org.uniqueId}</td>
-											<td>
-												{showFreeTrial(
-													org?.subscriptionPlan.name,
-													org.isTrialOn
-												)
-													? "On Trial"
-													: org.subscriptionPlan
-															?.name}
-											</td>
-											<td>
-												{showFreeTrial(
-													org?.subscriptionPlan.name,
-													org.isTrialOn
-												)
-													? dateFormat(
-															org.trialEndedAt,
-															"mmm dd, yyyy"
-													  )
-													: org.subscription
-													? dateFormat(
-															org.subscription
-																?.endDate,
-															"mmm dd, yyyy"
-													  )
-													: "No Expiry Date"}
-											</td>
-											<td>
-												{dateFormat(
-													org.createdAt,
-													"mmm dd, yyyy"
-												)}
-											</td>
-										</tr>
-									))}
-							</tbody>
-						</Table>
-					</div>
-					{load && <SkeletonTable />}
-				</TableComponent>
+				{isLive ? (
+					<TableComponent>
+						<div className="table-responsive">
+							<Table className="table">
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Email</th>
+										<th>Phone</th>
+										<th>Owner Name</th>
+										<th>Organization ID</th>
+										<th>Active Subscription</th>
+										<th>Expiry Date</th>
+										<th>Date Registered</th>
+									</tr>
+								</thead>
+								<tbody>
+									{!load &&
+										list?.rows?.map((org: any) => (
+											<tr key={org.id}>
+												<td className="link">
+													<Link to={`${org.id}`}>
+														{org.name}
+													</Link>{" "}
+												</td>
+												<td>
+													<span className="me-2">
+														{org.email}
+													</span>
+													{org.emailVerifiedAt ? (
+														<FaCircleCheck color="green" />
+													) : (
+														<FcCancel />
+													)}
+												</td>
+												<td>{org.phone}</td>
+												<td>
+													{org.ownerFirstName}{" "}
+													{org.ownerLastName}
+												</td>
+												<td>{org.uniqueId}</td>
+												<td>
+													{showFreeTrial(
+														org?.subscriptionPlan
+															?.name,
+														org.isTrialOn
+													)
+														? "On Trial"
+														: org.subscriptionPlan
+																?.name}
+												</td>
+												<td>
+													{showFreeTrial(
+														org?.subscriptionPlan
+															?.name,
+														org.isTrialOn
+													)
+														? dateFormat(
+																org.trialEndedAt,
+																"mmm dd, yyyy"
+														  )
+														: org.subscription
+														? dateFormat(
+																org
+																	?.subscription
+																	?.endDate,
+																"mmm dd, yyyy"
+														  )
+														: "No Expiry Date"}
+												</td>
+												<td>
+													{dateFormat(
+														org.createdAt,
+														"mmm dd, yyyy"
+													)}
+												</td>
+											</tr>
+										))}
+								</tbody>
+							</Table>
+						</div>
+						{load && <SkeletonTable />}
+					</TableComponent>
+				) : (
+					<DeletedList data={list.rows} load={load} />
+				)}
 				{!load && list?.count ? (
 					<Paginate
 						changeLimit={(l) => setLimit(l)}

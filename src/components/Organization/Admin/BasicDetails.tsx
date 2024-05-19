@@ -72,12 +72,6 @@ const BasicDetails = ({
 								  )
 								: "No Expiry Date"}
 						</b>
-						<span className="col-4 mb-2">Total Business:</span>
-						<b className="col-8 mb-2">
-							{details.businesses?.length}
-						</b>
-						<span className="col-4 mb-2">Total Users:</span>
-						<b className="col-8 mb-2">{details.users?.length}</b>
 						<span className="col-4 mb-2">Last login by:</span>
 						<b className="col-8 mb-2">
 							{details.lastBusinessLoginBy?.fullName}
