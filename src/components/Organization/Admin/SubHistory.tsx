@@ -8,7 +8,7 @@ const SubHistory = ({ history }: { history: any }) => {
 			<h6 style={{ color: "#0241ff", fontWeight: "500" }}>
 				Subscription History
 			</h6>
-			{Array.isArray(history?.rows) && history.rows?.length > 1 ? (
+			{Array.isArray(history?.rows) && history.rows?.length > 0 ? (
 				<div className="table-responsive">
 					<Table className="table">
 						<thead>

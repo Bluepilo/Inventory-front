@@ -12,6 +12,7 @@ import UserList from "../../../components/Organization/Admin/UserList";
 import PaymentHistory from "../../../components/Organization/Admin/PaymentHistory";
 import SubHistory from "../../../components/Organization/Admin/SubHistory";
 import OnboardSteps from "../../../components/Organization/Admin/OnboardSteps";
+import OrgStats from "../../../components/Organization/Admin/OrgStats";
 
 const OrganizationDetails = () => {
 	const params = useParams();
@@ -48,10 +49,14 @@ const OrganizationDetails = () => {
 						<ActionDetailsDiv>
 							<div className="row">
 								<div className="col-lg-6 mb-3">
-									<BasicDetails details={org} />
+									<BasicDetails
+										details={org}
+										reload={() => loadOrg()}
+									/>
 								</div>
 								<div className="col-lg-6 mb-3">
-									<OnboardSteps steps={org.onboardingSteps} />
+									{/* <OnboardSteps steps={org.onboardingSteps} /> */}
+									<OrgStats details={org} />
 								</div>
 								<div className="col-lg-12 mb-3">
 									<BusinessList list={org.businesses} />

@@ -79,6 +79,7 @@ const Reset = ({
 					value={password}
 					onChange={(e) => setPassword(e.target.value)}
 					required
+					className="height"
 				/>
 				<button
 					onClick={(e) => {
@@ -96,6 +97,7 @@ const Reset = ({
 					value={confirmPassword}
 					onChange={(e) => setConfirmPassword(e.target.value)}
 					required
+					className="height"
 				/>
 				<button
 					onClick={(e) => {

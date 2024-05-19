@@ -541,4 +541,10 @@ export const DetailCard = styled.div`
 			}
 		}
 	}
+
+	.box {
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		padding: 20px;
+		border-radius: 5px;
+	}
 `;

@@ -148,9 +148,10 @@ const Sales = () => {
 							<div>
 								<h6>Total Sales: </h6>
 								<h6>
-									{summary?.totalAmountExpected
+									{lists?.summary?.totalAmountExpected
 										? `${currency} ${formatCurrency(
-												summary.totalAmountExpected
+												lists?.summary
+													.totalAmountExpected
 										  )}`
 										: "--"}
 								</h6>
@@ -160,9 +161,10 @@ const Sales = () => {
 								<div>
 									<h6>Total Sales Margin:</h6>
 									<h6>
-										{summary?.totalEstimatedProfit
+										{lists?.summary?.totalEstimatedProfit
 											? `${currency} ${formatCurrency(
-													summary.totalEstimatedProfit
+													lists?.summary
+														.totalEstimatedProfit
 											  )}`
 											: "--"}
 									</h6>

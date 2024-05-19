@@ -42,8 +42,9 @@ const CloseAccount = () => {
 		try {
 			setLoad(true);
 			await basicService.closeAccount(token, details.organization.id, {
-				reason: reason + " " + comment,
+				reason,
 				password,
+				comment,
 			});
 			setLoad(false);
 			dispatch(logout());

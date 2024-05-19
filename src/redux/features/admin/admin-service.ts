@@ -4,7 +4,7 @@ import { authHeader } from "../../../utils/headers";
 
 const dashboardStats = async (filter: string, token: string) => {
 	const { data } = await axios.get(
-		`${config.baseUrl}/report/admin-dashboard-report${filter}`,
+		`${config.baseUrl}/admin/dashboard${filter}`,
 		{ headers: authHeader(token) }
 	);
 	return data;
@@ -12,7 +12,15 @@ const dashboardStats = async (filter: string, token: string) => {
 
 const listOrganization = async (filter: string, token: string) => {
 	const { data } = await axios.get(
-		`${config.baseUrl}/organization/all${filter}`,
+		`${config.baseUrl}/admin/organization-list${filter}`,
+		{ headers: authHeader(token) }
+	);
+	return data.data;
+};
+
+const listDeletedOrganization = async (filter: string, token: string) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/admin/deleted-organization-history`,
 		{ headers: authHeader(token) }
 	);
 	return data.data;
@@ -100,9 +108,63 @@ const setTerms = async (token: string, obj: any) => {
 	return data.data;
 };
 
+const subTracker = async (token: string) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/admin/subscription-statistics`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const topWallet = async (token: string, id: any, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/admin/topup-organization/${id}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const subscribeOrg = async (token: string, id: any, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/admin/subscribe-organization/${id}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const deleteOrg = async (token: string, id: any, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/admin/delete-organization/${id}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const getPlans = async (token: string) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/other/subscription-plans`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const adminService = {
 	dashboardStats,
 	listOrganization,
+	listDeletedOrganization,
 	getOrg,
 	fetchRequests,
 	actionBrandRequests,
@@ -112,6 +174,11 @@ const adminService = {
 	deleteFaq,
 	getTerms,
 	setTerms,
+	subTracker,
+	topWallet,
+	subscribeOrg,
+	deleteOrg,
+	getPlans,
 };
 
 export default adminService;

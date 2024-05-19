@@ -70,7 +70,7 @@ const NewSale = () => {
 		if (selectedShop?.value) {
 			getProducts();
 		}
-	}, [selectedShop]);
+	}, [selectedShop, isWalkIn]);
 
 	useEffect(() => {
 		if (selectedProducts.length > 0) {
@@ -116,7 +116,7 @@ const NewSale = () => {
 					return {
 						value: a.id,
 						label: `${a.summary} - ${currency}${formatCurrency(
-							a.price
+							isWalkIn ? a.price : a.costPrice
 						)} ${a.isService ? "" : `(${a.totalStock})`}`,
 						name: a.summary,
 						price: Number(isWalkIn ? a.price : a.costPrice),

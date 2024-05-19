@@ -9,7 +9,8 @@ const PaymentHistory = ({ history }: { history: any }) => {
 			<h6 style={{ color: "#0241ff", fontWeight: "500" }}>
 				Payment History
 			</h6>
-			{Array.isArray(history?.rows) && history.rows?.length > 1 ? (
+			{Array.isArray(history?.payments?.rows) &&
+			history.payments.rows?.length > 0 ? (
 				<div className="table-responsive">
 					<Table className="table">
 						<thead>
@@ -21,7 +22,7 @@ const PaymentHistory = ({ history }: { history: any }) => {
 							</tr>
 						</thead>
 						<tbody>
-							{history?.rows?.map((li: any) => (
+							{history?.payments?.rows?.map((li: any) => (
 								<tr key={li.id}>
 									<td>
 										<span>
