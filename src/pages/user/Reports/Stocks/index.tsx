@@ -17,6 +17,8 @@ import SkeletonTable from "../../../../components/Loaders/SkeletonTable";
 import { Link } from "react-router-dom";
 import Paginate from "../../../../components/Paginate";
 import StockAlert from "../../../../components/Reports/StockAlert";
+import { FaFileCsv } from "react-icons/fa6";
+import { CSVLink } from "react-csv";
 
 const Stocks = () => {
 	const { token, details } = useAppSelector((state) => state.auth);
@@ -92,6 +94,12 @@ const Stocks = () => {
 		}
 	};
 
+	const headers = [
+		{ label: "Product", key: "summary" },
+		{ label: "Unit", key: "totalStock" },
+		{ label: "Stock Value", key: `costPrice` },
+	];
+
 	return (
 		<div>
 			<TitleCover title="Total Stocks" dataCount={lists?.count} />
@@ -144,10 +152,17 @@ const Stocks = () => {
 								Include Zero Units
 							</label>
 						</div>
-						<MainButton>
-							<img src={PrintLogo} />
-							<span>Print</span>
-						</MainButton>
+						{lists?.rows && (
+							<CSVLink
+								data={lists.rows}
+								headers={headers}
+								filename="Stock Reports"
+								className="main-btn"
+							>
+								<FaFileCsv />
+								<span>Export CSV</span>
+							</CSVLink>
+						)}
 					</CheckBoxPrint>
 				</div>
 			</div>

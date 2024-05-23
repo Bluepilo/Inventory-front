@@ -315,6 +315,25 @@ export const CheckBoxPrint = styled.div`
 			font-weight: 600;
 		}
 	}
+
+	.main-btn {
+		background: #0241ff;
+		color: #fff;
+		outline: 0;
+		border: 0;
+		padding: 10px 18px;
+		border-radius: 4px;
+		display: inline-flex;
+		align-items: center;
+		font-size: 0.9rem;
+		font-weight: 600;
+		text-decoration: none;
+
+		svg,
+		img {
+			margin-right: 10px;
+		}
+	}
 `;
 
 export const RecordStyles = styled.div`
