@@ -6,6 +6,6 @@ const prod = {
 	baseUrl: "https://api.bluepilo.com/api/v2",
 };
 
-const config = prod;
+const config = dev;
 
 export default config;
