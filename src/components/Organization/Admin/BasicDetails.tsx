@@ -87,6 +87,12 @@ const BasicDetails = ({
 						<b className="col-8 mb-2">
 							{formatCurrency(details.wallet?.balance)}
 						</b>
+						<span className="col-4 mb-2">Total Businesses:</span>
+						<b className="col-8 mb-2">
+							{details.businesses?.length}
+						</b>
+						<span className="col-4 mb-2">Total Users:</span>
+						<b className="col-8 mb-2">{details.users?.length}</b>
 					</div>
 					<div className="mt-3">
 						<MainButton

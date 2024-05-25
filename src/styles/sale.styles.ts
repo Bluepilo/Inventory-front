@@ -547,4 +547,15 @@ export const DetailCard = styled.div`
 		padding: 20px;
 		border-radius: 5px;
 	}
+
+	select.select {
+		width: 100%;
+		border: 1px solid #d9dbeb;
+		outline: 0;
+		color: #333;
+		border-radius: 6px;
+		padding-left: 20px;
+		margin-bottom: 20px;
+		height: 45px;
+	}
 `;

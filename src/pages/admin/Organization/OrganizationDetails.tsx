@@ -55,8 +55,7 @@ const OrganizationDetails = () => {
 									/>
 								</div>
 								<div className="col-lg-6 mb-3">
-									{/* <OnboardSteps steps={org.onboardingSteps} /> */}
-									<OrgStats details={org} />
+									<OnboardSteps allBiz={org.businesses} />
 								</div>
 								<div className="col-lg-12 mb-3">
 									<BusinessList list={org.businesses} />

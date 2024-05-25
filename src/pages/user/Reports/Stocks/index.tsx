@@ -88,7 +88,10 @@ const Stocks = () => {
 			setLoad(true);
 			let res = await productService.stockReports(token, filters);
 			setLoad(false);
-			setLists(res);
+			let arr = res?.rows?.map((l: any) => {
+				return { ...l, finalValue: l.costPrice * l.totalStock };
+			});
+			setLists({ ...res, rows: arr });
 		} catch (err) {
 			setLoad(false);
 		}
@@ -97,7 +100,7 @@ const Stocks = () => {
 	const headers = [
 		{ label: "Product", key: "summary" },
 		{ label: "Unit", key: "totalStock" },
-		{ label: "Stock Value", key: `costPrice` },
+		{ label: "Stock Value", key: `finalValue` },
 	];
 
 	return (
@@ -196,9 +199,7 @@ const Stocks = () => {
 											</td>
 											<td className="price">
 												{currency}{" "}
-												{formatCurrency(
-													l.costPrice * l.totalStock
-												)}
+												{formatCurrency(l.finalValue)}
 											</td>
 										</tr>
 									))}

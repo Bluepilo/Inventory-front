@@ -111,13 +111,23 @@ const AdminTransactions = () => {
 												)}
 											</td>
 											<td className="link">
-												<Link
-													to={`/admin/organizations/${tr.organization?.id}`}
-												>
-													{tr.organization?.name}
-												</Link>
+												{tr.organization ? (
+													<Link
+														to={`/admin/organizations/${tr.organization?.id}`}
+													>
+														{tr.organization?.name}
+													</Link>
+												) : (
+													<span>Deleted Account</span>
+												)}
 											</td>
-											<td>{tr.transactionType}</td>
+											<td>
+												{tr.transactionType === "topup"
+													? tr.channel === "admin"
+														? "Manual Topup"
+														: "Online Topup"
+													: tr.transactionType}
+											</td>
 											<td>
 												{tr.mode === "in"
 													? `${formatCurrency(
