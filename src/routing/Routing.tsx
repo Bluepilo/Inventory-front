@@ -22,6 +22,9 @@ import AdminUsers from "../pages/admin/Others/AdminUsers";
 import Terms from "../pages/admin/Others/Terms";
 import Carousel from "../pages/admin/Others/Carousel";
 import SMS from "../pages/admin/SMS";
+import SmsTransactions from "../pages/admin/SMS/SmsTransactions";
+import SmsWallets from "../pages/admin/SMS/SmsWallets";
+import SmsHistory from "../pages/admin/SMS/SmsHistory";
 
 // User Routes
 import Dashboard from "../pages/user/Dashboard";
@@ -139,7 +142,13 @@ const Routing = () => {
 					<Route path="others/users" element={<AdminUsers />} />
 					<Route path="others/terms" element={<Terms />} />
 					<Route path="others/carousel" element={<Carousel />} />
-					<Route path="sms" element={<SMS />} />
+					<Route path="sms/summary" element={<SMS />} />
+					<Route
+						path="sms/transactions"
+						element={<SmsTransactions />}
+					/>
+					<Route path="sms/wallets" element={<SmsWallets />} />
+					<Route path="sms/history" element={<SmsHistory />} />
 				</Route>
 				<Route
 					path="/payment-confirmation"

@@ -13,4 +13,9 @@ const displayError = (error: any, display?: boolean) => {
 	return message;
 };
 
-export { displayError };
+const displaySuccess = (msg: string) => {
+	toast.success(msg);
+	return "";
+};
+
+export { displayError, displaySuccess };

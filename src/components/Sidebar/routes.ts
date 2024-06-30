@@ -238,7 +238,28 @@ const adminRoutes = [
 		href: "/admin/sms",
 		icon: TransactionIcon,
 		permission: ["all"],
-		children: [],
+		children: [
+			{
+				id: 1,
+				name: "Summary",
+				href: "/admin/sms/summary",
+			},
+			{
+				id: 2,
+				name: "Wallets",
+				href: "/admin/sms/wallets",
+			},
+			{
+				id: 3,
+				name: "Transactions",
+				href: "/admin/sms/transactions",
+			},
+			{
+				id: 4,
+				name: "History",
+				href: "/admin/sms/history",
+			},
+		],
 	},
 	{
 		id: 6,

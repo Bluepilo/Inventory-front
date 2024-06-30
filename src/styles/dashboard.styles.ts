@@ -235,6 +235,16 @@ export const SummaryCard = styled.div`
 			font-size: 1rem;
 		}
 	}
+
+	button {
+		background: #d4e9ff;
+		color: #000d33;
+		font-weight: 600;
+		border: 0;
+		outline: 0;
+		padding: 8px 30px;
+		border-radius: 4px;
+	}
 `;
 
 export const CashSummaryCard = styled.div`

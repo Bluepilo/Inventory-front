@@ -250,6 +250,17 @@ export const DashboardCard = styled.div`
 			}
 		}
 	}
+	.e-btn {
+		text-align: right;
+
+		button {
+			outline: 0;
+			border: 0;
+			background: none;
+			color: blue;
+			text-decoration: underline;
+		}
+	}
 `;
 
 export const ProgressCard = styled.div`
