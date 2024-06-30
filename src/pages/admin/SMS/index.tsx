@@ -117,7 +117,7 @@ const SMS = () => {
 						getSettings();
 						setOpenModal(false);
 					}}
-					val={editSp ? settings.spPerPage : settings.cpPerPage}
+					val={editSp ? settings?.spPerPage : settings?.cpPerPage}
 				/>
 			</ModalComponent>
 		</div>
