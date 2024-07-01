@@ -32,6 +32,7 @@ const SmsTransactions = () => {
 		{ label: "USSD", value: "ussd" },
 		{ label: "QR", value: "qr" },
 		{ label: "Bank", value: "bank" },
+		{ label: "Paystack (Pending)", value: "paystack" },
 	]);
 	const [channelTypeId, setChannelTypeId] = useState<OptionProp | null>(null);
 	const [page, setPage] = useState(1);
