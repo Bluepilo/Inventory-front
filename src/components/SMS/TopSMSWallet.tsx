@@ -33,8 +33,9 @@ const TopSMSWallet = ({
 				} else {
 					await smsService.topSmsWallets(token, details.id, {
 						amount,
-						id: type === "user" ? user.id : null,
+						id: type === "user" ? user.orgId : null,
 						all: type === "user" ? false : true,
+						name: type === "user" ? user.orgName : null,
 					});
 				}
 

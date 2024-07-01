@@ -190,7 +190,7 @@ const SmsWallets = () => {
 					modalType === "central"
 						? "Top Central Wallet"
 						: modalType === "user"
-						? `Top up ${user.name}'s Wallet`
+						? `Top up ${user.orgName}'s Wallet`
 						: modalType === "all"
 						? "Top All Organization wallets"
 						: ""
