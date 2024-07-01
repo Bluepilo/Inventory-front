@@ -12,6 +12,7 @@ import FailedIcon from "../../../assets/icons/failed.svg";
 import { OptionProp } from "../../../components/Filters/BasicInputs";
 import Filters from "../../../components/Filters";
 import Paginate from "../../../components/Paginate";
+import { MainButton } from "../../../styles/links.styles";
 
 const SmsTransactions = () => {
 	const { token, details } = useAppSelector((state) => state.auth);
@@ -68,6 +69,21 @@ const SmsTransactions = () => {
 		setChannelTypeId(null);
 	};
 
+	const verifyHandler = async (data: any) => {
+		if (window.confirm("Are you sure you want to proceed?")) {
+			try {
+				setLoad(true);
+				await smsService.verifyTransaction(token, details.id, {
+					reference: data.reference,
+				});
+				setLoad(false);
+			} catch (err) {
+				setLoad(false);
+				displayError(err, true);
+			}
+		}
+	};
+
 	return (
 		<div>
 			<TitleCover title={"SMS Transactions"} />
@@ -94,6 +110,7 @@ const SmsTransactions = () => {
 									<th>Type</th>
 									<th>Status</th>
 									<th>Channel</th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -113,7 +130,7 @@ const SmsTransactions = () => {
 												₦{formatCurrency(li.amount)}
 											</td>
 											<td>{li.type}</td>
-											<td className="status">
+											<td className="status link">
 												<img
 													src={
 														li.status ===
@@ -125,6 +142,17 @@ const SmsTransactions = () => {
 															: FailedIcon
 													}
 												/>
+												{li.status === "pending" && (
+													<a
+														href="#"
+														className="ms-2"
+														onClick={() =>
+															verifyHandler(li)
+														}
+													>
+														Verify
+													</a>
+												)}
 											</td>
 											<td>{li.channel}</td>
 										</tr>

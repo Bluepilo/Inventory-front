@@ -87,6 +87,17 @@ const getHistory = async (
 	return data.data;
 };
 
+const verifyTransaction = async (token: string, id: number, obj: any) => {
+	const { data } = await axios.post(
+		`${config.smsUrl}/wallet/verify-payment`,
+		obj,
+		{
+			headers: { ...authHeader(token), UserId: id },
+		}
+	);
+	return data.data;
+};
+
 const smsService = {
 	loadCentralWallet,
 	topCentralWallet,
@@ -95,6 +106,7 @@ const smsService = {
 	allTransactions,
 	getHistory,
 	editSettings,
+	verifyTransaction,
 };
 
 export default smsService;
