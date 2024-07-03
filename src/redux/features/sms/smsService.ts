@@ -87,10 +87,40 @@ const getHistory = async (
 	return data.data;
 };
 
+const getHistoryReport = async (
+	token: string,
+	id: number,
+	startDate: any,
+	endDate: any
+) => {
+	const { data } = await axios.get(
+		`${config.smsUrl}/sms/sms-report?startDate=${startDate}&endDate=${endDate}`,
+		{
+			headers: { ...authHeader(token), UserId: id },
+		}
+	);
+	return data.data;
+};
+
 const verifyTransaction = async (token: string, id: number, obj: any) => {
 	const { data } = await axios.post(
 		`${config.smsUrl}/wallet/verify-payment`,
 		obj,
+		{
+			headers: { ...authHeader(token), UserId: id },
+		}
+	);
+	return data.data;
+};
+
+const smsGraph = async (
+	token: string,
+	id: number,
+	startDate: any,
+	endDate: any
+) => {
+	const { data } = await axios.get(
+		`${config.smsUrl}/sms/sms-graph?startDate=${startDate}&endDate=${endDate}`,
 		{
 			headers: { ...authHeader(token), UserId: id },
 		}
@@ -105,8 +135,10 @@ const smsService = {
 	topSmsWallets,
 	allTransactions,
 	getHistory,
+	getHistoryReport,
 	editSettings,
 	verifyTransaction,
+	smsGraph,
 };
 
 export default smsService;

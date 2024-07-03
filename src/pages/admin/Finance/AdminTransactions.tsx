@@ -98,6 +98,7 @@ const AdminTransactions = () => {
 									<th>Transaction Type</th>
 									<th>Credit</th>
 									<th>Debit</th>
+									<th>Balance</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -142,9 +143,46 @@ const AdminTransactions = () => {
 													  )}`
 													: "--"}
 											</td>
+											<td>
+												{formatCurrency(tr.amountPaid)}
+											</td>
 										</tr>
 									))}
 							</tbody>
+							{!load && (
+								<tfoot>
+									<th colSpan={3}></th>
+									<th>
+										{formatCurrency(
+											list?.rows
+												?.filter(
+													(f: any) => f.mode === "in"
+												)
+												.reduce(
+													(a: any, b: any) =>
+														a +
+														Number(b.amountPaid),
+													0
+												)
+										)}
+									</th>
+									<th>
+										{formatCurrency(
+											list?.rows
+												?.filter(
+													(f: any) => f.mode === "out"
+												)
+												.reduce(
+													(a: any, b: any) =>
+														a +
+														Number(b.amountPaid),
+													0
+												)
+										)}
+									</th>
+									<th></th>
+								</tfoot>
+							)}
 						</Table>
 					</div>
 					{load && <SkeletonTable />}

@@ -9,6 +9,7 @@ import dateFormat from "dateformat";
 import { formatCurrency } from "../../../utils/currency";
 import SkeletonTable from "../../../components/Loaders/SkeletonTable";
 import Paginate from "../../../components/Paginate";
+import { SummaryCard } from "../../../styles/dashboard.styles";
 
 const SmsHistory = () => {
 	const { token, details } = useAppSelector((state) => state.auth);
@@ -23,10 +24,26 @@ const SmsHistory = () => {
 	);
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(20);
+	const [report, setReport] = useState<any>({});
 
 	useEffect(() => {
+		getReport();
 		getHistory();
 	}, [page, limit, endDate]);
+
+	const getReport = async () => {
+		try {
+			let res = await smsService.getHistoryReport(
+				token,
+				details.id,
+				startDate.toISOString(),
+				endDate.toISOString()
+			);
+			setReport(res);
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
 	const getHistory = async () => {
 		try {
@@ -69,6 +86,29 @@ const SmsHistory = () => {
 				changeEndDate={setEndDate}
 				clearValues={clearFilters}
 			/>
+			<div className="row align-items-center mt-4">
+				<div className="col-lg-6 mb-3">
+					<SummaryCard>
+						<div>
+							<h6>Total Unit:</h6>
+							<h6>
+								{typeof report?.totalUnit === "number"
+									? report?.totalUnit
+									: "--"}
+							</h6>
+						</div>
+
+						<div>
+							<h6>Total Value:</h6>
+							<h6>
+								{typeof report?.totalValue === "number"
+									? `₦${formatCurrency(report?.totalValue)}`
+									: "--"}
+							</h6>
+						</div>
+					</SummaryCard>
+				</div>
+			</div>
 			<div>
 				<TableComponent>
 					<div className="table-responsive">

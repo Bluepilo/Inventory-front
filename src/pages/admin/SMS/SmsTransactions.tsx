@@ -27,12 +27,9 @@ const SmsTransactions = () => {
 	);
 	const [channelTypes, setChannelTypes] = useState<OptionProp[]>([
 		{ label: "Manual", value: "Manual" },
-		{ label: "Card", value: "card" },
-		{ label: "Bank Transfer", value: "bank_transfer" },
-		{ label: "USSD", value: "ussd" },
-		{ label: "QR", value: "qr" },
-		{ label: "Bank", value: "bank" },
-		{ label: "Paystack (Pending)", value: "paystack" },
+		{ label: "Bonus Manual", value: "Bonus-Manual" },
+		{ label: "Paystack (Completed)", value: "Paystack-Complete" },
+		{ label: "Paystack (Pending)", value: "Paystack-Pending" },
 	]);
 	const [channelTypeId, setChannelTypeId] = useState<OptionProp | null>(null);
 	const [page, setPage] = useState(1);
@@ -147,15 +144,22 @@ const SmsTransactions = () => {
 													<a
 														href="#"
 														className="ms-2"
-														onClick={() =>
-															verifyHandler(li)
-														}
+														onClick={(e) => {
+															e.preventDefault();
+															verifyHandler(li);
+														}}
 													>
 														Verify
 													</a>
 												)}
 											</td>
-											<td>{li.channel}</td>
+											<td>
+												{li.channel?.startsWith(
+													"Paystack"
+												)
+													? "Paystack"
+													: li.channel}
+											</td>
 										</tr>
 									))}
 							</tbody>

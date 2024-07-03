@@ -6,6 +6,7 @@ import { useAppSelector } from "../../../redux/hooks";
 import { formatCurrency } from "../../../utils/currency";
 import ModalComponent from "../../../components/ModalComponent";
 import SpandCpEdit from "../../../components/SMS/SpandCpEdit";
+import PieChartSms from "../../../components/SMS/PieChartSms";
 
 const SMS = () => {
 	const { token, details } = useAppSelector((state) => state.auth);
@@ -13,15 +14,35 @@ const SMS = () => {
 	const [settings, setSettings] = useState<any>({});
 	const [openModal, setOpenModal] = useState(false);
 	const [editSp, setEditSp] = useState(true);
+	const [startDate, setStartDate] = useState(
+		new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+	);
+	const [endDate, setEndDate] = useState(
+		new Date(new Date().setDate(new Date().getDate() + 1))
+	);
+	const [report, setReport] = useState<any>([]);
 
 	useEffect(() => {
 		getSettings();
+		getSmsGraph();
 	}, []);
 
 	const getSettings = async () => {
 		try {
 			let res = await smsService.loadCentralWallet(token, details.id);
 			setSettings(res);
+		} catch (err) {}
+	};
+
+	const getSmsGraph = async () => {
+		try {
+			let res = await smsService.smsGraph(
+				token,
+				details.id,
+				startDate.toISOString(),
+				endDate.toISOString()
+			);
+			setReport(res);
 		} catch (err) {}
 	};
 
@@ -104,6 +125,9 @@ const SMS = () => {
 							</div>
 						</div>
 					</DashboardCard>
+				</div>
+				<div className="col-lg-6 mb-4">
+					<PieChartSms report={report} />
 				</div>
 			</div>
 			<ModalComponent
