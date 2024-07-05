@@ -39,6 +39,7 @@ interface Props {
 	changeOthers?: (arg: any) => void;
 	logType?: any;
 	changeLogType?: (arg: any) => void;
+	placeholder?: string;
 }
 
 const Filters = ({
@@ -72,6 +73,7 @@ const Filters = ({
 	logType,
 	changeLogType,
 	othersLabel,
+	placeholder,
 }: Props) => {
 	const { details } = useAppSelector((state) => state.auth);
 
@@ -87,6 +89,7 @@ const Filters = ({
 						<BasicSearch
 							searchVal={searchVal || ""}
 							changeSearchVal={changeSearchVal}
+							placeholder={placeholder || ""}
 						/>
 					</div>
 				)}

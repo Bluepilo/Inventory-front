@@ -12,7 +12,9 @@ import FailedIcon from "../../../assets/icons/failed.svg";
 import { OptionProp } from "../../../components/Filters/BasicInputs";
 import Filters from "../../../components/Filters";
 import Paginate from "../../../components/Paginate";
-import { MainButton } from "../../../styles/links.styles";
+import dateFormat from "dateformat";
+import { SummaryCard } from "../../../styles/dashboard.styles";
+import { UseDebounce } from "../../../utils/hooks";
 
 const SmsTransactions = () => {
 	const { token, details } = useAppSelector((state) => state.auth);
@@ -30,14 +32,20 @@ const SmsTransactions = () => {
 		{ label: "Bonus Manual", value: "Bonus-Manual" },
 		{ label: "Paystack (Completed)", value: "Paystack-Complete" },
 		{ label: "Paystack (Pending)", value: "Paystack-Pending" },
+		{ label: "SMS", value: "sms" },
 	]);
 	const [channelTypeId, setChannelTypeId] = useState<OptionProp | null>(null);
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(20);
+	const [search, setSearch] = useState("");
+	const [report, setReport] = useState<any>({});
+
+	const debouncedSearch = UseDebounce(search);
 
 	useEffect(() => {
+		getReport();
 		loadAllTransactions();
-	}, [endDate, channelTypeId, limit, page]);
+	}, [endDate, channelTypeId, limit, page, debouncedSearch]);
 
 	const loadAllTransactions = async () => {
 		try {
@@ -49,7 +57,8 @@ const SmsTransactions = () => {
 				endDate.toISOString(),
 				channelTypeId?.value || "",
 				limit,
-				page
+				page,
+				search
 			);
 			setLoad(false);
 			setList(res);
@@ -65,6 +74,20 @@ const SmsTransactions = () => {
 		);
 		setEndDate(new Date(new Date().setDate(new Date().getDate() + 1)));
 		setChannelTypeId(null);
+	};
+
+	const getReport = async () => {
+		try {
+			let res = await smsService.getTransactionReport(
+				token,
+				details.id,
+				startDate.toISOString(),
+				endDate.toISOString()
+			);
+			setReport(res);
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	const verifyHandler = async (data: any) => {
@@ -86,6 +109,10 @@ const SmsTransactions = () => {
 		<div>
 			<TitleCover title={"SMS Transactions"} />
 			<Filters
+				isSearchable={true}
+				searchVal={search}
+				placeholder="Search Organization"
+				changeSearchVal={setSearch}
 				startDate={startDate}
 				changeStartDate={setStartDate}
 				endDate={endDate}
@@ -96,6 +123,29 @@ const SmsTransactions = () => {
 				othersLabel="Channel"
 				othersList={channelTypes}
 			/>
+			<div className="row align-items-center mt-4">
+				<div className="col-lg-6 mb-3">
+					<SummaryCard>
+						<div>
+							<h6>Total Credit:</h6>
+							<h6>
+								{typeof report?.totalCredit === "number"
+									? `₦${formatCurrency(report?.totalCredit)}`
+									: "--"}
+							</h6>
+						</div>
+
+						<div>
+							<h6>Total Debit:</h6>
+							<h6>
+								{typeof report?.totalDebit === "number"
+									? `₦${formatCurrency(report?.totalDebit)}`
+									: "--"}
+							</h6>
+						</div>
+					</SummaryCard>
+				</div>
+			</div>
 			<div>
 				<TableComponent>
 					<div className="table-responsive">
@@ -108,7 +158,7 @@ const SmsTransactions = () => {
 									<th>Type</th>
 									<th>Status</th>
 									<th>Channel</th>
-									<th></th>
+									<th>Date|Time</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -124,7 +174,15 @@ const SmsTransactions = () => {
 												</a>
 											</td>
 											<td>{li.reference}</td>
-											<td className="price">
+											<td
+												className="price"
+												style={{
+													color:
+														li.type === "debit"
+															? "red"
+															: "black",
+												}}
+											>
 												₦{formatCurrency(li.amount)}
 											</td>
 											<td>{li.type}</td>
@@ -159,6 +217,12 @@ const SmsTransactions = () => {
 												)
 													? "Paystack"
 													: li.channel}
+											</td>
+											<td>
+												{dateFormat(
+													li.createdAt,
+													"mmm dd, yyyy | h:MM TT"
+												)}
 											</td>
 										</tr>
 									))}

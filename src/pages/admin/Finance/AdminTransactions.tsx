@@ -14,6 +14,8 @@ import {
 	DateSelect,
 	OptionProp,
 } from "../../../components/Filters/BasicInputs";
+import Filters from "../../../components/Filters";
+import { SummaryCard } from "../../../styles/dashboard.styles";
 
 const AdminTransactions = () => {
 	const { token } = useAppSelector((state) => state.auth);
@@ -51,42 +53,69 @@ const AdminTransactions = () => {
 		}
 	};
 
+	const clearFilters = () => {
+		setStartDate(
+			new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+		);
+		setEndDate(new Date(new Date().setDate(new Date().getDate() + 1)));
+		setSubType(null);
+	};
+
 	return (
 		<div>
 			<TitleCover title="Transactions" dataCount={list?.count} />
-			<FilterStyles>
-				<div className="row mt-3">
-					<div className="col-lg-2 col-md-4 col-6 mb-3">
-						<DateSelect
-							dateVal={startDate}
-							changeDateVal={setStartDate}
-							label="Start Date"
-						/>
-					</div>
-					<div className="col-lg-2 col-md-4 col-6 mb-3">
-						<DateSelect
-							dateVal={endDate}
-							changeDateVal={setEndDate}
-							label="End Date"
-						/>
-					</div>
-					<div className="col-lg-2 col-md-4 col-6 mb-3">
-						<BasicSelect
-							value={subType}
-							options={[
-								{ label: "topup", value: "topup" },
-								{
-									label: "subscription",
-									value: "subscription",
-								},
-							]}
-							label={"Subscription Type"}
-							changeSelected={setSubType}
-						/>
-					</div>
-				</div>
-			</FilterStyles>
+			<Filters
+				startDate={startDate}
+				changeStartDate={setStartDate}
+				endDate={endDate}
+				changeEndDate={setEndDate}
+				others={subType}
+				changeOthers={setSubType}
+				othersLabel="Subscription Type"
+				othersList={[
+					{ label: "topup", value: "topup" },
+					{
+						label: "subscription",
+						value: "subscription",
+					},
+				]}
+				clearValues={clearFilters}
+			/>
+			<div className="row align-items-center mt-4">
+				<div className="col-lg-6 mb-3">
+					<SummaryCard>
+						<div>
+							<h6>Total Credit:</h6>
+							<h6>
+								{formatCurrency(
+									list?.rows
+										?.filter((f: any) => f.mode === "in")
+										.reduce(
+											(a: any, b: any) =>
+												a + Number(b.amountPaid),
+											0
+										)
+								)}
+							</h6>
+						</div>
 
+						<div>
+							<h6>Total Debit:</h6>
+							<h6>
+								{formatCurrency(
+									list?.rows
+										?.filter((f: any) => f.mode === "out")
+										.reduce(
+											(a: any, b: any) =>
+												a + Number(b.amountPaid),
+											0
+										)
+								)}
+							</h6>
+						</div>
+					</SummaryCard>
+				</div>
+			</div>
 			<div className="mt-3">
 				<TableComponent>
 					<div className="table-responsive">
@@ -149,40 +178,6 @@ const AdminTransactions = () => {
 										</tr>
 									))}
 							</tbody>
-							{!load && (
-								<tfoot>
-									<th colSpan={3}></th>
-									<th>
-										{formatCurrency(
-											list?.rows
-												?.filter(
-													(f: any) => f.mode === "in"
-												)
-												.reduce(
-													(a: any, b: any) =>
-														a +
-														Number(b.amountPaid),
-													0
-												)
-										)}
-									</th>
-									<th>
-										{formatCurrency(
-											list?.rows
-												?.filter(
-													(f: any) => f.mode === "out"
-												)
-												.reduce(
-													(a: any, b: any) =>
-														a +
-														Number(b.amountPaid),
-													0
-												)
-										)}
-									</th>
-									<th></th>
-								</tfoot>
-							)}
 						</Table>
 					</div>
 					{load && <SkeletonTable />}

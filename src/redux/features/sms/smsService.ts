@@ -59,10 +59,11 @@ const allTransactions = async (
 	endDate: any,
 	channel: any,
 	limit: number,
-	page: number
+	page: number,
+	search: string
 ) => {
 	const { data } = await axios.get(
-		`${config.smsUrl}/wallet/all-transactions?startDate=${startDate}&endDate=${endDate}&channel=${channel}&limit=${limit}&page=${page}`,
+		`${config.smsUrl}/wallet/all-transactions?startDate=${startDate}&endDate=${endDate}&channel=${channel}&limit=${limit}&page=${page}&search=${search}`,
 		{
 			headers: { ...authHeader(token), UserId: id },
 		}
@@ -80,6 +81,21 @@ const getHistory = async (
 ) => {
 	const { data } = await axios.get(
 		`${config.smsUrl}/sms/all-sms-history?startDate=${startDate}&endDate=${endDate}&limit=${limit}&page=${page}`,
+		{
+			headers: { ...authHeader(token), UserId: id },
+		}
+	);
+	return data.data;
+};
+
+const getTransactionReport = async (
+	token: string,
+	id: number,
+	startDate: any,
+	endDate: any
+) => {
+	const { data } = await axios.get(
+		`${config.smsUrl}/wallet/all-transactions-report?startDate=${startDate}&endDate=${endDate}`,
 		{
 			headers: { ...authHeader(token), UserId: id },
 		}
@@ -139,6 +155,7 @@ const smsService = {
 	editSettings,
 	verifyTransaction,
 	smsGraph,
+	getTransactionReport,
 };
 
 export default smsService;
