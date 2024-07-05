@@ -31,14 +31,20 @@ const TopSMSWallet = ({
 						amount,
 					});
 				} else {
-					await smsService.topSmsWallets(token, details.id, {
-						amount,
-						id: type === "user" ? user.orgId : null,
-						all: type === "user" ? false : true,
-						name: type === "user" ? user.orgName : null,
-					});
+					if (user.isAdmin) {
+						await smsService.topAdminWallet(token, details.id, {
+							amount,
+							id: user.orgId,
+						});
+					} else {
+						await smsService.topSmsWallets(token, details.id, {
+							amount,
+							id: type === "user" ? user.orgId : null,
+							all: type === "user" ? false : true,
+							name: type === "user" ? user.orgName : null,
+						});
+					}
 				}
-
 				setLoad(false);
 				onSubmit();
 				displaySuccess("Wallet has been topped!");

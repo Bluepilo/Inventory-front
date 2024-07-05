@@ -125,6 +125,19 @@ const SmsWallets = () => {
 													<tr key={wallet.id}>
 														<td>
 															{wallet.orgName}
+															{wallet.isAdmin && (
+																<span
+																	style={{
+																		color: "blue",
+																		fontWeight:
+																			"600",
+																		paddingLeft:
+																			"5px",
+																	}}
+																>
+																	(App Admin)
+																</span>
+															)}
 														</td>
 														<td className="price">
 															₦

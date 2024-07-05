@@ -27,19 +27,23 @@ const DeletedList = ({ data, load }: { data: any; load: boolean }) => {
 									<td>{org.email}</td>
 									<td>{org.phone}</td>
 									<td>{org.deletedBy}</td>
-									<OverlayTrigger
-										placement="top"
-										overlay={
-											<Tooltip id={`button-${org.id}`}>
-												{org.comment}
-											</Tooltip>
-										}
-									>
-										<span>
-											{org.comment.substring(0, 20)}
-											...
-										</span>
-									</OverlayTrigger>
+									<td>
+										<OverlayTrigger
+											placement="top"
+											overlay={
+												<Tooltip
+													id={`button-${org.id}`}
+												>
+													{org.comment}
+												</Tooltip>
+											}
+										>
+											<span>
+												{org?.comment?.substring(0, 20)}
+												...
+											</span>
+										</OverlayTrigger>
+									</td>
 								</tr>
 							))}
 					</tbody>

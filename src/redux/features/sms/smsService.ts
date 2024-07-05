@@ -52,6 +52,17 @@ const topSmsWallets = async (token: string, id: number, obj: any) => {
 	return data.data;
 };
 
+const topAdminWallet = async (token: string, id: number, obj: any) => {
+	const { data } = await axios.post(
+		`${config.smsUrl}/wallet/top-admin-wallet`,
+		obj,
+		{
+			headers: { ...authHeader(token), UserId: id },
+		}
+	);
+	return data.data;
+};
+
 const allTransactions = async (
 	token: string,
 	id: number,
@@ -156,6 +167,7 @@ const smsService = {
 	verifyTransaction,
 	smsGraph,
 	getTransactionReport,
+	topAdminWallet,
 };
 
 export default smsService;
