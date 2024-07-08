@@ -60,11 +60,7 @@ const ReturnDetails = () => {
 			setLoad(false);
 			if (res) {
 				loadDetails();
-				toast.success(
-					`Product has been ${
-						action === "resolve" ? "resolved" : "restocked"
-					}`
-				);
+				toast.success(`Product has been collected and restocked!`);
 			}
 		} catch (err) {
 			setLoad(false);
@@ -276,7 +272,7 @@ const ReturnDetails = () => {
 													<p>Supplier Details</p>
 													<h4>
 														<Link
-															to={`/dashboard/suppliers/${logDetails.customerId}`}
+															to={`/dashboard/suppliers/${logDetails.supplierId}`}
 														>
 															{
 																logDetails
@@ -322,7 +318,7 @@ const ReturnDetails = () => {
 											}}
 										>
 											<p>
-												You can resolve or restock this
+												You can collect and restock this
 											</p>
 											<Flex>
 												<MainButton
@@ -331,9 +327,9 @@ const ReturnDetails = () => {
 														setAction("resolve");
 													}}
 												>
-													Resolve
+													Collect and Restock
 												</MainButton>
-												<MainButton
+												{/* <MainButton
 													style={{
 														marginLeft: "15px",
 													}}
@@ -344,7 +340,7 @@ const ReturnDetails = () => {
 													}}
 												>
 													Collect and Restock
-												</MainButton>
+												</MainButton> */}
 											</Flex>
 										</DetailCard>
 									</div>
@@ -357,14 +353,14 @@ const ReturnDetails = () => {
 			<ModalComponent
 				open={openComment}
 				close={() => setOpenComment(false)}
-				title={action}
+				title={"Collect and Restock"}
 			>
 				<CommentBox
 					submit={(comment) => {
 						setOpenComment(false);
 						resolveHandler(comment);
 					}}
-					btnName={action.toUpperCase()}
+					btnName={"Collect and Restock"}
 				/>
 			</ModalComponent>
 		</div>

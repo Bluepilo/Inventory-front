@@ -21,8 +21,8 @@ const DeletedList = ({ data, load }: { data: any; load: boolean }) => {
 						{!load &&
 							data?.map((org: any) => (
 								<tr key={org.id}>
-									<td className="link">
-										<Link to={`${org.id}`}>{org.name}</Link>
+									<td>
+										<span>{org.name}</span>
 									</td>
 									<td>{org.email}</td>
 									<td>{org.phone}</td>

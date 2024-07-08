@@ -24,10 +24,16 @@ const ThermalSale = ({ result }: { result: any }) => {
 					<div className="info">
 						<div className="row">
 							<div className="col-3 mb-2">
-								<b>Info:</b>
+								<b>Ref:</b>
 							</div>
 							<div className="col-9 mb-2">
 								<span>{result.uniqueRef}</span>
+							</div>
+							<div className="col-3 mb-2">
+								<b>Shop:</b>
+							</div>
+							<div className="col-9 mb-2">
+								<span>{result.shop?.name}</span>
 							</div>
 							<div className="col-3 mb-2">
 								<b>Date:</b>

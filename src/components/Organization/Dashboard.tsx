@@ -220,7 +220,7 @@ const Dashboard = () => {
 					close={(arg: string) => {
 						setOpenOrg(false);
 						if (arg === "close") {
-							navigate("close-account");
+							navigate("/dashboard/settings/close-account");
 						}
 					}}
 				/>

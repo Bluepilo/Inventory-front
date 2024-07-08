@@ -7,14 +7,19 @@ import AuthSlider from "../components/AuthSlider";
 import HintPage from "../components/HintPage";
 import OutsideClick from "../components/OutsideClick";
 import Logo from "../assets/images/logo.svg";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { getAllCountries } from "../redux/features/basic/basic-slice";
+import {
+	getAllCountries,
+	getCarousels,
+} from "../redux/features/basic/basic-slice";
 
 const AuthLayout = () => {
 	const navigate = useNavigate();
 
 	const dispatch = useAppDispatch();
+
+	const location = useLocation();
 
 	const [openHint, setOpenHint] = useState(false);
 
@@ -28,6 +33,7 @@ const AuthLayout = () => {
 
 	useEffect(() => {
 		dispatch(getAllCountries());
+		dispatch(getCarousels());
 	}, []);
 
 	const signIn = () => {
@@ -48,7 +54,7 @@ const AuthLayout = () => {
 			<Row>
 				<Col lg={7} className="d-lg-block d-none">
 					<SlideCover>
-						<AuthSlider />
+						<AuthSlider path={location.pathname} />
 					</SlideCover>
 				</Col>
 				<Col lg={5}>

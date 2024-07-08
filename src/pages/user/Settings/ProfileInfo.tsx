@@ -17,7 +17,7 @@ const ProfileInfo = () => {
 
 	return (
 		<div>
-			{haveRole(details.businessRoleId).isBusinessAdmin && (
+			{/* {haveRole(details.businessRoleId).isBusinessAdmin && (
 				<>
 					<h5>Organization Profile</h5>
 					<ProfileBox>
@@ -42,7 +42,7 @@ const ProfileInfo = () => {
 						</div>
 					</ProfileBox>
 				</>
-			)}
+			)} */}
 			<h5>Personal Information</h5>
 			<ProfileBox>
 				<div className="info">

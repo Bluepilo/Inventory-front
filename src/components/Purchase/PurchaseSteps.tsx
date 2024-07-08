@@ -77,6 +77,12 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 	}, [selectedProducts]);
 
 	useEffect(() => {
+		if (selectedShop?.value) {
+			getProducts();
+		}
+	}, [selectedShop]);
+
+	useEffect(() => {
 		if (discountPercent) {
 			let p = (Number(discountValue) / 100) * totalPrice;
 			setDiscountApplied(p);
@@ -97,7 +103,6 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 		setShopList(filter);
 		if (filter.length > 0) {
 			setSelectedShop(filter[0]);
-			getProducts();
 		}
 	};
 
@@ -108,9 +113,9 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 				setSelectedProducts([]);
 			}
 			setProductLoad(true);
-			let res = await productService.allProducts(
+			let res = await productService.getProductsInShop(
 				token,
-				"?all=true&type=product_only"
+				details?.shopId || selectedShop?.value
 			);
 			let arr = res?.rows;
 			if (Array.isArray(arr)) {

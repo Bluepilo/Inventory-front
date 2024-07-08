@@ -40,6 +40,18 @@ const TransferInfo = ({ transferDetails }: { transferDetails: any }) => {
 				</div>
 			</DetailCard>
 			<DetailCard>
+				<div className="head">
+					<div className="sale-info">
+						<div>
+							<span>
+								{dateFormat(
+									transferDetails.updatedAt,
+									"mmm dd, yyyy | h:MM TT"
+								)}
+							</span>
+						</div>
+					</div>
+				</div>
 				<div className="body">
 					<div className="row">
 						<span className="col-4 mb-2">Received By:</span>

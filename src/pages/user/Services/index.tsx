@@ -103,6 +103,25 @@ const Services = () => {
 		}
 	};
 
+	const addAll = (check: boolean) => {
+		setShowBtn(true);
+		if (check) {
+			setProductListShop(
+				productList?.map((p: any) => {
+					return p.id;
+				})
+			);
+			setRemoved([]);
+		} else {
+			setRemoved(
+				productList?.map((p: any) => {
+					return p.id;
+				})
+			);
+			setProductListShop([]);
+		}
+	};
+
 	const updateHandler = async () => {
 		try {
 			setProductLoad(true);
@@ -180,7 +199,12 @@ const Services = () => {
 											<th>Service</th>
 											<th className="price">Amount</th>
 											<th>
-												<input type="checkbox" />
+												<input
+													type="checkbox"
+													onChange={(e) =>
+														addAll(e.target.checked)
+													}
+												/>
 											</th>
 										</tr>
 									</thead>

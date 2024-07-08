@@ -1,6 +1,6 @@
 import axios from "axios";
 import config from "../../../utils/config";
-import { authHeader } from "../../../utils/headers";
+import { authHeader, headers } from "../../../utils/headers";
 
 const dashboardStats = async (filter: string, token: string) => {
 	const { data } = await axios.get(
@@ -66,7 +66,7 @@ const listTransactions = async (filter: string, token: string) => {
 };
 
 const createFaq = async (obj: any, token: string) => {
-	const { data } = await axios.post(`${config.baseUrl}/faq/add`, obj, {
+	const { data } = await axios.post(`${config.baseUrl}/admin/faq`, obj, {
 		headers: authHeader(token),
 	});
 	return data.data;
@@ -74,7 +74,7 @@ const createFaq = async (obj: any, token: string) => {
 
 const updateFaq = async (obj: any, token: string, id: string) => {
 	const { data } = await axios.post(
-		`${config.baseUrl}/faq/update/${id}`,
+		`${config.baseUrl}/admin/faq/${id}`,
 		obj,
 		{
 			headers: authHeader(token),
@@ -84,7 +84,7 @@ const updateFaq = async (obj: any, token: string, id: string) => {
 };
 
 const deleteFaq = async (token: string, id: string) => {
-	const { data } = await axios.delete(`${config.baseUrl}/faq/delete/${id}`, {
+	const { data } = await axios.delete(`${config.baseUrl}/admin/faq/${id}`, {
 		headers: authHeader(token),
 	});
 	return data.data;
@@ -161,6 +161,41 @@ const getPlans = async (token: string) => {
 	return data.data;
 };
 
+const allCarousels = async (token: string) => {
+	const { data } = await axios.get(`${config.baseUrl}/admin/carousel`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const createCarousel = async (token: string, obj: any) => {
+	const { data } = await axios.post(`${config.baseUrl}/admin/carousel`, obj, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const editCarousel = async (token: string, id: number, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/admin/carousel/${id}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const deleteCarousel = async (token: string, id: number) => {
+	const { data } = await axios.delete(
+		`${config.baseUrl}/admin/carousel/${id}`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const adminService = {
 	dashboardStats,
 	listOrganization,
@@ -179,6 +214,10 @@ const adminService = {
 	subscribeOrg,
 	deleteOrg,
 	getPlans,
+	allCarousels,
+	createCarousel,
+	editCarousel,
+	deleteCarousel,
 };
 
 export default adminService;

@@ -31,7 +31,7 @@ const HeaderDropDown = ({
 	let smsUrl = `${
 		window.location.host.startsWith("app.bluepilo")
 			? "https://sms.bluepilo.com"
-			: "https://dev-sms.bluepilo.com"
+			: "https://test-sms.bluepilo.com"
 	}?token=${ciphertext}`;
 
 	return (

@@ -394,7 +394,7 @@ const setNotification = async (token: string, obj: any) => {
 };
 
 const loadFaqs = async (token: string) => {
-	const { data } = await axios.get(`${config.baseUrl}/faq/all`, {
+	const { data } = await axios.get(`${config.baseUrl}/admin/faq`, {
 		headers: authHeader(token),
 	});
 	return data.data;
@@ -436,6 +436,13 @@ const updateUser = async (token: string, obj: any, id: number) => {
 const deleteUser = async (token: string, id: string) => {
 	const { data } = await axios.delete(`${config.baseUrl}/user/delete/${id}`, {
 		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const allCarousels = async () => {
+	const { data } = await axios.get(`${config.baseUrl}/other/carousels`, {
+		headers: authHeader("h"),
 	});
 	return data.data;
 };
@@ -486,6 +493,7 @@ const basicService = {
 	updateUser,
 	businessDetails,
 	deleteUser,
+	allCarousels,
 };
 
 export default basicService;
