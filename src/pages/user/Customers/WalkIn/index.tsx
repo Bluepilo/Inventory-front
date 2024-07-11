@@ -23,6 +23,17 @@ const WalkIn = () => {
 	const [summary, setSummary] = useState<any>({});
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(20);
+	const [sortConfig, setSortConfig] = useState({
+		keys: [
+			"createdAt",
+			"updatedAt",
+			"fullName",
+			"phoneNo",
+			"balance",
+			"isActive",
+		],
+		direction: "asc",
+	});
 
 	const debouncedSearch = UseDebounce(search);
 
@@ -77,6 +88,35 @@ const WalkIn = () => {
 		} catch (err) {}
 	};
 
+	const handleSort = (key: string) => {
+		let direction = "asc";
+
+		if (sortConfig.keys.includes(key) && sortConfig.direction === "asc") {
+			direction = "desc";
+		}
+
+		const sortedCustomers = [...lists.rows].sort((a, b) => {
+			let comparison = 0;
+
+			if (key === "balance") {
+				const balanceA = parseFloat(a.balance) || 0;
+				const balanceB = parseFloat(b.balance) || 0;
+				comparison = balanceA - balanceB;
+			} else {
+				const valueA = String(a[key] || "");
+				const valueB = String(b[key] || "");
+				comparison = valueA.localeCompare(valueB, "en", {
+					sensitivity: "base",
+				});
+			}
+
+			return direction === "asc" ? comparison : -comparison;
+		});
+
+		setSortConfig({ keys: [key], direction });
+		setList({ ...lists, rows: sortedCustomers });
+	};
+
 	return (
 		<div>
 			<TitleCover title="Walk-in Customers" dataCount={lists?.count} />
@@ -124,12 +164,95 @@ const WalkIn = () => {
 							<Table className="table">
 								<thead>
 									<tr>
-										<th>Last Transaction</th>
-										<th>First Transaction</th>
-										<th>Customer Name</th>
-										<th>Phone</th>
-										<th className="price">
-											Wallet Balance
+										<th
+											className="point"
+											onClick={() =>
+												handleSort("updatedAt")
+											}
+										>
+											Last Transaction{" "}
+											{sortConfig.keys.includes(
+												"updatedAt"
+											) && (
+												<span>
+													{sortConfig.direction ===
+													"asc"
+														? "▲"
+														: "▼"}
+												</span>
+											)}
+										</th>
+										<th
+											className="point"
+											onClick={() =>
+												handleSort("createdAt")
+											}
+										>
+											First Transaction{" "}
+											{sortConfig.keys.includes(
+												"createdAt"
+											) && (
+												<span>
+													{sortConfig.direction ===
+													"asc"
+														? "▲"
+														: "▼"}
+												</span>
+											)}
+										</th>
+										<th
+											className="point"
+											onClick={() =>
+												handleSort("fullName")
+											}
+										>
+											Customer Name{" "}
+											{sortConfig.keys.includes(
+												"fullName"
+											) && (
+												<span>
+													{sortConfig.direction ===
+													"asc"
+														? "▲"
+														: "▼"}
+												</span>
+											)}
+										</th>
+										<th
+											className="point"
+											onClick={() =>
+												handleSort("phoneNo")
+											}
+										>
+											Phone{" "}
+											{sortConfig.keys.includes(
+												"phoneNo"
+											) && (
+												<span>
+													{sortConfig.direction ===
+													"asc"
+														? "▲"
+														: "▼"}
+												</span>
+											)}
+										</th>
+										<th
+											className="price point"
+											onClick={() =>
+												handleSort("balance")
+											}
+										>
+											Wallet Balance{" "}
+											{sortConfig.keys.includes(
+												"balance"
+											) && (
+												<span>
+													{sortConfig.direction ===
+													"asc"
+														? "▲"
+														: "▼"}
+												</span>
+											)}
 										</th>
 										<th>Status</th>
 									</tr>

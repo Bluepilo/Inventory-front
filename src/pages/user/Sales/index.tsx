@@ -44,7 +44,10 @@ const Sales = () => {
 
 	const [load, setLoad] = useState(false);
 	const [lists, setList] = useState<any>({});
-	const [summary, setSummary] = useState<any>({});
+	const [dateType, setDateType] = useState({
+		label: "This Month",
+		value: "month",
+	});
 
 	const debouncedSearch = UseDebounce(search);
 
@@ -66,7 +69,6 @@ const Sales = () => {
 		} else {
 			getSales();
 		}
-		getSummary();
 	}, [filters, debouncedSearch]);
 
 	const getSales = async () => {
@@ -78,13 +80,6 @@ const Sales = () => {
 		} catch (err) {
 			setLoad(false);
 		}
-	};
-
-	const getSummary = async () => {
-		try {
-			let res = await salesService.getSalesSummary(token, filters);
-			setSummary(res);
-		} catch (err) {}
 	};
 
 	const searchSales = async () => {
@@ -110,6 +105,7 @@ const Sales = () => {
 		setStaffId(null);
 		setCustomerType(null);
 		setShopId(null);
+		setDateType({ label: "This Month", value: "month" });
 	};
 
 	return details.business.onboardingSteps?.sales === "completed" ? (
@@ -141,6 +137,8 @@ const Sales = () => {
 					searchVal={search}
 					changeSearchVal={setSearch}
 					clearValues={clearFilters}
+					dateType={dateType}
+					changeDateType={setDateType}
 				/>
 				<div className="row align-items-center mt-4">
 					<div className="col-lg-7 mb-3">

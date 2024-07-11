@@ -32,6 +32,10 @@ const AdminTransactions = () => {
 	);
 	const [status, setStatus] = useState<OptionProp | null>(null);
 	const [subType, setSubType] = useState<OptionProp | null>(null);
+	const [dateType, setDateType] = useState({
+		label: "This Month",
+		value: "month",
+	});
 
 	let filters = `?page=${page}&limit=${limit}&transactionType=${
 		subType?.value || ""
@@ -59,6 +63,7 @@ const AdminTransactions = () => {
 		);
 		setEndDate(new Date(new Date().setDate(new Date().getDate() + 1)));
 		setSubType(null);
+		setDateType({ label: "This Month", value: "month" });
 	};
 
 	return (
@@ -80,6 +85,8 @@ const AdminTransactions = () => {
 					},
 				]}
 				clearValues={clearFilters}
+				dateType={dateType}
+				changeDateType={setDateType}
 			/>
 			<div className="row align-items-center mt-4">
 				<div className="col-lg-6 mb-3">

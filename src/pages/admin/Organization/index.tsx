@@ -20,6 +20,7 @@ import subscriptionService from "../../../redux/features/subscription/subscripti
 import { Link } from "react-router-dom";
 import { UseDebounce } from "../../../utils/hooks";
 import DeletedList from "../../../components/Organization/DeletedList";
+import Filters from "../../../components/Filters";
 
 const Organization = () => {
 	const [load, setLoad] = useState(false);
@@ -37,6 +38,10 @@ const Organization = () => {
 	);
 	const [subTypes, setSubTypes] = useState<OptionProp[]>([]);
 	const [subTypeId, setSubTypeId] = useState<OptionProp | null>(null);
+	const [dateType, setDateType] = useState({
+		label: "This Month",
+		value: "month",
+	});
 
 	const debouncedSearch = UseDebounce(search);
 
@@ -104,6 +109,14 @@ const Organization = () => {
 		}
 	};
 
+	const clearFilters = () => {
+		setStartDate(
+			new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+		);
+		setEndDate(new Date(new Date().setDate(new Date().getDate() + 1)));
+		setDateType({ label: "This Month", value: "month" });
+	};
+
 	return (
 		<div>
 			<TitleCover title="Organizations" dataCount={list?.count} />
@@ -121,40 +134,23 @@ const Organization = () => {
 					Deleted Accounts
 				</div>
 			</SwitchDiv>
-			<FilterStyles>
-				<div className="row mt-3">
-					<div className="col-md-4 mb-3">
-						<BasicSearch
-							searchVal={search}
-							changeSearchVal={setSearch}
-							wide="true"
-							placeholder="Search by name, address or phone"
-						/>
-					</div>
-					<div className="col-lg-2 col-md-4 col-6 mb-3">
-						<DateSelect
-							dateVal={startDate}
-							changeDateVal={setStartDate}
-							label="Start Date"
-						/>
-					</div>
-					<div className="col-lg-2 col-md-4 col-6 mb-3">
-						<DateSelect
-							dateVal={endDate}
-							changeDateVal={setEndDate}
-							label="End Date"
-						/>
-					</div>
-					<div className="col-lg-2 col-md-4 col-6 mb-3">
-						<BasicSelect
-							value={subTypeId}
-							options={subTypes}
-							label={"Subscription Type"}
-							changeSelected={setSubTypeId}
-						/>
-					</div>
-				</div>
-			</FilterStyles>
+			<Filters
+				searchVal={search}
+				isSearchable={true}
+				changeSearchVal={setSearch}
+				startDate={startDate}
+				changeStartDate={setStartDate}
+				endDate={endDate}
+				changeEndDate={setEndDate}
+				clearValues={clearFilters}
+				others={subTypeId}
+				changeOthers={setSubTypeId}
+				othersLabel="Subscription Type"
+				othersList={subTypes}
+				dateType={dateType}
+				changeDateType={setDateType}
+				placeholder="Search by name, address or phone"
+			/>
 
 			<div className="mt-3">
 				{isLive ? (

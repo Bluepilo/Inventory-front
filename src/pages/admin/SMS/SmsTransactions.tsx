@@ -39,6 +39,10 @@ const SmsTransactions = () => {
 	const [limit, setLimit] = useState(20);
 	const [search, setSearch] = useState("");
 	const [report, setReport] = useState<any>({});
+	const [dateType, setDateType] = useState({
+		label: "This Month",
+		value: "month",
+	});
 
 	const debouncedSearch = UseDebounce(search);
 
@@ -74,6 +78,7 @@ const SmsTransactions = () => {
 		);
 		setEndDate(new Date(new Date().setDate(new Date().getDate() + 1)));
 		setChannelTypeId(null);
+		setDateType({ label: "This Month", value: "month" });
 	};
 
 	const getReport = async () => {
@@ -122,6 +127,8 @@ const SmsTransactions = () => {
 				changeOthers={setChannelTypeId}
 				othersLabel="Channel"
 				othersList={channelTypes}
+				dateType={dateType}
+				changeDateType={setDateType}
 			/>
 			<div className="row align-items-center mt-4">
 				<div className="col-lg-6 mb-3">

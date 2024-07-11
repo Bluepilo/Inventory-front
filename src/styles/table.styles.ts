@@ -21,6 +21,9 @@ export const Table = styled.table`
 		&.price {
 			text-align: right;
 		}
+		&.point {
+			cursor: pointer;
+		}
 	}
 
 	td {

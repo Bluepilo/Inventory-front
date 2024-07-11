@@ -40,6 +40,10 @@ const Transactions = () => {
 	const [openConfirmation, setOpenConfirmation] = useState(false);
 	const [openDrawer, setOpenDrawer] = useState(false);
 	const [details, setDetails] = useState<any>(null);
+	const [dateType, setDateType] = useState({
+		label: "This Month",
+		value: "month",
+	});
 
 	let filters = `?page-${page}&limit=${limit}&startDate=${startDate}&endDate=${endDate}&type=${
 		isCustomer ? "customer" : "supplier"
@@ -63,6 +67,7 @@ const Transactions = () => {
 		setMethodId(null);
 		setTransactionId(null);
 		setShopId(null);
+		setDateType({ label: "This Month", value: "month" });
 	};
 
 	const getTransactions = async () => {
@@ -131,6 +136,8 @@ const Transactions = () => {
 					},
 					{ label: "Payment", value: "payment" },
 				]}
+				dateType={dateType}
+				changeDateType={setDateType}
 			/>
 
 			<SummaryInfo

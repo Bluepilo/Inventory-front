@@ -44,6 +44,10 @@ const Purchases = () => {
 	const [summary, setSummary] = useState<any>({});
 	const [load, setLoad] = useState(false);
 	const [incomplete, setIncomplete] = useState(false);
+	const [dateType, setDateType] = useState({
+		label: "This Month",
+		value: "month",
+	});
 
 	const debouncedSearch = UseDebounce(search);
 
@@ -75,6 +79,7 @@ const Purchases = () => {
 		setEndDate(new Date(new Date().setDate(new Date().getDate() + 1)));
 		setStaffId(null);
 		setShopId(null);
+		setDateType({ label: "This Month", value: "month" });
 	};
 
 	const getPurchases = async () => {
@@ -154,6 +159,8 @@ const Purchases = () => {
 					searchVal={search}
 					changeSearchVal={setSearch}
 					clearValues={clearFilters}
+					dateType={dateType}
+					changeDateType={setDateType}
 				/>
 				<div className="row align-items-center mt-4">
 					<div className="col-lg-7 mb-3">

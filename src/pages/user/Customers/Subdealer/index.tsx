@@ -38,6 +38,10 @@ const Subdealer = () => {
 	const [limit, setLimit] = useState(20);
 	const [openConfirmation, setOpenConfirmation] = useState(false);
 	const [ids, setIds] = useState<any>({});
+	const [sortConfig, setSortConfig] = useState({
+		keys: ["updatedAt", "name", "balance", "creditLimit"],
+		direction: "asc",
+	});
 
 	const debouncedSearch = UseDebounce(search);
 
@@ -124,6 +128,49 @@ const Subdealer = () => {
 		}
 	};
 
+	const handleSort = (key: string) => {
+		let direction = "asc";
+
+		if (sortConfig.keys.includes(key) && sortConfig.direction === "asc") {
+			direction = "desc";
+		}
+
+		const keys = [key, ...sortConfig.keys.filter((k) => k !== key)];
+
+		const sortedCustomers = [...lists.rows].sort((a, b) => {
+			let comparison = 0;
+
+			for (let i = 0; i < keys.length; i++) {
+				const sortKey = keys[i];
+
+				if (sortKey === "balance" || sortKey === "creditLimit") {
+					const valueA = parseFloat(a[sortKey]) || 0;
+					const valueB = parseFloat(b[sortKey]) || 0;
+					comparison = valueA - valueB;
+				} else {
+					const valueA = String(a[sortKey] || "");
+					const valueB = String(b[sortKey] || "");
+					comparison = valueA.localeCompare(valueB, "en", {
+						sensitivity: "base",
+					});
+				}
+
+				if (comparison !== 0) {
+					break;
+				}
+			}
+
+			return comparison;
+		});
+
+		if (direction === "desc") {
+			sortedCustomers.reverse();
+		}
+
+		setSortConfig({ keys: [key], direction });
+		setLists({ ...lists, rows: sortedCustomers });
+	};
+
 	return (
 		<>
 			{details.business.onboardingSteps?.subdealer === "completed" ? (
@@ -186,14 +233,117 @@ const Subdealer = () => {
 									<Table className="table">
 										<thead>
 											<tr>
-												<th>Last Transaction</th>
-												<th>Customer</th>
-												<th>Phone</th>
-												<th className="price">
-													Wallet Balance
+												<th
+													className="point"
+													onClick={() =>
+														handleSort("updatedAt")
+													}
+												>
+													Last Transaction{" "}
+													{sortConfig.keys.includes(
+														"updatedAt"
+													) && (
+														<span
+															style={{
+																cursor: "pointer",
+															}}
+														>
+															{sortConfig.direction ===
+															"asc"
+																? "▲"
+																: "▼"}
+														</span>
+													)}
 												</th>
-												<th className="price">
-													Credit Limit
+												<th
+													className="point"
+													onClick={() =>
+														handleSort("fullName")
+													}
+												>
+													Customer{" "}
+													{sortConfig.keys.includes(
+														"fullName"
+													) && (
+														<span
+															style={{
+																cursor: "pointer",
+															}}
+														>
+															{sortConfig.direction ===
+															"asc"
+																? "▲"
+																: "▼"}
+														</span>
+													)}
+												</th>
+												<th
+													className="point"
+													onClick={() =>
+														handleSort("phoneNo")
+													}
+												>
+													Phone{" "}
+													{sortConfig.keys.includes(
+														"phoneNo"
+													) && (
+														<span
+															style={{
+																cursor: "pointer",
+															}}
+														>
+															{sortConfig.direction ===
+															"asc"
+																? "▲"
+																: "▼"}
+														</span>
+													)}
+												</th>
+												<th
+													className="price point"
+													onClick={() =>
+														handleSort("balance")
+													}
+												>
+													Wallet Balance{" "}
+													{sortConfig.keys.includes(
+														"balance"
+													) && (
+														<span
+															style={{
+																cursor: "pointer",
+															}}
+														>
+															{sortConfig.direction ===
+															"asc"
+																? "▲"
+																: "▼"}
+														</span>
+													)}
+												</th>
+												<th
+													className="price point"
+													onClick={() =>
+														handleSort(
+															"creditLimit"
+														)
+													}
+												>
+													Credit Limit{" "}
+													{sortConfig.keys.includes(
+														"creditLimit"
+													) && (
+														<span
+															style={{
+																cursor: "pointer",
+															}}
+														>
+															{sortConfig.direction ===
+															"asc"
+																? "▲"
+																: "▼"}
+														</span>
+													)}
 												</th>
 												<th>Status</th>
 												<th>Actions</th>

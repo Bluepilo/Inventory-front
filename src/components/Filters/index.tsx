@@ -7,8 +7,11 @@ import {
 	OptionProp,
 } from "./BasicInputs";
 import { FaTimes } from "react-icons/fa";
+import DateFilter from "./DateFilter";
 
 interface Props {
+	dateType?: any;
+	changeDateType?: (arg: any) => void;
 	startDate?: any;
 	changeStartDate?: (arg: any) => void;
 	endDate?: any;
@@ -43,6 +46,8 @@ interface Props {
 }
 
 const Filters = ({
+	dateType,
+	changeDateType,
 	startDate,
 	changeStartDate,
 	endDate,
@@ -93,24 +98,17 @@ const Filters = ({
 						/>
 					</div>
 				)}
-				{startDate && changeStartDate && (
-					<div className="col-lg-2 col-md-4 col-6 mb-3">
-						<DateSelect
-							dateVal={startDate}
-							changeDateVal={changeStartDate}
-							label="Start Date"
-						/>
-					</div>
+				{changeEndDate && changeStartDate && changeDateType && (
+					<DateFilter
+						startDate={startDate}
+						setStartDate={changeStartDate}
+						endDate={endDate}
+						setEndDate={changeEndDate}
+						dateType={dateType}
+						setDateType={changeDateType}
+					/>
 				)}
-				{endDate && changeEndDate && (
-					<div className="col-lg-2 col-md-4 col-6 mb-3">
-						<DateSelect
-							dateVal={endDate}
-							changeDateVal={changeEndDate}
-							label="End Date"
-						/>
-					</div>
-				)}
+
 				{changeShopId && !details.shopId && (
 					<div className="col-lg-2 col-md-4 col-6 mb-3">
 						<BasicSelect
