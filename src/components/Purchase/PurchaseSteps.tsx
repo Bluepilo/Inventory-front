@@ -80,7 +80,7 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 		if (selectedShop?.value) {
 			getProducts();
 		}
-	}, [selectedShop]);
+	}, [selectedShop?.value]);
 
 	useEffect(() => {
 		if (discountPercent) {
@@ -113,10 +113,7 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 				setSelectedProducts([]);
 			}
 			setProductLoad(true);
-			let res = await productService.getProductsInShop(
-				token,
-				details?.shopId || selectedShop?.value
-			);
+			let res = await productService.allProducts(token, "?all=true");
 			let arr = res?.rows;
 			if (Array.isArray(arr)) {
 				let resVal = arr.map((a: any) => {
