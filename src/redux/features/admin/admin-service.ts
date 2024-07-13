@@ -211,6 +211,13 @@ const actionOrganization = async (
 	return data.data;
 };
 
+const loadFaqs = async (token: string) => {
+	const { data } = await axios.get(`${config.baseUrl}/admin/faq`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
 const adminService = {
 	dashboardStats,
 	listOrganization,
@@ -234,6 +241,7 @@ const adminService = {
 	editCarousel,
 	deleteCarousel,
 	actionOrganization,
+	loadFaqs,
 };
 
 export default adminService;

@@ -394,7 +394,7 @@ const setNotification = async (token: string, obj: any) => {
 };
 
 const loadFaqs = async (token: string) => {
-	const { data } = await axios.get(`${config.baseUrl}/admin/faq`, {
+	const { data } = await axios.get(`${config.baseUrl}/other/faq`, {
 		headers: authHeader(token),
 	});
 	return data.data;

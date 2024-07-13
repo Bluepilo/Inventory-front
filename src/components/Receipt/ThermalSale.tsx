@@ -92,12 +92,15 @@ const ThermalSale = ({ result }: { result: any }) => {
 					<div className="total">
 						<div className="row">
 							<div className="col-3 mb-2">
-								<b>Sub Total:</b>
+								<b>Total Sales:</b>
 							</div>
 							<div className="col-9 mb-2">
 								<span>
 									{currency}{" "}
-									{formatCurrency(result.amountExpected)}
+									{formatCurrency(
+										Number(result.amountExpected) +
+											Number(result.discount)
+									)}
 								</span>
 							</div>
 							<div className="col-3 mb-2">
@@ -109,21 +112,22 @@ const ThermalSale = ({ result }: { result: any }) => {
 								</span>
 							</div>
 							<div className="col-3 mb-2">
+								<b>Sub Total:</b>
+							</div>
+							<div className="col-9 mb-2">
+								<span>
+									{currency}{" "}
+									{formatCurrency(result.amountExpected)}
+								</span>
+							</div>
+
+							<div className="col-3 mb-2">
 								<b>Amount Paid:</b>
 							</div>
 							<div className="col-9 mb-2">
 								<span>
 									{currency}{" "}
-									{formatCurrency(result.amountPaid)}
-								</span>
-							</div>
-							<div className="col-3 mb-2">
-								<b>Deficit:</b>
-							</div>
-							<div className="col-9 mb-2">
-								<span>
-									{currency}{" "}
-									{formatCurrency(result.sales?.deficit)}
+									{formatCurrency(result.actualAmountPaid)}
 								</span>
 							</div>
 							<div className="col-3 mb-2">
@@ -132,10 +136,12 @@ const ThermalSale = ({ result }: { result: any }) => {
 							<div className="col-9 mb-2">
 								<span>
 									{currency}{" "}
-									{formatCurrency(
-										result.sales?.transactions[0]
-											?.balanceAfter
-									)}
+									{result.transactions?.length > 0
+										? formatCurrency(
+												result.transactions[0]
+													.balanceAfter
+										  )
+										: "--"}
 								</span>
 							</div>
 						</div>

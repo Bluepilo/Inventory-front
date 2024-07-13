@@ -26,7 +26,7 @@ const Resource = () => {
 	const loadFaqs = async () => {
 		try {
 			setLoad(true);
-			let res = await basicService.loadFaqs(token);
+			let res = await adminService.loadFaqs(token);
 			setLoad(false);
 			setFaqs(Array.isArray(res) ? res : []);
 		} catch (err) {
