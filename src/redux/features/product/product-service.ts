@@ -270,6 +270,27 @@ const adjustStock = async (token: string, obj: any) => {
 	return data.data;
 };
 
+const addProductCategory = async (token: string, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/product/add-category`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const deleteProductCategory = async (token: string, id: number) => {
+	const { data } = await axios.delete(
+		`${config.baseUrl}/product/delete-category/${id}`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const productService = {
 	getProductsInShop,
 	allProducts,
@@ -299,6 +320,8 @@ const productService = {
 	logDetails,
 	resolveReturn,
 	adjustStock,
+	addProductCategory,
+	deleteProductCategory,
 };
 
 export default productService;

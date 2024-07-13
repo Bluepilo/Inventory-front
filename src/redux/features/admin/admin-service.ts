@@ -196,6 +196,21 @@ const deleteCarousel = async (token: string, id: number) => {
 	return data.data;
 };
 
+const actionOrganization = async (
+	token: string,
+	id: number,
+	action: string
+) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/organization/${action}/${id}`,
+		{},
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const adminService = {
 	dashboardStats,
 	listOrganization,
@@ -218,6 +233,7 @@ const adminService = {
 	createCarousel,
 	editCarousel,
 	deleteCarousel,
+	actionOrganization,
 };
 
 export default adminService;

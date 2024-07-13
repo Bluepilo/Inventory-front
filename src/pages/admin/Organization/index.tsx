@@ -10,17 +10,19 @@ import dateFormat from "dateformat";
 import Paginate from "../../../components/Paginate";
 import { SwitchDiv } from "../../../styles/basic.styles";
 import {
-	BasicSearch,
 	BasicSelect,
-	DateSelect,
 	OptionProp,
 } from "../../../components/Filters/BasicInputs";
-import { FilterStyles } from "../../../styles/filters.styles";
+import SuccessIcon from "../../../assets/icons/success.svg";
+import FailedIcon from "../../../assets/icons/failed.svg";
 import subscriptionService from "../../../redux/features/subscription/subscriptionService";
 import { Link } from "react-router-dom";
 import { UseDebounce } from "../../../utils/hooks";
 import DeletedList from "../../../components/Organization/DeletedList";
 import Filters from "../../../components/Filters";
+import { MainButton } from "../../../styles/links.styles";
+import { displayError, displaySuccess } from "../../../utils/errors";
+import { CheckBoxPrint } from "../../../styles/dashboard.styles";
 
 const Organization = () => {
 	const [load, setLoad] = useState(false);
@@ -42,10 +44,21 @@ const Organization = () => {
 		label: "This Month",
 		value: "month",
 	});
+	const [typeList, setTypeList] = useState<OptionProp[]>([
+		{ value: "", label: "All" },
+		{ value: "true", label: "Active" },
+		{ value: "false", label: "Inactive" },
+	]);
+	const [typeId, setTypeId] = useState<OptionProp | null>({
+		value: "",
+		label: "All",
+	});
 
 	const debouncedSearch = UseDebounce(search);
 
-	let filters = `?page=${page}&limit=${limit}&startDate=${startDate}&endDate=${endDate}&searchWord=${debouncedSearch}&planId=${
+	let filters = `?page=${page}&limit=${limit}&startDate=${startDate}&isActive=${
+		typeId?.value
+	}&&endDate=${endDate}&searchWord=${debouncedSearch}&planId=${
 		subTypeId?.value || ""
 	}`;
 
@@ -117,6 +130,32 @@ const Organization = () => {
 		setDateType({ label: "This Month", value: "month" });
 	};
 
+	const actionHandler = async (user: any, active: boolean) => {
+		if (
+			window.confirm(
+				`Are you sure you want to ${
+					active ? "Deactivate" : "Activate"
+				} ${user.name}`
+			)
+		) {
+			try {
+				setLoad(true);
+				await adminService.actionOrganization(
+					token,
+					user.id,
+					active ? "deactivate" : "activate"
+				);
+				listOrgnaizations();
+				displaySuccess(
+					`${user.name} ${active ? "Deactivated" : "Activated"}`
+				);
+			} catch (err) {
+				setLoad(false);
+				displayError(err, true);
+			}
+		}
+	};
+
 	return (
 		<div>
 			<TitleCover title="Organizations" dataCount={list?.count} />
@@ -150,8 +189,20 @@ const Organization = () => {
 				dateType={dateType}
 				changeDateType={setDateType}
 				placeholder="Search by name, address or phone"
-			/>
-
+			>
+				{isLive ? (
+					<div className="col-lg-2 col-md-4 col-6 mb-3">
+						<BasicSelect
+							value={typeId}
+							options={typeList}
+							label="Type"
+							changeSelected={setTypeId}
+						/>
+					</div>
+				) : (
+					<></>
+				)}
+			</Filters>
 			<div className="mt-3">
 				{isLive ? (
 					<TableComponent>
@@ -167,6 +218,8 @@ const Organization = () => {
 										<th>Active Subscription</th>
 										<th>Expiry Date</th>
 										<th>Date Registered</th>
+										<th>Status</th>
+										<th></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -228,6 +281,35 @@ const Organization = () => {
 														org.createdAt,
 														"mmm dd, yyyy"
 													)}
+												</td>
+												<td>
+													<img
+														src={
+															org.isActive
+																? SuccessIcon
+																: FailedIcon
+														}
+													/>
+												</td>
+												<td className="link">
+													<MainButton
+														sm="true"
+														bg={
+															org.isActive
+																? "red"
+																: ""
+														}
+														onClick={() =>
+															actionHandler(
+																org,
+																org.isActive
+															)
+														}
+													>
+														{org.isActive
+															? "Deactivate"
+															: "Activate"}
+													</MainButton>
 												</td>
 											</tr>
 										))}

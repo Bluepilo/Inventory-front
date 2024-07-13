@@ -43,6 +43,7 @@ interface Props {
 	logType?: any;
 	changeLogType?: (arg: any) => void;
 	placeholder?: string;
+	children?: React.ReactNode;
 }
 
 const Filters = ({
@@ -79,6 +80,7 @@ const Filters = ({
 	changeLogType,
 	othersLabel,
 	placeholder,
+	children,
 }: Props) => {
 	const { details } = useAppSelector((state) => state.auth);
 
@@ -215,6 +217,7 @@ const Filters = ({
 						/>
 					</div>
 				)}
+				{children}
 				{clearValues && (
 					<div className="col-lg-1 col-6">
 						<ButtonCancelDiv>

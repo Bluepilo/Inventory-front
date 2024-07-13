@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TitleCover from "../../../components/TitleCover";
 import { SwitchDiv } from "../../../styles/basic.styles";
 import ProfileInfo from "./ProfileInfo";

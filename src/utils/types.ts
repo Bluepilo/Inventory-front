@@ -28,6 +28,7 @@ interface UserDetailsType {
 		isAdmin: boolean;
 	};
 	businessRoleId: number;
+	referralCode: string;
 	shopId: number;
 	business: {
 		name: string;

@@ -7,14 +7,22 @@ import AuthSlider from "../components/AuthSlider";
 import HintPage from "../components/HintPage";
 import OutsideClick from "../components/OutsideClick";
 import Logo from "../assets/images/logo.svg";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import {
+	Outlet,
+	useLocation,
+	useNavigate,
+	useSearchParams,
+} from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import {
 	getAllCountries,
 	getCarousels,
 } from "../redux/features/basic/basic-slice";
+import { saveReferralCode } from "../redux/features/auth/auth-slice";
 
 const AuthLayout = () => {
+	const [search] = useSearchParams();
+
 	const navigate = useNavigate();
 
 	const dispatch = useAppDispatch();
@@ -34,6 +42,7 @@ const AuthLayout = () => {
 	useEffect(() => {
 		dispatch(getAllCountries());
 		dispatch(getCarousels());
+		checkReferralCode();
 	}, []);
 
 	const signIn = () => {
@@ -46,6 +55,13 @@ const AuthLayout = () => {
 			navigate("/dashboard");
 		} else {
 			navigate("/add-business");
+		}
+	};
+
+	const checkReferralCode = () => {
+		let params = search.get("code");
+		if (params) {
+			dispatch(saveReferralCode(params));
 		}
 	};
 

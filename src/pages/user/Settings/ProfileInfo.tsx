@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { ProfileBox } from "../../../styles/profile.styles";
+import { ProfileBox, ReferralBox } from "../../../styles/profile.styles";
 import { useAppSelector } from "../../../redux/hooks";
 import ModalComponent from "../../../components/ModalComponent";
 import OrganizationProfile from "../../../components/Settings/OrganizationProfile";
 import { useNavigate } from "react-router-dom";
 import { haveRole } from "../../../utils/role";
 import PersonalProfile from "../../../components/Settings/PersonalProfile";
+import { FiCopy } from "react-icons/fi";
+import { GrShareOption } from "react-icons/gr";
+import Referral from "../../../components/Settings/Referral";
 
 const ProfileInfo = () => {
 	const navigate = useNavigate();
@@ -17,32 +20,6 @@ const ProfileInfo = () => {
 
 	return (
 		<div>
-			{/* {haveRole(details.businessRoleId).isBusinessAdmin && (
-				<>
-					<h5>Organization Profile</h5>
-					<ProfileBox>
-						<div className="info">
-							{details.organization?.image ? (
-								<img src={details.organization.image} />
-							) : (
-								<span className="img" />
-							)}
-							<div className="content">
-								<h6>{details.organization?.name}</h6>
-							</div>
-						</div>
-						<div className="more">
-							<p>{details.organization?.email}</p>
-							<p>{details.organization?.phone}</p>
-						</div>
-						<div className="btns">
-							<button onClick={() => setOpenOrg(true)}>
-								Edit
-							</button>
-						</div>
-					</ProfileBox>
-				</>
-			)} */}
 			<h5>Personal Information</h5>
 			<ProfileBox>
 				<div className="info">
@@ -91,7 +68,7 @@ const ProfileInfo = () => {
 					<div />
 				)}
 			</ProfileBox>
-
+			{details.referralCode && <Referral code={details.referralCode} />}
 			<ModalComponent
 				open={openOrg}
 				close={() => setOpenOrg(false)}
