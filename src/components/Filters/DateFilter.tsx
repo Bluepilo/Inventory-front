@@ -8,6 +8,7 @@ const DateFilter = ({
 	setEndDate,
 	dateType,
 	setDateType,
+	singleLine,
 }: {
 	startDate: any;
 	setStartDate: (arg: any) => void;
@@ -15,6 +16,7 @@ const DateFilter = ({
 	setEndDate: (arg: any) => void;
 	dateType: any;
 	setDateType: (arg: any) => void;
+	singleLine?: boolean;
 }) => {
 	const changeDateType = (val: any) => {
 		setDateType(val);
@@ -75,7 +77,9 @@ const DateFilter = ({
 	};
 	return (
 		<>
-			<div className="col-lg-2 col-md-4 col-6 mb-3">
+			<div
+				className={singleLine ? "mb-3" : "col-lg-2 col-md-4 col-6 mb-3"}
+			>
 				<BasicSelect
 					value={dateType}
 					options={[
@@ -118,7 +122,11 @@ const DateFilter = ({
 			</div>
 			{dateType?.value === "custom" && (
 				<>
-					<div className="col-lg-2 col-md-4 col-6 mb-3">
+					<div
+						className={
+							singleLine ? "mb-3" : "col-lg-2 col-md-4 col-6 mb-3"
+						}
+					>
 						<DateSelect
 							dateVal={startDate}
 							changeDateVal={setStartDate}
@@ -126,7 +134,11 @@ const DateFilter = ({
 						/>
 					</div>
 
-					<div className="col-lg-2 col-md-4 col-6 mb-3">
+					<div
+						className={
+							singleLine ? "mb-3" : "col-lg-2 col-md-4 col-6 mb-3"
+						}
+					>
 						<DateSelect
 							dateVal={endDate}
 							changeDateVal={setEndDate}

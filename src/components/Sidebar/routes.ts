@@ -137,6 +137,12 @@ const userRoutes = [
 				href: "/dashboard/reports/profits-loss",
 				permission: ["admin"],
 			},
+			{
+				id: 5,
+				name: "Export Reports",
+				href: "/dashboard/reports/exports",
+				permission: ["admin"],
+			},
 		],
 		permission: ["all"],
 	},

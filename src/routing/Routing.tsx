@@ -79,6 +79,7 @@ import Resources from "../pages/user/Resources";
 import ResourceDetail from "../pages/user/Resources/ResourceDetail";
 import Details from "../pages/user/Users/Details";
 import Reciept from "../pages/user/Sales/Reciept";
+import Exports from "../pages/user/Reports/Exports";
 
 const Routing = () => {
 	return (
@@ -224,6 +225,7 @@ const Routing = () => {
 						path="reports/profits-loss"
 						element={<ProfitLoss />}
 					/>
+					<Route path="reports/exports" element={<Exports />} />
 					<Route path="organization" element={<Organization />} />
 					<Route
 						path="organization/business"
