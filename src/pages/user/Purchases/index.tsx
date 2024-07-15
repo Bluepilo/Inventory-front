@@ -217,11 +217,6 @@ const Purchases = () => {
 									</label>
 								</div>
 							</div>
-
-							<MainButton>
-								<img src={PrintLogo} />
-								<span>Print</span>
-							</MainButton>
 						</CheckBoxPrint>
 					</div>
 				</div>

@@ -22,7 +22,6 @@ import DeletedList from "../../../components/Organization/DeletedList";
 import Filters from "../../../components/Filters";
 import { MainButton } from "../../../styles/links.styles";
 import { displayError, displaySuccess } from "../../../utils/errors";
-import { CheckBoxPrint } from "../../../styles/dashboard.styles";
 
 const Organization = () => {
 	const [load, setLoad] = useState(false);

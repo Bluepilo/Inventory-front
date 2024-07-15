@@ -177,10 +177,6 @@ const Expenses = () => {
 											List Recurrent Expenses
 										</label>
 									</div>
-									<MainButton>
-										<img src={PrintLogo} />
-										<span>Print</span>
-									</MainButton>
 								</CheckBoxPrint>
 							</div>
 						</div>

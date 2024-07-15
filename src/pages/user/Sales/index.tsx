@@ -185,10 +185,6 @@ const Sales = () => {
 									Show Withdrawn Sales
 								</label>
 							</div>
-							<MainButton>
-								<img src={PrintLogo} />
-								<span>Print</span>
-							</MainButton>
 						</CheckBoxPrint>
 					</div>
 				</div>

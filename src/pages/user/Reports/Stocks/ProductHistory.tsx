@@ -101,14 +101,6 @@ const ProductHistory = () => {
 						</div>
 					</SummaryCard>
 				</div>
-				<div className="col-lg-4 mb-3">
-					<CheckBoxPrint>
-						<MainButton>
-							<IoIosCloudDownload />
-							<span>Download Report</span>
-						</MainButton>
-					</CheckBoxPrint>
-				</div>
 			</div>
 			<div className="mt-4">
 				<TableComponent>
