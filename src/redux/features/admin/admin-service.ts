@@ -218,6 +218,17 @@ const loadFaqs = async (token: string) => {
 	return data.data;
 };
 
+const extendTrial = async (token: string, id: string, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/admin/extend-trial/${id}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const adminService = {
 	dashboardStats,
 	listOrganization,
@@ -242,6 +253,7 @@ const adminService = {
 	deleteCarousel,
 	actionOrganization,
 	loadFaqs,
+	extendTrial,
 };
 
 export default adminService;

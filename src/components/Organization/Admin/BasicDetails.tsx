@@ -7,6 +7,7 @@ import { useState } from "react";
 import DeleteOrg from "./DeleteOrg";
 import TopUp from "./TopUp";
 import Subscribe from "./Subscribe";
+import ExtendTrial from "./ExtendTrial";
 
 const BasicDetails = ({
 	details,
@@ -115,6 +116,15 @@ const BasicDetails = ({
 					</div>
 					<div className="mt-3">
 						<MainButton
+							onClick={() => {
+								setModalType("trial");
+								setOpen(true);
+							}}
+							className="me-4"
+						>
+							<span>Extend Trial</span>
+						</MainButton>
+						<MainButton
 							bg="red"
 							onClick={() => {
 								setModalType("delete");
@@ -149,6 +159,14 @@ const BasicDetails = ({
 							reload();
 						}}
 						balance={details.wallet?.balance}
+					/>
+				) : modalType === "trial" ? (
+					<ExtendTrial
+						id={details.id}
+						onClose={() => {
+							setOpen(false);
+							reload();
+						}}
 					/>
 				) : (
 					<></>
