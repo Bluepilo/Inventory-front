@@ -9,7 +9,8 @@ const getWalkIns = async (token: string, filters: string) => {
 			headers: authHeader(token),
 		}
 	);
-	return data.data;
+	console.log(data?.data || data, "result");
+	return data?.data || data;
 };
 
 const searchWalkIns = async (
@@ -46,7 +47,7 @@ const getSubdealers = async (token: string, filters: string) => {
 			headers: authHeader(token),
 		}
 	);
-	return data.data;
+	return data?.data || data;
 };
 
 const searchSubdealers = async (

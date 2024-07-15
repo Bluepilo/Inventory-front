@@ -193,7 +193,7 @@ const stockReports = async (token: string, filters: string) => {
 			headers: authHeader(token),
 		}
 	);
-	return data.data;
+	return data?.data || data;
 };
 
 const setMinStockAlert = async (token: string, id: string, obj: any) => {
@@ -224,7 +224,7 @@ const getLogReports = async (token: string, filters: string) => {
 			headers: authHeader(token),
 		}
 	);
-	return data.data;
+	return data?.data || data;
 };
 
 const getProductReturns = async (token: string, filters: string) => {

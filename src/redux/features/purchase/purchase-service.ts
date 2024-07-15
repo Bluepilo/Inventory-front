@@ -9,7 +9,7 @@ const getPurchase = async (token: string, filters: string) => {
 			headers: authHeader(token),
 		}
 	);
-	return data.data;
+	return data?.data || data;
 };
 
 const getPurchaseSummary = async (token: string, filters: string) => {

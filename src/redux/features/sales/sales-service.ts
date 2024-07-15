@@ -6,7 +6,7 @@ const getSales = async (token: string, filters: string) => {
 	const { data } = await axios.get(`${config.baseUrl}/sale/all${filters}`, {
 		headers: authHeader(token),
 	});
-	return data.data;
+	return data?.data || data;
 };
 
 const getSalesSummary = async (token: string, filters: string) => {
@@ -76,7 +76,7 @@ const getTransactions = async (token: string, filters: string) => {
 			headers: authHeader(token),
 		}
 	);
-	return data.data;
+	return data?.data || data;
 };
 
 const verifyTransactions = async (token: string, id: number) => {

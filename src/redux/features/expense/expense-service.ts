@@ -9,7 +9,7 @@ const getExpenses = async (token: string, filters: string) => {
 			headers: authHeader(token),
 		}
 	);
-	return data.data;
+	return data?.data || data;
 };
 
 const getRecurrentExpenses = async (token: string, filters: string) => {
