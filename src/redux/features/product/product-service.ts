@@ -2,9 +2,11 @@ import axios from "axios";
 import config from "../../../utils/config";
 import { authHeader } from "../../../utils/headers";
 
-const getProductsInShop = async (token: string, id: any) => {
+const getProductsInShop = async (token: string, id: any, pOnly?: boolean) => {
 	const { data } = await axios.get(
-		`${config.baseUrl}/product/all/shop/${id}?all=true`,
+		`${config.baseUrl}/product/all/shop/${id}?all=true&type=${
+			pOnly ? "product_only" : ""
+		}`,
 		{
 			headers: authHeader(token),
 		}

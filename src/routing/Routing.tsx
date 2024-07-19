@@ -25,6 +25,8 @@ import SMS from "../pages/admin/SMS";
 import SmsTransactions from "../pages/admin/SMS/SmsTransactions";
 import SmsWallets from "../pages/admin/SMS/SmsWallets";
 import SmsHistory from "../pages/admin/SMS/SmsHistory";
+import Roles from "../pages/admin/Others/Roles";
+import EditPermissions from "../pages/admin/Others/Roles/EditPermissions";
 
 // User Routes
 import Dashboard from "../pages/user/Dashboard";
@@ -80,6 +82,7 @@ import ResourceDetail from "../pages/user/Resources/ResourceDetail";
 import Details from "../pages/user/Users/Details";
 import Reciept from "../pages/user/Sales/Reciept";
 import Exports from "../pages/user/Reports/Exports";
+import Rewards from "../pages/user/Business/Rewards";
 
 const Routing = () => {
 	return (
@@ -150,6 +153,11 @@ const Routing = () => {
 					/>
 					<Route path="sms/wallets" element={<SmsWallets />} />
 					<Route path="sms/history" element={<SmsHistory />} />
+					<Route path="others/roles" element={<Roles />} />
+					<Route
+						path="others/roles/:id"
+						element={<EditPermissions />}
+					/>
 				</Route>
 				<Route
 					path="/payment-confirmation"
@@ -242,6 +250,7 @@ const Routing = () => {
 						path="business/import-inventory/new"
 						element={<NewInventory />}
 					/>
+					<Route path="rewards" element={<Rewards />} />
 					<Route path="subscription" element={<Subscription />} />
 					<Route path="subscription/upgrade" element={<Upgrade />} />
 					<Route path="logs" element={<ActivityLogs />} />

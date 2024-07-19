@@ -113,7 +113,10 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 				setSelectedProducts([]);
 			}
 			setProductLoad(true);
-			let res = await productService.allProducts(token, "?all=true");
+			let res = await productService.allProducts(
+				token,
+				"?all=true&type=product_only"
+			);
 			let arr = res?.rows;
 			if (Array.isArray(arr)) {
 				let resVal = arr.map((a: any) => {

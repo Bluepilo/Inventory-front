@@ -22,10 +22,15 @@ const getPaymentHistory = async (token: string, filters: string) => {
 	return data.data;
 };
 
-const getPlans = async (token: string) => {
-	const { data } = await axios.get(`${config.baseUrl}/subscription/plans`, {
-		headers: authHeader(token),
-	});
+const getPlans = async (token: string, trial?: boolean) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/other/subscription-plans?includeTrial=${
+			trial ? "true" : ""
+		}`,
+		{
+			headers: authHeader(token),
+		}
+	);
 	return data.data;
 };
 

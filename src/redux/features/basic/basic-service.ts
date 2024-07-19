@@ -327,7 +327,7 @@ const getLogs = async (token: string, filters: string) => {
 
 const closeAccount = async (token: string, id: any, obj: any) => {
 	const { data } = await axios.post(
-		`${config.baseUrl}/organization/delete/${id}`,
+		`${config.baseUrl}/organization/${id}/delete`,
 		obj,
 		{
 			headers: authHeader(token),

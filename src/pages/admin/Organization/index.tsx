@@ -9,10 +9,7 @@ import { FcCancel } from "react-icons/fc";
 import dateFormat from "dateformat";
 import Paginate from "../../../components/Paginate";
 import { SwitchDiv } from "../../../styles/basic.styles";
-import {
-	BasicSelect,
-	OptionProp,
-} from "../../../components/Filters/BasicInputs";
+import { OptionProp } from "../../../components/Filters/BasicInputs";
 import SuccessIcon from "../../../assets/icons/success.svg";
 import FailedIcon from "../../../assets/icons/failed.svg";
 import subscriptionService from "../../../redux/features/subscription/subscriptionService";
@@ -22,13 +19,14 @@ import DeletedList from "../../../components/Organization/DeletedList";
 import Filters from "../../../components/Filters";
 import { MainButton } from "../../../styles/links.styles";
 import { displayError, displaySuccess } from "../../../utils/errors";
+import { FormCheck } from "react-bootstrap";
 
 const Organization = () => {
+	const [orgType, setOrgType] = useState("active");
 	const [load, setLoad] = useState(false);
 	const [list, setList] = useState<any>({});
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(20);
-	const [isLive, setIsLive] = useState(true);
 	const [search, setSearch] = useState("");
 
 	const [startDate, setStartDate] = useState(
@@ -43,20 +41,11 @@ const Organization = () => {
 		label: "This Month",
 		value: "month",
 	});
-	const [typeList, setTypeList] = useState<OptionProp[]>([
-		{ value: "", label: "All" },
-		{ value: "true", label: "Active" },
-		{ value: "false", label: "Inactive" },
-	]);
-	const [typeId, setTypeId] = useState<OptionProp | null>({
-		value: "",
-		label: "All",
-	});
 
 	const debouncedSearch = UseDebounce(search);
 
 	let filters = `?page=${page}&limit=${limit}&startDate=${startDate}&isActive=${
-		typeId?.value
+		orgType === "active" ? true : false
 	}&&endDate=${endDate}&searchWord=${debouncedSearch}&planId=${
 		subTypeId?.value || ""
 	}`;
@@ -65,12 +54,12 @@ const Organization = () => {
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
-		if (isLive) {
+		if (orgType !== "deleted") {
 			listOrgnaizations();
 		} else {
 			listDeletedOrgnaizations();
 		}
-	}, [filters, isLive]);
+	}, [filters]);
 
 	useEffect(() => {
 		getPlans();
@@ -105,7 +94,7 @@ const Organization = () => {
 
 	const getPlans = async () => {
 		try {
-			let res = await subscriptionService.getPlans(token);
+			let res = await subscriptionService.getPlans(token, true);
 			let arr = res?.map((a: any) => {
 				return { label: a.name, value: a.id };
 			});
@@ -127,13 +116,14 @@ const Organization = () => {
 		);
 		setEndDate(new Date(new Date().setDate(new Date().getDate() + 1)));
 		setDateType({ label: "This Month", value: "month" });
+		setSubTypeId(null);
 	};
 
 	const actionHandler = async (user: any, active: boolean) => {
 		if (
 			window.confirm(
 				`Are you sure you want to ${
-					active ? "Deactivate" : "Activate"
+					!active ? "Deactivate" : "Activate"
 				} ${user.name}`
 			)
 		) {
@@ -142,11 +132,11 @@ const Organization = () => {
 				await adminService.actionOrganization(
 					token,
 					user.id,
-					active ? "deactivate" : "activate"
+					!active ? "deactivate" : "activate"
 				);
 				listOrgnaizations();
 				displaySuccess(
-					`${user.name} ${active ? "Deactivated" : "Activated"}`
+					`${user.name} ${!active ? "Deactivated" : "Activated"}`
 				);
 			} catch (err) {
 				setLoad(false);
@@ -160,16 +150,22 @@ const Organization = () => {
 			<TitleCover title="Organizations" dataCount={list?.count} />
 			<SwitchDiv>
 				<div
-					className={isLive ? "active" : ""}
-					onClick={() => setIsLive(true)}
+					className={orgType === "active" ? "active" : ""}
+					onClick={() => setOrgType("active")}
 				>
-					Live Accounts
+					Live
 				</div>
 				<div
-					className={isLive ? "" : "active"}
-					onClick={() => setIsLive(false)}
+					className={orgType === "inactive" ? "active" : ""}
+					onClick={() => setOrgType("inactive")}
 				>
-					Deleted Accounts
+					Deactivated
+				</div>
+				<div
+					className={orgType === "deleted" ? "active" : ""}
+					onClick={() => setOrgType("deleted")}
+				>
+					Deleted
 				</div>
 			</SwitchDiv>
 			<Filters
@@ -188,22 +184,9 @@ const Organization = () => {
 				dateType={dateType}
 				changeDateType={setDateType}
 				placeholder="Search by name, address or phone"
-			>
-				{isLive ? (
-					<div className="col-lg-2 col-md-4 col-6 mb-3">
-						<BasicSelect
-							value={typeId}
-							options={typeList}
-							label="Type"
-							changeSelected={setTypeId}
-						/>
-					</div>
-				) : (
-					<></>
-				)}
-			</Filters>
+			/>
 			<div className="mt-3">
-				{isLive ? (
+				{orgType !== "deleted" ? (
 					<TableComponent>
 						<div className="table-responsive">
 							<Table className="table">
@@ -282,33 +265,18 @@ const Organization = () => {
 													)}
 												</td>
 												<td>
-													<img
-														src={
-															org.isActive
-																? SuccessIcon
-																: FailedIcon
-														}
-													/>
-												</td>
-												<td className="link">
-													<MainButton
-														sm="true"
-														bg={
-															org.isActive
-																? "red"
-																: ""
-														}
-														onClick={() =>
+													<FormCheck
+														type="switch"
+														id={`custom-switch-${org.id}`}
+														label=""
+														checked={org.isActive}
+														onChange={(e) =>
 															actionHandler(
 																org,
-																org.isActive
+																e.target.checked
 															)
 														}
-													>
-														{org.isActive
-															? "Deactivate"
-															: "Activate"}
-													</MainButton>
+													/>
 												</td>
 											</tr>
 										))}

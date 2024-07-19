@@ -12,7 +12,7 @@ const dashboardStats = async (filter: string, token: string) => {
 
 const listOrganization = async (filter: string, token: string) => {
 	const { data } = await axios.get(
-		`${config.baseUrl}/admin/organization-list${filter}`,
+		`${config.baseUrl}/admin/organization${filter}`,
 		{ headers: authHeader(token) }
 	);
 	return data.data;
@@ -20,7 +20,7 @@ const listOrganization = async (filter: string, token: string) => {
 
 const listDeletedOrganization = async (filter: string, token: string) => {
 	const { data } = await axios.get(
-		`${config.baseUrl}/admin/deleted-organization-history`,
+		`${config.baseUrl}/admin/organization/deleted`,
 		{ headers: authHeader(token) }
 	);
 	return data.data;
@@ -120,7 +120,7 @@ const subTracker = async (token: string) => {
 
 const topWallet = async (token: string, id: any, obj: any) => {
 	const { data } = await axios.post(
-		`${config.baseUrl}/admin/topup-organization/${id}`,
+		`${config.baseUrl}/admin/organization/${id}/topup`,
 		obj,
 		{
 			headers: authHeader(token),
@@ -131,7 +131,7 @@ const topWallet = async (token: string, id: any, obj: any) => {
 
 const subscribeOrg = async (token: string, id: any, obj: any) => {
 	const { data } = await axios.post(
-		`${config.baseUrl}/admin/subscribe-organization/${id}`,
+		`${config.baseUrl}/admin/organization/${id}/subscribe`,
 		obj,
 		{
 			headers: authHeader(token),
@@ -202,7 +202,7 @@ const actionOrganization = async (
 	action: string
 ) => {
 	const { data } = await axios.post(
-		`${config.baseUrl}/organization/${action}/${id}`,
+		`${config.baseUrl}/admin/organization/${id}/${action}`,
 		{},
 		{
 			headers: authHeader(token),
@@ -220,7 +220,63 @@ const loadFaqs = async (token: string) => {
 
 const extendTrial = async (token: string, id: string, obj: any) => {
 	const { data } = await axios.post(
-		`${config.baseUrl}/admin/extend-trial/${id}`,
+		`${config.baseUrl}/admin/organization/${id}/extend-trial`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const listRoles = async (token: string) => {
+	const { data } = await axios.get(`${config.baseUrl}/admin/role`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const createRole = async (token: string, obj: any) => {
+	const { data } = await axios.post(`${config.baseUrl}/admin/role`, obj, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const deleteRole = async (token: string, id: number) => {
+	const { data } = await axios.delete(`${config.baseUrl}/admin/role/${id}`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+const listPermissions = async (token: string) => {
+	const { data } = await axios.get(`${config.baseUrl}/admin/permissions`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const listRolePermissions = async (token: string, id: any) => {
+	const { data } = await axios.get(`${config.baseUrl}/admin/role/${id}`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const assignPermissions = async (token: string, id: any, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/admin/role/${id}/assign-permission`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const removePermissions = async (token: string, id: any, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/admin/role/${id}/remove-permission`,
 		obj,
 		{
 			headers: authHeader(token),
@@ -254,6 +310,13 @@ const adminService = {
 	actionOrganization,
 	loadFaqs,
 	extendTrial,
+	listRoles,
+	listPermissions,
+	listRolePermissions,
+	assignPermissions,
+	removePermissions,
+	createRole,
+	deleteRole,
 };
 
 export default adminService;

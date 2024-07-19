@@ -147,6 +147,14 @@ const userRoutes = [
 		permission: ["all"],
 	},
 	{
+		id: 133,
+		name: "Rewards",
+		href: "/dashboard/rewards",
+		icon: BusinessIcon,
+		children: [],
+		permission: ["all"],
+	},
+	{
 		id: 12,
 		name: "Manage Biz",
 		href: "/dashboard/business",
@@ -314,6 +322,11 @@ const adminRoutes = [
 				id: 3,
 				name: "Adds Carousel",
 				href: "/admin/others/carousel",
+			},
+			{
+				id: 4,
+				name: "Roles",
+				href: "/admin/others/roles",
 			},
 		],
 		permission: ["all"],

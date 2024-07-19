@@ -17,6 +17,7 @@ import {
 import { ReferralBox } from "../../styles/profile.styles";
 import { FiCopy } from "react-icons/fi";
 import { displaySuccess } from "../../utils/errors";
+import { Link } from "react-router-dom";
 
 export default function Referral({ code }: { code: string }) {
 	const shareUrl = `${window.location.origin}/sign-up?code=${code}`;
@@ -24,7 +25,16 @@ export default function Referral({ code }: { code: string }) {
 
 	return (
 		<ReferralBox>
-			<p>Share your Referral code and get rewards</p>
+			<p>
+				Share your Referral code and get
+				<Link
+					to="/dashboard/rewards"
+					style={{ textDecoration: "none", fontWeight: "bold" }}
+				>
+					{" "}
+					rewards
+				</Link>
+			</p>
 
 			<div className="share">
 				<div className="share-icon">
