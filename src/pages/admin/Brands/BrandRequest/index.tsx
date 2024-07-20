@@ -15,6 +15,7 @@ import CommentBox from "../../../../components/Sales/CommentBox";
 import ModalComponent from "../../../../components/ModalComponent";
 import { displayError } from "../../../../utils/errors";
 import { toast } from "react-toastify";
+import PermissionDenied from "../../../../components/PermissionDenied";
 
 const BrandRequest = () => {
 	const [status, setStatus] = useState("");
@@ -25,7 +26,7 @@ const BrandRequest = () => {
 	const [openModal, setOpenModal] = useState(false);
 	const [action, setAction] = useState<any>({});
 
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	let filters = `?status=${status}&page=${page}&limit=${limit}`;
 
@@ -61,7 +62,9 @@ const BrandRequest = () => {
 		}
 	};
 
-	return (
+	return details?.role?.permissions?.find(
+		(f) => f.method === "listBrandRequest"
+	) ? (
 		<div>
 			<TitleCover title="Brand Requests" />
 			<SwitchDiv>
@@ -134,43 +137,55 @@ const BrandRequest = () => {
 											</td>
 											<td className="link">
 												{brand.status === "pending" ? (
-													<>
-														<a
-															href="#"
-															onClick={(e) => {
-																e.preventDefault();
-																setAction({
-																	id: brand.id,
-																	name: "approve",
-																});
-																setOpenModal(
-																	true
-																);
-															}}
-														>
-															Approve
-														</a>
-														<a
-															href="#"
-															style={{
-																color: "red",
-																marginLeft:
-																	"10px",
-															}}
-															onClick={(e) => {
-																e.preventDefault();
-																setAction({
-																	id: brand.id,
-																	name: "reject",
-																});
-																setOpenModal(
-																	true
-																);
-															}}
-														>
-															Decline
-														</a>
-													</>
+													details?.role?.permissions?.find(
+														(f) =>
+															f.method ===
+															"approveOrDeclineBrandRequest"
+													) ? (
+														<>
+															<a
+																href="#"
+																onClick={(
+																	e
+																) => {
+																	e.preventDefault();
+																	setAction({
+																		id: brand.id,
+																		name: "approve",
+																	});
+																	setOpenModal(
+																		true
+																	);
+																}}
+															>
+																Approve
+															</a>
+															<a
+																href="#"
+																style={{
+																	color: "red",
+																	marginLeft:
+																		"10px",
+																}}
+																onClick={(
+																	e
+																) => {
+																	e.preventDefault();
+																	setAction({
+																		id: brand.id,
+																		name: "reject",
+																	});
+																	setOpenModal(
+																		true
+																	);
+																}}
+															>
+																Decline
+															</a>
+														</>
+													) : (
+														<></>
+													)
 												) : (
 													<span>
 														{
@@ -208,6 +223,8 @@ const BrandRequest = () => {
 				/>
 			</ModalComponent>
 		</div>
+	) : (
+		<PermissionDenied />
 	);
 };
 

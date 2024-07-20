@@ -7,6 +7,7 @@ import { formatCurrency } from "../../../utils/currency";
 import ModalComponent from "../../../components/ModalComponent";
 import SpandCpEdit from "../../../components/SMS/SpandCpEdit";
 import PieChartSms from "../../../components/SMS/PieChartSms";
+import PermissionDenied from "../../../components/PermissionDenied";
 
 const SMS = () => {
 	const { token, details } = useAppSelector((state) => state.auth);
@@ -46,7 +47,9 @@ const SMS = () => {
 		} catch (err) {}
 	};
 
-	return (
+	return details?.role?.permissions?.find(
+		(f) => f.method === "bluepiloSmsSummary"
+	) ? (
 		<div>
 			<TitleCover title={"Bluepilo SMS"} />
 			<div className="row mt-4">
@@ -145,6 +148,8 @@ const SMS = () => {
 				/>
 			</ModalComponent>
 		</div>
+	) : (
+		<PermissionDenied />
 	);
 };
 

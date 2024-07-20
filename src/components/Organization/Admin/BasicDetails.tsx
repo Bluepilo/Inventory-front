@@ -8,6 +8,7 @@ import DeleteOrg from "./DeleteOrg";
 import TopUp from "./TopUp";
 import Subscribe from "./Subscribe";
 import ExtendTrial from "./ExtendTrial";
+import { useAppSelector } from "../../../redux/hooks";
 
 const BasicDetails = ({
 	details,
@@ -18,6 +19,8 @@ const BasicDetails = ({
 }) => {
 	const [open, setOpen] = useState(false);
 	const [modalType, setModalType] = useState("");
+
+	const { details: admin } = useAppSelector((state) => state.auth);
 
 	return (
 		<>
@@ -96,43 +99,59 @@ const BasicDetails = ({
 						<b className="col-8 mb-2">{details.users?.length}</b>
 					</div>
 					<div className="mt-3">
-						<MainButton
-							onClick={() => {
-								setModalType("topup");
-								setOpen(true);
-							}}
-						>
-							<span>Top up Wallet</span>
-						</MainButton>
-						<MainButton
-							className="ms-4"
-							onClick={() => {
-								setModalType("subscribe");
-								setOpen(true);
-							}}
-						>
-							<span>Subscribe</span>
-						</MainButton>
+						{admin?.role?.permissions?.find(
+							(f) => f.method === "topupCustomerWallet"
+						) && (
+							<MainButton
+								onClick={() => {
+									setModalType("topup");
+									setOpen(true);
+								}}
+							>
+								<span>Top up Wallet</span>
+							</MainButton>
+						)}
+						{admin?.role?.permissions?.find(
+							(f) => f.method === "subscribeForOrganization"
+						) && (
+							<MainButton
+								className="ms-4"
+								onClick={() => {
+									setModalType("subscribe");
+									setOpen(true);
+								}}
+							>
+								<span>Subscribe</span>
+							</MainButton>
+						)}
 					</div>
 					<div className="mt-3">
-						<MainButton
-							onClick={() => {
-								setModalType("trial");
-								setOpen(true);
-							}}
-							className="me-4"
-						>
-							<span>Extend Trial</span>
-						</MainButton>
-						<MainButton
-							bg="red"
-							onClick={() => {
-								setModalType("delete");
-								setOpen(true);
-							}}
-						>
-							<span>Delete Organization</span>
-						</MainButton>
+						{admin?.role?.permissions?.find(
+							(f) => f.method === "extendTrialSubscription"
+						) && (
+							<MainButton
+								onClick={() => {
+									setModalType("trial");
+									setOpen(true);
+								}}
+								className="me-4"
+							>
+								<span>Extend Trial</span>
+							</MainButton>
+						)}
+						{admin?.role?.permissions?.find(
+							(f) => f.method === "deleteOrganization"
+						) && (
+							<MainButton
+								bg="red"
+								onClick={() => {
+									setModalType("delete");
+									setOpen(true);
+								}}
+							>
+								<span>Delete Organization</span>
+							</MainButton>
+						)}
 					</div>
 				</div>
 			</DetailCard>

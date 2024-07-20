@@ -15,6 +15,7 @@ import Paginate from "../../../components/Paginate";
 import dateFormat from "dateformat";
 import { SummaryCard } from "../../../styles/dashboard.styles";
 import { UseDebounce } from "../../../utils/hooks";
+import PermissionDenied from "../../../components/PermissionDenied";
 
 const SmsTransactions = () => {
 	const { token, details } = useAppSelector((state) => state.auth);
@@ -110,7 +111,9 @@ const SmsTransactions = () => {
 		}
 	};
 
-	return (
+	return details?.role?.permissions?.find(
+		(f) => f.method === "bluepiloSmsTransactionList"
+	) ? (
 		<div>
 			<TitleCover title={"SMS Transactions"} />
 			<Filters
@@ -252,6 +255,8 @@ const SmsTransactions = () => {
 				)}
 			</div>
 		</div>
+	) : (
+		<PermissionDenied />
 	);
 };
 

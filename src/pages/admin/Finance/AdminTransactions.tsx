@@ -8,17 +8,13 @@ import { Link } from "react-router-dom";
 import { formatCurrency } from "../../../utils/currency";
 import SkeletonTable from "../../../components/Loaders/SkeletonTable";
 import Paginate from "../../../components/Paginate";
-import { FilterStyles } from "../../../styles/filters.styles";
-import {
-	BasicSelect,
-	DateSelect,
-	OptionProp,
-} from "../../../components/Filters/BasicInputs";
+import { OptionProp } from "../../../components/Filters/BasicInputs";
 import Filters from "../../../components/Filters";
 import { SummaryCard } from "../../../styles/dashboard.styles";
+import PermissionDenied from "../../../components/PermissionDenied";
 
 const AdminTransactions = () => {
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [list, setList] = useState<any>({});
@@ -66,7 +62,9 @@ const AdminTransactions = () => {
 		setDateType({ label: "This Month", value: "month" });
 	};
 
-	return (
+	return details?.role?.permissions?.find(
+		(f) => f.method === "listTransactions"
+	) ? (
 		<div>
 			<TitleCover title="Transactions" dataCount={list?.count} />
 			<Filters
@@ -203,6 +201,8 @@ const AdminTransactions = () => {
 				)}
 			</div>
 		</div>
+	) : (
+		<PermissionDenied />
 	);
 };
 

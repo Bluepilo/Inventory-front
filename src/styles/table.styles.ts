@@ -8,6 +8,7 @@ export const Table = styled.table`
 	font-size: 0.9rem;
 	color: #333;
 	white-space: nowrap;
+	position: relative;
 
 	tbody.line {
 		border-top: 2px solid #333;

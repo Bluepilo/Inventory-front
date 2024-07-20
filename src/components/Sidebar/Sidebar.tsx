@@ -25,7 +25,7 @@ const Sidebar = ({ open, minimizeHandler, onClose, minimized }: Props) => {
 	const { theme } = useAppSelector((state) => state.basic);
 
 	const menuToLoad = () => {
-		if (details.businessId) {
+		if (!details.role.isAdmin) {
 			return userRoutes;
 		} else {
 			return adminRoutes;
@@ -35,6 +35,12 @@ const Sidebar = ({ open, minimizeHandler, onClose, minimized }: Props) => {
 	const allowUser = (permit: any) => {
 		if (details.shopId && permit?.includes("admin")) {
 			return false;
+		} else if (details.role.isAdmin) {
+			if (details.role.permissions.find((p) => p.method === permit[0])) {
+				return true;
+			} else {
+				return false;
+			}
 		} else {
 			return true;
 		}

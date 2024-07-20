@@ -12,6 +12,7 @@ import SkeletonTable from "../../../components/Loaders/SkeletonTable";
 import { DetailCard } from "../../../styles/sale.styles";
 import { MainButton } from "../../../styles/links.styles";
 import { BasicSearch } from "../../../components/Filters/BasicInputs";
+import PermissionDenied from "../../../components/PermissionDenied";
 
 const SmsWallets = () => {
 	const { token, details } = useAppSelector((state) => state.auth);
@@ -63,7 +64,9 @@ const SmsWallets = () => {
 		setWalletList({ ...walletList, wallets: arr });
 	};
 
-	return (
+	return details?.role?.permissions?.find(
+		(f) => f.method === "bluepiloSmsWallets"
+	) ? (
 		<div>
 			<TitleCover title={"All SMS Wallets"} />
 			<div className="mt-4">
@@ -220,6 +223,8 @@ const SmsWallets = () => {
 				/>
 			</ModalComponent>
 		</div>
+	) : (
+		<PermissionDenied />
 	);
 };
 

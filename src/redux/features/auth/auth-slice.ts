@@ -36,6 +36,9 @@ export const userProfile = createAsyncThunk(
 			return res.data;
 		} catch (error) {
 			const message = displayError(error, true);
+			if (message.includes("Session expired")) {
+				thunkAPI.dispatch(logout());
+			}
 			return thunkAPI.rejectWithValue(message);
 		}
 	}

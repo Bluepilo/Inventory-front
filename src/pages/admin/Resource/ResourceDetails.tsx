@@ -10,13 +10,14 @@ import { displayError } from "../../../utils/errors";
 import adminService from "../../../redux/features/admin/admin-service";
 import { useAppSelector } from "../../../redux/hooks";
 import { toast } from "react-toastify";
+import PermissionDenied from "../../../components/PermissionDenied";
 
 const ResourceDetails = () => {
 	const navigate = useNavigate();
 
 	const stateData = useLocation().state;
 
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	const [question, setQuestion] = useState("");
 	const [answer, setAnswer] = useState("");
@@ -60,7 +61,7 @@ const ResourceDetails = () => {
 		}
 	};
 
-	return (
+	return details?.role?.permissions?.find((f) => f.method === "allFaqs") ? (
 		<div>
 			<TitleCover title={stateData?.question || `New Resource`} />
 			<div className="mt-4">
@@ -110,6 +111,8 @@ const ResourceDetails = () => {
 			</div>
 			<LoadModal open={load} />
 		</div>
+	) : (
+		<PermissionDenied />
 	);
 };
 

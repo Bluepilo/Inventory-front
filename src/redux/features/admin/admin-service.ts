@@ -285,6 +285,41 @@ const removePermissions = async (token: string, id: any, obj: any) => {
 	return data.data;
 };
 
+const listUsers = async (token: string) => {
+	const { data } = await axios.get(`${config.baseUrl}/admin/user`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const actionUsers = async (token: string, id: number, action: string) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/admin/user/${id}/${action}`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const deleteUser = async (token: string, id: number) => {
+	const { data } = await axios.delete(`${config.baseUrl}/admin/user/${id}`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const assignRole = async (token: string, userId: number, roleId: string) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/admin/role/${roleId}/user/${userId}/assign`,
+		{},
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const adminService = {
 	dashboardStats,
 	listOrganization,
@@ -317,6 +352,10 @@ const adminService = {
 	removePermissions,
 	createRole,
 	deleteRole,
+	listUsers,
+	actionUsers,
+	deleteUser,
+	assignRole,
 };
 
 export default adminService;

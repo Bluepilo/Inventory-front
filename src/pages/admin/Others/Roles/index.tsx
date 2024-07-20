@@ -11,9 +11,10 @@ import ModalComponent from "../../../../components/ModalComponent";
 import { Form } from "../../../../styles/form.styles";
 import Loading from "../../../../components/Loaders/Loading";
 import { ButtonSubmit, MainButton } from "../../../../styles/links.styles";
+import PermissionDenied from "../../../../components/PermissionDenied";
 
 const Roles = () => {
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	const [list, setList] = useState<any>([]);
 	const [load, setLoad] = useState(false);
@@ -69,11 +70,17 @@ const Roles = () => {
 		}
 	};
 
-	return (
+	return details?.role?.permissions?.find((f) => f.method === "listRoles") ? (
 		<div>
 			<TitleCover
 				title={"Roles"}
-				button={"Add New"}
+				button={
+					details?.role?.permissions?.find(
+						(f) => f.method === "createRole"
+					)
+						? "Add New"
+						: ""
+				}
 				buttonIcon={<FaPlus />}
 				buttonClick={() => {
 					setOpenModal(true);
@@ -88,7 +95,11 @@ const Roles = () => {
 								<tr>
 									<th>Name</th>
 									<th>Hierarchy</th>
-									<th>Permissions</th>
+									{details?.role?.permissions?.find(
+										(f) =>
+											f.method ===
+											"assignPermissionsToRole"
+									) && <th>Permissions</th>}
 									<th></th>
 								</tr>
 							</thead>
@@ -98,22 +109,34 @@ const Roles = () => {
 										<tr key={li.id}>
 											<td>{li.name}</td>
 											<td>{li.hierarchy}</td>
-											<td className="links">
-												<Link to={`${li.id}`}>
-													View Permissions
-												</Link>
-											</td>
+											{details?.role?.permissions?.find(
+												(f) =>
+													f.method ===
+													"assignPermissionsToRole"
+											) && (
+												<td className="links">
+													<Link to={`${li.id}`}>
+														View Permissions
+													</Link>
+												</td>
+											)}
 											<td>
-												<MainButton
-													sm="true"
-													bg="red"
-													onClick={() =>
-														deleteRole(li)
-													}
-												>
-													<FaTrash />
-													<span>Delete</span>
-												</MainButton>
+												{details?.role?.permissions?.find(
+													(f) =>
+														f.method ===
+														"deleteRole"
+												) && (
+													<MainButton
+														sm="true"
+														bg="red"
+														onClick={() =>
+															deleteRole(li)
+														}
+													>
+														<FaTrash />
+														<span>Delete</span>
+													</MainButton>
+												)}
 											</td>
 										</tr>
 									))}
@@ -152,6 +175,8 @@ const Roles = () => {
 				</Form>
 			</ModalComponent>
 		</div>
+	) : (
+		<PermissionDenied />
 	);
 };
 

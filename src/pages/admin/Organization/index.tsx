@@ -20,6 +20,7 @@ import Filters from "../../../components/Filters";
 import { MainButton } from "../../../styles/links.styles";
 import { displayError, displaySuccess } from "../../../utils/errors";
 import { FormCheck } from "react-bootstrap";
+import PermissionDenied from "../../../components/PermissionDenied";
 
 const Organization = () => {
 	const [orgType, setOrgType] = useState("active");
@@ -50,7 +51,7 @@ const Organization = () => {
 		subTypeId?.value || ""
 	}`;
 
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -145,7 +146,9 @@ const Organization = () => {
 		}
 	};
 
-	return (
+	return details?.role?.permissions?.find(
+		(f) => f.method === "organizationList"
+	) ? (
 		<div>
 			<TitleCover title="Organizations" dataCount={list?.count} />
 			<SwitchDiv>
@@ -200,7 +203,6 @@ const Organization = () => {
 										<th>Active Subscription</th>
 										<th>Expiry Date</th>
 										<th>Date Registered</th>
-										<th>Status</th>
 										<th></th>
 									</tr>
 								</thead>
@@ -264,20 +266,29 @@ const Organization = () => {
 														"mmm dd, yyyy"
 													)}
 												</td>
-												<td>
-													<FormCheck
-														type="switch"
-														id={`custom-switch-${org.id}`}
-														label=""
-														checked={org.isActive}
-														onChange={(e) =>
-															actionHandler(
-																org,
-																e.target.checked
-															)
-														}
-													/>
-												</td>
+												{details?.role?.permissions?.find(
+													(f) =>
+														f.method ===
+														"deleteOrganization"
+												) && (
+													<td>
+														<FormCheck
+															type="switch"
+															id={`custom-switch-${org.id}`}
+															label=""
+															checked={
+																org.isActive
+															}
+															onChange={(e) =>
+																actionHandler(
+																	org,
+																	e.target
+																		.checked
+																)
+															}
+														/>
+													</td>
+												)}
 											</tr>
 										))}
 								</tbody>
@@ -302,6 +313,8 @@ const Organization = () => {
 				)}
 			</div>
 		</div>
+	) : (
+		<PermissionDenied />
 	);
 };
 

@@ -40,12 +40,18 @@ const NavCollapse = ({
 	const allowUser = (permit: any) => {
 		if (details.shopId && permit?.includes("admin")) {
 			return false;
+		} else if (details.role.isAdmin) {
+			if (details.role.permissions.find((p) => p.method === permit[0])) {
+				return true;
+			} else {
+				return false;
+			}
 		} else {
 			return true;
 		}
 	};
 
-	return permitted ? (
+	return (
 		<OutsideClick handleToggle={() => setOpen(false)}>
 			<SidebarDropDown
 				minimize={minimized}
@@ -79,8 +85,6 @@ const NavCollapse = ({
 				)}
 			</SidebarDropDown>
 		</OutsideClick>
-	) : (
-		<></>
 	);
 };
 

@@ -16,9 +16,7 @@ export const getDashboardStats = createAsyncThunk(
 			return res.data;
 		} catch (error) {
 			const message = displayError(error, false);
-			if (message.includes("Session expired")) {
-				thunkAPI.dispatch(logout());
-			}
+
 			return thunkAPI.rejectWithValue(message);
 		}
 	}

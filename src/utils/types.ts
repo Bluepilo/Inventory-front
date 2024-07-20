@@ -26,6 +26,9 @@ interface UserDetailsType {
 	role: {
 		name: string;
 		isAdmin: boolean;
+		permissions: {
+			method: string;
+		}[];
 	};
 	businessRoleId: number;
 	referralCode: string;

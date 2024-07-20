@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import adminService from "../../../../redux/features/admin/admin-service";
 import { useAppSelector } from "../../../../redux/hooks";
 import TitleCover from "../../../../components/TitleCover";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { CheckBox, Form, FormBody } from "../../../../styles/form.styles";
 import Loading from "../../../../components/Loaders/Loading";
-import { ButtonSubmit, MainButton } from "../../../../styles/links.styles";
+import { MainButton } from "../../../../styles/links.styles";
 import { displayError } from "../../../../utils/errors";
 import { toast } from "react-toastify";
+import PermissionDenied from "../../../../components/PermissionDenied";
 
 const EditPermissions = () => {
 	const { id } = useParams();
 
-	const navigate = useNavigate();
-
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	const [name, setName] = useState("");
 	const [permissions, setPermissions] = useState([]);
@@ -101,7 +100,9 @@ const EditPermissions = () => {
 		}
 	};
 
-	return (
+	return details?.role?.permissions?.find(
+		(f) => f.method === "assignPermissionsToRole"
+	) ? (
 		<div>
 			<TitleCover
 				title={
@@ -193,6 +194,8 @@ const EditPermissions = () => {
 				</div>
 			</div>
 		</div>
+	) : (
+		<PermissionDenied />
 	);
 };
 

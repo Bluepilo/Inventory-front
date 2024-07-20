@@ -11,9 +11,10 @@ import Paginate from "../../../components/Paginate";
 import ModalComponent from "../../../components/ModalComponent";
 import CarouselForm from "../../../components/Carousel/CarouselForm";
 import { MainButton } from "../../../styles/links.styles";
+import PermissionDenied from "../../../components/PermissionDenied";
 
 const Carousel = () => {
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [list, setList] = useState<any>({});
@@ -53,11 +54,19 @@ const Carousel = () => {
 		}
 	};
 
-	return (
+	return details?.role?.permissions?.find(
+		(f) => f.method === "listCarousel"
+	) ? (
 		<div>
 			<TitleCover
 				title={"Ads Carousel"}
-				button={"Add New"}
+				button={
+					details?.role?.permissions?.find(
+						(f) => f.method === "createCarousel"
+					)
+						? "Add New"
+						: ""
+				}
 				buttonIcon={<FaPlus />}
 				buttonClick={() => {
 					setDetail(null);
@@ -91,25 +100,37 @@ const Carousel = () => {
 												</a>
 											</td>
 											<td>
-												<MainButton
-													sm="true"
-													onClick={() => {
-														setDetail(li);
-														setOpenModal(true);
-													}}
-												>
-													<span>Edit</span>
-												</MainButton>
-												<MainButton
-													sm="true"
-													bg="red"
-													className="ms-2"
-													onClick={() =>
-														deleteHandler(li.id)
-													}
-												>
-													<span>Delete</span>
-												</MainButton>
+												{details?.role?.permissions?.find(
+													(f) =>
+														f.method ===
+														"updateCarousel"
+												) && (
+													<MainButton
+														sm="true"
+														onClick={() => {
+															setDetail(li);
+															setOpenModal(true);
+														}}
+													>
+														<span>Edit</span>
+													</MainButton>
+												)}
+												{details?.role?.permissions?.find(
+													(f) =>
+														f.method ===
+														"deleteCarousel"
+												) && (
+													<MainButton
+														sm="true"
+														bg="red"
+														className="ms-2"
+														onClick={() =>
+															deleteHandler(li.id)
+														}
+													>
+														<span>Delete</span>
+													</MainButton>
+												)}
 											</td>
 										</tr>
 									))}
@@ -143,6 +164,8 @@ const Carousel = () => {
 				/>
 			</ModalComponent>
 		</div>
+	) : (
+		<PermissionDenied />
 	);
 };
 
