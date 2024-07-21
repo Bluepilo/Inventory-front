@@ -100,6 +100,8 @@ const AdminUsers = () => {
 			await adminService.assignRole(token, user?.id, roleId);
 			setLoad(false);
 			listUsers();
+			setOpenModal(false);
+			displaySuccess("Role Assigned");
 		} catch (err) {
 			setLoad(false);
 			displayError(err, true);
