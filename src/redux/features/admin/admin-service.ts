@@ -309,6 +309,13 @@ const deleteUser = async (token: string, id: number) => {
 	return data.data;
 };
 
+const createUser = async (token: string, obj: any) => {
+	const { data } = await axios.post(`${config.baseUrl}/admin/user`, obj, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
 const assignRole = async (token: string, userId: number, roleId: string) => {
 	const { data } = await axios.post(
 		`${config.baseUrl}/admin/role/${roleId}/user/${userId}/assign`,
@@ -356,6 +363,7 @@ const adminService = {
 	actionUsers,
 	deleteUser,
 	assignRole,
+	createUser,
 };
 
 export default adminService;

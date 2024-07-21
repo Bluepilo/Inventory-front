@@ -16,6 +16,8 @@ import Loading from "../../../components/Loaders/Loading";
 import { ButtonSubmit } from "../../../styles/links.styles";
 import { displayError, displaySuccess } from "../../../utils/errors";
 import PermissionDenied from "../../../components/PermissionDenied";
+import { FaPlus } from "react-icons/fa6";
+import AddUser from "../../../components/Users/AddUser";
 
 const AdminUsers = () => {
 	const [lists, setLists] = useState<any>({});
@@ -23,6 +25,7 @@ const AdminUsers = () => {
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(20);
 	const [openModal, setOpenModal] = useState(false);
+	const [modalType, setModalType] = useState("assign");
 	const [roleId, setRoleId] = useState("");
 	const [user, setUser] = useState<any>(null);
 	const [roles, setRoles] = useState<any>([]);
@@ -42,8 +45,7 @@ const AdminUsers = () => {
 			setLoad(true);
 			let res = await adminService.listUsers(token);
 			setLoad(false);
-			let arr = res?.rows?.filter((u: any) => u.role?.isAdmin);
-			setLists({ ...res, rows: arr });
+			setLists(res);
 		} catch (err) {
 			setLoad(false);
 		}
@@ -106,7 +108,16 @@ const AdminUsers = () => {
 
 	return admin?.role?.permissions?.find((f) => f.method === "listUsers") ? (
 		<div>
-			<TitleCover title="Admin Users" dataCount={lists?.rows?.length} />
+			<TitleCover
+				title="Admin Users"
+				dataCount={lists?.rows?.length}
+				button={"Add New"}
+				buttonIcon={<FaPlus />}
+				buttonClick={() => {
+					setModalType("create");
+					setOpenModal(true);
+				}}
+			/>
 			<div className="mt-3">
 				<div className="mt-4">
 					<TableComponent>
@@ -210,6 +221,9 @@ const AdminUsers = () => {
 																		setUser(
 																			user
 																		);
+																		setModalType(
+																			"assign"
+																		);
 																		setOpenModal(
 																			true
 																		);
@@ -245,31 +259,47 @@ const AdminUsers = () => {
 			<ModalComponent
 				open={openModal}
 				close={() => setOpenModal(false)}
-				title={`${user?.fullName}`}
+				title={
+					modalType === "create" ? "Create User" : `${user?.fullName}`
+				}
 			>
-				<Form onSubmit={assignRole}>
-					<label>Role</label>
-					<select
-						value={roleId}
-						onChange={(e) => setRoleId(e.target.value)}
-						required
-						disabled={load}
-						className="height"
-					>
-						<option value={""}>Select One</option>
-						{roles?.map((role: any) => (
-							<option value={role.id} key={role.id}>
-								{role.name}
-							</option>
-						))}
-					</select>
+				{modalType === "assign" ? (
+					<Form onSubmit={assignRole}>
+						<label>Role</label>
+						<select
+							value={roleId}
+							onChange={(e) => setRoleId(e.target.value)}
+							required
+							disabled={load}
+							className="height"
+						>
+							<option value={""}>Select One</option>
+							{roles?.map((role: any) => (
+								<option value={role.id} key={role.id}>
+									{role.name}
+								</option>
+							))}
+						</select>
 
-					{load ? (
-						<Loading />
-					) : (
-						<ButtonSubmit type="submit">Assign Role</ButtonSubmit>
-					)}
-				</Form>
+						{load ? (
+							<Loading />
+						) : (
+							<ButtonSubmit type="submit">
+								Assign Role
+							</ButtonSubmit>
+						)}
+					</Form>
+				) : (
+					<AddUser
+						onComplete={() => {
+							setOpenModal(false);
+							listUsers();
+						}}
+						editDetails={null}
+						admin={true}
+						roles={roles}
+					/>
+				)}
 			</ModalComponent>
 		</div>
 	) : (
