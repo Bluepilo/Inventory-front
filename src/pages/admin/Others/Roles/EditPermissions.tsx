@@ -58,6 +58,25 @@ const EditPermissions = () => {
 		}
 	};
 
+	const addOrRemoveGroup = (check: boolean, permits: any) => {
+		let permissions = permits.permissions.map((p: any) => {
+			return p.id;
+		});
+		if (check) {
+			var arr = rolePermits.concat(permissions);
+			var finalArr = arr.filter(
+				(item: any, pos: number) => arr.indexOf(item) === pos
+			);
+			setRolePermits(finalArr);
+		} else {
+			let arr = rolePermits.filter(function (el: any) {
+				return permissions.indexOf(el) < 0;
+			});
+
+			setRolePermits(arr);
+		}
+	};
+
 	const addAll = (check: boolean) => {
 		if (check) {
 			setRolePermits(
@@ -144,36 +163,76 @@ const EditPermissions = () => {
 												Permissions
 											</span>
 										</CheckBox>
-										<div className="row">
+										<div>
 											{permissions.map((permit: any) => (
 												<div
-													className="col-lg-4 col-md-6"
 													key={permit.id}
+													className="mb-3"
 												>
 													<CheckBox>
 														<input
 															type="checkbox"
-															checked={
-																rolePermits.find(
-																	(r: any) =>
-																		r ==
-																		permit.id
-																)
-																	? true
-																	: false
-															}
 															onChange={(e) =>
-																addOrRemove(
+																addOrRemoveGroup(
 																	e.target
 																		.checked,
-																	permit.id
+																	permit
 																)
 															}
 														/>
-														<span>
+														<span
+															style={{
+																fontWeight:
+																	"bold",
+																textTransform:
+																	"uppercase",
+															}}
+														>
 															{permit.name}
 														</span>
 													</CheckBox>
+													<div className="row">
+														{permit.permissions?.map(
+															(p: any) => (
+																<div
+																	className="col-lg-4 col-sm-6"
+																	key={p.id}
+																>
+																	<CheckBox>
+																		<input
+																			type="checkbox"
+																			checked={
+																				rolePermits.find(
+																					(
+																						r: any
+																					) =>
+																						r ==
+																						p.id
+																				)
+																					? true
+																					: false
+																			}
+																			onChange={(
+																				e
+																			) =>
+																				addOrRemove(
+																					e
+																						.target
+																						.checked,
+																					p.id
+																				)
+																			}
+																		/>
+																		<span>
+																			{
+																				p.name
+																			}
+																		</span>
+																	</CheckBox>
+																</div>
+															)
+														)}
+													</div>
 												</div>
 											))}
 										</div>
