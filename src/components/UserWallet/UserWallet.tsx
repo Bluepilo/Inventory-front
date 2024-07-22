@@ -41,8 +41,12 @@ const UserWallet = ({
 	const [openDrop, setOpenDrop] = useState(false);
 	const [openType, setOpenType] = useState("");
 	const [totals, setTotals] = useState(0);
+	const [dateType, setDateType] = useState({
+		label: "This Month",
+		value: "month",
+	});
 
-	let filters = `?startDate=${startDate}&endDate=${endDate}&transactionType=${
+	let filters = `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}&transactionType=${
 		transactionType?.value || ""
 	}`;
 
@@ -65,6 +69,7 @@ const UserWallet = ({
 		);
 		setEndDate(new Date(new Date().setDate(new Date().getDate() + 1)));
 		setTransactionType(null);
+		setDateType({ label: "This Month", value: "month" });
 	};
 
 	const fetchUser = async () => {
@@ -149,6 +154,8 @@ const UserWallet = ({
 								{ label: "Payment", value: "payment" },
 							]}
 							clearValues={clearFilters}
+							dateType={dateType}
+							changeDateType={setDateType}
 						/>
 						<WalletDiv className="shadow-sm">
 							<div className="info">
@@ -225,7 +232,7 @@ const UserWallet = ({
 								</div>
 							</div>
 						</WalletDiv>
-						<h6 className="mt-3">Transaction Report</h6>
+						<h6 className="mt-3">Transaction Report</h6>21
 						<div className="table-responsive mt-3">
 							<Table className="table">
 								<thead>

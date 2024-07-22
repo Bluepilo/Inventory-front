@@ -293,8 +293,9 @@ const listUsers = async (token: string) => {
 };
 
 const actionUsers = async (token: string, id: number, action: string) => {
-	const { data } = await axios.get(
+	const { data } = await axios.post(
 		`${config.baseUrl}/admin/user/${id}/${action}`,
+		{},
 		{
 			headers: authHeader(token),
 		}
