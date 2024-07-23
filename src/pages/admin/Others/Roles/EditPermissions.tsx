@@ -79,21 +79,32 @@ const EditPermissions = () => {
 
 	const addAll = (check: boolean) => {
 		if (check) {
-			setRolePermits(
-				permissions?.map((p: any) => {
-					return p.id;
-				})
-			);
+			let arr: any = [];
+			permissions.map((p: any) => {
+				arr.push(
+					p.permissions.map((a: any) => {
+						return a.id;
+					})
+				);
+			});
+			setRolePermits(arr.flat());
 			setRemoved([]);
 		} else {
-			setRemoved(
-				permissions?.map((p: any) => {
-					return p.id;
-				})
-			);
+			let arr: any = [];
+			permissions.map((p: any) => {
+				arr.push(
+					p.permissions.map((a: any) => {
+						return a.id;
+					})
+				);
+			});
+			setRemoved(arr.flat());
 			setRolePermits([]);
 		}
 	};
+
+	console.log(rolePermits, "rolePermits");
+	console.log(removed, "Removed");
 
 	const submitHandler = async (e: any) => {
 		e.preventDefault();
