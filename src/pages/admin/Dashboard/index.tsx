@@ -3,7 +3,6 @@ import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import PageLoad from "../../../components/Loaders/PageLoad";
 import { getDashboardStats } from "../../../redux/features/admin/admin-slice";
 import { DashboardCard } from "../../../styles/home.styles";
-import PieChart from "../../../components/Home/PieChart";
 import { formatCurrency } from "../../../utils/currency";
 import AdminPieChart from "../../../components/Home/AdminPieChart";
 import {
@@ -11,6 +10,7 @@ import {
 	OptionProp,
 } from "../../../components/Filters/BasicInputs";
 import PermissionDenied from "../../../components/PermissionDenied";
+import AdminLineGraph from "../../../components/Home/AdminLineGraph";
 
 const Dashboard = () => {
 	const thisYear = new Date().getFullYear();
@@ -64,6 +64,47 @@ const Dashboard = () => {
 					<div className="col-lg-4 mb-4">
 						<DashboardCard>
 							<div className="head">
+								<h6>Active Organizations</h6>
+							</div>
+							<div className="body">
+								<div className="content">
+									<h6>Total</h6>
+									<h4>
+										{dashboardStats.activeOrganizations}
+									</h4>
+								</div>
+							</div>
+						</DashboardCard>
+					</div>
+					<div className="col-lg-4 mb-4">
+						<DashboardCard>
+							<div className="head">
+								<h6>Active Shops</h6>
+							</div>
+							<div className="body">
+								<div className="content">
+									<h6>Total</h6>
+									<h4>{dashboardStats.activeShops}</h4>
+								</div>
+							</div>
+						</DashboardCard>
+					</div>
+					<div className="col-lg-4 mb-4">
+						<DashboardCard>
+							<div className="head">
+								<h6>Active Users</h6>
+							</div>
+							<div className="body">
+								<div className="content">
+									<h6>Total</h6>
+									<h4>{dashboardStats.activeUsers}</h4>
+								</div>
+							</div>
+						</DashboardCard>
+					</div>
+					<div className="col-lg-4 mb-4">
+						<DashboardCard>
+							<div className="head">
 								<h6>Products</h6>
 							</div>
 							<div className="body">
@@ -84,6 +125,42 @@ const Dashboard = () => {
 									<h6>Total</h6>
 									<h4>{dashboardStats.totalBrands}</h4>
 								</div>
+							</div>
+						</DashboardCard>
+					</div>
+					<div className="col-lg-6 mb-4">
+						<DashboardCard>
+							<div className="head">
+								<h6>Subscription Revenue</h6>
+							</div>
+							<div className="body">
+								<AdminLineGraph
+									val={dashboardStats.subscriptionPlans?.map(
+										(v: any) => {
+											return v.amount;
+										}
+									)}
+									label="Subscription Revenue"
+									color={"#0042FF"}
+								/>
+							</div>
+						</DashboardCard>
+					</div>
+					<div className="col-lg-6 mb-4">
+						<DashboardCard>
+							<div className="head">
+								<h6>Subscription Count</h6>
+							</div>
+							<div className="body">
+								<AdminLineGraph
+									val={dashboardStats.subscriptionPlans?.map(
+										(v: any) => {
+											return v.count;
+										}
+									)}
+									label="Subscription Count"
+									color={"#000D33"}
+								/>
 							</div>
 						</DashboardCard>
 					</div>

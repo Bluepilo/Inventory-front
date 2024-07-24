@@ -117,7 +117,7 @@ const NewProduct = () => {
 			}
 			setLoad(false);
 			if (res) {
-				navigate(`/dashboard/catalogue/${params.id}`);
+				navigate(-1);
 				toast.success(
 					`Product has been ${editState?.id ? "Updated" : "Created"}`
 				);
