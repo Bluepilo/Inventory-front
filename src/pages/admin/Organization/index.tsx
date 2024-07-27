@@ -60,7 +60,7 @@ const Organization = () => {
 		} else {
 			listDeletedOrgnaizations();
 		}
-	}, [filters]);
+	}, [filters, orgType]);
 
 	useEffect(() => {
 		getPlans();

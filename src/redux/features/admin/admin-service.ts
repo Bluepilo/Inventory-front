@@ -328,6 +328,16 @@ const assignRole = async (token: string, userId: number, roleId: string) => {
 	return data.data;
 };
 
+const listProducts = async (token: string, filters: string) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/admin/product${filters}`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const adminService = {
 	dashboardStats,
 	listOrganization,
@@ -365,6 +375,7 @@ const adminService = {
 	deleteUser,
 	assignRole,
 	createUser,
+	listProducts,
 };
 
 export default adminService;

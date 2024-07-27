@@ -161,8 +161,7 @@ const SaleDetails = () => {
 													)}{" "}
 													on{" "}
 													{dateFormat(
-														saleDetails.withdrawnBy
-															?.createdAt,
+														saleDetails.updatedAt,
 														"mmm dd, yyyy h:MM TT"
 													)}
 												</p>
