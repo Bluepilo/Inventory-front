@@ -27,6 +27,7 @@ import SmsWallets from "../pages/admin/SMS/SmsWallets";
 import SmsHistory from "../pages/admin/SMS/SmsHistory";
 import Roles from "../pages/admin/Others/Roles";
 import EditPermissions from "../pages/admin/Others/Roles/EditPermissions";
+import AdminRewards from "../pages/admin/Others/AdminRewards";
 
 // User Routes
 import Dashboard from "../pages/user/Dashboard";
@@ -158,6 +159,7 @@ const Routing = () => {
 						path="others/roles/:id"
 						element={<EditPermissions />}
 					/>
+					<Route path="others/rewards" element={<AdminRewards />} />
 				</Route>
 				<Route
 					path="/payment-confirmation"

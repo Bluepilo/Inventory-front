@@ -341,6 +341,12 @@ const adminRoutes = [
 				href: "/admin/others/roles",
 				permission: ["listRoles"],
 			},
+			{
+				id: 5,
+				name: "Rewards",
+				href: "/admin/others/rewards",
+				permission: ["listRoles"],
+			},
 		],
 		permission: [""],
 	},
