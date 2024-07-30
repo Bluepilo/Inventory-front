@@ -51,6 +51,15 @@ const AdminRewards = () => {
 		}
 	};
 
+	const clearFilters = () => {
+		setStartDate(
+			new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+		);
+		setEndDate(new Date(new Date().setDate(new Date().getDate() + 1)));
+		setDateType({ label: "This Month", value: "month" });
+		setTypeId(null);
+	};
+
 	return (
 		<div>
 			<TitleCover title="All Rewards" />
@@ -68,6 +77,7 @@ const AdminRewards = () => {
 					{ label: "Claim", value: "claim" },
 				]}
 				changeOthers={setTypeId}
+				clearValues={clearFilters}
 			/>
 			<div className="mt-4">
 				<TableComponent>

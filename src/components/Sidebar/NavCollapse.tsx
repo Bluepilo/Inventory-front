@@ -51,7 +51,7 @@ const NavCollapse = ({
 		}
 	};
 
-	return (
+	return permitted ? (
 		<OutsideClick handleToggle={() => setOpen(false)}>
 			<SidebarDropDown
 				minimize={minimized}
@@ -85,6 +85,8 @@ const NavCollapse = ({
 				)}
 			</SidebarDropDown>
 		</OutsideClick>
+	) : (
+		<></>
 	);
 };
 

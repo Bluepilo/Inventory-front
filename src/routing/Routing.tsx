@@ -28,6 +28,7 @@ import SmsHistory from "../pages/admin/SMS/SmsHistory";
 import Roles from "../pages/admin/Others/Roles";
 import EditPermissions from "../pages/admin/Others/Roles/EditPermissions";
 import AdminRewards from "../pages/admin/Others/AdminRewards";
+import AdminSettings from "../pages/admin/Settings";
 
 // User Routes
 import Dashboard from "../pages/user/Dashboard";
@@ -140,6 +141,7 @@ const Routing = () => {
 					/>
 					<Route path="finance/expense" element={<Expenses />} />
 					<Route path="resource" element={<AdminResource />} />
+					<Route path="rewards" element={<Rewards />} />
 					<Route
 						path="resource/:slug"
 						element={<AdminResourceDetails />}
@@ -160,6 +162,7 @@ const Routing = () => {
 						element={<EditPermissions />}
 					/>
 					<Route path="others/rewards" element={<AdminRewards />} />
+					<Route path="settings" element={<AdminSettings />} />
 				</Route>
 				<Route
 					path="/payment-confirmation"

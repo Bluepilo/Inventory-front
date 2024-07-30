@@ -36,7 +36,10 @@ const Sidebar = ({ open, minimizeHandler, onClose, minimized }: Props) => {
 		if (details.shopId && permit?.includes("admin")) {
 			return false;
 		} else if (details.role.isAdmin) {
-			if (details.role.permissions.find((p) => p.method === permit[0])) {
+			if (
+				details.role.permissions.find((p) => p.method === permit[0]) ||
+				permit.length === 0
+			) {
 				return true;
 			} else {
 				return false;

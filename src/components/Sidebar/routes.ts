@@ -165,11 +165,13 @@ const userRoutes = [
 				id: 1,
 				name: "My Shops",
 				href: "/dashboard/business/shops",
+				permission: ["admin"],
 			},
 			{
 				id: 2,
 				name: "Staff",
 				href: "/dashboard/business/staff",
+				permission: ["admin"],
 			},
 			{
 				id: 3,
@@ -247,14 +249,14 @@ const adminRoutes = [
 				permission: ["listBrandRequest"],
 			},
 		],
-		permission: [""],
+		permission: [],
 	},
 	{
 		id: 5,
 		name: "Bluepilo SMS",
 		href: "/admin/sms",
 		icon: TransactionIcon,
-		permission: [""],
+		permission: [],
 		children: [
 			{
 				id: 1,
@@ -301,7 +303,7 @@ const adminRoutes = [
 				permission: ["expenseList"],
 			},
 		],
-		permission: [""],
+		permission: [],
 	},
 	{
 		id: 7,
@@ -348,7 +350,15 @@ const adminRoutes = [
 				permission: ["listRoles"],
 			},
 		],
-		permission: [""],
+		permission: [],
+	},
+	{
+		id: 9,
+		name: "Rewards",
+		href: "/admin/rewards",
+		icon: BusinessIcon,
+		children: [],
+		permission: [],
 	},
 ];
 

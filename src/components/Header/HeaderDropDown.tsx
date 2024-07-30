@@ -80,16 +80,19 @@ const HeaderDropDown = ({
 						<AiOutlineLogout size={20} />
 						<p>Logout</p>
 					</a>
-					{details.businessId && (
-						<Link
-							to="/dashboard/settings"
-							onClick={() => setOpenDrop(false)}
-							className="box"
-						>
-							<IoSettingsOutline size={20} />
-							<p>Settings</p>
-						</Link>
-					)}
+
+					<Link
+						to={
+							details.role.isAdmin
+								? "/admin/settings"
+								: "/dashboard/settings"
+						}
+						onClick={() => setOpenDrop(false)}
+						className="box"
+					>
+						<IoSettingsOutline size={20} />
+						<p>Settings</p>
+					</Link>
 				</div>
 				<div className="switch-p">
 					<button
