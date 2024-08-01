@@ -11,6 +11,10 @@ import {
 } from "../../../components/Filters/BasicInputs";
 import PermissionDenied from "../../../components/PermissionDenied";
 import AdminLineGraph from "../../../components/Home/AdminLineGraph";
+import { DetailCard } from "../../../styles/sale.styles";
+import { Table } from "../../../styles/table.styles";
+import SkeletonTable from "../../../components/Loaders/SkeletonTable";
+import adminService from "../../../redux/features/admin/admin-service";
 
 const Dashboard = () => {
 	const thisYear = new Date().getFullYear();
@@ -20,13 +24,30 @@ const Dashboard = () => {
 		label: `${thisYear}`,
 		value: `${thisYear}`,
 	});
+	const [loadSub, setLoadSub] = useState(false);
+	const [resultSub, setResultSub] = useState<any>([]);
 
 	const { dashboardStats } = useAppSelector((state) => state.admin);
-	const { details } = useAppSelector((state) => state.auth);
+	const { details, token } = useAppSelector((state) => state.auth);
 
 	useEffect(() => {
 		dispatch(getDashboardStats(`?year=${year?.value}`));
 	}, [year]);
+
+	useEffect(() => {
+		getResult();
+	}, []);
+
+	const getResult = async () => {
+		try {
+			setLoadSub(true);
+			let res = await adminService.subTracker(token);
+			setLoadSub(false);
+			setResultSub(res);
+		} catch (err) {
+			setLoadSub(false);
+		}
+	};
 
 	return details?.role?.permissions.find(
 		(f) => f.method === "dashboardReport"
@@ -164,7 +185,36 @@ const Dashboard = () => {
 							</div>
 						</DashboardCard>
 					</div>
-					<div className="col-lg-8 mb-4">
+					<div className="col-lg-5 mb-4">
+						<DetailCard>
+							<div className="table-responsive">
+								<Table className="table">
+									<thead>
+										<tr>
+											<th>Subscription Type</th>
+											<th>Active Units</th>
+										</tr>
+									</thead>
+									{!loadSub && (
+										<>
+											<tbody>
+												{resultSub?.subscriptions?.map(
+													(r: any) => (
+														<tr key={r.id}>
+															<td>{r.name}</td>
+															<td>{r.count}</td>
+														</tr>
+													)
+												)}
+											</tbody>
+										</>
+									)}
+								</Table>
+								{loadSub && <SkeletonTable />}
+							</div>
+						</DetailCard>
+					</div>
+					<div className="col-lg-7 mb-4">
 						<DashboardCard>
 							<div className="head">
 								<h6>Sales Volume</h6>

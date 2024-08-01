@@ -1,37 +1,66 @@
 import TitleCover from "../../../components/TitleCover";
-import { ProfileBox } from "../../../styles/profile.styles";
 import { useAppSelector } from "../../../redux/hooks";
-import Referral from "../../../components/Settings/Referral";
+import { SwitchDiv } from "../../../styles/basic.styles";
+import { useEffect, useState } from "react";
+import adminService from "../../../redux/features/admin/admin-service";
+import ProfileInfo from "./ProfileInfo";
+import AppSettings from "./AppSettings";
 
 const Settings = () => {
-	const { details } = useAppSelector((state) => state.auth);
+	const [activePage, setActivePage] = useState("profile");
+	const [appSettings, setAppSettings] = useState<any>({});
+
+	const { details, token } = useAppSelector((state) => state.auth);
+
+	useEffect(() => {
+		if (
+			details?.role?.permissions.find(
+				(f) => f.method === "getAppSettings"
+			)
+		) {
+			loadSettings();
+		}
+	}, []);
+
+	const loadSettings = async () => {
+		try {
+			let res = await adminService.appSettings(token);
+			setAppSettings(res?.length > 0 ? res[0] : {});
+		} catch (err) {}
+	};
 
 	return (
 		<div>
 			<TitleCover title={`Settings`} />
+			<SwitchDiv>
+				<div
+					className={activePage === "profile" ? "active" : ""}
+					onClick={() => setActivePage("profile")}
+				>
+					Profile Information
+				</div>
+				{details?.role?.permissions.find(
+					(f) => f.method === "getAppSettings"
+				) && (
+					<div
+						className={activePage === "app" ? "active" : ""}
+						onClick={() => setActivePage("app")}
+					>
+						App Settings
+					</div>
+				)}
+			</SwitchDiv>
 			<div className="row mt-3">
 				<div className="col-lg-8">
-					<h5>Personal Information</h5>
-					<ProfileBox>
-						<div className="info" style={{ width: "50%" }}>
-							{details.image ? (
-								<img src={details.image} />
-							) : (
-								<span className="img" />
-							)}
-							<div className="content">
-								<h6>{details.username}</h6>
-							</div>
-						</div>
-						<div className="more">
-							<p>{details.fullName}</p>
-							<p>{details.phoneNo}</p>
-							<p>{details.email}</p>
-						</div>
-					</ProfileBox>
+					{activePage === "profile" ? (
+						<ProfileInfo details={details} />
+					) : activePage === "app" ? (
+						<AppSettings setting={appSettings} />
+					) : (
+						<></>
+					)}
 				</div>
 			</div>
-			{details.referralCode && <Referral code={details.referralCode} />}
 		</div>
 	);
 };

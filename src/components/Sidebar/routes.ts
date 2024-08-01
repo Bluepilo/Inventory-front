@@ -217,14 +217,6 @@ const adminRoutes = [
 		permission: ["organizationList"],
 	},
 	{
-		id: 3,
-		name: "Subscriptions",
-		href: "/admin/subscriptions",
-		icon: SubscriptionIcon,
-		children: [],
-		permission: ["subscriptionStatistics"],
-	},
-	{
 		id: 4,
 		name: "Brands",
 		href: "/admin/brands",

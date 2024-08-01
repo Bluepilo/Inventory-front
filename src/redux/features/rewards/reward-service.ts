@@ -36,11 +36,23 @@ const getAdminRewards = async (token: string, filters: string) => {
 	return data?.data || data;
 };
 
+const resolveClaimReward = async (token: string, id: string) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/admin/reward/${id}/resolve-claim`,
+		{},
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data?.data || data;
+};
+
 const rewardService = {
 	getWallet,
 	getLogs,
 	claimReward,
 	getAdminRewards,
+	resolveClaimReward,
 };
 
 export default rewardService;
