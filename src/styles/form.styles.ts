@@ -39,7 +39,8 @@ export const Form = styled.form`
 		position: relative;
 		width: 100%;
 
-		button {
+		button,
+		a {
 			position: absolute;
 			right: 15px;
 			top: 5px;
@@ -47,6 +48,7 @@ export const Form = styled.form`
 			background: none;
 			outline: 0;
 			border: 0;
+			text-decoration: none;
 		}
 	}
 

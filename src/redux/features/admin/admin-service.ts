@@ -48,7 +48,7 @@ const fetchRequests = async (token: string, status: string) => {
 
 const actionBrandRequests = async (token: string, id: string, obj: any) => {
 	const { data } = await axios.post(
-		`${config.baseUrl}/brand/approve-or-reject-brand-request/${id}`,
+		`${config.baseUrl}/admin/brand/request/${id}/${obj.action}`,
 		obj,
 		{
 			headers: authHeader(token),
@@ -339,7 +339,14 @@ const listProducts = async (token: string, filters: string) => {
 };
 
 const appSettings = async (token: string) => {
-	const { data } = await axios.get(`${config.baseUrl}/admin/app-settings`, {
+	const { data } = await axios.get(`${config.baseUrl}/admin/settings`, {
+		headers: authHeader(token),
+	});
+	return data.data;
+};
+
+const updateAppSettings = async (token: string, obj: any) => {
+	const { data } = await axios.post(`${config.baseUrl}/admin/settings`, obj, {
 		headers: authHeader(token),
 	});
 	return data.data;
@@ -384,6 +391,7 @@ const adminService = {
 	createUser,
 	listProducts,
 	appSettings,
+	updateAppSettings,
 };
 
 export default adminService;

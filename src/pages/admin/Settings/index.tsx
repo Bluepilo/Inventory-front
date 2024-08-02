@@ -55,7 +55,10 @@ const Settings = () => {
 					{activePage === "profile" ? (
 						<ProfileInfo details={details} />
 					) : activePage === "app" ? (
-						<AppSettings setting={appSettings} />
+						<AppSettings
+							setting={appSettings}
+							reload={loadSettings}
+						/>
 					) : (
 						<></>
 					)}

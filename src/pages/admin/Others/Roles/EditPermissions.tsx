@@ -67,13 +67,20 @@ const EditPermissions = () => {
 			var finalArr = arr.filter(
 				(item: any, pos: number) => arr.indexOf(item) === pos
 			);
+			var finalArr2 = removed.filter(function (el: any) {
+				return permissions.indexOf(el) < 0;
+			});
 			setRolePermits(finalArr);
+			setRemoved(finalArr2);
 		} else {
 			let arr = rolePermits.filter(function (el: any) {
 				return permissions.indexOf(el) < 0;
 			});
-
+			let arr2 = rolePermits.filter(function (el: any) {
+				return permissions.indexOf(el) > 0;
+			});
 			setRolePermits(arr);
+			setRemoved(arr2);
 		}
 	};
 
@@ -103,9 +110,6 @@ const EditPermissions = () => {
 		}
 	};
 
-	console.log(rolePermits, "rolePermits");
-	console.log(removed, "Removed");
-
 	const submitHandler = async (e: any) => {
 		e.preventDefault();
 		try {
@@ -118,7 +122,7 @@ const EditPermissions = () => {
 
 			if (removed.length > 0) {
 				await adminService.removePermissions(token, id, {
-					permissions: rolePermits,
+					permissions: removed,
 				});
 			}
 			setLoad(false);
