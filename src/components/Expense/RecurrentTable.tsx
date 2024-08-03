@@ -5,16 +5,43 @@ import SuccessIcon from "../../assets/icons/success.svg";
 import PendingIcon from "../../assets/icons/pending.svg";
 import FailedIcon from "../../assets/icons/failed.svg";
 import { MainButton } from "../../styles/links.styles";
+import { displayError, displaySuccess } from "../../utils/errors";
+import expenseService from "../../redux/features/expense/expense-service";
+import { useAppSelector } from "../../redux/hooks";
 
 const RecurrentTable = ({
 	data,
 	load,
 	currency,
+	setLoad,
+	reload,
 }: {
 	data: any;
 	load: boolean;
 	currency: string;
+	setLoad: (arg: boolean) => void;
+	reload: () => void;
 }) => {
+	const { token } = useAppSelector((state) => state.auth);
+
+	const cancelExpense = async (id: string) => {
+		if (
+			window.confirm(
+				"Are you sure you want to proceed with the cancelation?"
+			)
+		) {
+			try {
+				setLoad(true);
+				await expenseService.deleteRecurrentExpense(token, id);
+				setLoad(false);
+				displaySuccess("Recurrent Expense has been cancelled");
+				reload();
+			} catch (err) {
+				setLoad(false);
+				displayError(err, true);
+			}
+		}
+	};
 	return (
 		<Table className="table">
 			<thead>
@@ -60,7 +87,11 @@ const RecurrentTable = ({
 								/>
 							</td>
 							<td>
-								<MainButton sm="true" bg="#F44336">
+								<MainButton
+									sm="true"
+									bg="#F44336"
+									onClick={() => cancelExpense(d.id)}
+								>
 									Cancel
 								</MainButton>
 							</td>

@@ -282,7 +282,23 @@ const removeUserFromBusiness = async (
 
 const changePassword = async (token: string, obj: any, userId: string) => {
 	const { data } = await axios.post(
-		`${config.baseUrl}/user/change-password/${userId}}`,
+		`${config.baseUrl}/user/change-password/${userId}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const updateUserRole = async (
+	token: string,
+	obj: any,
+	userId: string,
+	bizId: string
+) => {
+	const { data } = await axios.patch(
+		`${config.baseUrl}/business/${bizId}/update/${userId}`,
 		obj,
 		{
 			headers: authHeader(token),
@@ -316,6 +332,7 @@ const customerService = {
 	removeUserFromBusiness,
 	changePassword,
 	deleteUser,
+	updateUserRole,
 };
 
 export default customerService;

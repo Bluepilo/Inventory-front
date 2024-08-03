@@ -55,12 +55,23 @@ const createExpense = async (token: string, obj: any) => {
 	return data.data;
 };
 
+const deleteRecurrentExpense = async (token: string, id: string) => {
+	const { data } = await axios.delete(
+		`${config.baseUrl}/expense/recurrent/${id}/delete`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const expenseService = {
 	getExpenses,
 	getRecurrentExpenses,
 	deleteExpense,
 	actionOnExpense,
 	createExpense,
+	deleteRecurrentExpense,
 };
 
 export default expenseService;

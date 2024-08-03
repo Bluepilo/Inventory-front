@@ -55,7 +55,11 @@ const BrandRequest = () => {
 				comment,
 			});
 			fetchRequests();
-			toast.success("Action completed!");
+			toast.success(
+				`Request has been ${
+					action?.name === "approve" ? "Approved" : "Rejectd"
+				}`
+			);
 		} catch (err) {
 			setLoad(false);
 			displayError(err, true);

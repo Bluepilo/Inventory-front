@@ -48,7 +48,7 @@ const fetchRequests = async (token: string, status: string) => {
 
 const actionBrandRequests = async (token: string, id: string, obj: any) => {
 	const { data } = await axios.post(
-		`${config.baseUrl}/admin/brand/request/${id}/${obj.action}`,
+		`${config.baseUrl}/admin/brand/request/${id}/action`,
 		obj,
 		{
 			headers: authHeader(token),

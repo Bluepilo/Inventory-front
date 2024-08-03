@@ -49,6 +49,7 @@ interface UserDetailsType {
 			name: string;
 			code: string;
 		};
+		makePurchase: boolean;
 	};
 	shop: {
 		name: string;

@@ -188,6 +188,8 @@ const Expenses = () => {
 											data={lists?.rows}
 											load={load}
 											currency={currency}
+											setLoad={setLoad}
+											reload={loadRecurrent}
 										/>
 									) : (
 										<ExpenseTable
