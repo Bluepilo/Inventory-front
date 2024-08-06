@@ -49,6 +49,7 @@ export const Form = styled.form`
 			outline: 0;
 			border: 0;
 			text-decoration: none;
+			color: #333;
 		}
 	}
 
