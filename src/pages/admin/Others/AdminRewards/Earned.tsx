@@ -15,6 +15,10 @@ const Earned = ({
 	load: boolean;
 	setReferral: (arg: any) => void;
 }) => {
+	const getName = (str: string) => {
+		return str.replace(/ /g, "-");
+	};
+
 	return (
 		<div className="table-responsive">
 			<Table className="table">
@@ -44,15 +48,14 @@ const Earned = ({
 										: "--"}
 								</td>
 								<td className="link">
-									<a
-										href="#"
-										onClick={(e) => {
-											e.preventDefault();
-											setReferral(l.user);
-										}}
+									<Link
+										to={`/admin/users/${getName(
+											`${l.user?.fullName}`
+										)}`}
+										state={l.user}
 									>
 										{l.user?.fullName}
-									</a>
+									</Link>
 								</td>
 								<td className="link">
 									<Link

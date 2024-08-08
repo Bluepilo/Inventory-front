@@ -11,6 +11,7 @@ import ModalComponent from "../../../../components/ModalComponent";
 import { useState } from "react";
 import AccountDetailsInfo from "../../../../components/Reward/AccountDetailsInfo";
 import ResolveClaims from "../../../../components/Reward/ResolveClaims";
+import { Link } from "react-router-dom";
 
 const Claimed = ({
 	list,
@@ -31,6 +32,10 @@ const Claimed = ({
 	const [id, setId] = useState("");
 
 	const { token } = useAppSelector((state) => state.auth);
+
+	const getName = (str: string) => {
+		return str.replace(/ /g, "-");
+	};
 
 	const resolveClaim = async (type: string, val: string) => {
 		if (window.confirm(`Are you sure you want to resolve this?`)) {
@@ -76,15 +81,14 @@ const Claimed = ({
 										: "--"}
 								</td>
 								<td className="link">
-									<a
-										href="#"
-										onClick={(e) => {
-											e.preventDefault();
-											setReferral(l.user);
-										}}
+									<Link
+										to={`/admin/users/${getName(
+											`${l.user?.fullName}`
+										)}`}
+										state={l.user}
 									>
 										{l.user?.fullName}
-									</a>
+									</Link>
 								</td>
 								<td>{l.activity}</td>
 								<td className="link">

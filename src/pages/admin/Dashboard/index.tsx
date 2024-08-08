@@ -111,7 +111,7 @@ const Dashboard = () => {
 							</div>
 						</DashboardCard>
 					</div>
-					<div className="col-lg-4 mb-4">
+					<div className="col-lg-3 mb-4">
 						<DashboardCard>
 							<div className="head">
 								<h6>Active Users</h6>
@@ -124,7 +124,7 @@ const Dashboard = () => {
 							</div>
 						</DashboardCard>
 					</div>
-					<div className="col-lg-4 mb-4">
+					<div className="col-lg-3 mb-4">
 						<DashboardCard>
 							<div className="head">
 								<h6>Products</h6>
@@ -137,7 +137,7 @@ const Dashboard = () => {
 							</div>
 						</DashboardCard>
 					</div>
-					<div className="col-lg-4 mb-4">
+					<div className="col-lg-3 mb-4">
 						<DashboardCard>
 							<div className="head">
 								<h6>Brands</h6>
@@ -146,6 +146,19 @@ const Dashboard = () => {
 								<div className="content">
 									<h6>Total</h6>
 									<h4>{dashboardStats.totalBrands}</h4>
+								</div>
+							</div>
+						</DashboardCard>
+					</div>
+					<div className="col-lg-3 mb-4">
+						<DashboardCard>
+							<div className="head">
+								<h6>Expenses</h6>
+							</div>
+							<div className="body">
+								<div className="content">
+									<h6>Total</h6>
+									<h4>{dashboardStats.totalExpense}</h4>
 								</div>
 							</div>
 						</DashboardCard>

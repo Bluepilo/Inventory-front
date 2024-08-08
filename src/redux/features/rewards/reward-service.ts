@@ -47,12 +47,32 @@ const resolveClaimReward = async (token: string, id: string, obj: any) => {
 	return data?.data || data;
 };
 
+const acceptTerms = async (token: string) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/reward/accept-terms`,
+		{},
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data?.data;
+};
+
+const referredList = async (token: string) => {
+	const { data } = await axios.get(`${config.baseUrl}/reward/referred`, {
+		headers: authHeader(token),
+	});
+	return data?.data;
+};
+
 const rewardService = {
 	getWallet,
 	getLogs,
 	claimReward,
 	getAdminRewards,
 	resolveClaimReward,
+	acceptTerms,
+	referredList,
 };
 
 export default rewardService;

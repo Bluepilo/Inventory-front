@@ -29,6 +29,7 @@ import Roles from "../pages/admin/Others/Roles";
 import EditPermissions from "../pages/admin/Others/Roles/EditPermissions";
 import AdminRewards from "../pages/admin/Others/AdminRewards";
 import AdminSettings from "../pages/admin/Settings";
+import UserDetails from "../pages/admin/User/UserDetails";
 
 // User Routes
 import Dashboard from "../pages/user/Dashboard";
@@ -164,6 +165,7 @@ const Routing = () => {
 					/>
 					<Route path="others/rewards" element={<AdminRewards />} />
 					<Route path="settings" element={<AdminSettings />} />
+					<Route path="users/:name" element={<UserDetails />} />
 				</Route>
 				<Route
 					path="/payment-confirmation"

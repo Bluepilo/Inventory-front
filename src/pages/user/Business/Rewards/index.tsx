@@ -19,6 +19,7 @@ import CurrencyInput from "react-currency-input-field";
 import SuccessIcon from "../../../../assets/icons/success.svg";
 import PendingIcon from "../../../../assets/icons/pending.svg";
 import FailedIcon from "../../../../assets/icons/failed.svg";
+import RewardTerms from "../../../../components/Reward/RewardTerms";
 
 const Rewards = () => {
 	const { token } = useAppSelector((state) => state.auth);
@@ -30,6 +31,7 @@ const Rewards = () => {
 	const [limit, setLimit] = useState(20);
 	const [typeId, setTypeId] = useState<OptionProp | null>(null);
 	const [openModal, setOpenModal] = useState(false);
+	const [openTerms, setOpenTerms] = useState(false);
 
 	// Claim States
 	const [accountNumber, setAccountNumber] = useState("");
@@ -41,6 +43,9 @@ const Rewards = () => {
 		try {
 			let res = await rewardService.getWallet(token);
 			setBalance(res?.balance);
+			if (!res.termsAccepted) {
+				setOpenTerms(true);
+			}
 		} catch (err) {
 			displayError(err, true);
 		}
@@ -274,6 +279,13 @@ const Rewards = () => {
 						</ButtonSubmit>
 					)}
 				</Form>
+			</ModalComponent>
+			<ModalComponent
+				open={openTerms}
+				close={() => console.log("")}
+				size="lg"
+			>
+				<RewardTerms close={() => setOpenTerms(false)} />
 			</ModalComponent>
 		</div>
 	);
