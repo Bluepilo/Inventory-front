@@ -36,10 +36,10 @@ const getAdminRewards = async (token: string, filters: string) => {
 	return data?.data || data;
 };
 
-const resolveClaimReward = async (token: string, id: string) => {
+const resolveClaimReward = async (token: string, id: string, obj: any) => {
 	const { data } = await axios.post(
 		`${config.baseUrl}/admin/reward/${id}/resolve-claim`,
-		{},
+		obj,
 		{
 			headers: authHeader(token),
 		}

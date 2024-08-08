@@ -91,32 +91,7 @@ const AdminTransactions = () => {
 					<SummaryCard>
 						<div>
 							<h6>Total Credit:</h6>
-							<h6>
-								{formatCurrency(
-									list?.rows
-										?.filter((f: any) => f.mode === "in")
-										.reduce(
-											(a: any, b: any) =>
-												a + Number(b.amountPaid),
-											0
-										)
-								)}
-							</h6>
-						</div>
-
-						<div>
-							<h6>Total Debit:</h6>
-							<h6>
-								{formatCurrency(
-									list?.rows
-										?.filter((f: any) => f.mode === "out")
-										.reduce(
-											(a: any, b: any) =>
-												a + Number(b.amountPaid),
-											0
-										)
-								)}
-							</h6>
+							<h6>{formatCurrency(list?.total || 0)}</h6>
 						</div>
 					</SummaryCard>
 				</div>

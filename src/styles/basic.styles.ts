@@ -364,6 +364,7 @@ export const DrawerDiv = styled.div`
 	z-index: 91;
 	transition: all 0.3s ease-in-out;
 	padding: 20px;
+	overflow-y: scroll;
 
 	.transactions {
 		margin-top: 25px;

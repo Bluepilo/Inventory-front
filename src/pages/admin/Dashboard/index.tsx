@@ -15,6 +15,7 @@ import { DetailCard } from "../../../styles/sale.styles";
 import { Table } from "../../../styles/table.styles";
 import SkeletonTable from "../../../components/Loaders/SkeletonTable";
 import adminService from "../../../redux/features/admin/admin-service";
+import AdminBarChartTransact from "../../../components/Home/AdminBarChartTransact";
 
 const Dashboard = () => {
 	const thisYear = new Date().getFullYear();
@@ -167,6 +168,7 @@ const Dashboard = () => {
 							</div>
 						</DashboardCard>
 					</div>
+
 					<div className="col-lg-6 mb-4">
 						<DashboardCard>
 							<div className="head">
@@ -181,6 +183,18 @@ const Dashboard = () => {
 									)}
 									label="Subscription Count"
 									color={"#000D33"}
+								/>
+							</div>
+						</DashboardCard>
+					</div>
+					<div className="col-lg-12 mb-4">
+						<DashboardCard>
+							<div className="head">
+								<h6>Transaction Type</h6>
+							</div>
+							<div className="body">
+								<AdminBarChartTransact
+									arr={dashboardStats.transactionTypeReport}
 								/>
 							</div>
 						</DashboardCard>

@@ -16,6 +16,9 @@ import { Form } from "../../../../styles/form.styles";
 import Loading from "../../../../components/Loaders/Loading";
 import { ButtonSubmit } from "../../../../styles/links.styles";
 import CurrencyInput from "react-currency-input-field";
+import SuccessIcon from "../../../../assets/icons/success.svg";
+import PendingIcon from "../../../../assets/icons/pending.svg";
+import FailedIcon from "../../../../assets/icons/failed.svg";
 
 const Rewards = () => {
 	const { token } = useAppSelector((state) => state.auth);
@@ -135,6 +138,7 @@ const Rewards = () => {
 									<th>Organization</th>
 									<th>Activity</th>
 									<th className="price">Commission</th>
+									<th>Status</th>
 								</tr>
 							</thead>
 
@@ -153,6 +157,28 @@ const Rewards = () => {
 
 											<td className="price bold">
 												₦ {formatCurrency(l.amount)}
+											</td>
+											<td>
+												<img
+													src={
+														l.status.toLowerCase() ===
+														"success"
+															? SuccessIcon
+															: l.status.toLowerCase() ===
+															  "pending"
+															? PendingIcon
+															: FailedIcon
+													}
+												/>
+												<span
+													style={{
+														textTransform:
+															"capitalize",
+														marginLeft: "5px",
+													}}
+												>
+													{l.status}
+												</span>
 											</td>
 										</tr>
 									))}

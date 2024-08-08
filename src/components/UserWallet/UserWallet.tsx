@@ -15,6 +15,7 @@ import ModalComponent from "../ModalComponent";
 import LoadWallet from "./LoadWallet";
 import WithdrawWallet from "./WithdrawWallet";
 import { Link } from "react-router-dom";
+import DrawerInfo from "../Transaction/DrawerInfo";
 
 const UserWallet = ({
 	userType,
@@ -45,6 +46,8 @@ const UserWallet = ({
 		label: "This Month",
 		value: "month",
 	});
+	const [openDrawer, setOpenDrawer] = useState(false);
+	const [info, setInfo] = useState<any>(null);
 
 	let filters = `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}&transactionType=${
 		transactionType?.value || ""
@@ -232,7 +235,7 @@ const UserWallet = ({
 								</div>
 							</div>
 						</WalletDiv>
-						<h6 className="mt-3">Transaction Report</h6>21
+						<h6 className="mt-3">Transaction Report</h6>
 						<div className="table-responsive mt-3">
 							<Table className="table">
 								<thead>
@@ -279,12 +282,19 @@ const UserWallet = ({
 														}
 													</Link>
 												) : (
-													<span>
+													<a
+														href="#"
+														onClick={(e) => {
+															e.preventDefault();
+															setInfo(tr);
+															setOpenDrawer(true);
+														}}
+													>
 														{
 															tr.transactionType
 																?.name
 														}
-													</span>
+													</a>
 												)}
 											</td>
 											<td className="price">
@@ -350,6 +360,9 @@ const UserWallet = ({
 					<></>
 				)}
 			</ModalComponent>
+			{openDrawer && (
+				<DrawerInfo details={info} close={() => setOpenDrawer(false)} />
+			)}
 		</div>
 	);
 };

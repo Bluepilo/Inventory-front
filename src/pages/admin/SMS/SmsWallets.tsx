@@ -90,14 +90,20 @@ const SmsWallets = () => {
 										: "---"}
 								</h6>
 							</div>
-							<button
-								onClick={() => {
-									setModalType("central");
-									setOpenModal(true);
-								}}
-							>
-								Top Up
-							</button>
+							{details?.role?.permissions?.find(
+								(f) =>
+									f.method ===
+									"bluepiloSmsCentralWalletsTopup"
+							) && (
+								<button
+									onClick={() => {
+										setModalType("central");
+										setOpenModal(true);
+									}}
+								>
+									Top Up
+								</button>
+							)}
 						</SummaryCard>
 					</div>
 				</div>
@@ -149,25 +155,31 @@ const SmsWallets = () => {
 															)}
 														</td>
 														<td className="link">
-															<a
-																href="#"
-																onClick={(
-																	e
-																) => {
-																	e.preventDefault();
-																	setModalType(
-																		"user"
-																	);
-																	setUser(
-																		wallet
-																	);
-																	setOpenModal(
-																		true
-																	);
-																}}
-															>
-																Top Up
-															</a>
+															{details?.role?.permissions?.find(
+																(f) =>
+																	f.method ===
+																	"bluepiloSmsIndividualWalletTopup"
+															) && (
+																<a
+																	href="#"
+																	onClick={(
+																		e
+																	) => {
+																		e.preventDefault();
+																		setModalType(
+																			"user"
+																		);
+																		setUser(
+																			wallet
+																		);
+																		setOpenModal(
+																			true
+																		);
+																	}}
+																>
+																	Top Up
+																</a>
+															)}
 														</td>
 													</tr>
 												)

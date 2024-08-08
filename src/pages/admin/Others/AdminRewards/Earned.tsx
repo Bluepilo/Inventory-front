@@ -63,7 +63,7 @@ const Earned = ({
 								</td>
 								<td>{l.activity}</td>
 								<td>--</td>
-								<td>--</td>
+								<td>{l.rate}%</td>
 								<td className="price bold">
 									₦ {formatCurrency(l.amount)}
 								</td>

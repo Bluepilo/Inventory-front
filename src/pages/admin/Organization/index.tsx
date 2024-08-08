@@ -9,9 +9,10 @@ import { FcCancel } from "react-icons/fc";
 import dateFormat from "dateformat";
 import Paginate from "../../../components/Paginate";
 import { SwitchDiv } from "../../../styles/basic.styles";
-import { OptionProp } from "../../../components/Filters/BasicInputs";
-import SuccessIcon from "../../../assets/icons/success.svg";
-import FailedIcon from "../../../assets/icons/failed.svg";
+import {
+	DateSelect,
+	OptionProp,
+} from "../../../components/Filters/BasicInputs";
 import subscriptionService from "../../../redux/features/subscription/subscriptionService";
 import { Link } from "react-router-dom";
 import { UseDebounce } from "../../../utils/hooks";
@@ -42,6 +43,7 @@ const Organization = () => {
 		label: "This Month",
 		value: "month",
 	});
+	const [expiryDate, setExpiryDate] = useState(null);
 
 	const debouncedSearch = UseDebounce(search);
 
@@ -49,7 +51,7 @@ const Organization = () => {
 		orgType === "active" ? true : false
 	}&&endDate=${endDate}&searchWord=${debouncedSearch}&planId=${
 		subTypeId?.value || ""
-	}`;
+	}&expiryDate=${expiryDate ? new Date(expiryDate).toISOString() : ""}`;
 
 	const { token, details } = useAppSelector((state) => state.auth);
 
@@ -118,6 +120,7 @@ const Organization = () => {
 		setEndDate(new Date(new Date().setDate(new Date().getDate() + 1)));
 		setDateType({ label: "This Month", value: "month" });
 		setSubTypeId(null);
+		setExpiryDate(null);
 	};
 
 	const actionHandler = async (user: any, active: boolean) => {
@@ -187,7 +190,15 @@ const Organization = () => {
 				dateType={dateType}
 				changeDateType={setDateType}
 				placeholder="Search by name, address or phone"
-			/>
+			>
+				<div className="col-lg-2 col-md-4 col-6 mb-3">
+					<DateSelect
+						dateVal={expiryDate}
+						changeDateVal={setExpiryDate}
+						label="Expiry Date"
+					/>
+				</div>
+			</Filters>
 			<div className="mt-3">
 				{orgType !== "deleted" ? (
 					<TableComponent>

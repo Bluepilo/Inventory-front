@@ -12,6 +12,8 @@ import Earned from "./Earned";
 import Claimed from "./Claimed";
 import ModalComponent from "../../../../components/ModalComponent";
 import ReferralInfo from "../../../../components/Reward/ReferralInfo";
+import { SummaryCard } from "../../../../styles/dashboard.styles";
+import { formatCurrency } from "../../../../utils/currency";
 
 const AdminRewards = () => {
 	const { token, details } = useAppSelector((state) => state.auth);
@@ -86,6 +88,29 @@ const AdminRewards = () => {
 				changeEndDate={setEndDate}
 				clearValues={clearFilters}
 			/>
+			<div className="row align-items-center mt-4">
+				<div className="col-lg-6 mb-3">
+					<SummaryCard>
+						<div>
+							<h6>Success</h6>
+							<h6>
+								{list?.report?.find(
+									(f: any) => f.status === "success"
+								)?.count || "0"}
+							</h6>
+						</div>
+
+						<div>
+							<h6>Pending:</h6>
+							<h6>
+								{list?.report?.find(
+									(f: any) => f.status === "pending"
+								)?.count || "0"}
+							</h6>
+						</div>
+					</SummaryCard>
+				</div>
+			</div>
 			<div className="mt-4">
 				<TableComponent>
 					{rewardType === "earn" ? (

@@ -10,6 +10,7 @@ import { useAppSelector } from "../../../../redux/hooks";
 import ModalComponent from "../../../../components/ModalComponent";
 import { useState } from "react";
 import AccountDetailsInfo from "../../../../components/Reward/AccountDetailsInfo";
+import ResolveClaims from "../../../../components/Reward/ResolveClaims";
 
 const Claimed = ({
 	list,
@@ -25,15 +26,19 @@ const Claimed = ({
 	setLoad: (arg: boolean) => void;
 }) => {
 	const [openModal, setOpenModal] = useState(false);
+	const [modalType, setModalType] = useState("info");
 	const [account, setAccount] = useState<any>({});
+	const [id, setId] = useState("");
 
 	const { token } = useAppSelector((state) => state.auth);
 
-	const resolveClaim = async (val: any) => {
+	const resolveClaim = async (type: string, val: string) => {
 		if (window.confirm(`Are you sure you want to resolve this?`)) {
 			try {
 				setLoad(true);
-				await rewardService.resolveClaimReward(token, val.id);
+				await rewardService.resolveClaimReward(token, val, {
+					action: type,
+				});
 				setLoad(false);
 				displaySuccess("Reward Claimed");
 				reloadList();
@@ -88,6 +93,7 @@ const Claimed = ({
 										onClick={(e) => {
 											e.preventDefault();
 											setAccount(l.account);
+											setModalType("info");
 											setOpenModal(true);
 										}}
 									>
@@ -113,7 +119,9 @@ const Claimed = ({
 													href="#"
 													onClick={(e) => {
 														e.preventDefault();
-														resolveClaim(l);
+														setId(l.id);
+														setModalType("resolve");
+														setOpenModal(true);
 													}}
 												>
 													Resolve
@@ -130,9 +138,21 @@ const Claimed = ({
 			<ModalComponent
 				open={openModal}
 				close={() => setOpenModal(false)}
-				title="Account Details"
+				title={
+					modalType === "info" ? "Account Details" : "Resolve Claim"
+				}
 			>
-				<AccountDetailsInfo detail={account} />
+				{modalType === "info" ? (
+					<AccountDetailsInfo detail={account} />
+				) : (
+					<ResolveClaims
+						changeType={(id, type) => {
+							setOpenModal(false);
+							resolveClaim(id, type);
+						}}
+						id={id}
+					/>
+				)}
 			</ModalComponent>
 		</div>
 	);

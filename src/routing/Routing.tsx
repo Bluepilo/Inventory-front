@@ -85,6 +85,7 @@ import Details from "../pages/user/Users/Details";
 import Reciept from "../pages/user/Sales/Reciept";
 import Exports from "../pages/user/Reports/Exports";
 import Rewards from "../pages/user/Business/Rewards";
+import TransactionReceipt from "../pages/user/TransactionReceipt";
 
 const Routing = () => {
 	return (
@@ -168,6 +169,7 @@ const Routing = () => {
 					path="/payment-confirmation"
 					element={<PaymentConfirm />}
 				/>
+
 				<Route path="/dashboard" element={<User />}>
 					<Route path="home" element={<Dashboard />} />
 					<Route path="home/onboarding" element={<Onboarding />} />
@@ -274,6 +276,10 @@ const Routing = () => {
 						element={<ResourceDetail />}
 					/>
 					<Route path="users/:id" element={<Details />} />
+					<Route
+						path="print-preview"
+						element={<TransactionReceipt />}
+					/>
 				</Route>
 			</Routes>
 		</BrowserRouter>
