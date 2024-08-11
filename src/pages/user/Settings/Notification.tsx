@@ -52,7 +52,7 @@ const Notification = () => {
 	const changeStockAlert = async () => {
 		if (stockVal) {
 			let payload = {
-				stockAlert: 1,
+				stockAlert: Number(stockVal),
 				businessId: details.businessId,
 			};
 			try {

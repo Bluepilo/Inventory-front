@@ -5,7 +5,7 @@ import { useAppSelector } from "../../redux/hooks";
 import { toast } from "react-toastify";
 
 const StockAlert = ({ stock }: { stock: any }) => {
-	const [val, setVal] = useState("");
+	const [val, setVal] = useState(stock.min_stock);
 	const [load, setLoad] = useState(false);
 
 	const { token } = useAppSelector((state) => state.auth);
