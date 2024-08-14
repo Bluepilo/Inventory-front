@@ -62,7 +62,7 @@ const resetPassword = async (obj: any) => {
 };
 
 const getProfile = async (id: number, token: string) => {
-	const { data } = await axios.get(`${config.baseUrl}/user/view/${id}`, {
+	const { data } = await axios.get(`${config.baseUrl}/user/profile`, {
 		headers: authHeader(token),
 	});
 	return data;

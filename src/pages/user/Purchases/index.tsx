@@ -139,7 +139,7 @@ const Purchases = () => {
 				dataCount={lists?.count}
 				button={
 					haveRole(details.businessRoleId).isBusinessAdmin ||
-					details.business.makePurchase
+					details.currentBusinessAccess.makePurchase
 						? "Make Purchase"
 						: ""
 				}

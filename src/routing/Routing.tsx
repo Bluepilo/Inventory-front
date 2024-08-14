@@ -87,6 +87,7 @@ import Reciept from "../pages/user/Sales/Reciept";
 import Exports from "../pages/user/Reports/Exports";
 import Rewards from "../pages/user/Business/Rewards";
 import TransactionReceipt from "../pages/user/TransactionReceipt";
+import Referred from "../pages/user/Business/Rewards/Referred";
 
 const Routing = () => {
 	return (
@@ -144,6 +145,7 @@ const Routing = () => {
 					<Route path="finance/expense" element={<Expenses />} />
 					<Route path="resource" element={<AdminResource />} />
 					<Route path="rewards" element={<Rewards />} />
+					<Route path="rewards/referred" element={<Referred />} />
 					<Route
 						path="resource/:slug"
 						element={<AdminResourceDetails />}
@@ -260,6 +262,7 @@ const Routing = () => {
 						element={<NewInventory />}
 					/>
 					<Route path="rewards" element={<Rewards />} />
+					<Route path="rewards/referred" element={<Referred />} />
 					<Route path="subscription" element={<Subscription />} />
 					<Route path="subscription/upgrade" element={<Upgrade />} />
 					<Route path="logs" element={<ActivityLogs />} />

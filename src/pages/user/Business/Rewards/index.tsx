@@ -20,8 +20,12 @@ import SuccessIcon from "../../../../assets/icons/success.svg";
 import PendingIcon from "../../../../assets/icons/pending.svg";
 import FailedIcon from "../../../../assets/icons/failed.svg";
 import RewardTerms from "../../../../components/Reward/RewardTerms";
+import { MdGridView } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const Rewards = () => {
+	const navigate = useNavigate();
+
 	const { token } = useAppSelector((state) => state.auth);
 
 	const [balance, setBalance] = useState("");
@@ -103,7 +107,12 @@ const Rewards = () => {
 
 	return (
 		<div>
-			<TitleCover title="My Rewards" />
+			<TitleCover
+				title="My Rewards"
+				button={`View All Referred`}
+				buttonIcon={<MdGridView />}
+				buttonClick={() => navigate("referred")}
+			/>
 			<div className="row align-items-center mt-4">
 				<div className="col-lg-6 mb-3">
 					<SummaryCard>

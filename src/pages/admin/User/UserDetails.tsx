@@ -15,6 +15,7 @@ const UserDetails = () => {
 	const { token } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
+	const [lists, setLists] = useState([]);
 
 	useEffect(() => {
 		if (!user?.id) {
@@ -22,13 +23,16 @@ const UserDetails = () => {
 		} else {
 			loadReferrals();
 		}
-	}, [user]);
+	}, []);
 
 	const loadReferrals = async () => {
 		try {
 			setLoad(true);
-			await rewardService.referredList(token);
+			let res = await rewardService.referredListAdmin(token, user.id);
 			setLoad(false);
+			if (res?.rows) {
+				setLists(res.rows);
+			}
 		} catch (err) {
 			setLoad(false);
 			displayError(err, true);
@@ -81,6 +85,10 @@ const UserDetails = () => {
 							<div className="body">
 								{load ? (
 									<Loading />
+								) : lists?.length > 0 ? (
+									lists?.map((li: any) => (
+										<p key={li.id}>{li.name}</p>
+									))
 								) : (
 									<>
 										<p>No organization referred.</p>

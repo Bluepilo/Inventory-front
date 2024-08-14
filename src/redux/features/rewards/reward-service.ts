@@ -58,10 +58,20 @@ const acceptTerms = async (token: string) => {
 	return data?.data;
 };
 
-const referredList = async (token: string) => {
+const referredList = async (token: string, filters: string) => {
 	const { data } = await axios.get(`${config.baseUrl}/reward/referred`, {
 		headers: authHeader(token),
 	});
+	return data?.data;
+};
+
+const referredListAdmin = async (token: string, userId: number) => {
+	const { data } = await axios.get(
+		`${config.baseUrl}/admin/reward/${userId}/referred`,
+		{
+			headers: authHeader(token),
+		}
+	);
 	return data?.data;
 };
 
@@ -73,6 +83,7 @@ const rewardService = {
 	resolveClaimReward,
 	acceptTerms,
 	referredList,
+	referredListAdmin,
 };
 
 export default rewardService;

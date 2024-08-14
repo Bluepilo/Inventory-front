@@ -49,7 +49,6 @@ interface UserDetailsType {
 			name: string;
 			code: string;
 		};
-		makePurchase: boolean;
 	};
 	shop: {
 		name: string;
@@ -86,6 +85,9 @@ interface UserDetailsType {
 			name: string;
 		};
 	}[];
+	currentBusinessAccess: {
+		makePurchase: boolean;
+	};
 }
 
 interface NotifcationType {
