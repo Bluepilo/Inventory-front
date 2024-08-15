@@ -246,7 +246,6 @@ const Signup = () => {
 							type="text"
 							value={code}
 							onChange={(e) => setCode(e.target.value)}
-							required
 							disabled={referralCode ? true : false}
 							className="height"
 						/>

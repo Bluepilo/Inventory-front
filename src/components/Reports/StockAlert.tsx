@@ -11,22 +11,17 @@ const StockAlert = ({ stock }: { stock: any }) => {
 	const { token } = useAppSelector((state) => state.auth);
 
 	const submitHandler = async () => {
-		if (val) {
-			if (
-				window.confirm("Are you sure you want to set the stock alert?")
-			) {
-				try {
-					setLoad(true);
-					await productService.setMinStockAlert(token, stock.id, {
-						quantity: val,
-					});
-					setLoad(false);
-					setVal("");
-					toast.success("Minimum stock alert has been set");
-				} catch (err) {
-					setLoad(false);
-					displayError(err, true);
-				}
+		if (window.confirm("Are you sure you want to set the stock alert?")) {
+			try {
+				setLoad(true);
+				await productService.setMinStockAlert(token, stock.id, {
+					quantity: val || null,
+				});
+				setLoad(false);
+				toast.success("Minimum stock alert has been set");
+			} catch (err) {
+				setLoad(false);
+				displayError(err, true);
 			}
 		}
 	};

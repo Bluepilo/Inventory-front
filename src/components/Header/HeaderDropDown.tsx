@@ -45,11 +45,7 @@ const HeaderDropDown = ({
 					)}
 					<div>
 						<p>{details.fullName}</p>
-						<p>
-							{details.role.isAdmin
-								? details.role.name
-								: details?.businessRole?.name}
-						</p>
+						<p>{details?.role?.name}</p>
 					</div>
 				</div>
 				{details.businessId && (

@@ -132,7 +132,8 @@ const Purchases = () => {
 		}
 	};
 
-	return details.business.onboardingSteps?.purchase === "completed" ? (
+	return details.business.onboardingSteps?.purchase === "completed" ||
+		details.currentBusinessAccess.makePurchase ? (
 		<div>
 			<TitleCover
 				title="Purchase Records"
