@@ -97,7 +97,7 @@ export default function Referral({ code }: { code: string }) {
 				<button
 					onClick={() => {
 						navigator.clipboard.writeText(
-							`${window.location.origin}?code=${code}`
+							`${window.location.origin}/signup?code=${code}`
 						);
 						displaySuccess("Copied!");
 					}}
