@@ -92,7 +92,7 @@ const WithdrawWallet = ({
 					<div className="col-lg-6">
 						<label>Shop:</label>
 						<DropDownSelect
-							options={shops}
+							options={shops.filter((s) => s.isActive)}
 							value={selectedShop}
 							changeSelected={setSelectedShop}
 						/>
