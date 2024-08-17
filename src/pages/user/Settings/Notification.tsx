@@ -50,21 +50,19 @@ const Notification = () => {
 	};
 
 	const changeStockAlert = async () => {
-		if (stockVal) {
-			let payload = {
-				stockAlert: Number(stockVal),
-				businessId: details.businessId,
-			};
-			try {
-				setLoad(true);
-				await basicService.setNotification(token, payload);
-				setLoad(false);
-				toast.success("Stock Alert Frequency Updated.");
-				dispatch(getSettings());
-			} catch (err) {
-				setLoad(false);
-				displayError(err, true);
-			}
+		let payload = {
+			stockAlert: stockVal ? Number(stockVal) : null,
+			businessId: details.businessId,
+		};
+		try {
+			setLoad(true);
+			await basicService.setNotification(token, payload);
+			setLoad(false);
+			toast.success("Stock Alert Frequency Updated.");
+			dispatch(getSettings());
+		} catch (err) {
+			setLoad(false);
+			displayError(err, true);
 		}
 	};
 
