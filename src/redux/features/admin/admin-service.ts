@@ -141,8 +141,9 @@ const subscribeOrg = async (token: string, id: any, obj: any) => {
 };
 
 const deleteOrg = async (token: string, id: any, obj: any) => {
-	const { data } = await axios.delete(
+	const { data } = await axios.post(
 		`${config.baseUrl}/admin/organization/${id}/delete`,
+		obj,
 		{
 			headers: authHeader(token),
 		}

@@ -93,11 +93,11 @@ export default function Referral({ code }: { code: string }) {
 				</div>
 			</div>
 			<div className="button-div">
-				<div className="box">{`${window.location.origin}/signup?code=${code}`}</div>
+				<div className="box">{`${window.location.origin}/sign-up?code=${code}`}</div>
 				<button
 					onClick={() => {
 						navigator.clipboard.writeText(
-							`${window.location.origin}/signup?code=${code}`
+							`${window.location.origin}/sign-up?code=${code}`
 						);
 						displaySuccess("Copied!");
 					}}

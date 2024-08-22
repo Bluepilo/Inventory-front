@@ -16,6 +16,7 @@ import dateFormat from "dateformat";
 import { SummaryCard } from "../../../styles/dashboard.styles";
 import { UseDebounce } from "../../../utils/hooks";
 import PermissionDenied from "../../../components/PermissionDenied";
+import { toast } from "react-toastify";
 
 const SmsTransactions = () => {
 	const { token, details } = useAppSelector((state) => state.auth);
@@ -104,6 +105,8 @@ const SmsTransactions = () => {
 					reference: data.reference,
 				});
 				setLoad(false);
+				toast.success("Transaction Verified!");
+				loadAllTransactions();
 			} catch (err) {
 				setLoad(false);
 				displayError(err, true);

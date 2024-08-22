@@ -374,7 +374,7 @@ const Catalogue = ({ admin }: { admin?: boolean }) => {
 					<BrandForm
 						brandDetail={null}
 						onComplete={() => {
-							setOpenEdit(false);
+							setOpenNew(false);
 							getBrands();
 						}}
 					/>

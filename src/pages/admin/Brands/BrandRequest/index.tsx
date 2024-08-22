@@ -54,6 +54,7 @@ const BrandRequest = () => {
 				action: action?.name,
 				comment,
 			});
+			setLoad(false);
 			fetchRequests();
 			toast.success(
 				`Request has been ${
@@ -221,7 +222,11 @@ const BrandRequest = () => {
 			</div>
 			<ModalComponent open={openModal} close={() => setOpenModal(false)}>
 				<CommentBox
-					submit={(arg: string) => actionHandler(arg)}
+					submit={(arg: string) =>
+						arg
+							? actionHandler(arg)
+							: alert("Please Provide a comment")
+					}
 					btnName={action?.name}
 					bg={action?.name === "reject" ? "#FF2725" : "#0241FF"}
 				/>
