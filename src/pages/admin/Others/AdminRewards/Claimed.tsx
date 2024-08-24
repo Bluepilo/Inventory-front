@@ -17,13 +17,11 @@ const Claimed = ({
 	list,
 	reloadList,
 	load,
-	setReferral,
 	setLoad,
 }: {
 	list: any;
 	reloadList: () => void;
 	load: boolean;
-	setReferral: (arg: any) => void;
 	setLoad: (arg: boolean) => void;
 }) => {
 	const [openModal, setOpenModal] = useState(false);

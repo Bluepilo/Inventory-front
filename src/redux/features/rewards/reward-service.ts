@@ -47,6 +47,17 @@ const resolveClaimReward = async (token: string, id: string, obj: any) => {
 	return data?.data || data;
 };
 
+const resolveEarnedReward = async (token: string, id: string, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/admin/reward/${id}/resolve`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data?.data || data;
+};
+
 const acceptTerms = async (token: string) => {
 	const { data } = await axios.post(
 		`${config.baseUrl}/reward/accept-terms`,
@@ -84,6 +95,7 @@ const rewardService = {
 	acceptTerms,
 	referredList,
 	referredListAdmin,
+	resolveEarnedReward,
 };
 
 export default rewardService;

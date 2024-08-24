@@ -22,6 +22,7 @@ import { MainButton } from "../../../styles/links.styles";
 import { displayError, displaySuccess } from "../../../utils/errors";
 import { FormCheck } from "react-bootstrap";
 import PermissionDenied from "../../../components/PermissionDenied";
+import DateFilter from "../../../components/Filters/DateFilter";
 
 const Organization = () => {
 	const [orgType, setOrgType] = useState("active");
@@ -43,7 +44,12 @@ const Organization = () => {
 		label: "This Month",
 		value: "month",
 	});
-	const [expiryDate, setExpiryDate] = useState(null);
+	const [expiryDateType, setExpiryDateType] = useState<OptionProp | null>(
+		null
+	);
+
+	const [expiryStartDate, setExpiryStartDate] = useState(null);
+	const [expiryEndDate, setExpiryEndDate] = useState(null);
 
 	const debouncedSearch = UseDebounce(search);
 
@@ -51,7 +57,15 @@ const Organization = () => {
 		orgType === "active" ? true : false
 	}&&endDate=${endDate}&searchWord=${debouncedSearch}&planId=${
 		subTypeId?.value || ""
-	}&expiryDate=${expiryDate ? new Date(expiryDate).toISOString() : ""}`;
+	}&expiryStartDate=${
+		expiryDateType && expiryStartDate
+			? new Date(expiryStartDate).toISOString()
+			: ""
+	}&expiryEndDate=${
+		expiryDateType && expiryEndDate
+			? new Date(expiryEndDate).toISOString()
+			: ""
+	}`;
 
 	const { token, details } = useAppSelector((state) => state.auth);
 
@@ -120,7 +134,7 @@ const Organization = () => {
 		setEndDate(new Date(new Date().setDate(new Date().getDate() + 1)));
 		setDateType({ label: "This Month", value: "month" });
 		setSubTypeId(null);
-		setExpiryDate(null);
+		setExpiryDateType(null);
 	};
 
 	const actionHandler = async (user: any, active: boolean) => {
@@ -191,13 +205,15 @@ const Organization = () => {
 				changeDateType={setDateType}
 				placeholder="Search by name, address or phone"
 			>
-				<div className="col-lg-2 col-md-4 col-6 mb-3">
-					<DateSelect
-						dateVal={expiryDate}
-						changeDateVal={setExpiryDate}
-						label="Expiry Date"
-					/>
-				</div>
+				<DateFilter
+					startDate={expiryStartDate}
+					setStartDate={setExpiryStartDate}
+					endDate={expiryEndDate}
+					setEndDate={setExpiryEndDate}
+					dateType={expiryDateType}
+					setDateType={setExpiryDateType}
+					label="Expiry Date"
+				/>
 			</Filters>
 			<div className="mt-3">
 				{orgType !== "deleted" ? (

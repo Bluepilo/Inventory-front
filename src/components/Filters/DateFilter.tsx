@@ -9,6 +9,7 @@ const DateFilter = ({
 	dateType,
 	setDateType,
 	singleLine,
+	label,
 }: {
 	startDate: any;
 	setStartDate: (arg: any) => void;
@@ -17,6 +18,7 @@ const DateFilter = ({
 	dateType: any;
 	setDateType: (arg: any) => void;
 	singleLine?: boolean;
+	label?: string;
 }) => {
 	const changeDateType = (val: any) => {
 		setDateType(val);
@@ -116,7 +118,7 @@ const DateFilter = ({
 							value: "custom",
 						},
 					]}
-					label="Date Type"
+					label={label || "Date Type"}
 					changeSelected={changeDateType}
 				/>
 			</div>

@@ -89,7 +89,7 @@ const AdminRewards = () => {
 				clearValues={clearFilters}
 			/>
 			<div className="row align-items-center mt-4">
-				<div className="col-lg-6 mb-3">
+				<div className="col-lg-8 mb-3">
 					<SummaryCard>
 						<div>
 							<h6>Success</h6>
@@ -108,6 +108,22 @@ const AdminRewards = () => {
 								)?.count || "0"}
 							</h6>
 						</div>
+						<div>
+							<h6>Rejected:</h6>
+							<h6>
+								{list?.report?.find(
+									(f: any) => f.status === "rejected"
+								)?.count || "0"}
+							</h6>
+						</div>
+						<div>
+							<h6>Disputed:</h6>
+							<h6>
+								{list?.report?.find(
+									(f: any) => f.status === "disputed"
+								)?.count || "0"}
+							</h6>
+						</div>
 					</SummaryCard>
 				</div>
 			</div>
@@ -117,10 +133,8 @@ const AdminRewards = () => {
 						<Earned
 							load={load}
 							list={list}
-							setReferral={(arg) => {
-								setReferral(arg);
-								setOpenModal(true);
-							}}
+							reloadList={() => getRewards()}
+							setLoad={setLoad}
 						/>
 					) : rewardType === "claim" ? (
 						<Claimed
@@ -128,10 +142,6 @@ const AdminRewards = () => {
 							list={list}
 							reloadList={() => getRewards()}
 							setLoad={setLoad}
-							setReferral={(arg) => {
-								setReferral(arg);
-								setOpenModal(true);
-							}}
 						/>
 					) : (
 						<></>

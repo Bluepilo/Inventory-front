@@ -5,18 +5,50 @@ import { formatCurrency } from "../../../../utils/currency";
 import SuccessIcon from "../../../../assets/icons/success.svg";
 import PendingIcon from "../../../../assets/icons/pending.svg";
 import FailedIcon from "../../../../assets/icons/failed.svg";
+import rewardService from "../../../../redux/features/rewards/reward-service";
+import { displayError, displaySuccess } from "../../../../utils/errors";
+import { useAppSelector } from "../../../../redux/hooks";
+import { Drop } from "../../../../styles/basic.styles";
+import { HiDotsVertical } from "react-icons/hi";
+import { useState } from "react";
+import ModalComponent from "../../../../components/ModalComponent";
+import ResolveClaims from "../../../../components/Reward/ResolveClaims";
 
 const Earned = ({
 	list,
 	load,
-	setReferral,
+	reloadList,
+	setLoad,
 }: {
 	list: any;
 	load: boolean;
-	setReferral: (arg: any) => void;
+	reloadList: () => void;
+	setLoad: (arg: boolean) => void;
 }) => {
+	const { token } = useAppSelector((state) => state.auth);
+
+	const [id, setId] = useState("");
+	const [openModal, setOpenModal] = useState(false);
+
 	const getName = (str: string) => {
 		return str.replace(/ /g, "-");
+	};
+
+	const resolveClaim = async (type: string, val: string) => {
+		if (window.confirm(`Are you sure you want to resolve this?`)) {
+			try {
+				setLoad(true);
+				await rewardService.resolveEarnedReward(token, val, {
+					action: type,
+				});
+				setLoad(false);
+				displaySuccess("Completed!");
+				reloadList();
+			} catch (err) {
+				displayError(err, true);
+				setLoad(false);
+			}
+		}
 	};
 
 	return (
@@ -31,6 +63,7 @@ const Earned = ({
 						<th>Subscription Type</th>
 						<th>Rate</th>
 						<th className="price">Commission</th>
+						<th>Status</th>
 						<th></th>
 					</tr>
 				</thead>
@@ -74,7 +107,26 @@ const Earned = ({
 									{l.status === "success" ? (
 										<img src={SuccessIcon} />
 									) : l.status === "pending" ? (
-										<img src={PendingIcon} />
+										<Drop>
+											<Drop.Toggle
+												size="sm"
+												id="dropdown-basic"
+											>
+												<HiDotsVertical />
+											</Drop.Toggle>
+											<Drop.Menu>
+												<Drop.Item
+													href="#"
+													onClick={(e) => {
+														e.preventDefault();
+														setId(l.id);
+														setOpenModal(true);
+													}}
+												>
+													Resolve
+												</Drop.Item>
+											</Drop.Menu>
+										</Drop>
 									) : (
 										<img src={FailedIcon} />
 									)}
@@ -84,6 +136,19 @@ const Earned = ({
 					</tbody>
 				)}
 			</Table>
+			<ModalComponent
+				open={openModal}
+				close={() => setOpenModal(false)}
+				title={"Resolve Earning"}
+			>
+				<ResolveClaims
+					changeType={(id, type) => {
+						setOpenModal(false);
+						resolveClaim(id, type);
+					}}
+					id={id}
+				/>
+			</ModalComponent>
 		</div>
 	);
 };
