@@ -193,7 +193,7 @@ const NewSubdealer = ({
 							className="height"
 							decimalsLimit={2}
 							onValueChange={(values) => {
-								setCreditLimit(Number(values));
+								setCreditLimit(values ? Number(values) : 0);
 							}}
 							prefix={`${currency} `}
 							value={creditLimit}
