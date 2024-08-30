@@ -6,7 +6,8 @@ import { useAppSelector } from "../../../redux/hooks";
 const NewPurchase = () => {
 	const { details } = useAppSelector((state) => state.auth);
 
-	return haveRole(details.businessRoleId).isBusinessAdmin ? (
+	return haveRole(details.businessRoleId).isBusinessAdmin ||
+		details.currentBusinessAccess.makePurchase ? (
 		<div>
 			<TitleCover title={"Record a Purchase"} />
 			<PurchaseSteps onboarding={false} />

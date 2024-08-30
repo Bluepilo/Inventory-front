@@ -184,7 +184,7 @@ const Account = () => {
 							name="input-name"
 							decimalsLimit={2}
 							onValueChange={(values) => {
-								setCreditLimit(Number(values));
+								setCreditLimit(values ? Number(values) : 0);
 							}}
 							prefix={`${currency} `}
 							value={creditLimit}
