@@ -82,10 +82,13 @@ const BasicDetails = ({
 						</b>
 						<span className="col-4 mb-2">Last login at:</span>
 						<b className="col-8 mb-2">
-							{dateFormat(
-								details.lastBusinessLoginBy?.lastLoginAt,
-								"mmm dd, yyyy | h:MM TT"
-							)}
+							{details.lastBusinessLoginBy?.lastLoginAt
+								? dateFormat(
+										details.lastBusinessLoginBy
+											?.lastLoginAt,
+										"mmm dd, yyyy | h:MM TT"
+								  )
+								: "---"}
 						</b>
 						<span className="col-4 mb-2">Wallet Balance:</span>
 						<b className="col-8 mb-2">
