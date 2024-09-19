@@ -2,6 +2,7 @@ import { useAppSelector } from "../../redux/hooks";
 import dateFormat from "dateformat";
 import { formatCurrency } from "../../utils/currency";
 import "../../styles/reciept.css";
+import BluepiloImg from "../../assets/images/logo-icon.svg";
 
 const ThermalSale = ({ result }: { result: any }) => {
 	const { details } = useAppSelector((state) => state.auth);
@@ -13,13 +14,26 @@ const ThermalSale = ({ result }: { result: any }) => {
 		<div className="row justify-content-center">
 			<div className="col-lg-6 mt-3">
 				<div className="thermal shadow-sm">
-					<div className="img">
+					<div
+						className="img"
+						style={{ display: "flex", alignItems: "center" }}
+					>
 						<img
-							src={details.business.image}
+							src={
+								details.business.image ||
+								details.image ||
+								BluepiloImg
+							}
 							alt="Business"
 							style={{ height: "80px", width: "80px" }}
 						/>
 						<strong>{details?.business?.name || "Bluepilo"}</strong>
+					</div>
+					<div className="text-center mt-2 mb-2">
+						{details.business.address}
+					</div>
+					<div className="text-center mt-2 mb-2">
+						{details.business.phone}
 					</div>
 					<div className="info">
 						<div className="row">

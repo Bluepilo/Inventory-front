@@ -46,8 +46,6 @@ const BasicDetails = ({
 						<b className="col-8 mb-2">{details.email}</b>
 						<span className="col-4 mb-2">Phone:</span>
 						<b className="col-8 mb-2">{details.phone}</b>
-						<span className="col-4 mb-2">Address:</span>
-						<b className="col-8 mb-2">{details.address}</b>
 						<span className="col-4 mb-2">Date Registered:</span>
 						<b className="col-8 mb-2">
 							{dateFormat(details.createdAt, "mmm dd, yyyy")}
