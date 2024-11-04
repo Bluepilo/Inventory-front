@@ -318,7 +318,7 @@ const ReturnDetails = () => {
 											}}
 										>
 											<p>
-												You can collect and restock this
+												You can resolve or restock this
 											</p>
 											<Flex>
 												<MainButton
@@ -327,9 +327,9 @@ const ReturnDetails = () => {
 														setAction("resolve");
 													}}
 												>
-													Collect and Restock
+													Resolve
 												</MainButton>
-												{/* <MainButton
+												<MainButton
 													style={{
 														marginLeft: "15px",
 													}}
@@ -340,7 +340,7 @@ const ReturnDetails = () => {
 													}}
 												>
 													Collect and Restock
-												</MainButton> */}
+												</MainButton>
 											</Flex>
 										</DetailCard>
 									</div>
