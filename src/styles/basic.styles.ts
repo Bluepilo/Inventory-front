@@ -72,6 +72,10 @@ export const ErrorStyle = styled.div`
 	border-radius: 10px;
 	margin-top: 25px;
 	padding: 20px 10px;
+
+	img.logo {
+		height: 50px;
+	}
 `;
 
 export const LoadPage = styled.div`

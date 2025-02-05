@@ -44,7 +44,7 @@ const CustomerSelect = ({
 		null
 	);
 	const [list, setList] = useState<OptionProp[]>([]);
-	const [amountReceived, setAmountReceived] = useState(0);
+	const [amountReceived, setAmountReceived] = useState<any>(null);
 	const [minAmount, setMinAmount] = useState(0);
 
 	const [errorAmount, setErrorAmount] = useState(false);

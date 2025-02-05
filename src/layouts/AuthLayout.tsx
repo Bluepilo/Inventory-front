@@ -6,7 +6,7 @@ import { MdQuestionMark } from "react-icons/md";
 import AuthSlider from "../components/AuthSlider";
 import HintPage from "../components/HintPage";
 import OutsideClick from "../components/OutsideClick";
-import Logo from "../assets/images/logo.svg";
+import Logo from "../assets/images/logo-dark.png";
 import {
 	Outlet,
 	useLocation,

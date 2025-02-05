@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FormBody } from "../../../styles/form.styles";
-import Logo from "../../../assets/images/logo.svg";
+import Logo from "../../../assets/images/logo-dark.png";
 import { ConfirmStyle } from "../../../styles/sub.styles";
 import { MainButton } from "../../../styles/links.styles";
 import { useNavigate, useSearchParams } from "react-router-dom";

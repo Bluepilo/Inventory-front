@@ -30,6 +30,7 @@ const Details = () => {
 	const [error, setError] = useState("");
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		getDetails();
 	}, []);
 

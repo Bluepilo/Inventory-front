@@ -4,8 +4,8 @@ import {
 	SidebarLogo,
 	SidebarMenu,
 } from "../../styles/dashboard.styles";
-import LogoIcon from "../../assets/images/logo-icon.svg";
-import LogoText from "../../assets/images/bluepilo.svg";
+import LogoIcon from "../../assets/images/logo-dark.png";
+import Logo from "../../assets/images/logo.svg";
 import SidebarMin from "../../assets/icons/sidebar-min.svg";
 import { useAppSelector } from "../../redux/hooks";
 import { adminRoutes, userRoutes } from "./routes";
@@ -57,8 +57,11 @@ const Sidebar = ({ open, minimizeHandler, onClose, minimized }: Props) => {
 		>
 			<SidebarLogo minimize={`${minimized}`}>
 				<div className="images">
-					<img src={LogoIcon} className="icon" alt="Logo" />
-					<img src={LogoText} className="sub" alt="Logo" />
+					{minimized ? (
+						<img src={Logo} className="sub" alt="Logo" />
+					) : (
+						<img src={LogoIcon} className="icon" alt="Logo" />
+					)}
 				</div>
 				<a
 					href="#"

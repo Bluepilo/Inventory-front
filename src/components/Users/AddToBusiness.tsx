@@ -161,7 +161,7 @@ const AddToBusiness = ({
 					</div>
 				</>
 			)}
-			{roleId?.label?.includes("Shop") && (
+			{roleId?.label === "Shop Admin" && (
 				<div className="mb-3">
 					<FormCheck
 						type="switch"
