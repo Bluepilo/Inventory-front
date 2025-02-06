@@ -125,7 +125,7 @@ const AddToBusiness = ({
 					changeSelected={setRoleId}
 				/>
 			</div>
-			{roleId?.label === "Shop Admin" && (
+			{roleId?.label?.includes("Shop") && (
 				<div className="mb-3">
 					<label>Select Shop</label>
 					<DropDownSelect
