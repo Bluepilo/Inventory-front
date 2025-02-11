@@ -23,7 +23,7 @@ import ConfirmModal from "../../../components/Modals/ConfirmModal";
 import { toast } from "react-toastify";
 
 const Services = () => {
-	const { details, token } = useAppSelector((state) => state.auth);
+	const { details, token, currency } = useAppSelector((state) => state.auth);
 	const { shops } = useAppSelector((state) => state.basic);
 
 	const navigate = useNavigate();
@@ -38,9 +38,6 @@ const Services = () => {
 	const [removed, setRemoved] = useState<any>([]);
 	const [showBtn, setShowBtn] = useState(false);
 	const [openConfirm, setOpenConfirm] = useState(false);
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);

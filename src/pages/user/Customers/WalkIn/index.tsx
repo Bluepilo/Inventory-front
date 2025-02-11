@@ -15,7 +15,7 @@ import SkeletonTable from "../../../../components/Loaders/SkeletonTable";
 import Paginate from "../../../../components/Paginate";
 
 const WalkIn = () => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { token, details, currency } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [search, setSearch] = useState("");
@@ -38,9 +38,6 @@ const WalkIn = () => {
 	const debouncedSearch = UseDebounce(search);
 
 	let filters = `?page=${page}&limit=${limit}&shopId=${details.shopId || ""}`;
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);

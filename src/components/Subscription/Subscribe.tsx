@@ -21,7 +21,7 @@ const Subscribe = ({
 }) => {
 	const dispatch = useAppDispatch();
 
-	const { details, token } = useAppSelector((state) => state.auth);
+	const { details, token, currency } = useAppSelector((state) => state.auth);
 
 	const [duration, setDuration] = useState("yearly");
 	const [subscriptionType, setSubscriptionType] = useState(plan.id);
@@ -30,9 +30,6 @@ const Subscribe = ({
 	const [load, setLoad] = useState(false);
 
 	const balance = Number(details?.organization?.wallet?.balance);
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		if (subscriptionType) {

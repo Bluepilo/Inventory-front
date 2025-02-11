@@ -25,7 +25,7 @@ import { haveRole } from "../../../utils/role";
 const Purchases = () => {
 	const navigate = useNavigate();
 
-	const { details, token } = useAppSelector((state) => state.auth);
+	const { details, token, currency } = useAppSelector((state) => state.auth);
 
 	const [lists, setLists] = useState<any>({});
 	const [incompleteLists, setIncompleteLists] = useState<any>({});
@@ -58,9 +58,6 @@ const Purchases = () => {
 	}&startDate=${startDate}&endDate=${endDate}&includeWithdrawn=${
 		withdrawn ? "1" : "0"
 	}&onboarding=0`;
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);

@@ -14,15 +14,10 @@ import { updateOnboardingSteps } from "../../redux/features/basic/basic-slice";
 const NewExpense = ({ submit }: { submit: any }) => {
 	const dispatch = useAppDispatch();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { token, details, currency } = useAppSelector((state) => state.auth);
 	const { expenseCat, shops } = useAppSelector((state) => state.basic);
 
 	let arr = [{ label: "New Category", value: "new" }, ...expenseCat];
-
-	const currency =
-		details.business?.currency?.symbol ||
-		details.business?.currencyCode ||
-		"";
 
 	const [load, setLoad] = useState(false);
 	const [name, setName] = useState("");

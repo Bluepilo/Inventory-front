@@ -19,7 +19,7 @@ import { haveRole } from "../../../../utils/role";
 const Returns = () => {
 	const navigate = useNavigate();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { token, details, currency } = useAppSelector((state) => state.auth);
 
 	const [lists, setLists] = useState<any>({});
 
@@ -55,9 +55,6 @@ const Returns = () => {
 	let filters = `?limit=${limit}&page=${page}&startDate=${startDate}&endDate=${endDate}&userId=${
 		staffId?.value || ""
 	}&shopId=${shopId?.value || ""}&productId=${productId?.value || ""}`;
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);

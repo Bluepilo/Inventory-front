@@ -3,30 +3,27 @@ import TitleCover from "../../../components/TitleCover";
 import Filters from "../../../components/Filters";
 import { useEffect, useState } from "react";
 import { CheckBoxPrint, SummaryCard } from "../../../styles/dashboard.styles";
-import { MainButton } from "../../../styles/links.styles";
-import PrintLogo from "../../../assets/icons/print.svg";
-import { Table, TableComponent } from "../../../styles/table.styles";
+import { TableComponent } from "../../../styles/table.styles";
 import SkeletonTable from "../../../components/Loaders/SkeletonTable";
 import { useAppSelector } from "../../../redux/hooks";
 import salesService from "../../../redux/features/sales/sales-service";
-import dateFormat from "dateformat";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { formatCurrency } from "../../../utils/currency";
 
-import SuccessIcon from "../../../assets/icons/success.svg";
-import FailedIcon from "../../../assets/icons/failed.svg";
-import PendingIcon from "../../../assets/icons/pending.svg";
 import Paginate from "../../../components/Paginate";
 import { UseDebounce } from "../../../utils/hooks";
 import { OptionProp } from "../../../components/Filters/BasicInputs";
 import { haveRole } from "../../../utils/role";
 import NewPage from "../../../components/NewPage";
 import CoverImg from "../../../assets/defaults/sales.png";
+import TableBySales from "../../../components/Sales/TableBySales";
+import TableByProduct from "../../../components/Sales/TableByProduct";
+import { SwitchDiv } from "../../../styles/basic.styles";
 
 const Sales = () => {
 	const navigate = useNavigate();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { token, details, currency } = useAppSelector((state) => state.auth);
 
 	const [startDate, setStartDate] = useState(
 		new Date(new Date().getFullYear(), new Date().getMonth(), 1)
@@ -41,6 +38,7 @@ const Sales = () => {
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(20);
 	const [withdrawn, setWithdrawn] = useState(false);
+	const [filterBySales, setFilterBySales] = useState(true);
 
 	const [load, setLoad] = useState(false);
 	const [lists, setList] = useState<any>({});
@@ -57,10 +55,7 @@ const Sales = () => {
 		customerType?.value || ""
 	}&startDate=${startDate}&endDate=${endDate}&includeWithdrawn=${
 		withdrawn ? "1" : "0"
-	}`;
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
+	}&mode=${filterBySales ? "sales" : "product"}`;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -121,6 +116,24 @@ const Sales = () => {
 				buttonIcon={<IoCartSharp />}
 				buttonClick={() => navigate("new")}
 			/>
+			<SwitchDiv>
+				<div
+					className={filterBySales ? "active" : ""}
+					onClick={() => {
+						setFilterBySales(true);
+					}}
+				>
+					Filter By Sales
+				</div>
+				<div
+					className={!filterBySales ? "active" : ""}
+					onClick={() => {
+						setFilterBySales(false);
+					}}
+				>
+					Filter By Products
+				</div>
+			</SwitchDiv>
 			<div>
 				<Filters
 					startDate={startDate}
@@ -191,109 +204,11 @@ const Sales = () => {
 				<div className="mt-4">
 					<TableComponent>
 						<div className="table-responsive">
-							<Table className="table">
-								<thead>
-									<tr>
-										<th>Date</th>
-										<th>Customer</th>
-										<th className="price">
-											Invoice Number
-										</th>
-										<th>Staff</th>
-										<th>Shop</th>
-										<th className="price">Price</th>
-										{haveRole(details.businessRoleId)
-											.isBusinessAdmin && <th>Margin</th>}
-										<th>Status</th>
-									</tr>
-								</thead>
-
-								{!load && (
-									<tbody>
-										{lists?.rows?.map((l: any) => (
-											<tr key={l.id}>
-												<td>
-													{dateFormat(
-														l.createdAt,
-														"mmm dd, yyyy"
-													)}
-												</td>
-												<td className="link">
-													<Link
-														to={`/dashboard/customers/${
-															l.customerId
-																? `walk-in/${l.customerId}`
-																: `subdealer/${l.subdealerId}`
-														}`}
-													>
-														{l.customerName.slice(
-															0,
-															15
-														)}
-														{l.customerName.length >
-															15 && "..."}
-													</Link>
-												</td>
-												<td className="price link">
-													<Link to={`${l.uniqueRef}`}>
-														{l.uniqueRef}
-													</Link>
-												</td>
-												<td>
-													{l?.user?.fullName.slice(
-														0,
-														15
-													) || ""}{" "}
-													{l?.user?.fullName?.length >
-														15 && "..."}
-												</td>
-												<td>
-													{l?.shop?.name.slice(0, 15)}{" "}
-													{l?.shop?.name?.length >
-														15 && "..."}
-												</td>
-												<td className="price bold">
-													{currency}{" "}
-													{formatCurrency(
-														l.amountExpected
-													)}
-												</td>
-												{haveRole(
-													details.businessRoleId
-												).isBusinessAdmin && (
-													<td
-														style={{
-															color:
-																l.estimatedProfit <
-																0
-																	? "red"
-																	: "inherit",
-														}}
-													>
-														{currency}{" "}
-														{formatCurrency(
-															l.estimatedProfit
-														)}
-													</td>
-												)}
-												<td className="status">
-													<img
-														src={
-															l.status.toLowerCase() ===
-															"success"
-																? SuccessIcon
-																: l.status.toLowerCase() ===
-																  "awaiting withdrawal"
-																? PendingIcon
-																: FailedIcon
-														}
-													/>
-												</td>
-											</tr>
-										))}
-									</tbody>
-								)}
-							</Table>
+							{filterBySales ? (
+								<TableBySales load={load} lists={lists} />
+							) : (
+								<TableByProduct load={load} lists={lists} />
+							)}
 						</div>
 						{load && <SkeletonTable />}
 					</TableComponent>

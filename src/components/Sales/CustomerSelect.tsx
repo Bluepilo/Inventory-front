@@ -35,7 +35,7 @@ const CustomerSelect = ({
 	discountApplied,
 	complete,
 }: Props) => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { token, currency } = useAppSelector((state) => state.auth);
 	const { methods, settings } = useAppSelector((state) => state.basic);
 
 	const [load, setLoad] = useState(false);
@@ -51,9 +51,6 @@ const CustomerSelect = ({
 	const [isDeposit, setIsDeposit] = useState(false);
 	const [openModal, setOpenModal] = useState(false);
 	const [openCreate, setOpenCreate] = useState(false);
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		fetchCustomer();

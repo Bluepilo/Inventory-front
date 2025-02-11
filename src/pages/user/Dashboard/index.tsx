@@ -37,11 +37,8 @@ const Dashboard = () => {
 		value: "month",
 	});
 	const [openModal, setOpenModal] = useState(false);
-	const { details, token } = useAppSelector((state) => state.auth);
+	const { details, token, currency } = useAppSelector((state) => state.auth);
 	const { dashboardStats } = useAppSelector((state) => state.basic);
-
-	const currency =
-		details.business?.currency?.symbol || details.business?.currencyCode;
 
 	useEffect(() => {
 		checkOnboardingTrial();

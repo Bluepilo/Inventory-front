@@ -38,10 +38,7 @@ const NewSubdealer = ({
 	const [sms, setSms] = useState(false);
 
 	const { states } = useAppSelector((state) => state.basic);
-	const { token, details } = useAppSelector((state) => state.auth);
-
-	const currency =
-		details.business?.currency?.symbol || details.business?.currencyCode;
+	const { token, details, currency } = useAppSelector((state) => state.auth);
 
 	const countryCode = details?.business?.country?.code;
 

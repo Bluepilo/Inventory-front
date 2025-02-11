@@ -65,10 +65,7 @@ const ItemsPicked = ({
 }) => {
 	const [products, setProducts] = useState<any>([]);
 
-	const { details } = useAppSelector((state) => state.auth);
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
+	const { currency } = useAppSelector((state) => state.auth);
 
 	useEffect(() => {
 		let arr =

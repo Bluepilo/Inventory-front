@@ -26,7 +26,7 @@ import { displayError } from "../../../utils/errors";
 const Supplier = () => {
 	const navigate = useNavigate();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { token, details, currency } = useAppSelector((state) => state.auth);
 
 	const [openModal, setOpenModal] = useState(false);
 	const [lists, setLists] = useState<any>({});
@@ -41,9 +41,6 @@ const Supplier = () => {
 	const debouncedSearch = UseDebounce(search);
 
 	let filters = `?page=${page}&limit=${limit}`;
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);

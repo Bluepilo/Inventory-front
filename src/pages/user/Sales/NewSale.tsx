@@ -25,7 +25,7 @@ const NewSale = () => {
 
 	const cloneState = useLocation()?.state?.cloneState;
 
-	const { details, token } = useAppSelector((state) => state.auth);
+	const { details, token, currency } = useAppSelector((state) => state.auth);
 	const { shops } = useAppSelector((state) => state.basic);
 
 	const [isWalkIn, setIsWalkIn] = useState(true);
@@ -43,9 +43,6 @@ const NewSale = () => {
 	const [discountApplied, setDiscountApplied] = useState(0);
 
 	const [load, setLoad] = useState(false);
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);

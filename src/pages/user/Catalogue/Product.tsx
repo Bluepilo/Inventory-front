@@ -24,7 +24,7 @@ const Product = () => {
 
 	const params = useParams();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { token, details, currency } = useAppSelector((state) => state.auth);
 
 	const [search, setSearch] = useState("");
 	const [brandName, setBrandName] = useState("");
@@ -48,9 +48,6 @@ const Product = () => {
 
 	let filters = `&page=${page}&limit=${limit}`;
 	let searchFilter = `?searchWord=${debouncedSearch}&page=${page}&limit=${limit}&brandId=${params?.id}`;
-
-	const currency =
-		details.business?.currency?.symbol || details?.business?.currencyCode;
 
 	const fetchProducts = async () => {
 		try {

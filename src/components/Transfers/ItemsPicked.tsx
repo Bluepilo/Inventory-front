@@ -5,10 +5,7 @@ import { useAppSelector } from "../../redux/hooks";
 const ItemsPicked = ({ transferDetails }: { transferDetails: any }) => {
 	let products = transferDetails.products;
 
-	const { details } = useAppSelector((state) => state.auth);
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
+	const { currency } = useAppSelector((state) => state.auth);
 
 	return (
 		<div className="mb-4">

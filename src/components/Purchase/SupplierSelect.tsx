@@ -31,7 +31,7 @@ const SupplierSelect = ({
 	discountApplied,
 	complete,
 }: Props) => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { token, currency } = useAppSelector((state) => state.auth);
 	const { methods } = useAppSelector((state) => state.basic);
 
 	const [load, setLoad] = useState(false);
@@ -43,9 +43,6 @@ const SupplierSelect = ({
 		null
 	);
 	const [openModal, setOpenModal] = useState(false);
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		fetchSuppliers();

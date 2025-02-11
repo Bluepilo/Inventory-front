@@ -19,7 +19,7 @@ import LoadModal from "../../../../components/Loaders/LoadModal";
 const NewReturns = () => {
 	const navigate = useNavigate();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { token, details, currency } = useAppSelector((state) => state.auth);
 	const { shops } = useAppSelector((state) => state.basic);
 
 	const [user, setUser] = useState("walk-in");
@@ -39,9 +39,6 @@ const NewReturns = () => {
 	const [shopList, setShopList] = useState<OptionProp[]>([]);
 	const [productList, setProductList] = useState<OptionProp[]>([]);
 	const [prodPrice, setProdPrice] = useState(0);
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);

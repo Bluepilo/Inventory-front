@@ -20,7 +20,7 @@ import { CSVLink } from "react-csv";
 import RoleGuard from "../../../../components/RoleGuard";
 
 const Stocks = () => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { token, details, currency } = useAppSelector((state) => state.auth);
 
 	const [lists, setLists] = useState<any>({});
 
@@ -43,9 +43,6 @@ const Stocks = () => {
 	}&categoryId=${categoryId?.value || ""}&brandId=${
 		brandId?.value || ""
 	}&minStock=${minStock}&searchWord=${debouncedSearch}`;
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		listData();

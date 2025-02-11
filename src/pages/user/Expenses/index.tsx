@@ -21,7 +21,7 @@ import NewExpense from "../../../components/Expense/NewExpense";
 import { haveRole } from "../../../utils/role";
 
 const Expenses = () => {
-	const { details, token } = useAppSelector((state) => state.auth);
+	const { details, token, currency } = useAppSelector((state) => state.auth);
 
 	const [lists, setLists] = useState<any>({});
 	const [openModal, setOpenModal] = useState(false);
@@ -62,11 +62,6 @@ const Expenses = () => {
 	}&shopId=${shopId?.value || ""}&status=${
 		statusId?.value || ""
 	}&startDate=${startDate}&endDate=${endDate}`;
-
-	const currency =
-		details.business?.currency?.symbol ||
-		details.business?.currencyCode ||
-		"";
 
 	useEffect(() => {
 		window.scrollTo(0, 0);

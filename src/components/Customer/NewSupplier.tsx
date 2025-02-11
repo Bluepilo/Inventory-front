@@ -25,7 +25,7 @@ const NewSupplier = ({
 	const dispatch = useAppDispatch();
 
 	const { states } = useAppSelector((state) => state.basic);
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { token, details, currency } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [name, setName] = useState("");
@@ -36,9 +36,6 @@ const NewSupplier = ({
 	const [balance, setBalance] = useState(0);
 	const [addBalance, setAddBalance] = useState(false);
 	const [option, setOption] = useState("Credit");
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
 
 	const countryCode = details?.business?.country?.code;
 

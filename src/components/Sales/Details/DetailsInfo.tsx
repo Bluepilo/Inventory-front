@@ -8,10 +8,7 @@ import { useAppSelector } from "../../../redux/hooks";
 import { haveRole } from "../../../utils/role";
 
 const DetailsInfo = ({ saleDetails }: { saleDetails: any }) => {
-	const { details } = useAppSelector((state) => state.auth);
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
+	const { details, currency } = useAppSelector((state) => state.auth);
 
 	return (
 		<>

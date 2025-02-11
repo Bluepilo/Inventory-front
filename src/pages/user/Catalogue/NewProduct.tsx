@@ -25,7 +25,7 @@ const NewProduct = () => {
 
 	const editState = useLocation().state;
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { token, details, currency } = useAppSelector((state) => state.auth);
 
 	const [isService, setIsService] = useState(false);
 	const [load, setLoad] = useState(false);
@@ -43,11 +43,6 @@ const NewProduct = () => {
 	const [productCode, setProductCode] = useState("");
 	const [color, setColor] = useState("");
 	const [productType, setProductType] = useState("");
-
-	const currency =
-		details.business?.currency?.symbol ||
-		details?.business?.currencyCode ||
-		"";
 
 	useEffect(() => {
 		getCategories();

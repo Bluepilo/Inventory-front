@@ -24,7 +24,7 @@ const UserWallet = ({
 	userType: string;
 	id: string | number;
 }) => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { token, currency } = useAppSelector((state) => state.auth);
 	const { settings } = useAppSelector((state) => state.basic);
 
 	const [load, setLoad] = useState(false);
@@ -52,9 +52,6 @@ const UserWallet = ({
 	let filters = `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}&transactionType=${
 		transactionType?.value || ""
 	}`;
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
 
 	const getInitials = (string: any) => {
 		let names = string.split(" "),

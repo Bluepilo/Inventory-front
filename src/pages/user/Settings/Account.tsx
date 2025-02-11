@@ -18,7 +18,7 @@ const Account = () => {
 	const dispatch = useAppDispatch();
 
 	const { settings } = useAppSelector((state) => state.basic);
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { token, details, currency } = useAppSelector((state) => state.auth);
 
 	const [waitingPeriod, setWaitingPeriod] = useState<any>(
 		settings?.waitingPeriod
@@ -33,9 +33,6 @@ const Account = () => {
 	const [creditLimit, setCreditLimit] = useState(settings?.creditLimit);
 	const [sms, setSms] = useState(settings?.salesSms);
 	const [inventory, setInventory] = useState(details.business.canOnboard);
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		productCategories();

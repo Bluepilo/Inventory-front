@@ -5,10 +5,7 @@ import "../../styles/reciept.css";
 import BluepiloImg from "../../assets/images/logo-icon.svg";
 
 const ThermalSale = ({ result }: { result: any }) => {
-	const { details } = useAppSelector((state) => state.auth);
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
+	const { details, currency } = useAppSelector((state) => state.auth);
 
 	return result?.id ? (
 		<div className="row justify-content-center">

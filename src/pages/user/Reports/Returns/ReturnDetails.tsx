@@ -19,15 +19,12 @@ import { toast } from "react-toastify";
 const ReturnDetails = () => {
 	const params = useParams();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { token, currency } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [logDetails, setLogDetails] = useState<any>({});
 	const [openComment, setOpenComment] = useState(false);
 	const [action, setAction] = useState("");
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);

@@ -19,7 +19,7 @@ const LoadWallet = ({
 	userType: string;
 	close: () => void;
 }) => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { token, details, currency } = useAppSelector((state) => state.auth);
 	const { methods, shops } = useAppSelector((state) => state.basic);
 
 	const [load, setLoad] = useState(false);
@@ -29,9 +29,6 @@ const LoadWallet = ({
 	);
 	const [selectedShop, setSelectedShop] = useState<OptionProp | null>(null);
 	const [comment, setComment] = useState("");
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
 
 	const submitHandler = async (e: any) => {
 		e.preventDefault();
