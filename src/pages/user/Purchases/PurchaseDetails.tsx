@@ -69,6 +69,7 @@ const PurchaseDetails = () => {
 				toast.success("Products has been supplied!");
 				loadPurchase();
 			} catch (err) {
+				setLoad(false);
 				displayError(err, true);
 			}
 		}

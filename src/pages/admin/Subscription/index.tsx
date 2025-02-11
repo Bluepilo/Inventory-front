@@ -5,12 +5,13 @@ import { Table } from "../../../styles/table.styles";
 import adminService from "../../../redux/features/admin/admin-service";
 import { useAppSelector } from "../../../redux/hooks";
 import SkeletonTable from "../../../components/Loaders/SkeletonTable";
+import PermissionDenied from "../../../components/PermissionDenied";
 
 const Subscription = () => {
 	const [load, setLoad] = useState(false);
 	const [results, setResults] = useState<any>([]);
 
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	useEffect(() => {
 		getResult();
@@ -26,7 +27,9 @@ const Subscription = () => {
 			setLoad(false);
 		}
 	};
-	return (
+	return details?.role?.permissions?.find(
+		(f) => f.method === "subscriptionStatistics"
+	) ? (
 		<div>
 			<TitleCover title={"Subscription Tracker"} />
 			<div className="row mt-4">
@@ -67,6 +70,8 @@ const Subscription = () => {
 				</div>
 			</div>
 		</div>
+	) : (
+		<PermissionDenied />
 	);
 };
 

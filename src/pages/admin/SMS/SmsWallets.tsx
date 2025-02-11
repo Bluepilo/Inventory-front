@@ -12,6 +12,7 @@ import SkeletonTable from "../../../components/Loaders/SkeletonTable";
 import { DetailCard } from "../../../styles/sale.styles";
 import { MainButton } from "../../../styles/links.styles";
 import { BasicSearch } from "../../../components/Filters/BasicInputs";
+import PermissionDenied from "../../../components/PermissionDenied";
 
 const SmsWallets = () => {
 	const { token, details } = useAppSelector((state) => state.auth);
@@ -63,7 +64,9 @@ const SmsWallets = () => {
 		setWalletList({ ...walletList, wallets: arr });
 	};
 
-	return (
+	return details?.role?.permissions?.find(
+		(f) => f.method === "bluepiloSmsWallets"
+	) ? (
 		<div>
 			<TitleCover title={"All SMS Wallets"} />
 			<div className="mt-4">
@@ -87,14 +90,20 @@ const SmsWallets = () => {
 										: "---"}
 								</h6>
 							</div>
-							<button
-								onClick={() => {
-									setModalType("central");
-									setOpenModal(true);
-								}}
-							>
-								Top Up
-							</button>
+							{details?.role?.permissions?.find(
+								(f) =>
+									f.method ===
+									"bluepiloSmsCentralWalletsTopup"
+							) && (
+								<button
+									onClick={() => {
+										setModalType("central");
+										setOpenModal(true);
+									}}
+								>
+									Top Up
+								</button>
+							)}
 						</SummaryCard>
 					</div>
 				</div>
@@ -125,6 +134,19 @@ const SmsWallets = () => {
 													<tr key={wallet.id}>
 														<td>
 															{wallet.orgName}
+															{wallet.isAdmin && (
+																<span
+																	style={{
+																		color: "blue",
+																		fontWeight:
+																			"600",
+																		paddingLeft:
+																			"5px",
+																	}}
+																>
+																	(App Admin)
+																</span>
+															)}
 														</td>
 														<td className="price">
 															₦
@@ -133,25 +155,31 @@ const SmsWallets = () => {
 															)}
 														</td>
 														<td className="link">
-															<a
-																href="#"
-																onClick={(
-																	e
-																) => {
-																	e.preventDefault();
-																	setModalType(
-																		"user"
-																	);
-																	setUser(
-																		wallet
-																	);
-																	setOpenModal(
-																		true
-																	);
-																}}
-															>
-																Top Up
-															</a>
+															{details?.role?.permissions?.find(
+																(f) =>
+																	f.method ===
+																	"bluepiloSmsIndividualWalletTopup"
+															) && (
+																<a
+																	href="#"
+																	onClick={(
+																		e
+																	) => {
+																		e.preventDefault();
+																		setModalType(
+																			"user"
+																		);
+																		setUser(
+																			wallet
+																		);
+																		setOpenModal(
+																			true
+																		);
+																	}}
+																>
+																	Top Up
+																</a>
+															)}
 														</td>
 													</tr>
 												)
@@ -190,7 +218,7 @@ const SmsWallets = () => {
 					modalType === "central"
 						? "Top Central Wallet"
 						: modalType === "user"
-						? `Top up ${user.name}'s Wallet`
+						? `Top up ${user.orgName}'s Wallet`
 						: modalType === "all"
 						? "Top All Organization wallets"
 						: ""
@@ -207,6 +235,8 @@ const SmsWallets = () => {
 				/>
 			</ModalComponent>
 		</div>
+	) : (
+		<PermissionDenied />
 	);
 };
 

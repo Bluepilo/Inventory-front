@@ -22,6 +22,11 @@ export const ImageBox = styled.div<{ yellow?: boolean }>`
 	background: ${(props) => (props.yellow ? "#FFB500" : "#000d33")};
 	border-radius: 5px;
 	display: block;
+
+	img {
+		height: 100%;
+		width: 100%;
+	}
 `;
 
 export const CarouselSlide = styled(Carousel)`
@@ -58,6 +63,9 @@ export const AuthStyle = styled.div`
 		margin-top: 10px;
 		.logo {
 			text-align: center;
+			img {
+				height: 50px;
+			}
 		}
 		.content {
 			margin-top: 15px;

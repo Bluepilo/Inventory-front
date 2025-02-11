@@ -44,6 +44,10 @@ const Purchases = () => {
 	const [summary, setSummary] = useState<any>({});
 	const [load, setLoad] = useState(false);
 	const [incomplete, setIncomplete] = useState(false);
+	const [dateType, setDateType] = useState({
+		label: "This Month",
+		value: "month",
+	});
 
 	const debouncedSearch = UseDebounce(search);
 
@@ -75,6 +79,7 @@ const Purchases = () => {
 		setEndDate(new Date(new Date().setDate(new Date().getDate() + 1)));
 		setStaffId(null);
 		setShopId(null);
+		setDateType({ label: "This Month", value: "month" });
 	};
 
 	const getPurchases = async () => {
@@ -127,13 +132,15 @@ const Purchases = () => {
 		}
 	};
 
-	return details.business.onboardingSteps?.purchase === "completed" ? (
+	return details.business.onboardingSteps?.purchase === "completed" ||
+		details.currentBusinessAccess.makePurchase ? (
 		<div>
 			<TitleCover
 				title="Purchase Records"
 				dataCount={lists?.count}
 				button={
-					haveRole(details.businessRoleId).isBusinessAdmin
+					haveRole(details.businessRoleId).isBusinessAdmin ||
+					details.currentBusinessAccess.makePurchase
 						? "Make Purchase"
 						: ""
 				}
@@ -154,6 +161,8 @@ const Purchases = () => {
 					searchVal={search}
 					changeSearchVal={setSearch}
 					clearValues={clearFilters}
+					dateType={dateType}
+					changeDateType={setDateType}
 				/>
 				<div className="row align-items-center mt-4">
 					<div className="col-lg-7 mb-3">
@@ -210,11 +219,6 @@ const Purchases = () => {
 									</label>
 								</div>
 							</div>
-
-							<MainButton>
-								<img src={PrintLogo} />
-								<span>Print</span>
-							</MainButton>
 						</CheckBoxPrint>
 					</div>
 				</div>

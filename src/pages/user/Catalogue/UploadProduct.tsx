@@ -17,13 +17,14 @@ import { displayError } from "../../../utils/errors";
 import UploadErrors from "../../../components/Catalogue/UploadErrors";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
+import PermissionDenied from "../../../components/PermissionDenied";
 
 const UploadProduct = () => {
 	const navigate = useNavigate();
 
 	const params = useParams();
 
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [file, setFile] = useState<any>(null);
@@ -72,7 +73,9 @@ const UploadProduct = () => {
 
 			axios({
 				method: "post",
-				url: `${config.baseUrl}/product/upload-product-excel`,
+				url: details.role.isAdmin
+					? `${config.baseUrl}/admin/product/upload-product-excel`
+					: `${config.baseUrl}/product/upload-product-excel`,
 				data: formData,
 				headers: {
 					"Content-Type": "multipart/form-data",
@@ -108,7 +111,19 @@ const UploadProduct = () => {
 		}
 	};
 
-	return (
+	const ifAllowed = () => {
+		if (details.role.isAdmin) {
+			return details.role.permissions?.find(
+				(f) => f.method === "uploadProductExcel"
+			)
+				? true
+				: false;
+		} else {
+			return true;
+		}
+	};
+
+	return ifAllowed() ? (
 		<div>
 			<TitleCover title={`Upload a File (Products Bulk Import)`} />
 			<div className="mt-4">
@@ -251,6 +266,8 @@ const UploadProduct = () => {
 				/>
 			)}
 		</div>
+	) : (
+		<PermissionDenied />
 	);
 };
 

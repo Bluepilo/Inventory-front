@@ -116,6 +116,8 @@ const PickItems = ({
 											Number(values) <= totalAmount)
 									) {
 										changeDiscountValue(Number(values));
+									} else {
+										changeDiscountValue(0);
 									}
 								}}
 								prefix={`${

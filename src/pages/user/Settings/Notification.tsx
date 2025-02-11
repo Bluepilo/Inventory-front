@@ -7,6 +7,9 @@ import basicService from "../../../redux/features/basic/basic-service";
 import { toast } from "react-toastify";
 import { getSettings } from "../../../redux/features/basic/basic-slice";
 import LoadModal from "../../../components/Loaders/LoadModal";
+import { AccountBox } from "../../../styles/profile.styles";
+import { Flex } from "../../../styles/basic.styles";
+import { MainButton } from "../../../styles/links.styles";
 
 const Notification = () => {
 	const dispatch = useAppDispatch();
@@ -15,6 +18,13 @@ const Notification = () => {
 	const { settings } = useAppSelector((state) => state.basic);
 
 	const [load, setLoad] = useState(false);
+	const [stockVal, setStockVal] = useState("");
+
+	useEffect(() => {
+		if (settings?.stockAlert) {
+			setStockVal(settings.stockAlert);
+		}
+	}, [settings]);
 
 	const changeChecked = async (val: boolean, type: string) => {
 		let value = val ? type : "";
@@ -32,6 +42,23 @@ const Notification = () => {
 			await basicService.setNotification(token, payload);
 			setLoad(false);
 			toast.success("Notification Settings Updated.");
+			dispatch(getSettings());
+		} catch (err) {
+			setLoad(false);
+			displayError(err, true);
+		}
+	};
+
+	const changeStockAlert = async () => {
+		let payload = {
+			stockAlert: stockVal ? Number(stockVal) : null,
+			businessId: details.businessId,
+		};
+		try {
+			setLoad(true);
+			await basicService.setNotification(token, payload);
+			setLoad(false);
+			toast.success("Stock Alert Frequency Updated.");
 			dispatch(getSettings());
 		} catch (err) {
 			setLoad(false);
@@ -90,6 +117,30 @@ const Notification = () => {
 					</div>
 				</div>
 			</FormBody>
+			<AccountBox className="mt-3">
+				<h6>Set-up Stock Alert</h6>
+				<p>
+					How frequent (in days) do you want to receive stock alert?
+				</p>
+				<Flex className="mt-4">
+					<div className="input me-4 mb-2">
+						<input
+							onChange={(e) => setStockVal(e.target.value)}
+							value={stockVal}
+							disabled={load}
+							type="number"
+						/>
+					</div>
+
+					<MainButton
+						disabled={load}
+						onClick={changeStockAlert}
+						className="mb-2"
+					>
+						<span>Set</span>
+					</MainButton>
+				</Flex>
+			</AccountBox>
 			{load && <LoadModal open={true} />}
 		</div>
 	);

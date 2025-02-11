@@ -31,7 +31,7 @@ const HeaderDropDown = ({
 	let smsUrl = `${
 		window.location.host.startsWith("app.bluepilo")
 			? "https://sms.bluepilo.com"
-			: "https://dev-sms.bluepilo.com"
+			: "https://test-sms.bluepilo.com"
 	}?token=${ciphertext}`;
 
 	return (
@@ -45,11 +45,7 @@ const HeaderDropDown = ({
 					)}
 					<div>
 						<p>{details.fullName}</p>
-						<p>
-							{details.role.isAdmin
-								? details.role.name
-								: details?.businessRole?.name}
-						</p>
+						<p>{details?.businessRole?.name}</p>
 					</div>
 				</div>
 				{details.businessId && (
@@ -80,16 +76,19 @@ const HeaderDropDown = ({
 						<AiOutlineLogout size={20} />
 						<p>Logout</p>
 					</a>
-					{details.businessId && (
-						<Link
-							to="/dashboard/settings"
-							onClick={() => setOpenDrop(false)}
-							className="box"
-						>
-							<IoSettingsOutline size={20} />
-							<p>Settings</p>
-						</Link>
-					)}
+
+					<Link
+						to={
+							details.role.isAdmin
+								? "/admin/settings"
+								: "/dashboard/settings"
+						}
+						onClick={() => setOpenDrop(false)}
+						className="box"
+					>
+						<IoSettingsOutline size={20} />
+						<p>Settings</p>
+					</Link>
 				</div>
 				<div className="switch-p">
 					<button

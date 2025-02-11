@@ -36,6 +36,10 @@ const Returns = () => {
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(20);
 	const [load, setLoad] = useState(false);
+	const [dateType, setDateType] = useState({
+		label: "This Month",
+		value: "month",
+	});
 
 	const clearFilters = () => {
 		setProductId(null);
@@ -45,6 +49,7 @@ const Returns = () => {
 			new Date(new Date().getFullYear(), new Date().getMonth(), 1)
 		);
 		setEndDate(new Date(new Date().setDate(new Date().getDate() + 1)));
+		setDateType({ label: "This Month", value: "month" });
 	};
 
 	let filters = `?limit=${limit}&page=${page}&startDate=${startDate}&endDate=${endDate}&userId=${
@@ -111,6 +116,8 @@ const Returns = () => {
 				changeOthers={setProductId}
 				othersLabel="Product"
 				othersList={productList}
+				dateType={dateType}
+				changeDateType={setDateType}
 			/>
 			<div className="mt-4">
 				<TableComponent>

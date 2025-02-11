@@ -14,6 +14,7 @@ const BusinessList = ({ list }: { list: any }) => {
 								<th>Phone</th>
 								<th>Status</th>
 								<th>Currency</th>
+								<th>Address</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -26,6 +27,7 @@ const BusinessList = ({ list }: { list: any }) => {
 										{li.isActive ? "Active" : "Inactive"}
 									</td>
 									<td>{li.currency?.name}</td>
+									<td>{li.address}</td>
 								</tr>
 							))}
 						</tbody>

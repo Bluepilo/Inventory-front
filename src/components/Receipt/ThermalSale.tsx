@@ -2,6 +2,7 @@ import { useAppSelector } from "../../redux/hooks";
 import dateFormat from "dateformat";
 import { formatCurrency } from "../../utils/currency";
 import "../../styles/reciept.css";
+import BluepiloImg from "../../assets/images/logo-icon.svg";
 
 const ThermalSale = ({ result }: { result: any }) => {
 	const { details } = useAppSelector((state) => state.auth);
@@ -13,21 +14,40 @@ const ThermalSale = ({ result }: { result: any }) => {
 		<div className="row justify-content-center">
 			<div className="col-lg-6 mt-3">
 				<div className="thermal shadow-sm">
-					<div className="img">
+					<div
+						className="img"
+						style={{ display: "flex", alignItems: "center" }}
+					>
 						<img
-							src={details.business.image}
+							src={
+								details.business.image ||
+								details.image ||
+								BluepiloImg
+							}
 							alt="Business"
 							style={{ height: "80px", width: "80px" }}
 						/>
 						<strong>{details?.business?.name || "Bluepilo"}</strong>
 					</div>
+					<div className="text-center mt-2 mb-2">
+						{details.business.address}
+					</div>
+					<div className="text-center mt-2 mb-2">
+						{details.business.phone}
+					</div>
 					<div className="info">
 						<div className="row">
 							<div className="col-3 mb-2">
-								<b>Info:</b>
+								<b>Ref:</b>
 							</div>
 							<div className="col-9 mb-2">
 								<span>{result.uniqueRef}</span>
+							</div>
+							<div className="col-3 mb-2">
+								<b>Shop:</b>
+							</div>
+							<div className="col-9 mb-2">
+								<span>{result.shop?.name}</span>
 							</div>
 							<div className="col-3 mb-2">
 								<b>Date:</b>
@@ -86,12 +106,15 @@ const ThermalSale = ({ result }: { result: any }) => {
 					<div className="total">
 						<div className="row">
 							<div className="col-3 mb-2">
-								<b>Sub Total:</b>
+								<b>Total Sales:</b>
 							</div>
 							<div className="col-9 mb-2">
 								<span>
 									{currency}{" "}
-									{formatCurrency(result.amountExpected)}
+									{formatCurrency(
+										Number(result.amountExpected) +
+											Number(result.discount)
+									)}
 								</span>
 							</div>
 							<div className="col-3 mb-2">
@@ -103,21 +126,22 @@ const ThermalSale = ({ result }: { result: any }) => {
 								</span>
 							</div>
 							<div className="col-3 mb-2">
+								<b>Sub Total:</b>
+							</div>
+							<div className="col-9 mb-2">
+								<span>
+									{currency}{" "}
+									{formatCurrency(result.amountExpected)}
+								</span>
+							</div>
+
+							<div className="col-3 mb-2">
 								<b>Amount Paid:</b>
 							</div>
 							<div className="col-9 mb-2">
 								<span>
 									{currency}{" "}
-									{formatCurrency(result.amountPaid)}
-								</span>
-							</div>
-							<div className="col-3 mb-2">
-								<b>Deficit:</b>
-							</div>
-							<div className="col-9 mb-2">
-								<span>
-									{currency}{" "}
-									{formatCurrency(result.sales?.deficit)}
+									{formatCurrency(result.actualAmountPaid)}
 								</span>
 							</div>
 							<div className="col-3 mb-2">
@@ -126,10 +150,12 @@ const ThermalSale = ({ result }: { result: any }) => {
 							<div className="col-9 mb-2">
 								<span>
 									{currency}{" "}
-									{formatCurrency(
-										result.sales?.transactions[0]
-											?.balanceAfter
-									)}
+									{result.transactions?.length > 0
+										? formatCurrency(
+												result.transactions[0]
+													.balanceAfter
+										  )
+										: "--"}
 								</span>
 							</div>
 						</div>

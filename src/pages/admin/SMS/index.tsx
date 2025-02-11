@@ -6,6 +6,8 @@ import { useAppSelector } from "../../../redux/hooks";
 import { formatCurrency } from "../../../utils/currency";
 import ModalComponent from "../../../components/ModalComponent";
 import SpandCpEdit from "../../../components/SMS/SpandCpEdit";
+import PieChartSms from "../../../components/SMS/PieChartSms";
+import PermissionDenied from "../../../components/PermissionDenied";
 
 const SMS = () => {
 	const { token, details } = useAppSelector((state) => state.auth);
@@ -13,9 +15,17 @@ const SMS = () => {
 	const [settings, setSettings] = useState<any>({});
 	const [openModal, setOpenModal] = useState(false);
 	const [editSp, setEditSp] = useState(true);
+	const [startDate, setStartDate] = useState(
+		new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+	);
+	const [endDate, setEndDate] = useState(
+		new Date(new Date().setDate(new Date().getDate() + 1))
+	);
+	const [report, setReport] = useState<any>([]);
 
 	useEffect(() => {
 		getSettings();
+		getSmsGraph();
 	}, []);
 
 	const getSettings = async () => {
@@ -25,7 +35,21 @@ const SMS = () => {
 		} catch (err) {}
 	};
 
-	return (
+	const getSmsGraph = async () => {
+		try {
+			let res = await smsService.smsGraph(
+				token,
+				details.id,
+				startDate.toISOString(),
+				endDate.toISOString()
+			);
+			setReport(res);
+		} catch (err) {}
+	};
+
+	return details?.role?.permissions?.find(
+		(f) => f.method === "bluepiloSmsSummary"
+	) ? (
 		<div>
 			<TitleCover title={"Bluepilo SMS"} />
 			<div className="row mt-4">
@@ -105,6 +129,9 @@ const SMS = () => {
 						</div>
 					</DashboardCard>
 				</div>
+				<div className="col-lg-6 mb-4">
+					<PieChartSms report={report} />
+				</div>
 			</div>
 			<ModalComponent
 				title={editSp ? "Edit Selling Price" : "Edit Cost Price"}
@@ -117,10 +144,12 @@ const SMS = () => {
 						getSettings();
 						setOpenModal(false);
 					}}
-					val={editSp ? settings.spPerPage : settings.cpPerPage}
+					val={editSp ? settings?.spPerPage : settings?.cpPerPage}
 				/>
 			</ModalComponent>
 		</div>
+	) : (
+		<PermissionDenied />
 	);
 };
 

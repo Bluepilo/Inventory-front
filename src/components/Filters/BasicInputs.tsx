@@ -28,7 +28,7 @@ interface SearchProp {
 }
 
 interface DateProp {
-	dateVal: Date;
+	dateVal: Date | null;
 	changeDateVal: (arg: any) => void;
 	label: string;
 }

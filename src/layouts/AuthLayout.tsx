@@ -6,15 +6,28 @@ import { MdQuestionMark } from "react-icons/md";
 import AuthSlider from "../components/AuthSlider";
 import HintPage from "../components/HintPage";
 import OutsideClick from "../components/OutsideClick";
-import Logo from "../assets/images/logo.svg";
-import { Outlet, useNavigate } from "react-router-dom";
+import Logo from "../assets/images/logo-dark.png";
+import {
+	Outlet,
+	useLocation,
+	useNavigate,
+	useSearchParams,
+} from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { getAllCountries } from "../redux/features/basic/basic-slice";
+import {
+	getAllCountries,
+	getCarousels,
+} from "../redux/features/basic/basic-slice";
+import { saveReferralCode } from "../redux/features/auth/auth-slice";
 
 const AuthLayout = () => {
+	const [search] = useSearchParams();
+
 	const navigate = useNavigate();
 
 	const dispatch = useAppDispatch();
+
+	const location = useLocation();
 
 	const [openHint, setOpenHint] = useState(false);
 
@@ -28,6 +41,8 @@ const AuthLayout = () => {
 
 	useEffect(() => {
 		dispatch(getAllCountries());
+		dispatch(getCarousels());
+		checkReferralCode();
 	}, []);
 
 	const signIn = () => {
@@ -43,12 +58,19 @@ const AuthLayout = () => {
 		}
 	};
 
+	const checkReferralCode = () => {
+		let params = search.get("code");
+		if (params) {
+			dispatch(saveReferralCode(params));
+		}
+	};
+
 	return (
 		<AuthCover>
 			<Row>
 				<Col lg={7} className="d-lg-block d-none">
 					<SlideCover>
-						<AuthSlider />
+						<AuthSlider path={location.pathname} />
 					</SlideCover>
 				</Col>
 				<Col lg={5}>

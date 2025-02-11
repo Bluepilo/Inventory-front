@@ -8,15 +8,13 @@ import { Link } from "react-router-dom";
 import { formatCurrency } from "../../../utils/currency";
 import SkeletonTable from "../../../components/Loaders/SkeletonTable";
 import Paginate from "../../../components/Paginate";
-import { FilterStyles } from "../../../styles/filters.styles";
-import {
-	BasicSelect,
-	DateSelect,
-	OptionProp,
-} from "../../../components/Filters/BasicInputs";
+import { OptionProp } from "../../../components/Filters/BasicInputs";
+import Filters from "../../../components/Filters";
+import { SummaryCard } from "../../../styles/dashboard.styles";
+import PermissionDenied from "../../../components/PermissionDenied";
 
 const AdminTransactions = () => {
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [list, setList] = useState<any>({});
@@ -30,6 +28,10 @@ const AdminTransactions = () => {
 	);
 	const [status, setStatus] = useState<OptionProp | null>(null);
 	const [subType, setSubType] = useState<OptionProp | null>(null);
+	const [dateType, setDateType] = useState({
+		label: "This Month",
+		value: "month",
+	});
 
 	let filters = `?page=${page}&limit=${limit}&transactionType=${
 		subType?.value || ""
@@ -51,42 +53,49 @@ const AdminTransactions = () => {
 		}
 	};
 
-	return (
+	const clearFilters = () => {
+		setStartDate(
+			new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+		);
+		setEndDate(new Date(new Date().setDate(new Date().getDate() + 1)));
+		setSubType(null);
+		setDateType({ label: "This Month", value: "month" });
+	};
+
+	return details?.role?.permissions?.find(
+		(f) => f.method === "listTransactions"
+	) ? (
 		<div>
 			<TitleCover title="Transactions" dataCount={list?.count} />
-			<FilterStyles>
-				<div className="row mt-3">
-					<div className="col-lg-2 col-md-4 col-6 mb-3">
-						<DateSelect
-							dateVal={startDate}
-							changeDateVal={setStartDate}
-							label="Start Date"
-						/>
-					</div>
-					<div className="col-lg-2 col-md-4 col-6 mb-3">
-						<DateSelect
-							dateVal={endDate}
-							changeDateVal={setEndDate}
-							label="End Date"
-						/>
-					</div>
-					<div className="col-lg-2 col-md-4 col-6 mb-3">
-						<BasicSelect
-							value={subType}
-							options={[
-								{ label: "topup", value: "topup" },
-								{
-									label: "subscription",
-									value: "subscription",
-								},
-							]}
-							label={"Subscription Type"}
-							changeSelected={setSubType}
-						/>
-					</div>
+			<Filters
+				startDate={startDate}
+				changeStartDate={setStartDate}
+				endDate={endDate}
+				changeEndDate={setEndDate}
+				others={subType}
+				changeOthers={setSubType}
+				othersLabel="Subscription Type"
+				othersList={[
+					{ label: "topup", value: "topup" },
+					{
+						label: "subscription",
+						value: "subscription",
+					},
+				]}
+				clearValues={clearFilters}
+				dateType={dateType}
+				changeDateType={setDateType}
+			/>
+			<div className="row align-items-center mt-4">
+				<div className="col-lg-6 mb-3">
+					<SummaryCard>
+						<div>
+							<h6>Total Credit:</h6>
+							<h6>{formatCurrency(list?.total || 0)}</h6>
+						</div>
+					</SummaryCard>
 				</div>
-			</FilterStyles>
-
+			</div>
 			<div className="mt-3">
 				<TableComponent>
 					<div className="table-responsive">
@@ -98,6 +107,7 @@ const AdminTransactions = () => {
 									<th>Transaction Type</th>
 									<th>Credit</th>
 									<th>Debit</th>
+									<th>Balance</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -142,6 +152,9 @@ const AdminTransactions = () => {
 													  )}`
 													: "--"}
 											</td>
+											<td>
+												{formatCurrency(tr.amountPaid)}
+											</td>
 										</tr>
 									))}
 							</tbody>
@@ -163,6 +176,8 @@ const AdminTransactions = () => {
 				)}
 			</div>
 		</div>
+	) : (
+		<PermissionDenied />
 	);
 };
 

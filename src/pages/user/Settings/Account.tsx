@@ -1,7 +1,7 @@
 import { FormCheck, Spinner } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { AccountBox } from "../../../styles/profile.styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MainButton } from "../../../styles/links.styles";
 import { displayError } from "../../../utils/errors";
 import basicService from "../../../redux/features/basic/basic-service";
@@ -10,6 +10,9 @@ import { toast } from "react-toastify";
 import { Flex } from "../../../styles/basic.styles";
 import CurrencyInput from "react-currency-input-field";
 import { userProfile } from "../../../redux/features/auth/auth-slice";
+import { FaTrash } from "react-icons/fa6";
+import productService from "../../../redux/features/product/product-service";
+import ProductCategories from "../../../components/Settings/ProductCategories";
 
 const Account = () => {
 	const dispatch = useAppDispatch();
@@ -25,6 +28,7 @@ const Account = () => {
 	const [loadCredit, setLoadCredit] = useState(false);
 	const [loadSms, setLoadSms] = useState(false);
 	const [loadInventory, setLoadInventory] = useState(false);
+	const [listPcats, setListPCats] = useState([]);
 
 	const [creditLimit, setCreditLimit] = useState(settings?.creditLimit);
 	const [sms, setSms] = useState(settings?.salesSms);
@@ -32,6 +36,22 @@ const Account = () => {
 
 	const currency =
 		details.business?.currency?.symbol || details.business.currencyCode;
+
+	useEffect(() => {
+		productCategories();
+	}, []);
+
+	const productCategories = async () => {
+		try {
+			let res = await productService.productCategories(token);
+			let arr = res?.filter(
+				(r: any) => r.businessId === details.businessId
+			);
+			setListPCats(arr || []);
+		} catch (err) {
+			displayError(err, false);
+		}
+	};
 
 	const changeLimit = async (val: any) => {
 		try {
@@ -164,7 +184,7 @@ const Account = () => {
 							name="input-name"
 							decimalsLimit={2}
 							onValueChange={(values) => {
-								setCreditLimit(Number(values));
+								setCreditLimit(values ? Number(values) : 0);
 							}}
 							prefix={`${currency} `}
 							value={creditLimit}
@@ -213,6 +233,10 @@ const Account = () => {
 					/>
 				)}
 			</AccountBox>
+			<ProductCategories
+				list={listPcats}
+				onRefresh={() => productCategories()}
+			/>
 		</div>
 	);
 };

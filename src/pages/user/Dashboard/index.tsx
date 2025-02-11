@@ -25,6 +25,7 @@ import { getDashboardStats } from "../../../redux/features/basic/basic-slice";
 import { displayError } from "../../../utils/errors";
 import basicService from "../../../redux/features/basic/basic-service";
 import { userProfile } from "../../../redux/features/auth/auth-slice";
+import RoleGuard from "../../../components/RoleGuard";
 
 const Dashboard = () => {
 	const navigate = useNavigate();
@@ -329,7 +330,9 @@ const Dashboard = () => {
 									<tr>
 										<th>Brands</th>
 										<th>Unit</th>
-										<th className="text-end">Value</th>
+										<RoleGuard access="isBusinessAdmin">
+											<th className="text-end">Value</th>
+										</RoleGuard>
 									</tr>
 								</thead>
 								<tbody>
@@ -338,10 +341,14 @@ const Dashboard = () => {
 											<tr key={t.brandId}>
 												<td>{t.brand}</td>
 												<td>{t.totalStock}</td>
-												<td className="text-end">
-													{currency}{" "}
-													{formatCurrency(t.worth)}
-												</td>
+												<RoleGuard access="isBusinessAdmin">
+													<td className="text-end">
+														{currency}{" "}
+														{formatCurrency(
+															t.worth
+														)}
+													</td>
+												</RoleGuard>
 											</tr>
 										)
 									)}

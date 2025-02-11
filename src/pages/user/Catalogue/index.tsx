@@ -21,7 +21,7 @@ import BrandForm from "../../../components/Catalogue/BrandForm";
 import NewBrand from "../../../components/Catalogue/NewBrand";
 import Papa from "papaparse";
 
-const Catalogue = () => {
+const Catalogue = ({ admin }: { admin?: boolean }) => {
 	const { details, token } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
@@ -138,6 +138,18 @@ const Catalogue = () => {
 		}
 	};
 
+	const ifAllowed = () => {
+		if (details.role.isAdmin) {
+			return details.role.permissions?.find(
+				(f) => f.method === "allProducts"
+			)
+				? true
+				: false;
+		} else {
+			return true;
+		}
+	};
+
 	return (
 		<>
 			{details?.role?.isAdmin ||
@@ -197,14 +209,20 @@ const Catalogue = () => {
 												{managedBrands.map((m: any) => (
 													<tr key={m.id}>
 														<td className="link">
-															<Link
-																to={`${m.id}`}
-																state={{
-																	name: m.name,
-																}}
-															>
-																{m.name}
-															</Link>
+															{!ifAllowed() ? (
+																<span>
+																	{m.name}
+																</span>
+															) : (
+																<Link
+																	to={`${m.id}`}
+																	state={{
+																		name: m.name,
+																	}}
+																>
+																	{m.name}
+																</Link>
+															)}
 														</td>
 														{!details?.role
 															?.isAdmin && (
@@ -356,7 +374,7 @@ const Catalogue = () => {
 					<BrandForm
 						brandDetail={null}
 						onComplete={() => {
-							setOpenEdit(false);
+							setOpenNew(false);
 							getBrands();
 						}}
 					/>

@@ -33,6 +33,10 @@ const ProductHistory = () => {
 	const [shopId, setShopId] = useState<OptionProp | null>(null);
 	const [typeId, setTypeId] = useState<OptionProp | null>(null);
 	const [load, setLoad] = useState(false);
+	const [dateType, setDateType] = useState({
+		label: "This Month",
+		value: "month",
+	});
 
 	let filters = `?startDate=${startDate}&endDate=${endDate}&productId=${id}&shopId=${
 		details.shopId || shopId?.value || ""
@@ -60,6 +64,7 @@ const ProductHistory = () => {
 		setEndDate(new Date(new Date().setDate(new Date().getDate() + 1)));
 		setTypeId(null);
 		setShopId(null);
+		setDateType({ label: "This Month", value: "month" });
 	};
 
 	return (
@@ -78,6 +83,8 @@ const ProductHistory = () => {
 				clearValues={clearFilters}
 				logType={typeId}
 				changeLogType={setTypeId}
+				dateType={dateType}
+				changeDateType={setDateType}
 			/>
 			<div className="row align-items-center mt-4">
 				<div className="col-lg-8 mb-3">
@@ -93,14 +100,6 @@ const ProductHistory = () => {
 							<h6>{lists?.stock || "--"}</h6>
 						</div>
 					</SummaryCard>
-				</div>
-				<div className="col-lg-4 mb-3">
-					<CheckBoxPrint>
-						<MainButton>
-							<IoIosCloudDownload />
-							<span>Download Report</span>
-						</MainButton>
-					</CheckBoxPrint>
 				</div>
 			</div>
 			<div className="mt-4">

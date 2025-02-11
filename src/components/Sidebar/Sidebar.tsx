@@ -4,8 +4,8 @@ import {
 	SidebarLogo,
 	SidebarMenu,
 } from "../../styles/dashboard.styles";
-import LogoIcon from "../../assets/images/logo-icon.svg";
-import LogoText from "../../assets/images/bluepilo.svg";
+import LogoIcon from "../../assets/images/logo-dark.png";
+import Logo from "../../assets/images/logo.svg";
 import SidebarMin from "../../assets/icons/sidebar-min.svg";
 import { useAppSelector } from "../../redux/hooks";
 import { adminRoutes, userRoutes } from "./routes";
@@ -25,7 +25,7 @@ const Sidebar = ({ open, minimizeHandler, onClose, minimized }: Props) => {
 	const { theme } = useAppSelector((state) => state.basic);
 
 	const menuToLoad = () => {
-		if (details.businessId) {
+		if (!details.role.isAdmin) {
 			return userRoutes;
 		} else {
 			return adminRoutes;
@@ -35,6 +35,15 @@ const Sidebar = ({ open, minimizeHandler, onClose, minimized }: Props) => {
 	const allowUser = (permit: any) => {
 		if (details.shopId && permit?.includes("admin")) {
 			return false;
+		} else if (details.role.isAdmin) {
+			if (
+				details.role.permissions.find((p) => p.method === permit[0]) ||
+				permit.length === 0
+			) {
+				return true;
+			} else {
+				return false;
+			}
 		} else {
 			return true;
 		}
@@ -48,8 +57,11 @@ const Sidebar = ({ open, minimizeHandler, onClose, minimized }: Props) => {
 		>
 			<SidebarLogo minimize={`${minimized}`}>
 				<div className="images">
-					<img src={LogoIcon} className="icon" alt="Logo" />
-					<img src={LogoText} className="sub" alt="Logo" />
+					{minimized ? (
+						<img src={Logo} className="sub" alt="Logo" />
+					) : (
+						<img src={LogoIcon} className="icon" alt="Logo" />
+					)}
 				</div>
 				<a
 					href="#"

@@ -9,7 +9,8 @@ const getWalkIns = async (token: string, filters: string) => {
 			headers: authHeader(token),
 		}
 	);
-	return data.data;
+	console.log(data?.data || data, "result");
+	return data?.data || data;
 };
 
 const searchWalkIns = async (
@@ -46,7 +47,7 @@ const getSubdealers = async (token: string, filters: string) => {
 			headers: authHeader(token),
 		}
 	);
-	return data.data;
+	return data?.data || data;
 };
 
 const searchSubdealers = async (
@@ -281,7 +282,23 @@ const removeUserFromBusiness = async (
 
 const changePassword = async (token: string, obj: any, userId: string) => {
 	const { data } = await axios.post(
-		`${config.baseUrl}/user/change-password/${userId}}`,
+		`${config.baseUrl}/user/change-password/${userId}`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const updateUserRole = async (
+	token: string,
+	obj: any,
+	userId: string,
+	bizId: string
+) => {
+	const { data } = await axios.patch(
+		`${config.baseUrl}/business/${bizId}/update/${userId}`,
 		obj,
 		{
 			headers: authHeader(token),
@@ -315,6 +332,7 @@ const customerService = {
 	removeUserFromBusiness,
 	changePassword,
 	deleteUser,
+	updateUserRole,
 };
 
 export default customerService;

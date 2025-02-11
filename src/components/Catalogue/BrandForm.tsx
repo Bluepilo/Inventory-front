@@ -64,6 +64,7 @@ const BrandForm = ({
 					saveTrialPick();
 				}
 			}
+			setLoad(false);
 			toast.success(
 				`Brand has been ${brandDetail?.id ? "Updated" : "Created"}`
 			);

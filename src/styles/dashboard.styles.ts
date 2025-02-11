@@ -28,10 +28,11 @@ export const SidebarLogo = styled.div<{ minimize: string }>`
 	align-items: center;
 
 	.images {
+		.icon {
+			height: 40px;
+		}
 		.sub {
-			margin-left: 10px;
-			display: ${(props) =>
-				props.minimize === "true" ? "none" : "inline"};
+			height: 40px;
 		}
 	}
 

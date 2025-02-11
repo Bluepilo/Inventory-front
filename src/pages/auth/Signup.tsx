@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AuthProgress from "../../components/Auth/AuthProgress";
 import { displayError } from "../../utils/errors";
 import { CheckBox, Form } from "../../styles/form.styles";
@@ -6,7 +6,7 @@ import {
 	DropDownSelect,
 	OptionProp,
 } from "../../components/Filters/BasicInputs";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { FaArrowRight, FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import { FlexBetween } from "../../styles/basic.styles";
 import { WideButton } from "../../styles/links.styles";
@@ -14,13 +14,17 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import authService from "../../redux/features/auth/auth-service";
 import Loading from "../../components/Loaders/Loading";
+import { clearReferralCode } from "../../redux/features/auth/auth-slice";
 
 const Signup = () => {
+	const dispatch = useAppDispatch();
+
 	const navigate = useNavigate();
 
 	const [load, setLoad] = useState(false);
 
 	const { countries } = useAppSelector((state) => state.basic);
+	const { referralCode } = useAppSelector((state) => state.auth);
 
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
@@ -42,6 +46,13 @@ const Signup = () => {
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirm, setShowConfirm] = useState(false);
 	const [passwordError, setPasswordError] = useState(false);
+	const [code, setCode] = useState("");
+
+	useEffect(() => {
+		if (referralCode) {
+			setCode(referralCode);
+		}
+	}, [referralCode]);
 
 	const passwordValidator = (pass: string) => {
 		setPassword(pass);
@@ -72,6 +83,7 @@ const Signup = () => {
 						countryCode: countryCode?.value,
 						address: "address",
 						regNo: "",
+						referralCode: code,
 					};
 					let res = await authService.register(data);
 					setLoad(false);
@@ -79,6 +91,7 @@ const Signup = () => {
 						navigate("/verify-otp", {
 							state: { email },
 						});
+						dispatch(clearReferralCode());
 					}
 				} catch (err) {
 					setLoad(false);
@@ -226,6 +239,16 @@ const Signup = () => {
 									<p>Passwords must match</p>
 								</div>
 							)}
+					</div>
+					<div className="col-lg-12">
+						<label>Referral</label>
+						<input
+							type="text"
+							value={code}
+							onChange={(e) => setCode(e.target.value)}
+							disabled={referralCode ? true : false}
+							className="height"
+						/>
 					</div>
 					<div className="col-lg-12">
 						<CheckBox>

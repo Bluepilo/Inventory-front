@@ -10,11 +10,12 @@ import { ResourceList } from "../../../styles/basic.styles";
 import dateFormat from "dateformat";
 import adminService from "../../../redux/features/admin/admin-service";
 import { toast } from "react-toastify";
+import PermissionDenied from "../../../components/PermissionDenied";
 
 const Resource = () => {
 	const navigate = useNavigate();
 
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [faqs, setFaqs] = useState<any>([]);
@@ -26,7 +27,7 @@ const Resource = () => {
 	const loadFaqs = async () => {
 		try {
 			setLoad(true);
-			let res = await basicService.loadFaqs(token);
+			let res = await adminService.loadFaqs(token);
 			setLoad(false);
 			setFaqs(Array.isArray(res) ? res : []);
 		} catch (err) {
@@ -56,7 +57,7 @@ const Resource = () => {
 		}
 	};
 
-	return (
+	return details?.role?.permissions?.find((f) => f.method === "allFaqs") ? (
 		<div>
 			<TitleCover
 				title={`Resources`}
@@ -103,6 +104,8 @@ const Resource = () => {
 				</div>
 			</div>
 		</div>
+	) : (
+		<PermissionDenied />
 	);
 };
 

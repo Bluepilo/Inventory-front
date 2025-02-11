@@ -81,6 +81,51 @@ export const ProfileBox = styled.div`
 	}
 `;
 
+export const ReferralBox = styled.div`
+	p {
+		font-size: 1.1rem;
+	}
+
+	.share {
+		display: flex;
+		.share-icon {
+			margin-right: 20px;
+		}
+	}
+
+	.button-div {
+		background-color: #000d33;
+		display: flex;
+		align-items: center;
+		width: 50%;
+		justify-content: center;
+		padding: 10px 0;
+		margin-top: 20px;
+		border-radius: 3px;
+
+		@media (max-width: 991px) {
+			width: 100%;
+		}
+
+		.box {
+			width: 70%;
+			background-color: #fff;
+			margin-right: 15px;
+			padding: 3px 10px;
+			font-weight: 600;
+		}
+
+		button {
+			border: 1px solid #fff;
+			outline: 0;
+			padding: 8px 20px;
+			border-radius: 5px;
+			color: #fff;
+			background: none;
+		}
+	}
+`;
+
 export const AccountBox = styled.div`
 	border: 1px solid #d9dbe9;
 	padding: 20px;
@@ -115,6 +160,33 @@ export const AccountBox = styled.div`
 			border-radius: 6px;
 			padding-left: 20px;
 			height: 45px;
+		}
+	}
+
+	.list {
+		border: 1px solid rgba(0, 0, 0, 0.08);
+		margin-bottom: 15px;
+		padding: 8px;
+		border-radius: 3px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		span {
+			max-width: 80%;
+		}
+
+		button {
+			background: red;
+			border: 0;
+			outline: 0;
+			color: #fff;
+			height: 30px;
+			width: 30px;
+			border-radius: 20px;
+			align-items: center;
+			justify-content: center;
+			display: flex;
 		}
 	}
 `;

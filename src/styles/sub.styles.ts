@@ -83,4 +83,8 @@ export const Plan = styled.div`
 
 export const ConfirmStyle = styled.div`
 	text-align: center;
+
+	img {
+		height: 50px;
+	}
 `;

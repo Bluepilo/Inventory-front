@@ -12,6 +12,11 @@ import FailedIcon from "../../../assets/icons/failed.svg";
 import { OptionProp } from "../../../components/Filters/BasicInputs";
 import Filters from "../../../components/Filters";
 import Paginate from "../../../components/Paginate";
+import dateFormat from "dateformat";
+import { SummaryCard } from "../../../styles/dashboard.styles";
+import { UseDebounce } from "../../../utils/hooks";
+import PermissionDenied from "../../../components/PermissionDenied";
+import { toast } from "react-toastify";
 
 const SmsTransactions = () => {
 	const { token, details } = useAppSelector((state) => state.auth);
@@ -26,19 +31,27 @@ const SmsTransactions = () => {
 	);
 	const [channelTypes, setChannelTypes] = useState<OptionProp[]>([
 		{ label: "Manual", value: "Manual" },
-		{ label: "Card", value: "card" },
-		{ label: "Bank Transfer", value: "bank_transfer" },
-		{ label: "USSD", value: "ussd" },
-		{ label: "QR", value: "qr" },
-		{ label: "Bank", value: "bank" },
+		{ label: "Bonus Manual", value: "Bonus-Manual" },
+		{ label: "Paystack (Completed)", value: "Paystack-Complete" },
+		{ label: "Paystack (Pending)", value: "Paystack-Pending" },
+		{ label: "SMS", value: "sms" },
 	]);
 	const [channelTypeId, setChannelTypeId] = useState<OptionProp | null>(null);
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(20);
+	const [search, setSearch] = useState("");
+	const [report, setReport] = useState<any>({});
+	const [dateType, setDateType] = useState({
+		label: "This Month",
+		value: "month",
+	});
+
+	const debouncedSearch = UseDebounce(search);
 
 	useEffect(() => {
+		getReport();
 		loadAllTransactions();
-	}, [endDate, channelTypeId, limit, page]);
+	}, [endDate, channelTypeId, limit, page, debouncedSearch]);
 
 	const loadAllTransactions = async () => {
 		try {
@@ -50,7 +63,8 @@ const SmsTransactions = () => {
 				endDate.toISOString(),
 				channelTypeId?.value || "",
 				limit,
-				page
+				page,
+				search
 			);
 			setLoad(false);
 			setList(res);
@@ -66,12 +80,50 @@ const SmsTransactions = () => {
 		);
 		setEndDate(new Date(new Date().setDate(new Date().getDate() + 1)));
 		setChannelTypeId(null);
+		setDateType({ label: "This Month", value: "month" });
 	};
 
-	return (
+	const getReport = async () => {
+		try {
+			let res = await smsService.getTransactionReport(
+				token,
+				details.id,
+				startDate.toISOString(),
+				endDate.toISOString()
+			);
+			setReport(res);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	const verifyHandler = async (data: any) => {
+		if (window.confirm("Are you sure you want to proceed?")) {
+			try {
+				setLoad(true);
+				await smsService.verifyTransaction(token, details.id, {
+					reference: data.reference,
+				});
+				setLoad(false);
+				toast.success("Transaction Verified!");
+				loadAllTransactions();
+			} catch (err) {
+				setLoad(false);
+				displayError(err, true);
+			}
+		}
+	};
+
+	return details?.role?.permissions?.find(
+		(f) => f.method === "bluepiloSmsTransactionList"
+	) ? (
 		<div>
 			<TitleCover title={"SMS Transactions"} />
 			<Filters
+				isSearchable={true}
+				searchVal={search}
+				placeholder="Search Organization"
+				changeSearchVal={setSearch}
 				startDate={startDate}
 				changeStartDate={setStartDate}
 				endDate={endDate}
@@ -81,7 +133,32 @@ const SmsTransactions = () => {
 				changeOthers={setChannelTypeId}
 				othersLabel="Channel"
 				othersList={channelTypes}
+				dateType={dateType}
+				changeDateType={setDateType}
 			/>
+			<div className="row align-items-center mt-4">
+				<div className="col-lg-6 mb-3">
+					<SummaryCard>
+						<div>
+							<h6>Total Credit:</h6>
+							<h6>
+								{typeof report?.totalCredit === "number"
+									? `₦${formatCurrency(report?.totalCredit)}`
+									: "--"}
+							</h6>
+						</div>
+
+						<div>
+							<h6>Total Debit:</h6>
+							<h6>
+								{typeof report?.totalDebit === "number"
+									? `₦${formatCurrency(report?.totalDebit)}`
+									: "--"}
+							</h6>
+						</div>
+					</SummaryCard>
+				</div>
+			</div>
 			<div>
 				<TableComponent>
 					<div className="table-responsive">
@@ -94,6 +171,7 @@ const SmsTransactions = () => {
 									<th>Type</th>
 									<th>Status</th>
 									<th>Channel</th>
+									<th>Date|Time</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -109,11 +187,19 @@ const SmsTransactions = () => {
 												</a>
 											</td>
 											<td>{li.reference}</td>
-											<td className="price">
+											<td
+												className="price"
+												style={{
+													color:
+														li.type === "debit"
+															? "red"
+															: "black",
+												}}
+											>
 												₦{formatCurrency(li.amount)}
 											</td>
 											<td>{li.type}</td>
-											<td className="status">
+											<td className="status link">
 												<img
 													src={
 														li.status ===
@@ -125,8 +211,32 @@ const SmsTransactions = () => {
 															: FailedIcon
 													}
 												/>
+												{li.status === "pending" && (
+													<a
+														href="#"
+														className="ms-2"
+														onClick={(e) => {
+															e.preventDefault();
+															verifyHandler(li);
+														}}
+													>
+														Verify
+													</a>
+												)}
 											</td>
-											<td>{li.channel}</td>
+											<td>
+												{li.channel?.startsWith(
+													"Paystack"
+												)
+													? "Paystack"
+													: li.channel}
+											</td>
+											<td>
+												{dateFormat(
+													li.createdAt,
+													"mmm dd, yyyy | h:MM TT"
+												)}
+											</td>
 										</tr>
 									))}
 							</tbody>
@@ -148,6 +258,8 @@ const SmsTransactions = () => {
 				)}
 			</div>
 		</div>
+	) : (
+		<PermissionDenied />
 	);
 };
 

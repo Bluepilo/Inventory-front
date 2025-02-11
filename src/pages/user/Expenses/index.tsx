@@ -41,6 +41,10 @@ const Expenses = () => {
 	);
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(20);
+	const [dateType, setDateType] = useState({
+		label: "This Month",
+		value: "month",
+	});
 
 	const clearFilters = () => {
 		setStartDate(
@@ -50,6 +54,7 @@ const Expenses = () => {
 		setShopId(null);
 		setStatusId(null);
 		setExpenseCategory(null);
+		setDateType({ label: "This Month", value: "month" });
 	};
 
 	let filters = `?page=${page}&limit=${limit}&expenseCategoryId=${
@@ -128,6 +133,8 @@ const Expenses = () => {
 							changeStatusId={setStatusId}
 							expenseCategory={expenseCategory}
 							changeExpenseCategory={setExpenseCategory}
+							dateType={dateType}
+							changeDateType={setDateType}
 						/>
 						<div className="row align-items-center mt-4">
 							<div className="col-lg-6 mb-3">
@@ -170,10 +177,6 @@ const Expenses = () => {
 											List Recurrent Expenses
 										</label>
 									</div>
-									<MainButton>
-										<img src={PrintLogo} />
-										<span>Print</span>
-									</MainButton>
 								</CheckBoxPrint>
 							</div>
 						</div>
@@ -185,6 +188,8 @@ const Expenses = () => {
 											data={lists?.rows}
 											load={load}
 											currency={currency}
+											setLoad={setLoad}
+											reload={loadRecurrent}
 										/>
 									) : (
 										<ExpenseTable

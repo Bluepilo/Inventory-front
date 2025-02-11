@@ -2,9 +2,11 @@ import axios from "axios";
 import config from "../../../utils/config";
 import { authHeader } from "../../../utils/headers";
 
-const getProductsInShop = async (token: string, id: any) => {
+const getProductsInShop = async (token: string, id: any, pOnly?: boolean) => {
 	const { data } = await axios.get(
-		`${config.baseUrl}/product/all/shop/${id}?all=true`,
+		`${config.baseUrl}/product/all/shop/${id}?all=true&type=${
+			pOnly ? "product_only" : ""
+		}`,
 		{
 			headers: authHeader(token),
 		}
@@ -105,22 +107,41 @@ const productCategories = async (token: string) => {
 	return data.data;
 };
 
-const createProduct = async (token: string, obj: any) => {
-	const { data } = await axios.post(`${config.baseUrl}/product/create`, obj, {
+const createProduct = async (token: string, obj: any, isAdmin: boolean) => {
+	let url = isAdmin
+		? `${config.baseUrl}/admin/product`
+		: `${config.baseUrl}/product/create`;
+	const { data } = await axios.post(url, obj, {
 		headers: authHeader(token),
 	});
 	return data.data;
 };
 
-const editProduct = async (token: string, obj: any, id: string) => {
-	const { data } = await axios.put(
-		`${config.baseUrl}/product/update/${id}`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
-	);
-	return data.data;
+const editProduct = async (
+	token: string,
+	obj: any,
+	id: string,
+	isAdmin: boolean
+) => {
+	if (isAdmin) {
+		const { data } = await axios.post(
+			`${config.baseUrl}/admin/product/${id}`,
+			obj,
+			{
+				headers: authHeader(token),
+			}
+		);
+		return data.data;
+	} else {
+		const { data } = await axios.put(
+			`${config.baseUrl}/product/update/${id}`,
+			obj,
+			{
+				headers: authHeader(token),
+			}
+		);
+		return data.data;
+	}
 };
 
 const viewBrand = async (token: string, id: string) => {
@@ -154,13 +175,13 @@ const searchProducts = async (token: string, filters: string) => {
 	return data.data;
 };
 
-const deleteProduct = async (token: string, id: string) => {
-	const { data } = await axios.delete(
-		`${config.baseUrl}/product/delete/${id}`,
-		{
-			headers: authHeader(token),
-		}
-	);
+const deleteProduct = async (token: string, id: string, isAdmin: boolean) => {
+	let url = isAdmin
+		? `${config.baseUrl}/admin/product/${id}`
+		: `${config.baseUrl}/product/delete/${id}`;
+	const { data } = await axios.delete(url, {
+		headers: authHeader(token),
+	});
 	return data.data;
 };
 
@@ -193,7 +214,7 @@ const stockReports = async (token: string, filters: string) => {
 			headers: authHeader(token),
 		}
 	);
-	return data.data;
+	return data?.data || data;
 };
 
 const setMinStockAlert = async (token: string, id: string, obj: any) => {
@@ -224,7 +245,7 @@ const getLogReports = async (token: string, filters: string) => {
 			headers: authHeader(token),
 		}
 	);
-	return data.data;
+	return data?.data || data;
 };
 
 const getProductReturns = async (token: string, filters: string) => {
@@ -270,6 +291,27 @@ const adjustStock = async (token: string, obj: any) => {
 	return data.data;
 };
 
+const addProductCategory = async (token: string, obj: any) => {
+	const { data } = await axios.post(
+		`${config.baseUrl}/product/add-category`,
+		obj,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
+const deleteProductCategory = async (token: string, id: number) => {
+	const { data } = await axios.delete(
+		`${config.baseUrl}/product/delete-category/${id}`,
+		{
+			headers: authHeader(token),
+		}
+	);
+	return data.data;
+};
+
 const productService = {
 	getProductsInShop,
 	allProducts,
@@ -299,6 +341,8 @@ const productService = {
 	logDetails,
 	resolveReturn,
 	adjustStock,
+	addProductCategory,
+	deleteProductCategory,
 };
 
 export default productService;

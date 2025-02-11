@@ -59,14 +59,15 @@ const Login = () => {
 						disabled={loading}
 						autoComplete="password"
 					/>
-					<button
+					<a
+						href="#"
 						onClick={(e) => {
 							e.preventDefault();
 							setShowPassword(!showPassword);
 						}}
 					>
 						{showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
-					</button>
+					</a>
 				</div>
 				<div className="forgot">
 					<p>

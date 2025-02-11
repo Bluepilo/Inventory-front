@@ -9,6 +9,8 @@ import dateFormat from "dateformat";
 import { formatCurrency } from "../../../utils/currency";
 import SkeletonTable from "../../../components/Loaders/SkeletonTable";
 import Paginate from "../../../components/Paginate";
+import { SummaryCard } from "../../../styles/dashboard.styles";
+import PermissionDenied from "../../../components/PermissionDenied";
 
 const SmsHistory = () => {
 	const { token, details } = useAppSelector((state) => state.auth);
@@ -23,10 +25,30 @@ const SmsHistory = () => {
 	);
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(20);
+	const [report, setReport] = useState<any>({});
+	const [dateType, setDateType] = useState({
+		label: "This Month",
+		value: "month",
+	});
 
 	useEffect(() => {
+		getReport();
 		getHistory();
 	}, [page, limit, endDate]);
+
+	const getReport = async () => {
+		try {
+			let res = await smsService.getHistoryReport(
+				token,
+				details.id,
+				startDate.toISOString(),
+				endDate.toISOString()
+			);
+			setReport(res);
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
 	const getHistory = async () => {
 		try {
@@ -52,6 +74,7 @@ const SmsHistory = () => {
 			new Date(new Date().getFullYear(), new Date().getMonth(), 1)
 		);
 		setEndDate(new Date(new Date().setDate(new Date().getDate() + 1)));
+		setDateType({ label: "This Month", value: "month" });
 	};
 
 	const getLength = (arr: any, str: string) => {
@@ -59,7 +82,9 @@ const SmsHistory = () => {
 		return find.length;
 	};
 
-	return (
+	return details?.role?.permissions?.find(
+		(f) => f.method === "bluepiloSmsHistory"
+	) ? (
 		<div>
 			<TitleCover title={"SMS Logs"} />
 			<Filters
@@ -68,7 +93,32 @@ const SmsHistory = () => {
 				endDate={endDate}
 				changeEndDate={setEndDate}
 				clearValues={clearFilters}
+				dateType={dateType}
+				changeDateType={setDateType}
 			/>
+			<div className="row align-items-center mt-4">
+				<div className="col-lg-6 mb-3">
+					<SummaryCard>
+						<div>
+							<h6>Total Unit:</h6>
+							<h6>
+								{typeof report?.totalUnit === "number"
+									? report?.totalUnit
+									: "--"}
+							</h6>
+						</div>
+
+						<div>
+							<h6>Total Value:</h6>
+							<h6>
+								{typeof report?.totalValue === "number"
+									? `₦${formatCurrency(report?.totalValue)}`
+									: "--"}
+							</h6>
+						</div>
+					</SummaryCard>
+				</div>
+			</div>
 			<div>
 				<TableComponent>
 					<div className="table-responsive">
@@ -185,6 +235,8 @@ const SmsHistory = () => {
 				)}
 			</div>
 		</div>
+	) : (
+		<PermissionDenied />
 	);
 };
 

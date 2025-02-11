@@ -16,6 +16,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { displayError } from "../../../utils/errors";
 import { toast } from "react-toastify";
 import LoadModal from "../../../components/Loaders/LoadModal";
+import PermissionDenied from "../../../components/PermissionDenied";
 
 const NewProduct = () => {
 	const params = useParams();
@@ -110,14 +111,19 @@ const NewProduct = () => {
 				res = await productService.editProduct(
 					token,
 					obj,
-					editState.id
+					editState.id,
+					details.role.isAdmin
 				);
 			} else {
-				res = await productService.createProduct(token, obj);
+				res = await productService.createProduct(
+					token,
+					obj,
+					details.role.isAdmin
+				);
 			}
 			setLoad(false);
 			if (res) {
-				navigate(`/dashboard/catalogue/${params.id}`);
+				navigate(-1);
 				toast.success(
 					`Product has been ${editState?.id ? "Updated" : "Created"}`
 				);
@@ -128,7 +134,19 @@ const NewProduct = () => {
 		}
 	};
 
-	return (
+	const ifAllowed = () => {
+		if (details.role.isAdmin) {
+			return details.role.permissions?.find(
+				(f) => f.method === "addProduct"
+			)
+				? true
+				: false;
+		} else {
+			return true;
+		}
+	};
+
+	return ifAllowed() ? (
 		<div>
 			<TitleCover
 				title={`${editState?.id ? "Update" : "Create"} Product`}
@@ -355,6 +373,8 @@ const NewProduct = () => {
 			</div>
 			{load && <LoadModal open={true} />}
 		</div>
+	) : (
+		<PermissionDenied />
 	);
 };
 

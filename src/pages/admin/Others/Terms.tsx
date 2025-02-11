@@ -7,9 +7,10 @@ import { MainButton } from "../../../styles/links.styles";
 import { displayError } from "../../../utils/errors";
 import { toast } from "react-toastify";
 import Loading from "../../../components/Loaders/Loading";
+import PermissionDenied from "../../../components/PermissionDenied";
 
 const Terms = () => {
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [termsData, setTermsData] = useState("");
@@ -52,7 +53,9 @@ const Terms = () => {
 		}
 	};
 
-	return (
+	return details?.role?.permissions?.find(
+		(f) => f.method === "getTermsAndCondition"
+	) ? (
 		<div>
 			<TitleCover title="Terms and Conditions" />
 			<div className="mt-4">
@@ -80,14 +83,20 @@ const Terms = () => {
 					)}
 					{load ? (
 						<Loading />
-					) : (
+					) : details?.role?.permissions?.find(
+							(f) => f.method === "setTermsAndCondition"
+					  ) ? (
 						<MainButton onClick={() => submitHandler()}>
 							<span>Update Terms</span>
 						</MainButton>
+					) : (
+						<></>
 					)}
 				</div>
 			</div>
 		</div>
+	) : (
+		<PermissionDenied />
 	);
 };
 

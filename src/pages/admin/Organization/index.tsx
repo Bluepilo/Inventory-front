@@ -10,23 +10,26 @@ import dateFormat from "dateformat";
 import Paginate from "../../../components/Paginate";
 import { SwitchDiv } from "../../../styles/basic.styles";
 import {
-	BasicSearch,
-	BasicSelect,
 	DateSelect,
 	OptionProp,
 } from "../../../components/Filters/BasicInputs";
-import { FilterStyles } from "../../../styles/filters.styles";
 import subscriptionService from "../../../redux/features/subscription/subscriptionService";
 import { Link } from "react-router-dom";
 import { UseDebounce } from "../../../utils/hooks";
 import DeletedList from "../../../components/Organization/DeletedList";
+import Filters from "../../../components/Filters";
+import { MainButton } from "../../../styles/links.styles";
+import { displayError, displaySuccess } from "../../../utils/errors";
+import { FormCheck } from "react-bootstrap";
+import PermissionDenied from "../../../components/PermissionDenied";
+import DateFilter from "../../../components/Filters/DateFilter";
 
 const Organization = () => {
+	const [orgType, setOrgType] = useState("active");
 	const [load, setLoad] = useState(false);
 	const [list, setList] = useState<any>({});
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(20);
-	const [isLive, setIsLive] = useState(true);
 	const [search, setSearch] = useState("");
 
 	const [startDate, setStartDate] = useState(
@@ -37,23 +40,43 @@ const Organization = () => {
 	);
 	const [subTypes, setSubTypes] = useState<OptionProp[]>([]);
 	const [subTypeId, setSubTypeId] = useState<OptionProp | null>(null);
+	const [dateType, setDateType] = useState({
+		label: "This Month",
+		value: "month",
+	});
+	const [expiryDateType, setExpiryDateType] = useState<OptionProp | null>(
+		null
+	);
+
+	const [expiryStartDate, setExpiryStartDate] = useState(null);
+	const [expiryEndDate, setExpiryEndDate] = useState(null);
 
 	const debouncedSearch = UseDebounce(search);
 
-	let filters = `?page=${page}&limit=${limit}&startDate=${startDate}&endDate=${endDate}&searchWord=${debouncedSearch}&planId=${
+	let filters = `?page=${page}&limit=${limit}&startDate=${startDate}&isActive=${
+		orgType === "active" ? true : false
+	}&&endDate=${endDate}&searchWord=${debouncedSearch}&planId=${
 		subTypeId?.value || ""
+	}&expiryStartDate=${
+		expiryDateType && expiryStartDate
+			? new Date(expiryStartDate).toISOString()
+			: ""
+	}&expiryEndDate=${
+		expiryDateType && expiryEndDate
+			? new Date(expiryEndDate).toISOString()
+			: ""
 	}`;
 
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, details } = useAppSelector((state) => state.auth);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
-		if (isLive) {
+		if (orgType !== "deleted") {
 			listOrgnaizations();
 		} else {
 			listDeletedOrgnaizations();
 		}
-	}, [filters, isLive]);
+	}, [filters, orgType]);
 
 	useEffect(() => {
 		getPlans();
@@ -88,7 +111,7 @@ const Organization = () => {
 
 	const getPlans = async () => {
 		try {
-			let res = await subscriptionService.getPlans(token);
+			let res = await subscriptionService.getPlans(token, true);
 			let arr = res?.map((a: any) => {
 				return { label: a.name, value: a.id };
 			});
@@ -104,60 +127,96 @@ const Organization = () => {
 		}
 	};
 
-	return (
+	const clearFilters = () => {
+		setStartDate(
+			new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+		);
+		setEndDate(new Date(new Date().setDate(new Date().getDate() + 1)));
+		setDateType({ label: "This Month", value: "month" });
+		setSubTypeId(null);
+		setExpiryDateType(null);
+	};
+
+	const actionHandler = async (user: any, active: boolean) => {
+		if (
+			window.confirm(
+				`Are you sure you want to ${
+					!active ? "Deactivate" : "Activate"
+				} ${user.name}`
+			)
+		) {
+			try {
+				setLoad(true);
+				await adminService.actionOrganization(
+					token,
+					user.id,
+					!active ? "deactivate" : "activate"
+				);
+				listOrgnaizations();
+				displaySuccess(
+					`${user.name} ${!active ? "Deactivated" : "Activated"}`
+				);
+			} catch (err) {
+				setLoad(false);
+				displayError(err, true);
+			}
+		}
+	};
+
+	return details?.role?.permissions?.find(
+		(f) => f.method === "organizationList"
+	) ? (
 		<div>
 			<TitleCover title="Organizations" dataCount={list?.count} />
 			<SwitchDiv>
 				<div
-					className={isLive ? "active" : ""}
-					onClick={() => setIsLive(true)}
+					className={orgType === "active" ? "active" : ""}
+					onClick={() => setOrgType("active")}
 				>
-					Live Accounts
+					Live
 				</div>
 				<div
-					className={isLive ? "" : "active"}
-					onClick={() => setIsLive(false)}
+					className={orgType === "inactive" ? "active" : ""}
+					onClick={() => setOrgType("inactive")}
 				>
-					Deleted Accounts
+					Deactivated
+				</div>
+				<div
+					className={orgType === "deleted" ? "active" : ""}
+					onClick={() => setOrgType("deleted")}
+				>
+					Deleted
 				</div>
 			</SwitchDiv>
-			<FilterStyles>
-				<div className="row mt-3">
-					<div className="col-md-4 mb-3">
-						<BasicSearch
-							searchVal={search}
-							changeSearchVal={setSearch}
-							wide="true"
-							placeholder="Search by name, address or phone"
-						/>
-					</div>
-					<div className="col-lg-2 col-md-4 col-6 mb-3">
-						<DateSelect
-							dateVal={startDate}
-							changeDateVal={setStartDate}
-							label="Start Date"
-						/>
-					</div>
-					<div className="col-lg-2 col-md-4 col-6 mb-3">
-						<DateSelect
-							dateVal={endDate}
-							changeDateVal={setEndDate}
-							label="End Date"
-						/>
-					</div>
-					<div className="col-lg-2 col-md-4 col-6 mb-3">
-						<BasicSelect
-							value={subTypeId}
-							options={subTypes}
-							label={"Subscription Type"}
-							changeSelected={setSubTypeId}
-						/>
-					</div>
-				</div>
-			</FilterStyles>
-
+			<Filters
+				searchVal={search}
+				isSearchable={true}
+				changeSearchVal={setSearch}
+				startDate={startDate}
+				changeStartDate={setStartDate}
+				endDate={endDate}
+				changeEndDate={setEndDate}
+				clearValues={clearFilters}
+				others={subTypeId}
+				changeOthers={setSubTypeId}
+				othersLabel="Subscription Type"
+				othersList={subTypes}
+				dateType={dateType}
+				changeDateType={setDateType}
+				placeholder="Search by name, address or phone"
+			>
+				<DateFilter
+					startDate={expiryStartDate}
+					setStartDate={setExpiryStartDate}
+					endDate={expiryEndDate}
+					setEndDate={setExpiryEndDate}
+					dateType={expiryDateType}
+					setDateType={setExpiryDateType}
+					label="Expiry Date"
+				/>
+			</Filters>
 			<div className="mt-3">
-				{isLive ? (
+				{orgType !== "deleted" ? (
 					<TableComponent>
 						<div className="table-responsive">
 							<Table className="table">
@@ -171,6 +230,7 @@ const Organization = () => {
 										<th>Active Subscription</th>
 										<th>Expiry Date</th>
 										<th>Date Registered</th>
+										<th></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -233,6 +293,29 @@ const Organization = () => {
 														"mmm dd, yyyy"
 													)}
 												</td>
+												{details?.role?.permissions?.find(
+													(f) =>
+														f.method ===
+														"deleteOrganization"
+												) && (
+													<td>
+														<FormCheck
+															type="switch"
+															id={`custom-switch-${org.id}`}
+															label=""
+															checked={
+																org.isActive
+															}
+															onChange={(e) =>
+																actionHandler(
+																	org,
+																	e.target
+																		.checked
+																)
+															}
+														/>
+													</td>
+												)}
 											</tr>
 										))}
 								</tbody>
@@ -257,6 +340,8 @@ const Organization = () => {
 				)}
 			</div>
 		</div>
+	) : (
+		<PermissionDenied />
 	);
 };
 

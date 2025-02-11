@@ -20,6 +20,7 @@ const initialState = {
 	countries: [] as OptionProp[],
 	logTypes: [] as OptionProp[],
 	organization: {} as any,
+	carousels: [] as any,
 };
 
 export const changeTheme = createAsyncThunk(
@@ -212,6 +213,13 @@ export const getOrganizationReport = createAsyncThunk(
 	}
 );
 
+export const getCarousels = createAsyncThunk("basic/carousels", async () => {
+	try {
+		const res = await basicService.allCarousels();
+		return res;
+	} catch (error) {}
+});
+
 export const basicSlice = createSlice({
 	name: "basic",
 	initialState,
@@ -255,6 +263,9 @@ export const basicSlice = createSlice({
 		});
 		builder.addCase(getOrganizationReport.fulfilled, (state, action) => {
 			state.organization = action.payload || {};
+		});
+		builder.addCase(getCarousels.fulfilled, (state, action) => {
+			state.carousels = action.payload || [];
 		});
 	},
 });

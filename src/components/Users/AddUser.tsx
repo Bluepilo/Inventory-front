@@ -8,13 +8,18 @@ import { toast } from "react-toastify";
 import Loading from "../Loaders/Loading";
 import { UploadWrapper } from "../../styles/basic.styles";
 import { useNavigate } from "react-router-dom";
+import adminService from "../../redux/features/admin/admin-service";
 
 const AddUser = ({
 	onComplete,
 	editDetails,
+	admin,
+	roles,
 }: {
 	editDetails: any;
 	onComplete: () => void;
+	admin?: boolean;
+	roles?: any;
 }) => {
 	const navigate = useNavigate();
 
@@ -30,6 +35,7 @@ const AddUser = ({
 	const [username, setUsername] = useState("");
 	const [image, setImage] = useState("");
 	const [uploading, setUploading] = useState(false);
+	const [roleId, setRoleId] = useState("");
 
 	useEffect(() => {
 		if (editDetails?.id) {
@@ -64,7 +70,14 @@ const AddUser = ({
 					editDetails.id
 				);
 			} else {
-				res = await customerService.createUser(token, payload);
+				if (admin) {
+					res = await adminService.createUser(token, {
+						...payload,
+						role: roleId,
+					});
+				} else {
+					res = await customerService.createUser(token, payload);
+				}
 			}
 
 			setLoad(false);
@@ -73,7 +86,7 @@ const AddUser = ({
 					`User has been ${editDetails?.id ? "updated" : "created."}`
 				);
 				onComplete();
-				if (!editDetails?.id) {
+				if (!editDetails?.id && !admin) {
 					navigate(`/dashboard/users/${res.id}`);
 				}
 			}
@@ -222,6 +235,25 @@ const AddUser = ({
 						className="height"
 					/>
 				</div>
+				{admin && (
+					<div className="col-lg-12">
+						<label>Role</label>
+						<select
+							value={roleId}
+							onChange={(e) => setRoleId(e.target.value)}
+							required
+							disabled={load}
+							className="height"
+						>
+							<option value={""}>Select One</option>
+							{roles?.map((role: any) => (
+								<option value={role.id} key={role.id}>
+									{role.name}
+								</option>
+							))}
+						</select>
+					</div>
+				)}
 
 				<div className="col-lg-12">
 					{load ? (

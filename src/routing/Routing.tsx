@@ -25,6 +25,11 @@ import SMS from "../pages/admin/SMS";
 import SmsTransactions from "../pages/admin/SMS/SmsTransactions";
 import SmsWallets from "../pages/admin/SMS/SmsWallets";
 import SmsHistory from "../pages/admin/SMS/SmsHistory";
+import Roles from "../pages/admin/Others/Roles";
+import EditPermissions from "../pages/admin/Others/Roles/EditPermissions";
+import AdminRewards from "../pages/admin/Others/AdminRewards";
+import AdminSettings from "../pages/admin/Settings";
+import UserDetails from "../pages/admin/User/UserDetails";
 
 // User Routes
 import Dashboard from "../pages/user/Dashboard";
@@ -79,6 +84,10 @@ import Resources from "../pages/user/Resources";
 import ResourceDetail from "../pages/user/Resources/ResourceDetail";
 import Details from "../pages/user/Users/Details";
 import Reciept from "../pages/user/Sales/Reciept";
+import Exports from "../pages/user/Reports/Exports";
+import Rewards from "../pages/user/Business/Rewards";
+import TransactionReceipt from "../pages/user/TransactionReceipt";
+import Referred from "../pages/user/Business/Rewards/Referred";
 
 const Routing = () => {
 	return (
@@ -135,6 +144,8 @@ const Routing = () => {
 					/>
 					<Route path="finance/expense" element={<Expenses />} />
 					<Route path="resource" element={<AdminResource />} />
+					<Route path="rewards" element={<Rewards />} />
+					<Route path="rewards/referred" element={<Referred />} />
 					<Route
 						path="resource/:slug"
 						element={<AdminResourceDetails />}
@@ -149,11 +160,20 @@ const Routing = () => {
 					/>
 					<Route path="sms/wallets" element={<SmsWallets />} />
 					<Route path="sms/history" element={<SmsHistory />} />
+					<Route path="others/roles" element={<Roles />} />
+					<Route
+						path="others/roles/:id"
+						element={<EditPermissions />}
+					/>
+					<Route path="others/rewards" element={<AdminRewards />} />
+					<Route path="settings" element={<AdminSettings />} />
+					<Route path="users/:name" element={<UserDetails />} />
 				</Route>
 				<Route
 					path="/payment-confirmation"
 					element={<PaymentConfirm />}
 				/>
+
 				<Route path="/dashboard" element={<User />}>
 					<Route path="home" element={<Dashboard />} />
 					<Route path="home/onboarding" element={<Onboarding />} />
@@ -224,6 +244,7 @@ const Routing = () => {
 						path="reports/profits-loss"
 						element={<ProfitLoss />}
 					/>
+					<Route path="reports/exports" element={<Exports />} />
 					<Route path="organization" element={<Organization />} />
 					<Route
 						path="organization/business"
@@ -240,6 +261,8 @@ const Routing = () => {
 						path="business/import-inventory/new"
 						element={<NewInventory />}
 					/>
+					<Route path="rewards" element={<Rewards />} />
+					<Route path="rewards/referred" element={<Referred />} />
 					<Route path="subscription" element={<Subscription />} />
 					<Route path="subscription/upgrade" element={<Upgrade />} />
 					<Route path="logs" element={<ActivityLogs />} />
@@ -258,6 +281,10 @@ const Routing = () => {
 						element={<ResourceDetail />}
 					/>
 					<Route path="users/:id" element={<Details />} />
+					<Route
+						path="print-preview"
+						element={<TransactionReceipt />}
+					/>
 				</Route>
 			</Routes>
 		</BrowserRouter>

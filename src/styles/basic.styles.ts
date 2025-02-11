@@ -72,6 +72,10 @@ export const ErrorStyle = styled.div`
 	border-radius: 10px;
 	margin-top: 25px;
 	padding: 20px 10px;
+
+	img.logo {
+		height: 50px;
+	}
 `;
 
 export const LoadPage = styled.div`
@@ -211,6 +215,9 @@ export const Drop = styled(Dropdown)`
 
 	.dropdown-menu {
 		font-size: 0.9rem;
+
+		background-color: #f9f9f9;
+		box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 	}
 `;
 
@@ -329,6 +336,10 @@ export const SwitchDiv = styled.div`
 	@media (max-width: 991px) {
 		width: 100%;
 		flex-wrap: wrap;
+
+		div {
+			margin-bottom: 10px;
+		}
 	}
 
 	div {
@@ -357,6 +368,7 @@ export const DrawerDiv = styled.div`
 	z-index: 91;
 	transition: all 0.3s ease-in-out;
 	padding: 20px;
+	overflow-y: scroll;
 
 	.transactions {
 		margin-top: 25px;

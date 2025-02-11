@@ -9,6 +9,7 @@ const initialState = {
 	loading: false,
 	error: null as any,
 	token: "",
+	referralCode: "",
 };
 
 export const login = createAsyncThunk(
@@ -35,6 +36,9 @@ export const userProfile = createAsyncThunk(
 			return res.data;
 		} catch (error) {
 			const message = displayError(error, true);
+			if (message.includes("Session expired")) {
+				thunkAPI.dispatch(logout());
+			}
 			return thunkAPI.rejectWithValue(message);
 		}
 	}
@@ -52,6 +56,17 @@ export const saveToken = createAsyncThunk(
 	}
 );
 
+export const saveReferralCode = createAsyncThunk(
+	"auth/referral",
+	async (code: string) => {
+		try {
+			return code;
+		} catch (error) {
+			console.log(error);
+		}
+	}
+);
+
 export const authSlice = createSlice({
 	name: "auth",
 	initialState,
@@ -59,6 +74,9 @@ export const authSlice = createSlice({
 		clearLoad: (state) => {
 			state.loading = false;
 			state.error = null;
+		},
+		clearReferralCode: (state) => {
+			state.referralCode = "";
 		},
 		logout: (state) => {
 			state.details = {};
@@ -87,9 +105,12 @@ export const authSlice = createSlice({
 		builder.addCase(saveToken.fulfilled, (state, action) => {
 			state.token = action.payload;
 		});
+		builder.addCase(saveReferralCode.fulfilled, (state, action) => {
+			state.referralCode = action.payload || "";
+		});
 	},
 });
 
-export const { logout, clearLoad } = authSlice.actions;
+export const { logout, clearLoad, clearReferralCode } = authSlice.actions;
 
 export default authSlice.reducer;

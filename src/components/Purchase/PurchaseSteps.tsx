@@ -77,6 +77,12 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 	}, [selectedProducts]);
 
 	useEffect(() => {
+		if (selectedShop?.value) {
+			getProducts();
+		}
+	}, [selectedShop?.value]);
+
+	useEffect(() => {
 		if (discountPercent) {
 			let p = (Number(discountValue) / 100) * totalPrice;
 			setDiscountApplied(p);
@@ -97,7 +103,6 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 		setShopList(filter);
 		if (filter.length > 0) {
 			setSelectedShop(filter[0]);
-			getProducts();
 		}
 	};
 

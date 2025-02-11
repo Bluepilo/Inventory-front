@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import TitleCover from "../../../components/TitleCover";
-import { displayError } from "../../../utils/errors";
+import { displayError, displaySuccess } from "../../../utils/errors";
 import customerService from "../../../redux/features/customer/customer-services";
 import { useAppSelector } from "../../../redux/hooks";
 import { useParams } from "react-router-dom";
@@ -15,6 +15,7 @@ import AddUser from "../../../components/Users/AddUser";
 import AddToBusiness from "../../../components/Users/AddToBusiness";
 import NextofKin from "../../../components/Users/NextofKin";
 import ChangePassword from "../../../components/Users/ChangePassword";
+import { FormCheck } from "react-bootstrap";
 
 const Details = () => {
 	const [load, setLoad] = useState(false);
@@ -29,6 +30,7 @@ const Details = () => {
 	const [error, setError] = useState("");
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		getDetails();
 	}, []);
 
@@ -64,6 +66,30 @@ const Details = () => {
 					detail.id
 				);
 				setLoad(false);
+				getDetails();
+			} catch (err) {
+				setLoad(false);
+				displayError(err, true);
+			}
+		}
+	};
+
+	const updateRole = async (key: string, val: boolean, biz: any) => {
+		if (window.confirm(`Please confirm you want to update permission`)) {
+			try {
+				let payload = {
+					[key]: val,
+					roleId: biz.roleId,
+				};
+				setLoad(true);
+				await customerService.updateUserRole(
+					token,
+					payload,
+					detail.id,
+					biz.businessId
+				);
+				setLoad(false);
+				displaySuccess("Updated!");
 				getDetails();
 			} catch (err) {
 				setLoad(false);
@@ -238,6 +264,79 @@ const Details = () => {
 																			</>
 																		)}
 																	</div>
+																	{biz?.role
+																		?.name ===
+																		"Shop Admin" && (
+																		<div className="mt-3">
+																			<FormCheck
+																				type="switch"
+																				id={`purchase12`}
+																				label="Make Purchase"
+																				checked={
+																					biz.makePurchase
+																				}
+																				onChange={(
+																					e
+																				) => {
+																					updateRole(
+																						"makePurchase",
+																						e
+																							.target
+																							.checked,
+																						biz
+																					);
+																				}}
+																			/>
+																		</div>
+																	)}
+																	{biz?.role
+																		?.name ===
+																		"Business Admin" && (
+																		<>
+																			<div className="mt-3">
+																				<FormCheck
+																					type="switch"
+																					id={`transfer12`}
+																					label="Manage Transfers"
+																					checked={
+																						biz.manageTransfer
+																					}
+																					onChange={(
+																						e
+																					) => {
+																						updateRole(
+																							"manageTransfer",
+																							e
+																								.target
+																								.checked,
+																							biz
+																						);
+																					}}
+																				/>
+																			</div>
+																			<div className="mt-3">
+																				<FormCheck
+																					type="switch"
+																					id={`withdrawal2`}
+																					label="Manage Withdrawals"
+																					checked={
+																						biz.manageWithdrawal
+																					}
+																					onChange={(
+																						e
+																					) => {
+																						updateRole(
+																							"manageWithdrawal",
+																							e
+																								.target
+																								.checked,
+																							biz
+																						);
+																					}}
+																				/>
+																			</div>
+																		</>
+																	)}
 																	<div className="para text-end">
 																		<UnderlineLink
 																			href="#"

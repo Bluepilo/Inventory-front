@@ -29,6 +29,10 @@ const Adjustments = () => {
 	const [productId, setProductId] = useState<OptionProp | null>(null);
 	const [productList, setProductList] = useState<OptionProp[]>([]);
 	const [load, setLoad] = useState(false);
+	const [dateType, setDateType] = useState({
+		label: "This Month",
+		value: "month",
+	});
 
 	let filters = `?shopId=${shopId?.value || ""}&userId=${
 		staffId?.value || ""
@@ -47,6 +51,7 @@ const Adjustments = () => {
 			new Date(new Date().getFullYear(), new Date().getMonth(), 1)
 		);
 		setEndDate(new Date(new Date().setDate(new Date().getDate() + 1)));
+		setDateType({ label: "This Month", value: "month" });
 	};
 
 	useEffect(() => {
@@ -102,6 +107,8 @@ const Adjustments = () => {
 				changeOthers={setProductId}
 				othersLabel="Product"
 				othersList={productList}
+				dateType={dateType}
+				changeDateType={setDateType}
 			/>
 			<div className="mt-4">
 				<TableComponent>

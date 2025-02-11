@@ -128,7 +128,8 @@ const NewReturns = () => {
 		try {
 			let res = await productService.getProductsInShop(
 				token,
-				shopId?.value
+				shopId?.value,
+				true
 			);
 			let arr = res?.rows.map((a: any) => {
 				return { ...a, label: a.summary, value: a.id };

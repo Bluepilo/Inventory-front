@@ -35,6 +35,10 @@ const ImportInventory = () => {
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(20);
 	const [load, setLoad] = useState(false);
+	const [dateType, setDateType] = useState({
+		label: "This Month",
+		value: "month",
+	});
 
 	let filters = `?page=${page}&limit=${limit}&shopId=${
 		shopId?.value || ""
@@ -92,6 +96,8 @@ const ImportInventory = () => {
 						changeStaffId={setStaffId}
 						isSearchable={true}
 						clearValues={clearFilters}
+						dateType={dateType}
+						changeDateType={setDateType}
 					/>
 					<div className="mt-4">
 						<TableComponent>

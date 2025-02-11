@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import TitleCover from "../../../../components/TitleCover";
 import { BasicSearch } from "../../../../components/Filters/BasicInputs";
 import { UseDebounce } from "../../../../utils/hooks";

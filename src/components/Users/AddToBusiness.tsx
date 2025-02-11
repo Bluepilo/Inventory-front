@@ -8,6 +8,7 @@ import Loading from "../Loaders/Loading";
 import { ButtonSubmit } from "../../styles/links.styles";
 import { displayError } from "../../utils/errors";
 import { toast } from "react-toastify";
+import { FormCheck } from "react-bootstrap";
 
 const AddToBusiness = ({
 	detail,
@@ -25,6 +26,9 @@ const AddToBusiness = ({
 	const [roleId, setRoleId] = useState<OptionProp | null>(null);
 	const [businessId, setBusinessId] = useState<OptionProp | null>(null);
 	const [shopId, setShopId] = useState<OptionProp | null>(null);
+	const [manageWithdrawal, setManageWithdrawal] = useState(false);
+	const [manageTransfer, setManageTransfer] = useState(false);
+	const [makePurchase, setMakePurchase] = useState(false);
 
 	useEffect(() => {
 		listRoles();
@@ -80,9 +84,12 @@ const AddToBusiness = ({
 			let payload = {
 				roleId: roleId?.value,
 				shopId: shopId?.value,
+				makePurchase,
+				manageTransfer,
+				manageWithdrawal,
 			};
 			setLoad(true);
-			let res = await customerService.addUserToBusiness(
+			await customerService.addUserToBusiness(
 				token,
 				businessId?.value,
 				detail?.id,
@@ -125,6 +132,45 @@ const AddToBusiness = ({
 						options={shops}
 						value={shopId}
 						changeSelected={setShopId}
+					/>
+				</div>
+			)}
+			{roleId?.label === "Business Admin" && (
+				<>
+					<div className="mb-3">
+						<FormCheck
+							type="switch"
+							id={`withdrawal2`}
+							label="Manage Withdrawals"
+							checked={manageWithdrawal}
+							onChange={(e) => {
+								setManageWithdrawal(e.target.checked);
+							}}
+						/>
+					</div>
+					<div className="mb-3">
+						<FormCheck
+							type="switch"
+							id={`withdrawal2`}
+							label="Manage Transfers"
+							checked={manageTransfer}
+							onChange={(e) => {
+								setManageTransfer(e.target.checked);
+							}}
+						/>
+					</div>
+				</>
+			)}
+			{roleId?.label === "Shop Admin" && (
+				<div className="mb-3">
+					<FormCheck
+						type="switch"
+						id={`withdrawal2`}
+						label="Make Purchase"
+						checked={makePurchase}
+						onChange={(e) => {
+							setMakePurchase(e.target.checked);
+						}}
 					/>
 				</div>
 			)}

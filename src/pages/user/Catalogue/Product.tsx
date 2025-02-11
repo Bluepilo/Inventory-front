@@ -16,6 +16,8 @@ import DropDownProduct from "../../../components/Catalogue/DropDownProduct";
 import Paginate from "../../../components/Paginate";
 import { UseDebounce } from "../../../utils/hooks";
 import { toast } from "react-toastify";
+import adminService from "../../../redux/features/admin/admin-service";
+import PermissionDenied from "../../../components/PermissionDenied";
 
 const Product = () => {
 	const navigate = useNavigate();
@@ -53,11 +55,19 @@ const Product = () => {
 	const fetchProducts = async () => {
 		try {
 			setLoad(true);
-			let res = await productService.listBrandProducts(
-				token,
-				filters,
-				params?.id || ""
-			);
+			let res;
+			if (details.role.isAdmin) {
+				res = await adminService.listProducts(
+					token,
+					`?brandId=${params?.id}${filters}`
+				);
+			} else {
+				res = await productService.listBrandProducts(
+					token,
+					filters,
+					params?.id || ""
+				);
+			}
 			setLoad(false);
 			setList(res);
 		} catch (err) {
@@ -99,7 +109,11 @@ const Product = () => {
 		if (window.confirm(`Are you sure you want to delete ${name}`)) {
 			try {
 				setLoad(true);
-				await productService.deleteProduct(token, id);
+				await productService.deleteProduct(
+					token,
+					id,
+					details.role.isAdmin
+				);
 				if (search) {
 					setSearch("");
 				}
@@ -112,7 +126,17 @@ const Product = () => {
 		}
 	};
 
-	return (
+	const ifAllowed = (method: string) => {
+		if (details.role.isAdmin) {
+			return details.role.permissions?.find((f) => f.method === method)
+				? true
+				: false;
+		} else {
+			return true;
+		}
+	};
+
+	return ifAllowed("allProducts") ? (
 		<div>
 			<TitleCover
 				title={`${brandName} Catalogue`}
@@ -126,23 +150,28 @@ const Product = () => {
 						changeSearchVal={setSearch}
 					/>
 				</div>
+
 				<div className="col-lg-6 mb-3">
 					<Flex>
-						<MainButton
-							className="me-3"
-							onClick={() => navigate("new")}
-						>
-							<MdProductionQuantityLimits />
-							<span>New Product</span>
-						</MainButton>
-						<MainButton
-							bg="#EDEEF0"
-							color="#505BDA"
-							onClick={() => navigate("upload")}
-						>
-							<GiCloudUpload />
-							<span>Upload File</span>
-						</MainButton>
+						{ifAllowed("addProduct") && (
+							<MainButton
+								className="me-3"
+								onClick={() => navigate("new")}
+							>
+								<MdProductionQuantityLimits />
+								<span>New Product</span>
+							</MainButton>
+						)}
+						{ifAllowed("uploadProductExcel") && (
+							<MainButton
+								bg="#EDEEF0"
+								color="#505BDA"
+								onClick={() => navigate("upload")}
+							>
+								<GiCloudUpload />
+								<span>Upload File</span>
+							</MainButton>
+						)}
 					</Flex>
 				</div>
 			</div>
@@ -200,6 +229,12 @@ const Product = () => {
 															l.name
 														)
 													}
+													showEdit={ifAllowed(
+														"updateProduct"
+													)}
+													showDelete={ifAllowed(
+														"deleteProduct"
+													)}
 												/>
 											</td>
 										</tr>
@@ -224,6 +259,8 @@ const Product = () => {
 				)}
 			</div>
 		</div>
+	) : (
+		<PermissionDenied />
 	);
 };
 

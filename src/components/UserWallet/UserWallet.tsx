@@ -15,6 +15,7 @@ import ModalComponent from "../ModalComponent";
 import LoadWallet from "./LoadWallet";
 import WithdrawWallet from "./WithdrawWallet";
 import { Link } from "react-router-dom";
+import DrawerInfo from "../Transaction/DrawerInfo";
 
 const UserWallet = ({
 	userType,
@@ -41,8 +42,14 @@ const UserWallet = ({
 	const [openDrop, setOpenDrop] = useState(false);
 	const [openType, setOpenType] = useState("");
 	const [totals, setTotals] = useState(0);
+	const [dateType, setDateType] = useState({
+		label: "This Month",
+		value: "month",
+	});
+	const [openDrawer, setOpenDrawer] = useState(false);
+	const [info, setInfo] = useState<any>(null);
 
-	let filters = `?startDate=${startDate}&endDate=${endDate}&transactionType=${
+	let filters = `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}&transactionType=${
 		transactionType?.value || ""
 	}`;
 
@@ -65,6 +72,7 @@ const UserWallet = ({
 		);
 		setEndDate(new Date(new Date().setDate(new Date().getDate() + 1)));
 		setTransactionType(null);
+		setDateType({ label: "This Month", value: "month" });
 	};
 
 	const fetchUser = async () => {
@@ -149,6 +157,8 @@ const UserWallet = ({
 								{ label: "Payment", value: "payment" },
 							]}
 							clearValues={clearFilters}
+							dateType={dateType}
+							changeDateType={setDateType}
 						/>
 						<WalletDiv className="shadow-sm">
 							<div className="info">
@@ -272,12 +282,19 @@ const UserWallet = ({
 														}
 													</Link>
 												) : (
-													<span>
+													<a
+														href="#"
+														onClick={(e) => {
+															e.preventDefault();
+															setInfo(tr);
+															setOpenDrawer(true);
+														}}
+													>
 														{
 															tr.transactionType
 																?.name
 														}
-													</span>
+													</a>
 												)}
 											</td>
 											<td className="price">
@@ -343,6 +360,9 @@ const UserWallet = ({
 					<></>
 				)}
 			</ModalComponent>
+			{openDrawer && (
+				<DrawerInfo details={info} close={() => setOpenDrawer(false)} />
+			)}
 		</div>
 	);
 };

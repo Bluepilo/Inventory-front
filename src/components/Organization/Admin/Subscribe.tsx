@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import subscriptionService from "../../../redux/features/subscription/subscriptionService";
+import { useEffect, useState } from "react";
 import { useAppSelector } from "../../../redux/hooks";
 import { Form } from "../../../styles/form.styles";
 import CurrencyInput from "react-currency-input-field";

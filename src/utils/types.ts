@@ -26,8 +26,12 @@ interface UserDetailsType {
 	role: {
 		name: string;
 		isAdmin: boolean;
+		permissions: {
+			method: string;
+		}[];
 	};
 	businessRoleId: number;
+	referralCode: string;
 	shopId: number;
 	business: {
 		name: string;
@@ -81,6 +85,9 @@ interface UserDetailsType {
 			name: string;
 		};
 	}[];
+	currentBusinessAccess: {
+		makePurchase: boolean;
+	};
 }
 
 interface NotifcationType {
