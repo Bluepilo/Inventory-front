@@ -85,8 +85,10 @@ const UploadProduct = () => {
 						res?.data?.data?.length > 0 && res?.data?.data[1];
 					if (errors) {
 						toast.success(
-							`File Uploaded with ${errors.length} errors.`
+							`File Uploaded successfully with ${errors.length} errors.`
 						);
+						setLoadError(true);
+						setErrors(res?.data?.data[1]);
 					} else {
 						toast.success("File has been uploaded successfully.");
 						navigate(`/dashboard/catalogue/${params.id}`);
