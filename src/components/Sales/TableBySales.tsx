@@ -1,4 +1,3 @@
-import React from "react";
 import { Table } from "../../styles/table.styles";
 import { haveRole } from "../../utils/role";
 import { useAppSelector } from "../../redux/hooks";
