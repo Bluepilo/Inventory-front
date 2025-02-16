@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import {
 	DropDownStyle,
 	FilterWrapper,
+	InputDiv,
 	PhoneStyle,
 	SaleSelectStyle,
 	SearchBar,
@@ -259,8 +260,33 @@ export const DropDownSelect = ({
 	);
 };
 
-const BasicInputs = () => {
-	return <div>BasicInputs</div>;
+const BasicInputs = ({
+	val,
+	setVal,
+	label,
+	placeholder,
+	icon,
+}: {
+	val: string;
+	setVal: (arg: string) => void;
+	label?: string;
+	placeholder?: string;
+	icon?: React.ReactNode;
+}) => {
+	return (
+		<InputDiv>
+			{label && <label>{label}</label>}
+			<div className={icon ? "pos" : ""}>
+				<input
+					placeholder={placeholder || ""}
+					type="text"
+					value={val}
+					onChange={(e) => setVal(e.target.value)}
+				/>
+				{icon && icon}
+			</div>
+		</InputDiv>
+	);
 };
 
 export default BasicInputs;

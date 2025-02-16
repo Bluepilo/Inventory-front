@@ -168,3 +168,45 @@ export const PhoneStyle = styled.div`
 		border-bottom-left-radius: 0;
 	}
 `;
+
+export const InputDiv = styled.div`
+	input {
+		width: 100%;
+		border: 1px solid #d9dbeb;
+		outline: 0;
+		color: #333;
+		border-radius: 6px;
+		padding-left: 20px;
+		margin-bottom: 20px;
+		height: 45px;
+
+		&.no-m {
+			margin-bottom: 0;
+		}
+	}
+
+	label {
+		font-size: 0.9rem;
+		display: block;
+		margin-bottom: 5px;
+		color: #666;
+	}
+
+	.pos {
+		position: relative;
+		width: 100%;
+
+		button,
+		a {
+			position: absolute;
+			right: 15px;
+			top: 8px;
+			cursor: pointer;
+			background: none;
+			outline: 0;
+			border: 0;
+			text-decoration: none;
+			color: #0241ff;
+		}
+	}
+`;

@@ -591,3 +591,35 @@ export const ResourceBody = styled.div``;
 export const ReceiptStyle = styled.div`
 	margin-top: 20px;
 `;
+
+export const LayoutSwitch = styled.div`
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	margin-top: 30px;
+
+	div {
+		background-color: #cfeaff;
+		padding: 10px 25px;
+		border-radius: 5px;
+
+		button {
+			background: none;
+			outline: 0;
+			border: 0;
+			color: #000;
+			padding: 5px 10px;
+			border-radius: 4px;
+			margin: 0 10px;
+
+			&.active {
+				background-color: #0241ff;
+				color: #fff;
+			}
+
+			svg {
+				font-size: 20px;
+			}
+		}
+	}
+`;

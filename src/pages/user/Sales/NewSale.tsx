@@ -17,6 +17,10 @@ import salesService from "../../../redux/features/sales/sales-service";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { updateOnboardingSteps } from "../../../redux/features/basic/basic-slice";
+import { LayoutSwitch } from "../../../styles/basic.styles";
+import { RiTable3 } from "react-icons/ri";
+import { BsFillImageFill } from "react-icons/bs";
+import PickItemsImage from "../../../components/Sales/PickItemsImage";
 
 const NewSale = () => {
 	const navigate = useNavigate();
@@ -43,6 +47,7 @@ const NewSale = () => {
 	const [discountApplied, setDiscountApplied] = useState(0);
 
 	const [load, setLoad] = useState(false);
+	const [pictureMode, setPictureMode] = useState(false);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -121,6 +126,8 @@ const NewSale = () => {
 						id: a.id,
 						sku: a.sku,
 						isService: a.isService,
+						image: a.image,
+						barcode: a.barcode,
 					};
 				});
 				setProductList(resVal);
@@ -244,26 +251,63 @@ const NewSale = () => {
 					</SaleSelectDiv>
 				</div>
 			)}
+			<LayoutSwitch>
+				<div>
+					<button
+						onClick={() => setPictureMode(false)}
+						className={pictureMode ? "" : "active"}
+					>
+						<RiTable3 />
+					</button>
+					<button
+						onClick={() => setPictureMode(true)}
+						className={pictureMode ? "active" : ""}
+					>
+						<BsFillImageFill />
+					</button>
+				</div>
+			</LayoutSwitch>
 			<SalesDiv>
 				{step === 1 ? (
-					<PickItems
-						load={productLoad}
-						items={productList}
-						onNext={() => setStep(2)}
-						selectedProducts={selectedProducts}
-						setSelectedProducts={addItems}
-						remove={removeItem}
-						discountValue={discountValue}
-						discountPercent={discountPercent}
-						changeDiscount={() =>
-							setDiscountPercent(!discountPercent)
-						}
-						changeDiscountValue={(text: any) =>
-							setDiscountValue(text)
-						}
-						discountApplied={discountApplied}
-						totalAmount={totalPrice}
-					/>
+					pictureMode ? (
+						<PickItemsImage
+							load={productLoad}
+							items={productList}
+							onNext={() => setStep(2)}
+							selectedProducts={selectedProducts}
+							setSelectedProducts={addItems}
+							remove={removeItem}
+							discountValue={discountValue}
+							discountPercent={discountPercent}
+							changeDiscount={() =>
+								setDiscountPercent(!discountPercent)
+							}
+							changeDiscountValue={(text: any) =>
+								setDiscountValue(text)
+							}
+							discountApplied={discountApplied}
+							totalAmount={totalPrice}
+						/>
+					) : (
+						<PickItems
+							load={productLoad}
+							items={productList}
+							onNext={() => setStep(2)}
+							selectedProducts={selectedProducts}
+							setSelectedProducts={addItems}
+							remove={removeItem}
+							discountValue={discountValue}
+							discountPercent={discountPercent}
+							changeDiscount={() =>
+								setDiscountPercent(!discountPercent)
+							}
+							changeDiscountValue={(text: any) =>
+								setDiscountValue(text)
+							}
+							discountApplied={discountApplied}
+							totalAmount={totalPrice}
+						/>
+					)
 				) : step === 2 ? (
 					<CustomerSelect
 						type={isWalkIn ? "walkin" : "subdealer"}

@@ -24,7 +24,6 @@ import { displayError } from "../../../utils/errors";
 import transferService from "../../../redux/features/transfer/transfer-service";
 import LoadModal from "../../../components/Loaders/LoadModal";
 import { updateOnboardingSteps } from "../../../redux/features/basic/basic-slice";
-import { SaleSelectStyle } from "../../../styles/filters.styles";
 
 const NewTransfer = () => {
 	const navigate = useNavigate();
