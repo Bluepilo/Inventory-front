@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import TitleCover from "../../../components/TitleCover";
 import Filters from "../../../components/Filters";
 import basicService from "../../../redux/features/basic/basic-service";
-import { useAppSelector } from "../../../redux/hooks";
 import dateFormat from "dateformat";
 import SkeletonTable from "../../../components/Loaders/SkeletonTable";
 import { LogStyles } from "../../../styles/basic.styles";
@@ -10,8 +9,6 @@ import { LuDot } from "react-icons/lu";
 import Paginate from "../../../components/Paginate";
 
 const ActivityLogs = () => {
-	const { token } = useAppSelector((state) => state.auth);
-
 	const [load, setLoad] = useState(false);
 	const [startDate, setStartDate] = useState(
 		new Date(new Date().getFullYear(), new Date().getMonth(), 1)
@@ -39,7 +36,7 @@ const ActivityLogs = () => {
 	const getLogs = async () => {
 		try {
 			setLoad(true);
-			let res = await basicService.getLogs(token, filters);
+			let res = await basicService.getLogs(filters);
 			setLoad(false);
 			setLists(res);
 		} catch (err) {

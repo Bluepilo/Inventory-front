@@ -24,8 +24,6 @@ const Details = () => {
 
 	const params = useParams();
 
-	const { token } = useAppSelector((state) => state.auth);
-
 	const [detail, setDetail] = useState<any>({});
 	const [error, setError] = useState("");
 
@@ -38,11 +36,7 @@ const Details = () => {
 		try {
 			setError("");
 			setLoad(true);
-			let res = await customerService.userDetails(
-				token,
-				"user",
-				params?.id
-			);
+			let res = await customerService.userDetails("user", params?.id);
 			setDetail(res);
 			setLoad(false);
 		} catch (err) {
@@ -60,11 +54,7 @@ const Details = () => {
 		) {
 			try {
 				setLoad(true);
-				await customerService.removeUserFromBusiness(
-					token,
-					id,
-					detail.id
-				);
+				await customerService.removeUserFromBusiness(id, detail.id);
 				setLoad(false);
 				getDetails();
 			} catch (err) {
@@ -83,7 +73,6 @@ const Details = () => {
 				};
 				setLoad(true);
 				await customerService.updateUserRole(
-					token,
 					payload,
 					detail.id,
 					biz.businessId

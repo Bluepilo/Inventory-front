@@ -25,7 +25,7 @@ import { haveRole } from "../../../utils/role";
 const SaleDetails = () => {
 	const navigate = useNavigate();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 	const params = useParams();
 
 	const [load, setLoad] = useState(false);
@@ -43,7 +43,7 @@ const SaleDetails = () => {
 	const loadSale = async () => {
 		try {
 			setLoad(true);
-			let res = await salesService.getSaleInfo(token, params.id);
+			let res = await salesService.getSaleInfo(params.id);
 			setLoad(false);
 			if (res && res.id) {
 				setSaleDetails(res);
@@ -58,7 +58,6 @@ const SaleDetails = () => {
 		try {
 			setLoad(true);
 			let res = await salesService.approveOrDeclineWithdrawal(
-				token,
 				{ action, comment },
 				saleDetails.uniqueRef
 			);

@@ -8,13 +8,11 @@ const StockAlert = ({ stock }: { stock: any }) => {
 	const [val, setVal] = useState(stock.min_stock);
 	const [load, setLoad] = useState(false);
 
-	const { token } = useAppSelector((state) => state.auth);
-
 	const submitHandler = async () => {
 		if (window.confirm("Are you sure you want to set the stock alert?")) {
 			try {
 				setLoad(true);
-				await productService.setMinStockAlert(token, stock.id, {
+				await productService.setMinStockAlert(stock.id, {
 					quantity: val || null,
 				});
 				setLoad(false);

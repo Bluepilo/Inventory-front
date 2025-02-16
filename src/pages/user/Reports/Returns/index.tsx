@@ -19,7 +19,7 @@ import { haveRole } from "../../../../utils/role";
 const Returns = () => {
 	const navigate = useNavigate();
 
-	const { token, details, currency } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 
 	const [lists, setLists] = useState<any>({});
 
@@ -68,7 +68,7 @@ const Returns = () => {
 	const getReports = async () => {
 		try {
 			setLoad(true);
-			let res = await productService.getProductReturns(token, filters);
+			let res = await productService.getProductReturns(filters);
 			setLoad(false);
 			setLists(res);
 		} catch (err) {
@@ -78,7 +78,7 @@ const Returns = () => {
 
 	const getProducts = async () => {
 		try {
-			let res = await productService.allProducts(token, "?all=true");
+			let res = await productService.allProducts("?all=true");
 			let arr = res?.rows.map((a: any) => {
 				return { ...a, label: a.summary, value: a.id };
 			});

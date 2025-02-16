@@ -4,15 +4,13 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import { MainButton } from "../../../styles/links.styles";
 import { displayError } from "../../../utils/errors";
 import basicService from "../../../redux/features/basic/basic-service";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { useAppDispatch } from "../../../redux/hooks";
 import { logout } from "../../../redux/features/auth/auth-slice";
 import { toast } from "react-toastify";
 import LoadModal from "../../../components/Loaders/LoadModal";
 
 const Security = () => {
 	const dispatch = useAppDispatch();
-
-	const { token } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [password, setPassword] = useState("");
@@ -32,7 +30,7 @@ const Security = () => {
 					newPasswordConfirmation: confirmPassword,
 				};
 				setLoad(true);
-				await basicService.changePassword(token, payload);
+				await basicService.changePassword(payload);
 				setLoad(false);
 				dispatch(logout());
 				toast.success("Password has been changed. Please login again.");

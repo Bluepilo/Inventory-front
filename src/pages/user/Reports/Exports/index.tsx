@@ -19,7 +19,6 @@ import purchaseService from "../../../../redux/features/purchase/purchase-servic
 import Loading from "../../../../components/Loaders/Loading";
 
 const Exports = () => {
-	const { token } = useAppSelector((state) => state.auth);
 	const { shops, staffs } = useAppSelector((state) => state.basic);
 
 	const [reports] = useState([
@@ -86,9 +85,9 @@ const Exports = () => {
 		try {
 			let res;
 			if (isWalkin) {
-				res = await customerService.getSubdealers(token, "?all=true");
+				res = await customerService.getSubdealers("?all=true");
 			} else {
-				res = await customerService.getWalkIns(token, "?all=true");
+				res = await customerService.getWalkIns("?all=true");
 			}
 			let arr = res?.map((a: any) => {
 				return { label: a.fullName, value: a.id };
@@ -99,7 +98,7 @@ const Exports = () => {
 
 	const getProducts = async () => {
 		try {
-			let res = await productService.allProducts(token, "?all=true");
+			let res = await productService.allProducts("?all=true");
 			let arr = res?.rows.map((a: any) => {
 				return { ...a, label: a.summary, value: a.id };
 			});
@@ -109,10 +108,7 @@ const Exports = () => {
 
 	const listBrands = async () => {
 		try {
-			let brandRes = await productService.filterBrands(
-				token,
-				"?business=true"
-			);
+			let brandRes = await productService.filterBrands("?business=true");
 
 			let arrBrand = brandRes?.map((r: any) => {
 				return { label: r.name, value: r.id };
@@ -166,72 +162,57 @@ const Exports = () => {
 			let res;
 			setLoad(true);
 			if (val === "users") {
-				res = await basicService.allStaffs(
-					token,
-					"?all=true&download=true"
-				);
+				res = await basicService.allStaffs("?all=true&download=true");
 			} else if (val === "shops") {
-				res = await basicService.allShops(
-					token,
-					"?all=true&download=true"
-				);
+				res = await basicService.allShops("?all=true&download=true");
 			} else if (val === "customers") {
 				if (customerType?.value === "walkin") {
 					res = await customerService.getWalkIns(
-						token,
 						`?startDate=${startDate}&endDate=${endDate}&download=true`
 					);
 				} else {
 					res = await customerService.getSubdealers(
-						token,
 						`?startDate=${startDate}&endDate=${endDate}&download=true`
 					);
 				}
 			} else if (val === "customers-transactions") {
 				res = await salesService.getTransactions(
-					token,
 					`?startDate=${startDate}&endDate=${endDate}&type=customer&customerId=${
 						customerId?.value || ""
 					}&download=true`
 				);
 			} else if (val === "expenses") {
 				res = await expenseService.getExpenses(
-					token,
 					`?startDate=${startDate}&endDate=${endDate}&shopId=${
 						shopId?.value || ""
 					}&staffId=${staffId?.value || ""}&download=true`
 				);
 			} else if (val === "sales") {
 				res = await salesService.getSales(
-					token,
 					`?startDate=${startDate}&endDate=${endDate}&shopId=${
 						shopId?.value || ""
 					}&staffId=${staffId?.value || ""}&download=true`
 				);
 			} else if (val === "purchases") {
 				res = await purchaseService.getPurchase(
-					token,
 					`?startDate=${startDate}&endDate=${endDate}&shopId=${
 						shopId?.value || ""
 					}&staffId=${staffId?.value || ""}&download=true`
 				);
 			} else if (val === "inventory") {
 				res = await productService.stockReports(
-					token,
 					`?brandId=${brandId?.value || ""}&shopId=${
 						shopId?.value || ""
 					}&download=true`
 				);
 			} else if (val === "products") {
 				res = await productService.getLogReports(
-					token,
 					`?startDate=${startDate}&endDate=${endDate}&shopId=${
 						shopId?.value || ""
 					}&productId=${productId?.value || ""}&download=true`
 				);
 			} else if (val === "transactions") {
 				res = await salesService.getTransactions(
-					token,
 					`?startDate=${startDate}&endDate=${endDate}&shopId=${
 						shopId?.value || ""
 					}&staffId=${staffId?.value || ""}&download=true`

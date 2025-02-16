@@ -30,6 +30,13 @@ export const Flex = styled.div`
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
+
+	@media (max-width: 567px) {
+		div,
+		button {
+			margin-bottom: 20px;
+		}
+	}
 `;
 
 export const FlexCenter = styled.div`
@@ -403,11 +410,11 @@ export const UploadWrapper = styled.div`
 		cursor: pointer;
 
 		.btn {
-			border: 2px solid gray;
-			color: gray;
-			background-color: white;
-			padding: 8px 20px;
-			border-radius: 8px;
+			border: 1px solid rgba(0, 0, 0, 0.2);
+			color: #000;
+			background-color: #f0f0f0;
+			padding: 10px 20px;
+			border-radius: 5px;
 			font-size: 0.9rem;
 			font-weight: bold;
 			cursor: pointer;
@@ -434,6 +441,7 @@ export const UploadWrapper = styled.div`
 
 		a {
 			color: #0241ff;
+			text-decoration: none;
 
 			&:hover {
 				color: #0241ff;

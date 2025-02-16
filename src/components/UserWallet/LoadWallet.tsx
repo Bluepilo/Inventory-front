@@ -19,7 +19,7 @@ const LoadWallet = ({
 	userType: string;
 	close: () => void;
 }) => {
-	const { token, details, currency } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 	const { methods, shops } = useAppSelector((state) => state.basic);
 
 	const [load, setLoad] = useState(false);
@@ -34,7 +34,7 @@ const LoadWallet = ({
 		e.preventDefault();
 		try {
 			setLoad(true);
-			await customerService.loadWallet(token, userType, id, {
+			await customerService.loadWallet(userType, id, {
 				amount,
 				comment,
 				paymentMethodId: selectedMethod?.value,

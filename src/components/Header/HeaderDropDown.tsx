@@ -18,7 +18,9 @@ const HeaderDropDown = ({
 }) => {
 	const dispatch = useAppDispatch();
 
-	const { details, token } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
+
+	let token = localStorage.getItem("@savedtoken");
 
 	let ciphertext = CryptoJS.AES.encrypt(
 		JSON.stringify({

@@ -14,7 +14,7 @@ import { MainButton } from "../../../styles/links.styles";
 import PermissionDenied from "../../../components/PermissionDenied";
 
 const Carousel = () => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [list, setList] = useState<any>({});
@@ -30,7 +30,7 @@ const Carousel = () => {
 	const listCarousels = async () => {
 		try {
 			setLoad(true);
-			let res = await adminService.allCarousels(token);
+			let res = await adminService.allCarousels();
 			setLoad(false);
 			setList(res);
 		} catch (err) {
@@ -43,7 +43,7 @@ const Carousel = () => {
 		if (window.confirm("Are you sure you want to delete this?")) {
 			try {
 				setLoad(true);
-				await adminService.deleteCarousel(token, id);
+				await adminService.deleteCarousel(id);
 				displaySuccess("Carousel deleted Successfully!");
 				setLoad(false);
 				listCarousels();

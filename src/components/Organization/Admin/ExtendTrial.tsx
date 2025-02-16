@@ -7,8 +7,6 @@ import adminService from "../../../redux/features/admin/admin-service";
 import { useAppSelector } from "../../../redux/hooks";
 
 const ExtendTrial = ({ id, onClose }: { id: any; onClose: () => void }) => {
-	const { token } = useAppSelector((state) => state.auth);
-
 	const [load, setLoad] = useState(false);
 	const [date, setDate] = useState("");
 
@@ -16,7 +14,7 @@ const ExtendTrial = ({ id, onClose }: { id: any; onClose: () => void }) => {
 		e.preventDefault();
 		try {
 			setLoad(true);
-			await adminService.extendTrial(token, id, { endDate: date });
+			await adminService.extendTrial(id, { endDate: date });
 			setLoad(false);
 			displaySuccess("Date has been extended.");
 			onClose();

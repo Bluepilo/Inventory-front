@@ -16,7 +16,7 @@ const TopSMSWallet = ({
 	type: string;
 	user: any;
 }) => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [amount, setAmount] = useState(0);
 	const [load, setLoad] = useState(false);
@@ -27,17 +27,17 @@ const TopSMSWallet = ({
 			try {
 				setLoad(true);
 				if (type === "central") {
-					await smsService.topCentralWallet(token, details.id, {
+					await smsService.topCentralWallet(details.id, {
 						amount,
 					});
 				} else {
 					if (user.isAdmin) {
-						await smsService.topAdminWallet(token, details.id, {
+						await smsService.topAdminWallet(details.id, {
 							amount,
 							id: user.orgId,
 						});
 					} else {
-						await smsService.topSmsWallets(token, details.id, {
+						await smsService.topSmsWallets(details.id, {
 							amount,
 							id: type === "user" ? user.orgId : null,
 							all: type === "user" ? false : true,

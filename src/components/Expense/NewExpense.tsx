@@ -14,7 +14,7 @@ import { updateOnboardingSteps } from "../../redux/features/basic/basic-slice";
 const NewExpense = ({ submit }: { submit: any }) => {
 	const dispatch = useAppDispatch();
 
-	const { token, details, currency } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 	const { expenseCat, shops } = useAppSelector((state) => state.basic);
 
 	let arr = [{ label: "New Category", value: "new" }, ...expenseCat];
@@ -73,7 +73,7 @@ const NewExpense = ({ submit }: { submit: any }) => {
 			};
 
 			setLoad(true);
-			let res = await expenseService.createExpense(token, obj);
+			let res = await expenseService.createExpense(obj);
 			setLoad(false);
 			saveTrialPick();
 			if (res) {

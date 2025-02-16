@@ -22,7 +22,7 @@ const ExpenseDetails = ({
 	closeDetails: () => void;
 	openComment: (arg: string) => void;
 }) => {
-	const { token, details: user } = useAppSelector((state) => state.auth);
+	const { details: user } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 
@@ -34,7 +34,7 @@ const ExpenseDetails = ({
 		) {
 			try {
 				setLoad(true);
-				await expenseService.deleteExpense(token, details.id);
+				await expenseService.deleteExpense(details.id);
 				setLoad(false);
 				toast.success("Expense has been deleted");
 				closeDetails();

@@ -24,7 +24,7 @@ const UploadProduct = () => {
 
 	const params = useParams();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [file, setFile] = useState<any>(null);
@@ -70,6 +70,8 @@ const UploadProduct = () => {
 			const formData = new FormData();
 			formData.append("file", file);
 			formData.append("mode", mode);
+
+			let token = localStorage.getItem("@savedtoken");
 
 			axios({
 				method: "post",

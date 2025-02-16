@@ -17,7 +17,7 @@ const AddToBusiness = ({
 	detail: any;
 	close: () => void;
 }) => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [roles, setRoles] = useState<OptionProp[]>([]);
@@ -43,7 +43,7 @@ const AddToBusiness = ({
 
 	const listRoles = async () => {
 		try {
-			let res = await customerService.listRoles(token);
+			let res = await customerService.listRoles();
 			let arr = res
 				?.filter((f: any) => f.name !== "Staff")
 				.map((a: any) => {
@@ -62,10 +62,7 @@ const AddToBusiness = ({
 
 	const getBusiness = async () => {
 		try {
-			let res = await basicService.businessDetails(
-				token,
-				businessId?.value
-			);
+			let res = await basicService.businessDetails(businessId?.value);
 			let arr = res?.data?.shops
 				?.filter((a: any) => a.isActive)
 				.map((s: any) => {
@@ -90,7 +87,6 @@ const AddToBusiness = ({
 			};
 			setLoad(true);
 			await customerService.addUserToBusiness(
-				token,
 				businessId?.value,
 				detail?.id,
 				payload

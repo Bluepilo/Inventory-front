@@ -1,68 +1,44 @@
-import axios from "axios";
-import config from "../../../utils/config";
-import { authHeader } from "../../../utils/headers";
+import { apiRequest } from "../../../utils/axiosInstance";
 
-const getSubHistory = async (token: string, filters: string) => {
-	const { data } = await axios.get(
-		`${config.baseUrl}/subscription/history${filters}`,
-		{
-			headers: authHeader(token),
-		}
+const getSubHistory = async (filters: string) => {
+	const { data } = await apiRequest("baseUrl").get(
+		`/subscription/history${filters}`
 	);
 	return data.data;
 };
 
-const getPaymentHistory = async (token: string, filters: string) => {
-	const { data } = await axios.get(
-		`${config.baseUrl}/payment/history${filters}`,
-		{
-			headers: authHeader(token),
-		}
+const getPaymentHistory = async (filters: string) => {
+	const { data } = await apiRequest("baseUrl").get(
+		`/payment/history${filters}`
 	);
 	return data.data;
 };
 
-const getPlans = async (token: string, trial?: boolean) => {
-	const { data } = await axios.get(
-		`${config.baseUrl}/other/subscription-plans?includeTrial=${
-			trial ? "true" : ""
-		}`,
-		{
-			headers: authHeader(token),
-		}
+const getPlans = async (trial?: boolean) => {
+	const { data } = await apiRequest("baseUrl").get(
+		`/other/subscription-plans?includeTrial=${trial ? "true" : ""}`
 	);
 	return data.data;
 };
 
-const makeSubscription = async (token: string, obj: any) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/subscription/subscribe`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
+const makeSubscription = async (obj: any) => {
+	const { data } = await apiRequest("baseUrl").post(
+		`/subscription/subscribe`,
+		obj
 	);
 	return data.data;
 };
 
-const makePayment = async (token: string, obj: any) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/payment/init-load-wallet`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
+const makePayment = async (obj: any) => {
+	const { data } = await apiRequest("baseUrl").post(
+		`/payment/init-load-wallet`,
+		obj
 	);
 	return data.data;
 };
 
-const verifyPayment = async (token: string, ref: string) => {
-	const { data } = await axios.get(
-		`${config.baseUrl}/payment/verify/${ref}`,
-		{
-			headers: authHeader(token),
-		}
-	);
+const verifyPayment = async (ref: string) => {
+	const { data } = await apiRequest("baseUrl").get(`/payment/verify/${ref}`);
 	return data.data;
 };
 

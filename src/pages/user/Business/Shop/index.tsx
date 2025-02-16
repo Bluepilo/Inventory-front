@@ -25,7 +25,7 @@ import { allShops } from "../../../../redux/features/basic/basic-slice";
 const Shop = () => {
 	const dispatch = useAppDispatch();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [lists, setList] = useState<any>({});
 	const [search, setSearch] = useState("");
@@ -53,11 +53,7 @@ const Shop = () => {
 	const searchShop = async () => {
 		try {
 			setLoad(true);
-			let res = await basicService.searchShops(
-				token,
-				filters,
-				debouncedSearch
-			);
+			let res = await basicService.searchShops(filters, debouncedSearch);
 			setLoad(false);
 			setList(res?.data);
 		} catch (err) {
@@ -68,7 +64,7 @@ const Shop = () => {
 	const listShops = async () => {
 		try {
 			setLoad(true);
-			let res = await basicService.allShops(token, filters);
+			let res = await basicService.allShops(filters);
 			setLoad(false);
 			setList(res?.data);
 		} catch (err) {
@@ -80,7 +76,7 @@ const Shop = () => {
 		try {
 			setOpenConfirmation(false);
 			setLoad(true);
-			await basicService.actionShop(token, action, shopDetail?.id);
+			await basicService.actionShop(action, shopDetail?.id);
 			toast.success(`Shop has been ${action}d.`);
 			listShops();
 			dispatch(allShops());
@@ -94,7 +90,7 @@ const Shop = () => {
 		if (window.confirm("Are you sure you want to delete?")) {
 			try {
 				setLoad(true);
-				await basicService.deleteShop(token, id);
+				await basicService.deleteShop(id);
 				toast.success(`Shop has been deleted.`);
 				listShops();
 				dispatch(allShops());

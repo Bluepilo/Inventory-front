@@ -25,7 +25,7 @@ const NewSale = () => {
 
 	const cloneState = useLocation()?.state?.cloneState;
 
-	const { details, token, currency } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 	const { shops } = useAppSelector((state) => state.basic);
 
 	const [isWalkIn, setIsWalkIn] = useState(true);
@@ -102,7 +102,6 @@ const NewSale = () => {
 			}
 			setProductLoad(true);
 			let res = await productService.getProductsInShop(
-				token,
 				details?.shopId || selectedShop?.value
 			);
 			let arr = res?.rows?.filter(
@@ -182,7 +181,7 @@ const NewSale = () => {
 		};
 		try {
 			setLoad(true);
-			let res = await salesService.makeSale(token, data);
+			let res = await salesService.makeSale(data);
 			setLoad(false);
 			saveTrialPick();
 			toast.success("Your Transaction was Successful!");

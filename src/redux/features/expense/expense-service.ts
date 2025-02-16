@@ -1,66 +1,40 @@
-import axios from "axios";
-import config from "../../../utils/config";
-import { authHeader } from "../../../utils/headers";
+import { apiRequest } from "../../../utils/axiosInstance";
 
-const getExpenses = async (token: string, filters: string) => {
-	const { data } = await axios.get(
-		`${config.baseUrl}/expense/all${filters}`,
-		{
-			headers: authHeader(token),
-		}
-	);
+const getExpenses = async (filters: string) => {
+	const { data } = await apiRequest("baseUrl").get(`/expense/all${filters}`);
 	return data?.data || data;
 };
 
-const getRecurrentExpenses = async (token: string, filters: string) => {
-	const { data } = await axios.get(
-		`${config.baseUrl}/expense/recurrent/all${filters}`,
-		{
-			headers: authHeader(token),
-		}
+const getRecurrentExpenses = async (filters: string) => {
+	const { data } = await apiRequest("baseUrl").get(
+		`/expense/recurrent/all${filters}`
 	);
 	return data.data;
 };
 
-const deleteExpense = async (token: string, id: string) => {
-	const { data } = await axios.delete(
-		`${config.baseUrl}/expense/${id}/delete`,
-		{
-			headers: authHeader(token),
-		}
+const deleteExpense = async (id: string) => {
+	const { data } = await apiRequest("baseUrl").delete(
+		`/expense/${id}/delete`
 	);
 	return data.data;
 };
 
-const actionOnExpense = async (
-	token: string,
-	id: string,
-	action: string,
-	obj: any
-) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/expense/${id}/${action}`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
+const actionOnExpense = async (id: string, action: string, obj: any) => {
+	const { data } = await apiRequest("baseUrl").post(
+		`/expense/${id}/${action}`,
+		obj
 	);
 	return data.data;
 };
 
-const createExpense = async (token: string, obj: any) => {
-	const { data } = await axios.post(`${config.baseUrl}/expense/add`, obj, {
-		headers: authHeader(token),
-	});
+const createExpense = async (obj: any) => {
+	const { data } = await apiRequest("baseUrl").post(`/expense/add`, obj);
 	return data.data;
 };
 
-const deleteRecurrentExpense = async (token: string, id: string) => {
-	const { data } = await axios.delete(
-		`${config.baseUrl}/expense/recurrent/${id}/delete`,
-		{
-			headers: authHeader(token),
-		}
+const deleteRecurrentExpense = async (id: string) => {
+	const { data } = await apiRequest("baseUrl").delete(
+		`/expense/recurrent/${id}/delete`
 	);
 	return data.data;
 };

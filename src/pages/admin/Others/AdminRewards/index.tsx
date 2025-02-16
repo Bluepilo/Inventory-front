@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { displayError } from "../../../../utils/errors";
 import rewardService from "../../../../redux/features/rewards/reward-service";
-import { useAppSelector } from "../../../../redux/hooks";
 import TitleCover from "../../../../components/TitleCover";
 import { TableComponent } from "../../../../styles/table.styles";
 import SkeletonTable from "../../../../components/Loaders/SkeletonTable";
@@ -13,11 +12,8 @@ import Claimed from "./Claimed";
 import ModalComponent from "../../../../components/ModalComponent";
 import ReferralInfo from "../../../../components/Reward/ReferralInfo";
 import { SummaryCard } from "../../../../styles/dashboard.styles";
-import { formatCurrency } from "../../../../utils/currency";
 
 const AdminRewards = () => {
-	const { token, details } = useAppSelector((state) => state.auth);
-
 	const [rewardType, setRewardType] = useState("earn");
 	const [load, setLoad] = useState(false);
 	const [list, setList] = useState<any>({});
@@ -45,7 +41,7 @@ const AdminRewards = () => {
 	const getRewards = async () => {
 		try {
 			setLoad(true);
-			let res = await rewardService.getAdminRewards(token, filters);
+			let res = await rewardService.getAdminRewards(filters);
 			setLoad(false);
 			setList(res);
 		} catch (err) {

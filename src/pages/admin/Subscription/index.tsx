@@ -11,7 +11,7 @@ const Subscription = () => {
 	const [load, setLoad] = useState(false);
 	const [results, setResults] = useState<any>([]);
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	useEffect(() => {
 		getResult();
@@ -20,7 +20,7 @@ const Subscription = () => {
 	const getResult = async () => {
 		try {
 			setLoad(true);
-			let res = await adminService.subTracker(token);
+			let res = await adminService.subTracker();
 			setLoad(false);
 			setResults(res);
 		} catch (err) {

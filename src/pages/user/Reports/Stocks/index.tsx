@@ -20,7 +20,7 @@ import { CSVLink } from "react-csv";
 import RoleGuard from "../../../../components/RoleGuard";
 
 const Stocks = () => {
-	const { token, details, currency } = useAppSelector((state) => state.auth);
+	const { currency } = useAppSelector((state) => state.auth);
 
 	const [lists, setLists] = useState<any>({});
 
@@ -55,11 +55,8 @@ const Stocks = () => {
 
 	const listData = async () => {
 		try {
-			let brandRes = await productService.filterBrands(
-				token,
-				"?business=true"
-			);
-			let categoryRes = await productService.productCategories(token);
+			let brandRes = await productService.filterBrands("?business=true");
+			let categoryRes = await productService.productCategories();
 
 			let arrBrand = brandRes?.map((r: any) => {
 				return { label: r.name, value: r.id };
@@ -82,7 +79,7 @@ const Stocks = () => {
 	const getReports = async () => {
 		try {
 			setLoad(true);
-			let res = await productService.stockReports(token, filters);
+			let res = await productService.stockReports(filters);
 			setLoad(false);
 			let arr = res?.rows?.map((l: any) => {
 				return { ...l, finalValue: l.costPrice * l.totalStock };

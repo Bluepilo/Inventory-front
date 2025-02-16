@@ -27,7 +27,7 @@ import { haveRole } from "../../../../utils/role";
 const Subdealer = () => {
 	const navigate = useNavigate();
 
-	const { token, details, currency } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 
 	const [openModal, setOpenModal] = useState(false);
 	const [lists, setLists] = useState<any>({});
@@ -61,7 +61,6 @@ const Subdealer = () => {
 		try {
 			setLoad(true);
 			let res = await customerService.searchSubdealers(
-				token,
 				filters,
 				debouncedSearch
 			);
@@ -75,7 +74,7 @@ const Subdealer = () => {
 	const listSubdealers = async () => {
 		try {
 			setLoad(true);
-			let res = await customerService.getSubdealers(token, filters);
+			let res = await customerService.getSubdealers(filters);
 			setLoad(false);
 			setLists(res);
 		} catch (err) {
@@ -85,10 +84,7 @@ const Subdealer = () => {
 
 	const getSummary = async () => {
 		try {
-			let res = await customerService.subdealerSummary(
-				token,
-				debouncedSearch
-			);
+			let res = await customerService.subdealerSummary(debouncedSearch);
 			setSummary(res);
 		} catch (err) {}
 	};
@@ -97,7 +93,6 @@ const Subdealer = () => {
 		try {
 			setOpenConfirmation(false);
 			await customerService.actionUser(
-				token,
 				"subdealer",
 				ids.id,
 				ids.isActive ? "suspend" : "activate",
@@ -116,7 +111,7 @@ const Subdealer = () => {
 		if (window.confirm("Are you sure you want to delete this subdealer?")) {
 			try {
 				setLoad(true);
-				await customerService.deleteUser(token, id, "subdealer");
+				await customerService.deleteUser(id, "subdealer");
 				listSubdealers();
 			} catch (err) {
 				setLoad(false);

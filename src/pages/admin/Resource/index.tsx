@@ -15,7 +15,7 @@ import PermissionDenied from "../../../components/PermissionDenied";
 const Resource = () => {
 	const navigate = useNavigate();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [faqs, setFaqs] = useState<any>([]);
@@ -27,7 +27,7 @@ const Resource = () => {
 	const loadFaqs = async () => {
 		try {
 			setLoad(true);
-			let res = await adminService.loadFaqs(token);
+			let res = await adminService.loadFaqs();
 			setLoad(false);
 			setFaqs(Array.isArray(res) ? res : []);
 		} catch (err) {
@@ -46,7 +46,7 @@ const Resource = () => {
 		if (window.confirm("Are you sure you want to delete?")) {
 			try {
 				setLoad(true);
-				await adminService.deleteFaq(token, id);
+				await adminService.deleteFaq(id);
 				setLoad(false);
 				toast.success("Resource has been deleted.");
 				loadFaqs();

@@ -18,9 +18,9 @@ export const login = createAsyncThunk(
 	async (data: any, thunkAPI) => {
 		try {
 			const res = await authService.login(data);
-			let response = res.data;
-			toast.success(`Welcome back, ${response?.user?.firstName}`);
-			return response;
+			toast.success(`Welcome back, ${res?.user?.firstName}`);
+			localStorage.setItem("@savedtoken", res?.accessToken);
+			return res;
 		} catch (error) {
 			const message = displayError(error, true);
 			return thunkAPI.rejectWithValue(message);
@@ -30,28 +30,15 @@ export const login = createAsyncThunk(
 
 export const userProfile = createAsyncThunk(
 	"auth/profile",
-	async (id: number, thunkAPI: any) => {
+	async (_, thunkAPI: any) => {
 		try {
-			const { token } = thunkAPI.getState().auth;
-			const res = await authService.getProfile(id, token);
+			const res = await authService.getProfile();
 			return res.data;
 		} catch (error) {
 			const message = displayError(error, true);
 			if (message.includes("Session expired")) {
 				thunkAPI.dispatch(logout());
 			}
-			return thunkAPI.rejectWithValue(message);
-		}
-	}
-);
-
-export const saveToken = createAsyncThunk(
-	"auth/token",
-	async (token: string, thunkAPI: any) => {
-		try {
-			return token;
-		} catch (error) {
-			const message = displayError(error, true);
 			return thunkAPI.rejectWithValue(message);
 		}
 	}
@@ -80,6 +67,7 @@ export const authSlice = createSlice({
 			state.referralCode = "";
 		},
 		logout: (state) => {
+			localStorage.removeItem("@savedtoken");
 			state.details = {};
 			state.error = null;
 			state.loading = false;
@@ -108,9 +96,6 @@ export const authSlice = createSlice({
 			state.currency =
 				action?.payload?.business?.currency?.symbol ||
 				action?.payload?.business.currencyCode;
-		});
-		builder.addCase(saveToken.fulfilled, (state, action) => {
-			state.token = action.payload;
 		});
 		builder.addCase(saveReferralCode.fulfilled, (state, action) => {
 			state.referralCode = action.payload || "";

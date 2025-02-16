@@ -19,7 +19,7 @@ import LoadModal from "../../../../components/Loaders/LoadModal";
 const NewReturns = () => {
 	const navigate = useNavigate();
 
-	const { token, details, currency } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 	const { shops } = useAppSelector((state) => state.basic);
 
 	const [user, setUser] = useState("walk-in");
@@ -72,10 +72,7 @@ const NewReturns = () => {
 
 	const getWalkIns = async () => {
 		try {
-			let res = await customerService.getWalkIns(
-				token,
-				`?page=1&limit=100`
-			);
+			let res = await customerService.getWalkIns(`?page=1&limit=100`);
 			let arr = res?.rows.map((a: any) => {
 				return { label: a.fullName, value: a.id };
 			});
@@ -85,10 +82,7 @@ const NewReturns = () => {
 
 	const getSubdealers = async () => {
 		try {
-			let res = await customerService.getSubdealers(
-				token,
-				`?page=1&limit=100`
-			);
+			let res = await customerService.getSubdealers(`?page=1&limit=100`);
 			let arr = res?.rows.map((a: any) => {
 				return { label: a.fullName, value: a.id };
 			});
@@ -98,10 +92,7 @@ const NewReturns = () => {
 
 	const getSuppliers = async () => {
 		try {
-			let res = await customerService.getSuppliers(
-				token,
-				`?page=1&limit=100`
-			);
+			let res = await customerService.getSuppliers(`?page=1&limit=100`);
 			let arr = res?.rows.map((a: any) => {
 				return { label: a.fullName, value: a.id };
 			});
@@ -124,7 +115,6 @@ const NewReturns = () => {
 	const getProducts = async () => {
 		try {
 			let res = await productService.getProductsInShop(
-				token,
 				shopId?.value,
 				true
 			);
@@ -152,7 +142,7 @@ const NewReturns = () => {
 					purchaseRef: user === "supplier" ? ref : "",
 				};
 				setLoad(true);
-				let res = await productService.returnProduct(token, data);
+				let res = await productService.returnProduct(data);
 				if (res) {
 					toast.success("Return has been logged.");
 					navigate("/dashboard/reports/returns");

@@ -33,7 +33,7 @@ const NewTransfer = () => {
 
 	const cloneState = useLocation()?.state?.cloneState;
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 	const { shops } = useAppSelector((state) => state.basic);
 
 	const [shopList, setShopList] = useState<OptionProp[]>([]);
@@ -101,7 +101,6 @@ const NewTransfer = () => {
 			}
 			setProductLoad(true);
 			let res = await productService.getProductsInShop(
-				token,
 				fromShop?.value || details.shopId
 			);
 			let arr = res?.rows?.filter(
@@ -174,7 +173,7 @@ const NewTransfer = () => {
 			};
 			try {
 				setLoad(true);
-				let res = await transferService.createTransfer(token, data);
+				let res = await transferService.createTransfer(data);
 				setLoad(false);
 				toast.success(`Products has been transferred.`);
 				saveTrialPick();

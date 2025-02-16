@@ -26,8 +26,6 @@ import { useNavigate } from "react-router-dom";
 const Rewards = () => {
 	const navigate = useNavigate();
 
-	const { token } = useAppSelector((state) => state.auth);
-
 	const [balance, setBalance] = useState("");
 	const [list, setList] = useState<any>({});
 	const [load, setLoad] = useState(false);
@@ -45,7 +43,7 @@ const Rewards = () => {
 
 	const getRewards = async () => {
 		try {
-			let res = await rewardService.getWallet(token);
+			let res = await rewardService.getWallet();
 			setBalance(res?.balance);
 			if (!res.termsAccepted) {
 				setOpenTerms(true);
@@ -60,7 +58,7 @@ const Rewards = () => {
 	const getLogs = async () => {
 		try {
 			setLoad(true);
-			let res = await rewardService.getLogs(token, filters);
+			let res = await rewardService.getLogs(filters);
 			setLoad(false);
 			setList(res);
 		} catch (err) {
@@ -86,7 +84,7 @@ const Rewards = () => {
 		if (amount > 100) {
 			try {
 				setLoad(true);
-				await rewardService.claimReward(token, {
+				await rewardService.claimReward({
 					amount,
 					bankName,
 					accountName,

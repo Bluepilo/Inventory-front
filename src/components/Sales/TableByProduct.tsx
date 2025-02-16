@@ -30,7 +30,8 @@ const TableByProduct = ({ load, lists }: { load: boolean; lists: any }) => {
 							<td>{l?.product?.summary}</td>
 							<td>{l.quantity}</td>
 							<td className="price bold">
-								{currency} {formatCurrency(l.price)}
+								{currency}{" "}
+								{formatCurrency(Number(l.price) * l.quantity)}
 							</td>
 							<td className="link">
 								<Link to={`${l.sale?.uniqueRef}`}>

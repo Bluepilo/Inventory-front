@@ -14,7 +14,7 @@ import { SummaryCard } from "../../../styles/dashboard.styles";
 import PermissionDenied from "../../../components/PermissionDenied";
 
 const AdminTransactions = () => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [list, setList] = useState<any>({});
@@ -45,7 +45,7 @@ const AdminTransactions = () => {
 	const listTransactions = async () => {
 		try {
 			setLoad(true);
-			let res = await adminService.listTransactions(filters, token);
+			let res = await adminService.listTransactions(filters);
 			setLoad(false);
 			setList(res);
 		} catch (err) {

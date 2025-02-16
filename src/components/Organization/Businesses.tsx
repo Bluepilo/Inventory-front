@@ -18,7 +18,7 @@ const Businesses = () => {
 
 	const dispatch = useAppDispatch();
 
-	const { details, token } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 	const { organization } = useAppSelector((state) => state.basic);
 
 	const [load, setLoad] = useState(false);
@@ -30,7 +30,7 @@ const Businesses = () => {
 			) {
 				try {
 					setLoad(true);
-					await basicService.switchBusiness(token, id);
+					await basicService.switchBusiness(id);
 					setLoad(false);
 					if (to === "edit") {
 						window.location.replace("/dashboard/settings");
@@ -61,12 +61,11 @@ const Businesses = () => {
 		) {
 			try {
 				await basicService.addOrRemoveUserBusiness(
-					token,
 					action,
 					bizId,
 					details.id
 				);
-				dispatch(userProfile(details.id));
+				dispatch(userProfile());
 				toast.success(
 					`Business has been ${action == "add" ? "Added" : "Removed"}`
 				);

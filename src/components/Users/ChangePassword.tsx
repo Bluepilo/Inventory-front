@@ -9,8 +9,6 @@ import { useAppSelector } from "../../redux/hooks";
 import { toast } from "react-toastify";
 
 const ChangePassword = ({ detail, close }: { detail: any; close: any }) => {
-	const { token } = useAppSelector((state) => state.auth);
-
 	const [load, setLoad] = useState(false);
 	const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
@@ -21,7 +19,6 @@ const ChangePassword = ({ detail, close }: { detail: any; close: any }) => {
 		try {
 			setLoad(true);
 			await customerService.changePassword(
-				token,
 				{
 					password,
 					passwordConfirmation: confirmPassword,

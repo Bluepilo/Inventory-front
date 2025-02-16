@@ -22,8 +22,6 @@ const RecurrentTable = ({
 	setLoad: (arg: boolean) => void;
 	reload: () => void;
 }) => {
-	const { token } = useAppSelector((state) => state.auth);
-
 	const cancelExpense = async (id: string) => {
 		if (
 			window.confirm(
@@ -32,7 +30,7 @@ const RecurrentTable = ({
 		) {
 			try {
 				setLoad(true);
-				await expenseService.deleteRecurrentExpense(token, id);
+				await expenseService.deleteRecurrentExpense(id);
 				setLoad(false);
 				displaySuccess("Recurrent Expense has been cancelled");
 				reload();

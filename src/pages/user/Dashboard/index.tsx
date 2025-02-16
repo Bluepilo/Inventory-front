@@ -37,7 +37,7 @@ const Dashboard = () => {
 		value: "month",
 	});
 	const [openModal, setOpenModal] = useState(false);
-	const { details, token, currency } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 	const { dashboardStats } = useAppSelector((state) => state.basic);
 
 	useEffect(() => {
@@ -66,10 +66,9 @@ const Dashboard = () => {
 	const switchBusiness = async () => {
 		try {
 			await basicService.switchBusiness(
-				token,
 				details.allowedBusinesses[0].business?.id
 			);
-			dispatch(userProfile(details.id));
+			dispatch(userProfile());
 		} catch (err) {
 			displayError(err, true);
 		}

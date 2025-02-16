@@ -14,7 +14,7 @@ import { ButtonSubmit, MainButton } from "../../../../styles/links.styles";
 import PermissionDenied from "../../../../components/PermissionDenied";
 
 const Roles = () => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [list, setList] = useState<any>([]);
 	const [load, setLoad] = useState(false);
@@ -29,7 +29,7 @@ const Roles = () => {
 	const listRoles = async () => {
 		try {
 			setLoad(true);
-			let res = await adminService.listRoles(token);
+			let res = await adminService.listRoles();
 			if (Array.isArray(res)) {
 				setList(res);
 			}
@@ -44,7 +44,7 @@ const Roles = () => {
 		e.preventDefault();
 		try {
 			setLoad(true);
-			await adminService.createRole(token, { name, hierarchy });
+			await adminService.createRole({ name, hierarchy });
 			setLoad(false);
 			setOpenModal(false);
 			listRoles();
@@ -59,7 +59,7 @@ const Roles = () => {
 		if (window.confirm(`Are you sure you want to delete ${role.name}`)) {
 			try {
 				setLoad(true);
-				await adminService.deleteRole(token, role.id);
+				await adminService.deleteRole(role.id);
 				setLoad(false);
 				listRoles();
 				displaySuccess(`${role.name} has been deleted`);

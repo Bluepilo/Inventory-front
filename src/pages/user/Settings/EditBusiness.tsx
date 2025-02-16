@@ -19,7 +19,7 @@ const EditBusiness = () => {
 
 	const dispatch = useAppDispatch();
 
-	const { details, token } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [openModal, setOpenModal] = useState(false);
 	const [load, setLoad] = useState(false);
@@ -35,7 +35,7 @@ const EditBusiness = () => {
 		setOpenModal(false);
 		try {
 			setLoad(true);
-			await basicService.deleteBusiness(token, details.businessId, {
+			await basicService.deleteBusiness(details.businessId, {
 				reason: "Delete Business",
 				password,
 			});

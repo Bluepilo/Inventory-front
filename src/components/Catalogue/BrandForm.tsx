@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { toast } from "react-toastify";
 import Loading from "../Loaders/Loading";
 import { updateOnboardingSteps } from "../../redux/features/basic/basic-slice";
+import UploadComponent from "../UploadComponent";
 
 const BrandForm = ({
 	brandDetail,
@@ -19,13 +20,14 @@ const BrandForm = ({
 }) => {
 	const dispatch = useAppDispatch();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [phone, setPhone] = useState("");
 	const [address, setAddress] = useState("");
+	const [image, setImage] = useState("");
 
 	useEffect(() => {
 		if (brandDetail?.id) {
@@ -47,14 +49,14 @@ const BrandForm = ({
 		try {
 			setLoad(true);
 			if (brandDetail?.id) {
-				await productService.editBrand(token, brandDetail.id, {
+				await productService.editBrand(brandDetail.id, {
 					name,
 					phone,
 					email,
 					address,
 				});
 			} else {
-				await productService.createBrand(token, {
+				await productService.createBrand({
 					name,
 					phone,
 					email,
@@ -131,6 +133,13 @@ const BrandForm = ({
 						onChange={(e) => setAddress(e.target.value)}
 						disabled={load}
 						className="height"
+					/>
+				</div>
+				<div className="col-lg-12 mb-3">
+					<UploadComponent
+						image={image}
+						setImage={setImage}
+						allowChange={true}
 					/>
 				</div>
 			</div>

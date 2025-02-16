@@ -19,7 +19,7 @@ import { haveRole } from "../../../utils/role";
 const Transfer = () => {
 	const navigate = useNavigate();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [page, setPage] = useState(1);
@@ -36,7 +36,7 @@ const Transfer = () => {
 	const getTransfers = async () => {
 		try {
 			setLoad(true);
-			let res = await transferService.getTransfers(token, filters);
+			let res = await transferService.getTransfers(filters);
 			setLists(res);
 			setLoad(false);
 		} catch (err) {

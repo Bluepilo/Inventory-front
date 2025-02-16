@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import TitleCover from "../../../components/TitleCover";
 import { Alert, SwitchDiv } from "../../../styles/basic.styles";
 import { FaCircleInfo } from "react-icons/fa6";
@@ -17,6 +17,8 @@ import { displayError } from "../../../utils/errors";
 import { toast } from "react-toastify";
 import LoadModal from "../../../components/Loaders/LoadModal";
 import PermissionDenied from "../../../components/PermissionDenied";
+import BarcodeScan from "../../../components/Catalogue/BarcodeScan";
+import UploadComponent from "../../../components/UploadComponent";
 
 const NewProduct = () => {
 	const params = useParams();
@@ -25,7 +27,7 @@ const NewProduct = () => {
 
 	const editState = useLocation().state;
 
-	const { token, details, currency } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 
 	const [isService, setIsService] = useState(false);
 	const [load, setLoad] = useState(false);
@@ -43,6 +45,8 @@ const NewProduct = () => {
 	const [productCode, setProductCode] = useState("");
 	const [color, setColor] = useState("");
 	const [productType, setProductType] = useState("");
+	const [barcode, setBarcode] = useState("");
+	const [image, setImage] = useState("");
 
 	useEffect(() => {
 		getCategories();
@@ -53,7 +57,7 @@ const NewProduct = () => {
 
 	const getCategories = async () => {
 		try {
-			let res = await productService.productCategories(token);
+			let res = await productService.productCategories();
 			if (Array.isArray(res)) {
 				let arr = res.map((r) => {
 					return { label: r.name, value: r.id };
@@ -98,20 +102,20 @@ const NewProduct = () => {
 			colour: color,
 			productCode,
 			isService,
+			barcode,
+			image,
 		};
 		try {
 			setLoad(true);
 			let res;
 			if (editState?.id) {
 				res = await productService.editProduct(
-					token,
 					obj,
 					editState.id,
 					details.role.isAdmin
 				);
 			} else {
 				res = await productService.createProduct(
-					token,
 					obj,
 					details.role.isAdmin
 				);
@@ -181,6 +185,12 @@ const NewProduct = () => {
 					<FormBody className="mt-4">
 						<Form onSubmit={submitHandler}>
 							<div className="row">
+								{!isService && (
+									<BarcodeScan
+										barcode={barcode}
+										setBarcode={setBarcode}
+									/>
+								)}
 								<div className="col-lg-6">
 									<label>Product Name</label>
 									<input
@@ -193,25 +203,7 @@ const NewProduct = () => {
 										className="height"
 									/>
 								</div>
-								{/* {!isService && (
-									<div
-										className={`col-lg-${
-											selectedCategory?.value === "new"
-												? "4"
-												: "6"
-										}`}
-									>
-										<label>Amount In Stock</label>
-										<input
-											type="number"
-											value={totalStock}
-											onChange={(e) =>
-												setTotalStock(e.target.value)
-											}
-											className="height"
-										/>
-									</div>
-								)} */}
+
 								<div
 									className={`col-lg-${
 										selectedCategory?.value === "new"
@@ -351,6 +343,16 @@ const NewProduct = () => {
 											disabled={load}
 										/>
 									</JointDiv>
+								</div>
+								<div className="col-lg-12 mt-3">
+									<UploadComponent
+										image={image}
+										setImage={setImage}
+										allowChange={true}
+										label={
+											image ? "Click to change image" : ""
+										}
+									/>
 								</div>
 								<div className="col-lg-12 text-center mt-3">
 									<MainButton type="submit" right="true">

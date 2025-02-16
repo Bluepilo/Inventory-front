@@ -13,7 +13,7 @@ import PermissionDenied from "../../../../components/PermissionDenied";
 const EditPermissions = () => {
 	const { id } = useParams();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [name, setName] = useState("");
 	const [permissions, setPermissions] = useState([]);
@@ -30,7 +30,7 @@ const EditPermissions = () => {
 
 	const listPermissions = async () => {
 		try {
-			let res = await adminService.listPermissions(token);
+			let res = await adminService.listPermissions();
 			setPermissions(res);
 		} catch (err) {}
 	};
@@ -38,7 +38,7 @@ const EditPermissions = () => {
 	const listRolePermissions = async (id: any) => {
 		try {
 			setLoadPermit(true);
-			let res = await adminService.listRolePermissions(token, id);
+			let res = await adminService.listRolePermissions(id);
 			setName(res?.name);
 			let arr = res?.permissions?.map((p: any) => {
 				return p.id;
@@ -115,13 +115,13 @@ const EditPermissions = () => {
 		try {
 			setLoad(true);
 			if (rolePermits.length > 0) {
-				await adminService.assignPermissions(token, id, {
+				await adminService.assignPermissions(id, {
 					permissions: rolePermits,
 				});
 			}
 
 			if (removed.length > 0) {
-				await adminService.removePermissions(token, id, {
+				await adminService.removePermissions(id, {
 					permissions: removed,
 				});
 			}

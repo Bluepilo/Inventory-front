@@ -21,7 +21,7 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 
 	const cloneState = useLocation()?.state?.cloneState;
 
-	const { details, token, currency } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 	const { shops } = useAppSelector((state) => state.basic);
 
 	const [step, setStep] = useState(1);
@@ -111,7 +111,6 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 			}
 			setProductLoad(true);
 			let res = await productService.allProducts(
-				token,
 				"?all=true&type=product_only"
 			);
 			let arr = res?.rows;
@@ -212,7 +211,7 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 
 		try {
 			setLoad(true);
-			let res = await purchaseService.makePurchase(token, data);
+			let res = await purchaseService.makePurchase(data);
 			setLoad(false);
 			saveTrialPick();
 			toast.success("Your Transaction was Successful!");

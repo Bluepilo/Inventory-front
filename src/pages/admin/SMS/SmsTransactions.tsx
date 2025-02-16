@@ -19,7 +19,7 @@ import PermissionDenied from "../../../components/PermissionDenied";
 import { toast } from "react-toastify";
 
 const SmsTransactions = () => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [list, setList] = useState<any>({});
@@ -57,7 +57,6 @@ const SmsTransactions = () => {
 		try {
 			setLoad(true);
 			let res = await smsService.allTransactions(
-				token,
 				details.id,
 				startDate.toISOString(),
 				endDate.toISOString(),
@@ -86,7 +85,6 @@ const SmsTransactions = () => {
 	const getReport = async () => {
 		try {
 			let res = await smsService.getTransactionReport(
-				token,
 				details.id,
 				startDate.toISOString(),
 				endDate.toISOString()
@@ -101,7 +99,7 @@ const SmsTransactions = () => {
 		if (window.confirm("Are you sure you want to proceed?")) {
 			try {
 				setLoad(true);
-				await smsService.verifyTransaction(token, details.id, {
+				await smsService.verifyTransaction(details.id, {
 					reference: data.reference,
 				});
 				setLoad(false);

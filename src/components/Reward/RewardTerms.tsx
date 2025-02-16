@@ -11,12 +11,10 @@ const RewardTerms = ({ close }: { close: () => void }) => {
 
 	const [load, setLoad] = useState(false);
 
-	const { details, token } = useAppSelector((state) => state.auth);
-
 	const acceptHandler = async () => {
 		try {
 			setLoad(true);
-			await rewardService.acceptTerms(token);
+			await rewardService.acceptTerms();
 			setLoad(false);
 			close();
 		} catch (err) {

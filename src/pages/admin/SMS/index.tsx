@@ -10,7 +10,7 @@ import PieChartSms from "../../../components/SMS/PieChartSms";
 import PermissionDenied from "../../../components/PermissionDenied";
 
 const SMS = () => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [settings, setSettings] = useState<any>({});
 	const [openModal, setOpenModal] = useState(false);
@@ -30,7 +30,7 @@ const SMS = () => {
 
 	const getSettings = async () => {
 		try {
-			let res = await smsService.loadCentralWallet(token, details.id);
+			let res = await smsService.loadCentralWallet(details.id);
 			setSettings(res);
 		} catch (err) {}
 	};
@@ -38,7 +38,6 @@ const SMS = () => {
 	const getSmsGraph = async () => {
 		try {
 			let res = await smsService.smsGraph(
-				token,
 				details.id,
 				startDate.toISOString(),
 				endDate.toISOString()

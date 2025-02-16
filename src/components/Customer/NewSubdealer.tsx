@@ -38,7 +38,7 @@ const NewSubdealer = ({
 	const [sms, setSms] = useState(false);
 
 	const { states } = useAppSelector((state) => state.basic);
-	const { token, details, currency } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 
 	const countryCode = details?.business?.country?.code;
 
@@ -74,9 +74,9 @@ const NewSubdealer = ({
 			};
 			let res;
 			if (editInfo?.id) {
-				res = await basicService.editSubdealer(token, obj, editInfo.id);
+				res = await basicService.editSubdealer(obj, editInfo.id);
 			} else {
-				res = await basicService.createSubdealer(token, {
+				res = await basicService.createSubdealer({
 					...obj,
 					balance: option === "Credit" ? balance : -balance,
 				});
@@ -108,7 +108,7 @@ const NewSubdealer = ({
 
 	const handleSms = async (id: any) => {
 		try {
-			await basicService.enableSMS(token, {
+			await basicService.enableSMS({
 				enableSms: sms,
 				subdealerId: id,
 				businessId: details.businessId,

@@ -25,7 +25,7 @@ import WithdrawPurchase from "../../../components/Purchase/Details/WithdrawPurch
 const PurchaseDetails = () => {
 	const navigate = useNavigate();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 	const params = useParams();
 
 	const [load, setLoad] = useState(false);
@@ -43,7 +43,7 @@ const PurchaseDetails = () => {
 	const loadPurchase = async () => {
 		try {
 			setLoad(true);
-			let res = await purchaseService.getPurchaseInfo(token, params.id);
+			let res = await purchaseService.getPurchaseInfo(params.id);
 			setLoad(false);
 			if (res && res.id) {
 				setPurchaseDetails(res);
@@ -62,7 +62,7 @@ const PurchaseDetails = () => {
 		) {
 			try {
 				setLoad(true);
-				await purchaseService.updateSupply(token, purchaseDetails.id, {
+				await purchaseService.updateSupply(purchaseDetails.id, {
 					products: arr,
 				});
 				setLoad(false);
@@ -79,7 +79,6 @@ const PurchaseDetails = () => {
 		try {
 			setLoad(true);
 			let res = await purchaseService.approveOrDeclineWithdrawal(
-				token,
 				{ action, comment },
 				purchaseDetails.id
 			);

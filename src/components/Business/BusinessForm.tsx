@@ -27,7 +27,6 @@ const BusinessForm = ({
 	const id = useLocation().state?.id;
 
 	const { countries, states } = useAppSelector((state) => state.basic);
-	const { token, details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [name, setName] = useState("");
@@ -79,7 +78,7 @@ const BusinessForm = ({
 
 	const loadCurrency = async () => {
 		try {
-			let res = await basicService.currencyList(token);
+			let res = await basicService.currencyList();
 			let arr = res?.map((r: any) => {
 				return { label: `${r.name} ${r.symbol}`, value: r.code };
 			});
@@ -104,18 +103,14 @@ const BusinessForm = ({
 			};
 			let res;
 			if (editDetail?.id) {
-				res = await basicService.updateBusiness(
-					token,
-					data,
-					editDetail.id
-				);
+				res = await basicService.updateBusiness(data, editDetail.id);
 			} else {
-				res = await basicService.createBusiness(token, data);
+				res = await basicService.createBusiness(data);
 			}
 			setLoad(false);
 			if (res) {
 				onComplete();
-				dispatch(userProfile(id || details.id));
+				dispatch(userProfile());
 			}
 		} catch (err) {
 			setLoad(false);

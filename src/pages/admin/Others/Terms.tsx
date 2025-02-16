@@ -10,7 +10,7 @@ import Loading from "../../../components/Loaders/Loading";
 import PermissionDenied from "../../../components/PermissionDenied";
 
 const Terms = () => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [termsData, setTermsData] = useState("");
@@ -24,7 +24,7 @@ const Terms = () => {
 	const getTerms = async () => {
 		try {
 			setLoad(true);
-			let res = await adminService.getTerms(token);
+			let res = await adminService.getTerms();
 			setLoad(false);
 			setTermsData(res);
 		} catch (err) {
@@ -40,7 +40,7 @@ const Terms = () => {
 	const submitHandler = async () => {
 		try {
 			setLoad(true);
-			await adminService.setTerms(token, {
+			await adminService.setTerms({
 				terms: termsData,
 				promptUpdate: promptUpdate ? 1 : 0,
 			});

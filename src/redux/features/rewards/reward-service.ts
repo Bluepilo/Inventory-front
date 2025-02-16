@@ -1,87 +1,57 @@
-import axios from "axios";
-import config from "../../../utils/config";
-import { authHeader } from "../../../utils/headers";
+import { apiRequest } from "../../../utils/axiosInstance";
 
-const getWallet = async (token: string) => {
-	const { data } = await axios.get(`${config.baseUrl}/reward`, {
-		headers: authHeader(token),
-	});
+const getWallet = async () => {
+	const { data } = await apiRequest("baseUrl").get(`/reward`);
 	return data?.data;
 };
 
-const getLogs = async (token: string, filters: string) => {
-	const { data } = await axios.get(
-		`${config.baseUrl}/reward/logs${filters}`,
-		{
-			headers: authHeader(token),
-		}
-	);
+const getLogs = async (filters: string) => {
+	const { data } = await apiRequest("baseUrl").get(`/reward/logs${filters}`);
 	return data?.data;
 };
 
-const claimReward = async (token: string, obj: any) => {
-	const { data } = await axios.post(`${config.baseUrl}/reward/claim`, obj, {
-		headers: authHeader(token),
-	});
+const claimReward = async (obj: any) => {
+	const { data } = await apiRequest("baseUrl").post(`/reward/claim`, obj);
 	return data?.data;
 };
 
-const getAdminRewards = async (token: string, filters: string) => {
-	const { data } = await axios.get(
-		`${config.baseUrl}/admin/reward${filters}`,
-		{
-			headers: authHeader(token),
-		}
+const getAdminRewards = async (filters: string) => {
+	const { data } = await apiRequest("baseUrl").get(`/admin/reward${filters}`);
+	return data?.data || data;
+};
+
+const resolveClaimReward = async (id: string, obj: any) => {
+	const { data } = await apiRequest("baseUrl").post(
+		`/admin/reward/${id}/resolve-claim`,
+		obj
 	);
 	return data?.data || data;
 };
 
-const resolveClaimReward = async (token: string, id: string, obj: any) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/admin/reward/${id}/resolve-claim`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
+const resolveEarnedReward = async (id: string, obj: any) => {
+	const { data } = await apiRequest("baseUrl").post(
+		`/admin/reward/${id}/resolve`,
+		obj
 	);
 	return data?.data || data;
 };
 
-const resolveEarnedReward = async (token: string, id: string, obj: any) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/admin/reward/${id}/resolve`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
-	);
-	return data?.data || data;
-};
-
-const acceptTerms = async (token: string) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/reward/accept-terms`,
-		{},
-		{
-			headers: authHeader(token),
-		}
+const acceptTerms = async () => {
+	const { data } = await apiRequest("baseUrl").post(
+		`/reward/accept-terms`,
+		{}
 	);
 	return data?.data;
 };
 
-const referredList = async (token: string, filters: string) => {
-	const { data } = await axios.get(`${config.baseUrl}/reward/referred`, {
-		headers: authHeader(token),
-	});
+const referredList = async () => {
+	const { data } = await apiRequest("baseUrl").get(`/reward/referred`);
 	return data?.data;
 };
 
-const referredListAdmin = async (token: string, userId: number) => {
-	const { data } = await axios.get(
-		`${config.baseUrl}/admin/reward/${userId}/referred`,
-		{
-			headers: authHeader(token),
-		}
+const referredListAdmin = async (userId: number) => {
+	const { data } = await apiRequest("baseUrl").get(
+		`/admin/reward/${userId}/referred`
 	);
 	return data?.data;
 };

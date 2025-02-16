@@ -12,8 +12,6 @@ export const Form = styled.form`
 		padding-left: 20px;
 		margin-bottom: 20px;
 
-		/* &:not() */
-
 		&.height {
 			height: 45px;
 		}
@@ -139,4 +137,17 @@ export const FormBody = styled.div`
 	border: 1px solid #d9dbeb;
 	padding: 25px;
 	border-radius: 4px;
+`;
+
+export const IconsInput = styled.div`
+	a {
+		color: #0241ff !important;
+		top: 8px !important;
+	}
+	a.one {
+		right: 80px !important;
+	}
+	a.two {
+		right: 50px !important;
+	}
 `;

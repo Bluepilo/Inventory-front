@@ -17,8 +17,6 @@ const Subscribe = ({
 	onClose: () => void;
 	id: any;
 }) => {
-	const { token } = useAppSelector((state) => state.auth);
-
 	const [subTypes, setSubTypes] = useState<any>([]);
 	const [subscriptionType, setSubscriptionType] = useState("");
 	const [amount, setAmount] = useState(0);
@@ -42,7 +40,7 @@ const Subscribe = ({
 
 	const getPlans = async () => {
 		try {
-			let res = await adminService.getPlans(token);
+			let res = await adminService.getPlans();
 			setSubTypes(res || []);
 		} catch (err) {}
 	};
@@ -51,7 +49,7 @@ const Subscribe = ({
 		if (subscriptionType) {
 			try {
 				setLoad(true);
-				await adminService.subscribeOrg(token, id, {
+				await adminService.subscribeOrg(id, {
 					subscriptionPlanId: subscriptionType,
 					isMonthly: duration === "yearly" ? false : true,
 					autoRenew: false,

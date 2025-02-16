@@ -23,7 +23,7 @@ import { SwitchDiv } from "../../../styles/basic.styles";
 const Sales = () => {
 	const navigate = useNavigate();
 
-	const { token, details, currency } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 
 	const [startDate, setStartDate] = useState(
 		new Date(new Date().getFullYear(), new Date().getMonth(), 1)
@@ -69,7 +69,7 @@ const Sales = () => {
 	const getSales = async () => {
 		try {
 			setLoad(true);
-			let res = await salesService.getSales(token, filters);
+			let res = await salesService.getSales(filters);
 			setLoad(false);
 			setList(res);
 		} catch (err) {
@@ -80,11 +80,7 @@ const Sales = () => {
 	const searchSales = async () => {
 		try {
 			setLoad(true);
-			let res = await salesService.searchSales(
-				token,
-				debouncedSearch,
-				filters
-			);
+			let res = await salesService.searchSales(debouncedSearch, filters);
 			setLoad(false);
 			setList(res);
 		} catch (err) {

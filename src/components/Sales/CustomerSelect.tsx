@@ -35,7 +35,7 @@ const CustomerSelect = ({
 	discountApplied,
 	complete,
 }: Props) => {
-	const { token, currency } = useAppSelector((state) => state.auth);
+	const { currency } = useAppSelector((state) => state.auth);
 	const { methods, settings } = useAppSelector((state) => state.basic);
 
 	const [load, setLoad] = useState(false);
@@ -67,9 +67,9 @@ const CustomerSelect = ({
 			setLoad(true);
 			let res;
 			if (type === "walkin") {
-				res = await basicService.listWalkIns(token, "?all=true");
+				res = await basicService.listWalkIns("?all=true");
 			} else {
-				res = await basicService.listSubDealers(token, "?all=true");
+				res = await basicService.listSubDealers("?all=true");
 			}
 			setLoad(false);
 			let response = res?.data?.length > 0;

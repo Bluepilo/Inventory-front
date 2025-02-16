@@ -14,7 +14,7 @@ import SkeletonTable from "../../../../components/Loaders/SkeletonTable";
 const Adjustments = () => {
 	const navigate = useNavigate();
 
-	const { token, currency } = useAppSelector((state) => state.auth);
+	const { currency } = useAppSelector((state) => state.auth);
 
 	const [lists, setLists] = useState<any>({});
 
@@ -63,7 +63,7 @@ const Adjustments = () => {
 	const getReports = async () => {
 		try {
 			setLoad(true);
-			let res = await productService.getLogReports(token, filters);
+			let res = await productService.getLogReports(filters);
 			setLoad(false);
 			setLists(res);
 		} catch (err) {
@@ -73,7 +73,7 @@ const Adjustments = () => {
 
 	const getProducts = async () => {
 		try {
-			let res = await productService.allProducts(token, "?all=true");
+			let res = await productService.allProducts("?all=true");
 			let arr = res?.rows.map((a: any) => {
 				return { ...a, label: a.summary, value: a.id };
 			});

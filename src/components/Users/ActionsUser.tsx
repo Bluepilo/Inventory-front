@@ -19,14 +19,14 @@ const ActionsUser = ({
 	more?: boolean;
 	action?: (arg: any) => void;
 }) => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [openModal, setOpenModal] = useState(false);
 
 	const activateOrDeactivate = async (action: string) => {
 		if (window.confirm(`Are you sure you want to ${action}?`)) {
 			try {
-				await basicService.actionUser(token, action, detail.id);
+				await basicService.actionUser(action, detail.id);
 				toast.success(`Staff has been ${action}d.`);
 				reload();
 			} catch (err) {
@@ -38,7 +38,7 @@ const ActionsUser = ({
 	const deleteUser = async () => {
 		if (window.confirm(`Are you sure you want delete user?`)) {
 			try {
-				await basicService.deleteUser(token, detail.id);
+				await basicService.deleteUser(detail.id);
 				toast.success(`Staff has been deleted.`);
 				reload();
 			} catch (err) {

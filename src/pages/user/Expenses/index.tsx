@@ -21,7 +21,7 @@ import NewExpense from "../../../components/Expense/NewExpense";
 import { haveRole } from "../../../utils/role";
 
 const Expenses = () => {
-	const { details, token, currency } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 
 	const [lists, setLists] = useState<any>({});
 	const [openModal, setOpenModal] = useState(false);
@@ -76,7 +76,7 @@ const Expenses = () => {
 		setLists({});
 		try {
 			setLoad(true);
-			let res = await expenseService.getExpenses(token, filters);
+			let res = await expenseService.getExpenses(filters);
 			setLoad(false);
 			setLists(res);
 		} catch (err) {
@@ -88,7 +88,7 @@ const Expenses = () => {
 		setLists({});
 		try {
 			setLoad(true);
-			let res = await expenseService.getRecurrentExpenses(token, filters);
+			let res = await expenseService.getRecurrentExpenses(filters);
 			setLoad(false);
 			setLists(res);
 		} catch (err) {

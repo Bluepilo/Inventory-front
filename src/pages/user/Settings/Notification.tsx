@@ -14,7 +14,7 @@ import { MainButton } from "../../../styles/links.styles";
 const Notification = () => {
 	const dispatch = useAppDispatch();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 	const { settings } = useAppSelector((state) => state.basic);
 
 	const [load, setLoad] = useState(false);
@@ -39,7 +39,7 @@ const Notification = () => {
 		};
 		try {
 			setLoad(true);
-			await basicService.setNotification(token, payload);
+			await basicService.setNotification(payload);
 			setLoad(false);
 			toast.success("Notification Settings Updated.");
 			dispatch(getSettings());
@@ -56,7 +56,7 @@ const Notification = () => {
 		};
 		try {
 			setLoad(true);
-			await basicService.setNotification(token, payload);
+			await basicService.setNotification(payload);
 			setLoad(false);
 			toast.success("Stock Alert Frequency Updated.");
 			dispatch(getSettings());

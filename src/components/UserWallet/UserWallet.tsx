@@ -24,7 +24,7 @@ const UserWallet = ({
 	userType: string;
 	id: string | number;
 }) => {
-	const { token, currency } = useAppSelector((state) => state.auth);
+	const { currency } = useAppSelector((state) => state.auth);
 	const { settings } = useAppSelector((state) => state.basic);
 
 	const [load, setLoad] = useState(false);
@@ -75,7 +75,7 @@ const UserWallet = ({
 	const fetchUser = async () => {
 		try {
 			setLoad(true);
-			let res = await customerService.userDetails(token, userType, id);
+			let res = await customerService.userDetails(userType, id);
 			setLoad(false);
 			if (userType === "supplier") {
 				setUserDetails(res.supplier);
@@ -90,7 +90,6 @@ const UserWallet = ({
 	const fetchUserTransactions = async () => {
 		try {
 			let res = await customerService.userTransactions(
-				token,
 				userType,
 				id,
 				filters

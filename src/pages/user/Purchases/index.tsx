@@ -11,8 +11,6 @@ import { UseDebounce } from "../../../utils/hooks";
 import purchaseService from "../../../redux/features/purchase/purchase-service";
 import { formatCurrency } from "../../../utils/currency";
 import { CheckBoxPrint, SummaryCard } from "../../../styles/dashboard.styles";
-import { MainButton } from "../../../styles/links.styles";
-import PrintLogo from "../../../assets/icons/print.svg";
 import { Table, TableComponent } from "../../../styles/table.styles";
 import dateFormat from "dateformat";
 import SuccessIcon from "../../../assets/icons/success.svg";
@@ -25,7 +23,7 @@ import { haveRole } from "../../../utils/role";
 const Purchases = () => {
 	const navigate = useNavigate();
 
-	const { details, token, currency } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 
 	const [lists, setLists] = useState<any>({});
 	const [incompleteLists, setIncompleteLists] = useState<any>({});
@@ -82,7 +80,7 @@ const Purchases = () => {
 	const getPurchases = async () => {
 		try {
 			setLoad(true);
-			let res = await purchaseService.getPurchase(token, filters);
+			let res = await purchaseService.getPurchase(filters);
 			setLoad(false);
 			setLists(res);
 			let filter = res.rows?.filter(
@@ -96,7 +94,7 @@ const Purchases = () => {
 
 	const getSummary = async () => {
 		try {
-			let res = await purchaseService.getPurchaseSummary(token, filters);
+			let res = await purchaseService.getPurchaseSummary(filters);
 			setSummary(res);
 		} catch (err) {}
 	};
@@ -105,7 +103,6 @@ const Purchases = () => {
 		try {
 			setLoad(true);
 			let res = await purchaseService.searchPurchase(
-				token,
 				debouncedSearch,
 				filters
 			);

@@ -24,8 +24,6 @@ const ExpenseTable = ({
 	reload: () => void;
 	currency: string;
 }) => {
-	const { token } = useAppSelector((state) => state.auth);
-
 	const [openModal, setOpenModal] = useState(false);
 	const [details, setDetails] = useState<any>(null);
 	const [openComment, setOpenComment] = useState(false);
@@ -33,12 +31,9 @@ const ExpenseTable = ({
 	const actionHandler = async (comment: string) => {
 		try {
 			setOpenComment(false);
-			await expenseService.actionOnExpense(
-				token,
-				details?.id,
-				details?.action,
-				{ comment }
-			);
+			await expenseService.actionOnExpense(details?.id, details?.action, {
+				comment,
+			});
 			reload();
 			toast.success(
 				details?.action === "approve"

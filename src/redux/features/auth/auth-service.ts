@@ -1,70 +1,49 @@
-import axios from "axios";
-
-import config from "../../../utils/config";
-import { authHeader, headers } from "../../../utils/headers";
+import { apiRequest } from "../../../utils/axiosInstance";
 
 const login = async (obj: any) => {
-	const { data } = await axios.post(`${config.baseUrl}/auth/login`, obj, {
-		headers,
-	});
-	return data;
+	const { data } = await apiRequest("baseUrl").post(`/auth/login`, obj);
+	return data?.data;
 };
 
 const register = async (obj: any) => {
-	const { data } = await axios.post(`${config.baseUrl}/auth/register`, obj, {
-		headers,
-	});
+	const { data } = await apiRequest("baseUrl").post(`/auth/register`, obj);
 	return data?.data;
 };
 
 const verifyOtp = async (obj: any) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/auth/verify-email`,
-		obj,
-		{
-			headers,
-		}
+	const { data } = await apiRequest("baseUrl").post(
+		`/auth/verify-email`,
+		obj
 	);
 	return data?.data;
 };
 
 const resendOTP = async (obj: any) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/auth/resend-email-verification`,
-		obj,
-		{
-			headers,
-		}
+	const { data } = await apiRequest("baseUrl").post(
+		`/auth/resend-email-verification`,
+		obj
 	);
 	return data?.data;
 };
 
 const forgotPassword = async (obj: any) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/auth/send-password-reset-token`,
-		obj,
-		{
-			headers,
-		}
+	const { data } = await apiRequest("baseUrl").post(
+		`/auth/send-password-reset-token`,
+		obj
 	);
 	return data;
 };
 
 const resetPassword = async (obj: any) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/auth/reset-password`,
-		obj,
-		{
-			headers,
-		}
+	const { data } = await apiRequest("baseUrl").post(
+		`/auth/reset-password`,
+		obj
 	);
 	return data;
 };
 
-const getProfile = async (id: number, token: string) => {
-	const { data } = await axios.get(`${config.baseUrl}/user/profile`, {
-		headers: authHeader(token),
-	});
+const getProfile = async () => {
+	const { data } = await apiRequest("baseUrl").get(`/user/profile`);
 	return data;
 };
 

@@ -18,7 +18,7 @@ import { Flex, FlexCenter } from "../../../../styles/basic.styles";
 const NewAdjustments = () => {
 	const navigate = useNavigate();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 	const { shops } = useAppSelector((state) => state.basic);
 
 	const [shopId, setShopId] = useState<OptionProp | null>(null);
@@ -58,10 +58,7 @@ const NewAdjustments = () => {
 
 	const getProducts = async () => {
 		try {
-			let res = await productService.getProductsInShop(
-				token,
-				shopId?.value
-			);
+			let res = await productService.getProductsInShop(shopId?.value);
 			let arr = res?.rows
 				.filter((f: any) => !f.isService)
 				.map((a: any) => {
@@ -95,7 +92,7 @@ const NewAdjustments = () => {
 				type,
 				comment,
 			};
-			let res = await productService.adjustStock(token, data);
+			let res = await productService.adjustStock(data);
 			setLoad(false);
 			if (res) {
 				toast.success("Stock Adjusted");

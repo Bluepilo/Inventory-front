@@ -3,7 +3,7 @@ import TitleCover from "../../../components/TitleCover";
 import { BasicSearch } from "../../../components/Filters/BasicInputs";
 import { Flex } from "../../../styles/basic.styles";
 import { MainButton } from "../../../styles/links.styles";
-import { GiCloudUpload } from "react-icons/gi";
+import { GiCloudUpload, GiTrashCan } from "react-icons/gi";
 import { MdProductionQuantityLimits } from "react-icons/md";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import productService from "../../../redux/features/product/product-service";
@@ -18,13 +18,14 @@ import { UseDebounce } from "../../../utils/hooks";
 import { toast } from "react-toastify";
 import adminService from "../../../redux/features/admin/admin-service";
 import PermissionDenied from "../../../components/PermissionDenied";
+import { FiTrash } from "react-icons/fi";
 
 const Product = () => {
 	const navigate = useNavigate();
 
 	const params = useParams();
 
-	const { token, details, currency } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 
 	const [search, setSearch] = useState("");
 	const [brandName, setBrandName] = useState("");
@@ -32,6 +33,7 @@ const Product = () => {
 	const [list, setList] = useState<any>({});
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(20);
+	const [ids, setIds] = useState<any>([]);
 
 	const debouncedSearch = UseDebounce(search);
 
@@ -39,7 +41,7 @@ const Product = () => {
 
 	const fetchBrand = async () => {
 		try {
-			let res = await productService.viewBrand(token, params?.id || "");
+			let res = await productService.viewBrand(params?.id || "");
 			if (res?.name) {
 				setBrandName(res.name);
 			}
@@ -55,12 +57,10 @@ const Product = () => {
 			let res;
 			if (details.role.isAdmin) {
 				res = await adminService.listProducts(
-					token,
 					`?brandId=${params?.id}${filters}`
 				);
 			} else {
 				res = await productService.listBrandProducts(
-					token,
 					filters,
 					params?.id || ""
 				);
@@ -76,7 +76,7 @@ const Product = () => {
 	const searchProducts = async () => {
 		try {
 			setLoad(true);
-			let res = await productService.searchProducts(token, searchFilter);
+			let res = await productService.searchProducts(searchFilter);
 			setLoad(false);
 			setList(res);
 		} catch (err) {
@@ -106,11 +106,7 @@ const Product = () => {
 		if (window.confirm(`Are you sure you want to delete ${name}`)) {
 			try {
 				setLoad(true);
-				await productService.deleteProduct(
-					token,
-					id,
-					details.role.isAdmin
-				);
+				await productService.deleteProduct(id, details.role.isAdmin);
 				if (search) {
 					setSearch("");
 				}
@@ -130,6 +126,45 @@ const Product = () => {
 				: false;
 		} else {
 			return true;
+		}
+	};
+
+	const updateIds = (val: boolean, id: any) => {
+		if (id === "all") {
+			let vals = list.rows?.map((l: any) => {
+				return l.id;
+			});
+			val ? setIds(vals) : setIds([]);
+		} else {
+			if (val) {
+				setIds([...ids, id]);
+			} else {
+				setIds(ids.filter((i: any) => i != id));
+			}
+		}
+	};
+
+	const bulkDeleteHandler = async () => {
+		if (
+			window.confirm(
+				`Are you sure you want to delete the selected product${
+					ids.length > 1 ? "s" : ""
+				}`
+			)
+		) {
+			try {
+				setLoad(true);
+				await productService.deleteBulkProduct(
+					ids,
+					details.role.isAdmin
+				);
+				setIds([]);
+				fetchProducts();
+				toast.success(`Products has been deleted successfully.`);
+			} catch (err) {
+				setLoad(false);
+				displayError(err, true);
+			}
 		}
 	};
 
@@ -163,10 +198,21 @@ const Product = () => {
 							<MainButton
 								bg="#EDEEF0"
 								color="#505BDA"
+								className="me-3"
 								onClick={() => navigate("upload")}
 							>
 								<GiCloudUpload />
 								<span>Upload File</span>
+							</MainButton>
+						)}
+						{ids.length > 0 && (
+							<MainButton
+								bg="red"
+								color="#FFF"
+								onClick={() => bulkDeleteHandler()}
+							>
+								<FiTrash />
+								<span>Delete Products</span>
 							</MainButton>
 						)}
 					</Flex>
@@ -178,6 +224,17 @@ const Product = () => {
 						<Table className="table">
 							<thead>
 								<tr>
+									<th>
+										<input
+											type="checkbox"
+											onChange={(e) =>
+												updateIds(
+													e.target.checked,
+													"all"
+												)
+											}
+										/>
+									</th>
 									<th>Item</th>
 									<th>Type</th>
 									<th>Units</th>
@@ -190,6 +247,25 @@ const Product = () => {
 								<tbody>
 									{list?.rows?.map((l: any) => (
 										<tr key={l.id}>
+											<td>
+												<input
+													type="checkbox"
+													checked={
+														ids.find(
+															(id: any) =>
+																id == l.id
+														)
+															? true
+															: false
+													}
+													onChange={(e) =>
+														updateIds(
+															e.target.checked,
+															l.id
+														)
+													}
+												/>
+											</td>
 											<td
 												style={{
 													color: l.isService

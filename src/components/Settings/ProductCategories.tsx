@@ -16,8 +16,6 @@ const ProductCategories = ({
 	list: any;
 	onRefresh: () => void;
 }) => {
-	const { token } = useAppSelector((state) => state.auth);
-
 	const [load, setLoad] = useState(false);
 	const [openModal, setOpenModal] = useState(false);
 	const [name, setName] = useState("");
@@ -25,7 +23,7 @@ const ProductCategories = ({
 	const addHandler = async () => {
 		try {
 			setLoad(true);
-			await productService.addProductCategory(token, { name });
+			await productService.addProductCategory({ name });
 			setLoad(false);
 			displaySuccess(`${name} Added`);
 			onRefresh();
@@ -40,7 +38,7 @@ const ProductCategories = ({
 		if (window.confirm(`Are you sure you want to delete ${li.name}?`)) {
 			try {
 				setLoad(true);
-				await productService.deleteProductCategory(token, li.id);
+				await productService.deleteProductCategory(li.id);
 				setLoad(false);
 				displaySuccess(`${li.name} deleted.`);
 				onRefresh();

@@ -67,7 +67,7 @@ const Organization = () => {
 			: ""
 	}`;
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -86,7 +86,7 @@ const Organization = () => {
 		try {
 			setList([]);
 			setLoad(true);
-			let res = await adminService.listOrganization(filters, token);
+			let res = await adminService.listOrganization(filters);
 			setLoad(false);
 			setList(res);
 		} catch (err) {
@@ -98,10 +98,7 @@ const Organization = () => {
 		try {
 			setList([]);
 			setLoad(true);
-			let res = await adminService.listDeletedOrganization(
-				filters,
-				token
-			);
+			let res = await adminService.listDeletedOrganization();
 			setLoad(false);
 			setList(res);
 		} catch (err) {
@@ -111,7 +108,7 @@ const Organization = () => {
 
 	const getPlans = async () => {
 		try {
-			let res = await subscriptionService.getPlans(token, true);
+			let res = await subscriptionService.getPlans(true);
 			let arr = res?.map((a: any) => {
 				return { label: a.name, value: a.id };
 			});
@@ -148,7 +145,6 @@ const Organization = () => {
 			try {
 				setLoad(true);
 				await adminService.actionOrganization(
-					token,
 					user.id,
 					!active ? "deactivate" : "activate"
 				);

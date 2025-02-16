@@ -35,7 +35,7 @@ const DashboardLayout = () => {
 
 	const runActions = () => {
 		if (details.businessId) {
-			dispatch(userProfile(details.id));
+			dispatch(userProfile());
 			dispatch(getNotifications(1));
 			dispatch(allShops());
 			dispatch(allStaffs());

@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import adminService from "./admin-service";
 import { displayError } from "../../../utils/errors";
-import { logout } from "../auth/auth-slice";
 
 const initialState = {
 	dashboardStats: {} as any,
@@ -11,8 +10,7 @@ export const getDashboardStats = createAsyncThunk(
 	"admin/dashStats",
 	async (filter: string, thunkAPI: any) => {
 		try {
-			const { token } = thunkAPI.getState().auth;
-			const res = await adminService.dashboardStats(filter, token);
+			const res = await adminService.dashboardStats(filter);
 			return res.data;
 		} catch (error) {
 			const message = displayError(error, false);

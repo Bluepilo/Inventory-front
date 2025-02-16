@@ -19,7 +19,7 @@ const CloseAccount = () => {
 
 	const dispatch = useAppDispatch();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [openModal, setOpenModal] = useState(false);
 	const [reason, setReason] = useState("");
@@ -41,7 +41,7 @@ const CloseAccount = () => {
 		setOpenModal(false);
 		try {
 			setLoad(true);
-			await basicService.closeAccount(token, details.organization.id, {
+			await basicService.closeAccount(details.organization.id, {
 				reason,
 				password,
 				comment,

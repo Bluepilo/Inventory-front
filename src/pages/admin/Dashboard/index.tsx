@@ -29,7 +29,7 @@ const Dashboard = () => {
 	const [resultSub, setResultSub] = useState<any>([]);
 
 	const { dashboardStats } = useAppSelector((state) => state.admin);
-	const { details, token } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	useEffect(() => {
 		dispatch(getDashboardStats(`?year=${year?.value}`));
@@ -42,7 +42,7 @@ const Dashboard = () => {
 	const getResult = async () => {
 		try {
 			setLoadSub(true);
-			let res = await adminService.subTracker(token);
+			let res = await adminService.subTracker();
 			setLoadSub(false);
 			setResultSub(res);
 		} catch (err) {

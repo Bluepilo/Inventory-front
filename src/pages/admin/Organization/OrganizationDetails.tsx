@@ -17,8 +17,6 @@ import OrgStats from "../../../components/Organization/Admin/OrgStats";
 const OrganizationDetails = () => {
 	const params = useParams();
 
-	const { token } = useAppSelector((state) => state.auth);
-
 	const [org, setOrg] = useState<any>({});
 	const [load, setLoad] = useState(false);
 
@@ -30,7 +28,7 @@ const OrganizationDetails = () => {
 	const loadOrg = async () => {
 		try {
 			setLoad(true);
-			let res = await adminService.getOrg(token, params?.id || "");
+			let res = await adminService.getOrg(params?.id || "");
 			setLoad(false);
 			setOrg(res);
 		} catch (err) {

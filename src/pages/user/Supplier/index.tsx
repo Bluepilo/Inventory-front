@@ -26,7 +26,7 @@ import { displayError } from "../../../utils/errors";
 const Supplier = () => {
 	const navigate = useNavigate();
 
-	const { token, details, currency } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 
 	const [openModal, setOpenModal] = useState(false);
 	const [lists, setLists] = useState<any>({});
@@ -56,7 +56,6 @@ const Supplier = () => {
 		try {
 			setLoad(true);
 			let res = await customerService.searchSuppliers(
-				token,
 				filters,
 				debouncedSearch
 			);
@@ -70,7 +69,7 @@ const Supplier = () => {
 	const listSuppliers = async () => {
 		try {
 			setLoad(true);
-			let res = await customerService.getSuppliers(token, filters);
+			let res = await customerService.getSuppliers(filters);
 			setLoad(false);
 			setLists(res);
 		} catch (err) {
@@ -80,10 +79,7 @@ const Supplier = () => {
 
 	const getSummary = async () => {
 		try {
-			let res = await customerService.supplierSummary(
-				token,
-				debouncedSearch
-			);
+			let res = await customerService.supplierSummary(debouncedSearch);
 			setSummary(res);
 		} catch (err) {}
 	};
@@ -92,7 +88,6 @@ const Supplier = () => {
 		try {
 			setOpenConfirmation(false);
 			await customerService.actionUser(
-				token,
 				"supplier",
 				ids.id,
 				ids.isActive ? "deactivate" : "activate",
@@ -111,7 +106,7 @@ const Supplier = () => {
 		if (window.confirm("Are you sure you want to delete this supplier?")) {
 			try {
 				setLoad(true);
-				await customerService.deleteUser(token, id, "supplier");
+				await customerService.deleteUser(id, "supplier");
 				listSuppliers();
 			} catch (err) {
 				setLoad(false);

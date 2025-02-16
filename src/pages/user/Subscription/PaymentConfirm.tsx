@@ -4,7 +4,7 @@ import Logo from "../../../assets/images/logo-dark.png";
 import { ConfirmStyle } from "../../../styles/sub.styles";
 import { MainButton } from "../../../styles/links.styles";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { useAppDispatch } from "../../../redux/hooks";
 import { userProfile } from "../../../redux/features/auth/auth-slice";
 import subscriptionService from "../../../redux/features/subscription/subscriptionService";
 import Loading from "../../../components/Loaders/Loading";
@@ -15,8 +15,6 @@ const PaymentConfirm = () => {
 	let params = search.get("trxref");
 
 	const dispatch = useAppDispatch();
-
-	const { details, token } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 
@@ -29,11 +27,11 @@ const PaymentConfirm = () => {
 	const verifyHandler = async () => {
 		try {
 			setLoad(true);
-			await subscriptionService.verifyPayment(token, params || "");
+			await subscriptionService.verifyPayment(params || "");
 			setLoad(false);
-			dispatch(userProfile(details.id));
+			dispatch(userProfile());
 		} catch (err) {
-			dispatch(userProfile(details.id));
+			dispatch(userProfile());
 			setLoad(false);
 		}
 	};

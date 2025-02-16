@@ -13,14 +13,14 @@ const SwitchBusiness = () => {
 	const [openDrop, setOpenDrop] = useState(false);
 	const [load, setLoad] = useState(false);
 
-	const { details, token } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const switchHandler = async (id: any) => {
 		setOpenDrop(false);
 		if (id != details.businessId) {
 			try {
 				setLoad(true);
-				await basicService.switchBusiness(token, id);
+				await basicService.switchBusiness(id);
 				setLoad(false);
 				window.location.reload();
 			} catch (err) {

@@ -20,7 +20,7 @@ const ProductHistory = () => {
 
 	const id = useParams()?.id;
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [lists, setLists] = useState<any>({});
 
@@ -49,7 +49,7 @@ const ProductHistory = () => {
 	const logHistory = async () => {
 		try {
 			setLoad(true);
-			let res = await productService.getLogReports(token, filters);
+			let res = await productService.getLogReports(filters);
 			setLists(res);
 			setLoad(false);
 		} catch (err) {

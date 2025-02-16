@@ -19,7 +19,7 @@ import { IoCartSharp, IoCopy } from "react-icons/io5";
 const TransferDetails = () => {
 	const navigate = useNavigate();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 	const params = useParams();
 
 	const [load, setLoad] = useState(false);
@@ -37,10 +37,7 @@ const TransferDetails = () => {
 	const loadTransfer = async () => {
 		try {
 			setLoad(true);
-			let res = await transferService.getTransferDetails(
-				token,
-				params.id || ""
-			);
+			let res = await transferService.getTransferDetails(params.id || "");
 			setLoad(false);
 			if (res && res.id) {
 				setTransferDetails(res);
@@ -55,7 +52,6 @@ const TransferDetails = () => {
 		try {
 			setLoad(true);
 			let res = await transferService.approveOrReject(
-				token,
 				transferDetails?.id,
 				{
 					action,

@@ -21,7 +21,7 @@ const Subscribe = ({
 }) => {
 	const dispatch = useAppDispatch();
 
-	const { details, token, currency } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 
 	const [duration, setDuration] = useState("yearly");
 	const [subscriptionType, setSubscriptionType] = useState(plan.id);
@@ -61,7 +61,7 @@ const Subscribe = ({
 		};
 		try {
 			setLoad(true);
-			let res = await subscriptionService.makePayment(token, req);
+			let res = await subscriptionService.makePayment(req);
 			setLoad(false);
 			close();
 			if (res.authorization_url) {
@@ -85,11 +85,11 @@ const Subscribe = ({
 		};
 		try {
 			setLoad(true);
-			await subscriptionService.makeSubscription(token, req);
+			await subscriptionService.makeSubscription(req);
 			setLoad(false);
 			toast.success("Your subscription is successful");
 			close();
-			dispatch(userProfile(details.id));
+			dispatch(userProfile());
 		} catch (err) {
 			setLoad(false);
 			displayError(err, true);

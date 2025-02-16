@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import TitleCover from "../../../components/TitleCover";
 import { Plan, SubSwitch } from "../../../styles/sub.styles";
 import subscriptionService from "../../../redux/features/subscription/subscriptionService";
-import { useAppSelector } from "../../../redux/hooks";
 import Loading from "../../../components/Loaders/Loading";
 import { formatCurrency } from "../../../utils/currency";
 import { FaCircleCheck } from "react-icons/fa6";
@@ -11,8 +10,6 @@ import ModalComponent from "../../../components/ModalComponent";
 import Subscribe from "../../../components/Subscription/Subscribe";
 
 const Upgrade = () => {
-	const { token } = useAppSelector((state) => state.auth);
-
 	const [isMonthly, setIsMonthly] = useState(false);
 	const [plans, setPlans] = useState([]);
 	const [openModal, setOpenModal] = useState(false);
@@ -25,7 +22,7 @@ const Upgrade = () => {
 
 	const getPlans = async () => {
 		try {
-			let res = await subscriptionService.getPlans(token);
+			let res = await subscriptionService.getPlans();
 			let arr = res?.filter((a: any) => a.name !== "Free");
 			setPlans(arr || []);
 		} catch (err) {}

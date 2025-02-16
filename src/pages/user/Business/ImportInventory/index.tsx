@@ -21,7 +21,7 @@ import { Alert } from "../../../../styles/basic.styles";
 const ImportInventory = () => {
 	const navigate = useNavigate();
 
-	const { details, token, currency } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 
 	const [lists, setLists] = useState<any>({});
 	const [startDate, setStartDate] = useState(
@@ -54,7 +54,7 @@ const ImportInventory = () => {
 	const getPurchases = async () => {
 		try {
 			setLoad(true);
-			let res = await purchaseService.getPurchase(token, filters);
+			let res = await purchaseService.getPurchase(filters);
 			setLoad(false);
 			setLists(res);
 		} catch (err) {

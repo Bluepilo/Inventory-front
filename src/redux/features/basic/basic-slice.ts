@@ -38,9 +38,8 @@ export const updateOnboardingSteps = createAsyncThunk(
 	"basic/onboardingSteps",
 	async (data: any, thunkAPI: any) => {
 		try {
-			const { token, details } = thunkAPI.getState().auth;
-			const res = await basicService.updateOnboardingSteps(data, token);
-			await thunkAPI.dispatch(userProfile(details.id));
+			const res = await basicService.updateOnboardingSteps(data);
+			await thunkAPI.dispatch(userProfile());
 			return res.data;
 		} catch (error) {
 			const message = displayError(error, false);
@@ -53,8 +52,7 @@ export const getNotifications = createAsyncThunk(
 	"basic/notification",
 	async (page: number, thunkAPI: any) => {
 		try {
-			const { token } = thunkAPI.getState().auth;
-			const res = await basicService.getNotifications(token, page);
+			const res = await basicService.getNotifications(page);
 			return res.data;
 		} catch (error) {
 			const message = displayError(error, false);
@@ -70,11 +68,9 @@ export const getDashboardStats = createAsyncThunk(
 	"basic/dashStats",
 	async (data: any, thunkAPI: any) => {
 		try {
-			const { token } = thunkAPI.getState().auth;
 			const res = await basicService.dashboardStats(
 				data.year,
-				data.period,
-				token
+				data.period
 			);
 			return res.data;
 		} catch (error) {
@@ -91,8 +87,7 @@ export const allShops = createAsyncThunk(
 	"basic/shops",
 	async (_, thunkAPI: any) => {
 		try {
-			const { token } = thunkAPI.getState().auth;
-			const res = await basicService.allShops(token, "?all=true");
+			const res = await basicService.allShops("?all=true");
 			let arr = res.data?.map((f: any) => {
 				return { value: f.id, label: f.name, isActive: f.isActive };
 			});
@@ -105,8 +100,7 @@ export const allStaffs = createAsyncThunk(
 	"basic/staffs",
 	async (_, thunkAPI: any) => {
 		try {
-			const { token } = thunkAPI.getState().auth;
-			const res = await basicService.allStaffs(token, "?all=true");
+			const res = await basicService.allStaffs("?all=true");
 			let arr = res.data?.map((f: any) => {
 				return { value: f.id, label: f.fullName, id: f.shopId };
 			});
@@ -119,8 +113,7 @@ export const getSettings = createAsyncThunk(
 	"basic/settings",
 	async (_, thunkAPI: any) => {
 		try {
-			const { token } = thunkAPI.getState().auth;
-			const res = await basicService.saveSettings(token);
+			const res = await basicService.saveSettings();
 			return res.data;
 		} catch (error) {}
 	}
@@ -130,8 +123,7 @@ export const paymentMethods = createAsyncThunk(
 	"basic/paymentMethod",
 	async (_, thunkAPI: any) => {
 		try {
-			const { token } = thunkAPI.getState().auth;
-			const res = await basicService.paymentMethods(token);
+			const res = await basicService.paymentMethods();
 			let arr = res.data?.map((f: any) => {
 				return { value: f.id, label: f.name };
 			});
@@ -167,8 +159,7 @@ export const getExpenseCategories = createAsyncThunk(
 	"basic/expenseCats",
 	async (_, thunkAPI: any) => {
 		try {
-			const { token } = thunkAPI.getState().auth;
-			const res = await basicService.getExpenseCategories(token);
+			const res = await basicService.getExpenseCategories();
 			let arr = res.data?.map((f: any) => {
 				return { ...f, value: f.id, label: f.name };
 			});
@@ -181,8 +172,7 @@ export const getManagedBrands = createAsyncThunk(
 	"basic/managedBrands",
 	async (_, thunkAPI: any) => {
 		try {
-			const { token } = thunkAPI.getState().auth;
-			const res = await productService.managedBrands(token);
+			const res = await productService.managedBrands();
 			return res;
 		} catch (error) {}
 	}
@@ -192,8 +182,7 @@ export const getLogTypes = createAsyncThunk(
 	"basic/logTypes",
 	async (_, thunkAPI: any) => {
 		try {
-			const { token } = thunkAPI.getState().auth;
-			const res = await productService.getLogTypes(token);
+			const res = await productService.getLogTypes();
 			let arr = res?.map((f: any) => {
 				return { ...f, value: f.id, label: f.name };
 			});
@@ -206,8 +195,7 @@ export const getOrganizationReport = createAsyncThunk(
 	"basic/organization",
 	async (_, thunkAPI: any) => {
 		try {
-			const { token } = thunkAPI.getState().auth;
-			const res = await basicService.organizationReports(token);
+			const res = await basicService.organizationReports();
 			return res;
 		} catch (error) {}
 	}

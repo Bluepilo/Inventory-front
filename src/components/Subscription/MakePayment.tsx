@@ -9,7 +9,7 @@ import { WideButton } from "../../styles/links.styles";
 import { toast } from "react-toastify";
 
 const MakePayment = ({ close }: { close: () => void }) => {
-	const { token, currency } = useAppSelector((state) => state.auth);
+	const { currency } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [amount, setAmount] = useState(0);
@@ -23,7 +23,7 @@ const MakePayment = ({ close }: { close: () => void }) => {
 			};
 			try {
 				setLoad(true);
-				let res = await subscriptionService.makePayment(token, req);
+				let res = await subscriptionService.makePayment(req);
 				setLoad(false);
 				close();
 				if (res.authorization_url) {
