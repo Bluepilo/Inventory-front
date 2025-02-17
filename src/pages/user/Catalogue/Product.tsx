@@ -9,23 +9,22 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import productService from "../../../redux/features/product/product-service";
 import { useAppSelector } from "../../../redux/hooks";
 import { displayError } from "../../../utils/errors";
-import { Table, TableComponent } from "../../../styles/table.styles";
-import SkeletonTable from "../../../components/Loaders/SkeletonTable";
-import { formatCurrency } from "../../../utils/currency";
-import DropDownProduct from "../../../components/Catalogue/DropDownProduct";
 import Paginate from "../../../components/Paginate";
 import { UseDebounce } from "../../../utils/hooks";
 import { toast } from "react-toastify";
 import adminService from "../../../redux/features/admin/admin-service";
 import PermissionDenied from "../../../components/PermissionDenied";
 import { FiTrash } from "react-icons/fi";
+import ProductTable from "../../../components/Catalogue/ProductTable";
+import LayoutSwitching from "../../../components/LayoutSwitching";
+import ProductImage from "../../../components/Catalogue/ProductImage";
 
 const Product = () => {
 	const navigate = useNavigate();
 
 	const params = useParams();
 
-	const { details, currency } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [search, setSearch] = useState("");
 	const [brandName, setBrandName] = useState("");
@@ -34,6 +33,7 @@ const Product = () => {
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(20);
 	const [ids, setIds] = useState<any>([]);
+	const [pictureMode, setPictureMode] = useState(false);
 
 	const debouncedSearch = UseDebounce(search);
 
@@ -173,6 +173,12 @@ const Product = () => {
 			<TitleCover
 				title={`${brandName} Catalogue`}
 				dataCount={list?.count}
+				switching={
+					<LayoutSwitching
+						pictureMode={pictureMode}
+						setPictureMode={setPictureMode}
+					/>
+				}
 			/>
 			<div className="row mt-4">
 				<div className="col-lg-6 mb-3">
@@ -218,106 +224,25 @@ const Product = () => {
 					</Flex>
 				</div>
 			</div>
+
 			<div className="mt-4">
-				<TableComponent>
-					<div className="table-responsive">
-						<Table className="table">
-							<thead>
-								<tr>
-									<th>
-										<input
-											type="checkbox"
-											onChange={(e) =>
-												updateIds(
-													e.target.checked,
-													"all"
-												)
-											}
-										/>
-									</th>
-									<th>Item</th>
-									<th>Type</th>
-									<th>Units</th>
-									<th className="price">Cost Price</th>
-									<th className="price">Selling Price</th>
-									<th></th>
-								</tr>
-							</thead>
-							{!load && (
-								<tbody>
-									{list?.rows?.map((l: any) => (
-										<tr key={l.id}>
-											<td>
-												<input
-													type="checkbox"
-													checked={
-														ids.find(
-															(id: any) =>
-																id == l.id
-														)
-															? true
-															: false
-													}
-													onChange={(e) =>
-														updateIds(
-															e.target.checked,
-															l.id
-														)
-													}
-												/>
-											</td>
-											<td
-												style={{
-													color: l.isService
-														? "#0241FF"
-														: "#333",
-												}}
-											>
-												{l.summary}
-											</td>
-											<td>
-												{l.isService
-													? "Service"
-													: "Goods"}
-											</td>
-											<td>{l.totalStock}</td>
-											<td className="price">
-												{currency}{" "}
-												{formatCurrency(l.costPrice)}
-											</td>
-											<td className="price">
-												{currency}{" "}
-												{formatCurrency(l.price)}
-											</td>
-											<td>
-												<DropDownProduct
-													onEdit={() =>
-														navigate("new", {
-															state: l,
-														})
-													}
-													onDelete={() =>
-														deleteHandler(
-															l.id,
-															l.name
-														)
-													}
-													showEdit={ifAllowed(
-														"updateProduct"
-													)}
-													showDelete={ifAllowed(
-														"deleteProduct"
-													)}
-												/>
-											</td>
-										</tr>
-									))}
-								</tbody>
-							)}
-						</Table>
-					</div>
-					{load && <SkeletonTable />}
-				</TableComponent>
+				{pictureMode ? (
+					<ProductImage
+						list={list}
+						load={load}
+						deleteHandler={deleteHandler}
+						updateIds={updateIds}
+						ids={ids}
+					/>
+				) : (
+					<ProductTable
+						list={list}
+						load={load}
+						deleteHandler={deleteHandler}
+						updateIds={updateIds}
+						ids={ids}
+					/>
+				)}
 				{!load && list?.count ? (
 					<Paginate
 						changeLimit={(l) => setLimit(l)}

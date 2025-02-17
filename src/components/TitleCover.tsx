@@ -9,6 +9,7 @@ interface Props {
 	buttonIcon?: any;
 	buttonImg?: any;
 	buttonClick?: () => void;
+	switching?: React.ReactNode;
 }
 
 const TitleCover = ({
@@ -18,6 +19,7 @@ const TitleCover = ({
 	buttonIcon,
 	buttonImg,
 	buttonClick,
+	switching,
 }: Props) => {
 	return (
 		<TitleStyles>
@@ -33,13 +35,16 @@ const TitleCover = ({
 					</Flex>
 					<BreadCrumb />
 				</div>
-				{button && (
-					<MainButton onClick={buttonClick}>
-						{buttonIcon && buttonIcon}
-						{buttonImg && <img src={buttonImg} alt="Icon" />}
-						<span>{button}</span>
-					</MainButton>
-				)}
+				<div>
+					{switching && switching}
+					{button && (
+						<MainButton onClick={buttonClick}>
+							{buttonIcon && buttonIcon}
+							{buttonImg && <img src={buttonImg} alt="Icon" />}
+							<span>{button}</span>
+						</MainButton>
+					)}
+				</div>
 			</div>
 		</TitleStyles>
 	);

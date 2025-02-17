@@ -18,7 +18,15 @@ import { RiTable3 } from "react-icons/ri";
 import { BsFillImageFill } from "react-icons/bs";
 import PickItemsImage from "../Sales/PickItemsImage";
 
-const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
+const PurchaseSteps = ({
+	onboarding,
+	pictureMode,
+	setPictureMode,
+}: {
+	onboarding: boolean;
+	pictureMode: boolean;
+	setPictureMode: (arg: boolean) => void;
+}) => {
 	const navigate = useNavigate();
 
 	const dispatch = useAppDispatch();
@@ -41,7 +49,6 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [discountApplied, setDiscountApplied] = useState(0);
 	const [load, setLoad] = useState(false);
-	const [pictureMode, setPictureMode] = useState(false);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -250,22 +257,6 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 
 	return (
 		<>
-			<LayoutSwitch>
-				<div>
-					<button
-						onClick={() => setPictureMode(false)}
-						className={pictureMode ? "" : "active"}
-					>
-						<RiTable3 />
-					</button>
-					<button
-						onClick={() => setPictureMode(true)}
-						className={pictureMode ? "active" : ""}
-					>
-						<BsFillImageFill />
-					</button>
-				</div>
-			</LayoutSwitch>
 			{step === 1 && (
 				<div>
 					<SaleSelectDiv>

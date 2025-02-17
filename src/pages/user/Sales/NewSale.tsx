@@ -17,10 +17,8 @@ import salesService from "../../../redux/features/sales/sales-service";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { updateOnboardingSteps } from "../../../redux/features/basic/basic-slice";
-import { LayoutSwitch } from "../../../styles/basic.styles";
-import { RiTable3 } from "react-icons/ri";
-import { BsFillImageFill } from "react-icons/bs";
 import PickItemsImage from "../../../components/Sales/PickItemsImage";
+import LayoutSwitching from "../../../components/LayoutSwitching";
 
 const NewSale = () => {
 	const navigate = useNavigate();
@@ -222,6 +220,12 @@ const NewSale = () => {
 				title={`Sell to ${
 					isWalkIn ? "a Walk-in Customer" : "a Subdealer"
 				}`}
+				switching={
+					<LayoutSwitching
+						pictureMode={pictureMode}
+						setPictureMode={setPictureMode}
+					/>
+				}
 			/>
 			{step === 1 && (
 				<div>
@@ -251,22 +255,6 @@ const NewSale = () => {
 					</SaleSelectDiv>
 				</div>
 			)}
-			<LayoutSwitch>
-				<div>
-					<button
-						onClick={() => setPictureMode(false)}
-						className={pictureMode ? "" : "active"}
-					>
-						<RiTable3 />
-					</button>
-					<button
-						onClick={() => setPictureMode(true)}
-						className={pictureMode ? "active" : ""}
-					>
-						<BsFillImageFill />
-					</button>
-				</div>
-			</LayoutSwitch>
 			<SalesDiv>
 				{step === 1 ? (
 					pictureMode ? (
