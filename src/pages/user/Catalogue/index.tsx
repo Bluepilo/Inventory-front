@@ -20,6 +20,7 @@ import ModalComponent from "../../../components/ModalComponent";
 import BrandForm from "../../../components/Catalogue/BrandForm";
 import NewBrand from "../../../components/Catalogue/NewBrand";
 import Papa from "papaparse";
+import { haveRole } from "../../../utils/role";
 
 const Catalogue = ({ admin }: { admin?: boolean }) => {
 	const { details, token } = useAppSelector((state) => state.auth);
@@ -159,7 +160,11 @@ const Catalogue = ({ admin }: { admin?: boolean }) => {
 						title={`${
 							details?.role?.isAdmin ? "Managed" : "My"
 						} Catalogue`}
-						button={"Add Brand"}
+						button={
+							haveRole(details.businessRoleId).isBusinessActioners
+								? "Add Brand"
+								: ""
+						}
 						buttonIcon={<CiShop />}
 						buttonClick={() => {
 							setOpenNew(true);

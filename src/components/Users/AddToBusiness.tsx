@@ -125,7 +125,7 @@ const AddToBusiness = ({
 					changeSelected={setRoleId}
 				/>
 			</div>
-			{roleId?.label === "Shop Admin" && (
+			{roleId?.label?.includes("Shop") && (
 				<div className="mb-3">
 					<label>Select Shop</label>
 					<DropDownSelect
@@ -161,7 +161,7 @@ const AddToBusiness = ({
 					</div>
 				</>
 			)}
-			{roleId?.label?.includes("Shop") && (
+			{roleId?.label === "Shop Admin" && (
 				<div className="mb-3">
 					<FormCheck
 						type="switch"
