@@ -83,9 +83,11 @@ export const authSlice = createSlice({
 			state.details = action.payload.user;
 			state.token = action.payload.accessToken;
 			state.error = null;
-			state.currency =
-				action?.payload?.user?.business?.currency?.symbol ||
-				action?.payload?.user?.business.currencyCode;
+			if (action.payload?.user?.business) {
+				state.currency =
+					action?.payload?.user?.business?.currency?.symbol ||
+					action?.payload?.user?.business.currencyCode;
+			}
 		});
 		builder.addCase(login.rejected, (state, action) => {
 			state.loading = false;
