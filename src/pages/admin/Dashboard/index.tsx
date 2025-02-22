@@ -16,6 +16,7 @@ import { Table } from "../../../styles/table.styles";
 import SkeletonTable from "../../../components/Loaders/SkeletonTable";
 import adminService from "../../../redux/features/admin/admin-service";
 import AdminBarChartTransact from "../../../components/Home/AdminBarChartTransact";
+import BarChartLoginTrend from "../../../components/Home/BarChartLoginTrend";
 
 const Dashboard = () => {
 	const thisYear = new Date().getFullYear();
@@ -200,7 +201,7 @@ const Dashboard = () => {
 							</div>
 						</DashboardCard>
 					</div>
-					<div className="col-lg-12 mb-4">
+					<div className="col-lg-6 mb-4">
 						<DashboardCard>
 							<div className="head">
 								<h6>Transaction Type</h6>
@@ -208,6 +209,18 @@ const Dashboard = () => {
 							<div className="body">
 								<AdminBarChartTransact
 									arr={dashboardStats.transactionTypeReport}
+								/>
+							</div>
+						</DashboardCard>
+					</div>
+					<div className="col-lg-6 mb-4">
+						<DashboardCard>
+							<div className="head">
+								<h6>Login Trend</h6>
+							</div>
+							<div className="body">
+								<BarChartLoginTrend
+									arr={dashboardStats.loginTrend}
 								/>
 							</div>
 						</DashboardCard>

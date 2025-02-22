@@ -5,6 +5,7 @@ import Barcode from "react-barcode";
 import { IconsInput } from "../../styles/form.styles";
 import { RiQrScan2Fill } from "react-icons/ri";
 import { FaCameraRetro, FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const BarcodeScan = ({
 	barcode,
@@ -162,51 +163,76 @@ const BarcodeScan = ({
 					<div className="pos">
 						<input
 							type="text"
-							required
 							value={barcode}
 							onChange={(e) => setBarcode(e.target.value)}
 							className="height"
 						/>
-
-						<a
-							href="#"
-							className="one"
-							onClick={(e) => {
-								e.preventDefault();
-								displaySuccess(
-									"Ensure your physical scanning device is connected."
-								);
-								setPScanner(true);
-							}}
+						<OverlayTrigger
+							placement="top"
+							overlay={
+								<Tooltip id={`button-p-scan`}>
+									Connect a Physical Scanner with this.
+								</Tooltip>
+							}
 						>
-							<RiQrScan2Fill size={20} />
-						</a>
-						<a
-							href="#"
-							className="two"
-							onClick={(e) => {
-								e.preventDefault();
-								setScanning(true);
-							}}
+							<a
+								href="#"
+								className="one"
+								onClick={(e) => {
+									e.preventDefault();
+									displaySuccess(
+										"Ensure your physical scanning device is connected."
+									);
+									setPScanner(true);
+								}}
+							>
+								<RiQrScan2Fill size={20} />
+							</a>
+						</OverlayTrigger>
+						<OverlayTrigger
+							placement="top"
+							overlay={
+								<Tooltip id={`button-w-scan`}>
+									Scan with your web camera
+								</Tooltip>
+							}
 						>
-							<FaCameraRetro size={20} />
-						</a>
-						<a
-							href="#"
-							className="three"
-							onClick={(e) => {
-								e.preventDefault();
-								barcode
-									? setShowBarcode(!showBarcode)
-									: alert("No barcode has been added.");
-							}}
+							<a
+								href="#"
+								className="two"
+								onClick={(e) => {
+									e.preventDefault();
+									setScanning(true);
+								}}
+							>
+								<FaCameraRetro size={20} />
+							</a>
+						</OverlayTrigger>
+						<OverlayTrigger
+							placement="top"
+							overlay={
+								<Tooltip id={`button-barcode`}>
+									{showBarcode ? "Hide" : "Show"} Barcode
+								</Tooltip>
+							}
 						>
-							{showBarcode ? (
-								<FaRegEyeSlash size={20} />
-							) : (
-								<FaRegEye size={20} />
-							)}
-						</a>
+							<a
+								href="#"
+								className="three"
+								onClick={(e) => {
+									e.preventDefault();
+									barcode
+										? setShowBarcode(!showBarcode)
+										: alert("No barcode has been added.");
+								}}
+							>
+								{showBarcode ? (
+									<FaRegEyeSlash size={20} />
+								) : (
+									<FaRegEye size={20} />
+								)}
+							</a>
+						</OverlayTrigger>
 					</div>
 				</IconsInput>
 			</div>

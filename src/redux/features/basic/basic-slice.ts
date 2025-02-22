@@ -21,11 +21,23 @@ const initialState = {
 	logTypes: [] as OptionProp[],
 	organization: {} as any,
 	carousels: [] as any,
+	pictureMode: false,
 };
 
 export const changeTheme = createAsyncThunk(
 	"basic/theme",
 	async (data: string, thunkAPI) => {
+		try {
+			return data;
+		} catch (error) {
+			console.log(error);
+		}
+	}
+);
+
+export const changePictureMode = createAsyncThunk(
+	"basic/picMode",
+	async (data: boolean) => {
 		try {
 			return data;
 		} catch (error) {
@@ -215,6 +227,9 @@ export const basicSlice = createSlice({
 	extraReducers: (builder) => {
 		builder.addCase(changeTheme.fulfilled, (state, action) => {
 			state.theme = action.payload || "light";
+		});
+		builder.addCase(changePictureMode.fulfilled, (state, action) => {
+			state.pictureMode = action.payload || false;
 		});
 		builder.addCase(getNotifications.fulfilled, (state, action) => {
 			state.notify = action.payload;

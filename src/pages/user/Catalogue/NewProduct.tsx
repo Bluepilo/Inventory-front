@@ -82,6 +82,8 @@ const NewProduct = () => {
 		setYear(editState.year);
 		setProductCode(editState.productCode);
 		setProductType(editState.type);
+		setImage(editState.image);
+		setBarcode(editState.barcode);
 	};
 
 	const submitHandler = async (e: any) => {

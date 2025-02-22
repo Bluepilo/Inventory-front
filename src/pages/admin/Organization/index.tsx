@@ -50,6 +50,18 @@ const Organization = () => {
 
 	const [expiryStartDate, setExpiryStartDate] = useState(null);
 	const [expiryEndDate, setExpiryEndDate] = useState(null);
+	const [sortConfig, setSortConfig] = useState({
+		keys: [
+			"name",
+			"email",
+			"phone",
+			"ownerFirstName",
+			"uniqueId",
+			"createdAt",
+			"lastLoginAt",
+		],
+		direction: "asc",
+	});
 
 	const debouncedSearch = UseDebounce(search);
 
@@ -159,6 +171,35 @@ const Organization = () => {
 		}
 	};
 
+	const handleSort = (key: string) => {
+		let direction = "asc";
+
+		if (sortConfig.keys.includes(key) && sortConfig.direction === "asc") {
+			direction = "desc";
+		}
+
+		const sortedArray = list.rows.sort((a: any, b: any) => {
+			let comparison = 0;
+
+			if (key === "balance") {
+				const balanceA = parseFloat(a.balance) || 0;
+				const balanceB = parseFloat(b.balance) || 0;
+				comparison = balanceA - balanceB;
+			} else {
+				const valueA = String(a[key] || "");
+				const valueB = String(b[key] || "");
+				comparison = valueA.localeCompare(valueB, "en", {
+					sensitivity: "base",
+				});
+			}
+
+			return direction === "asc" ? comparison : -comparison;
+		});
+
+		setSortConfig({ keys: [key], direction });
+		setList({ ...list, rows: sortedArray });
+	};
+
 	return details?.role?.permissions?.find(
 		(f) => f.method === "organizationList"
 	) ? (
@@ -218,14 +259,128 @@ const Organization = () => {
 							<Table className="table">
 								<thead>
 									<tr>
-										<th>Name</th>
-										<th>Email</th>
-										<th>Phone</th>
-										<th>Owner Name</th>
-										<th>Organization ID</th>
+										<th
+											className="point"
+											onClick={() => handleSort("name")}
+										>
+											Name{" "}
+											{sortConfig.keys.includes(
+												"name"
+											) && (
+												<span>
+													{sortConfig.direction ===
+													"asc"
+														? "▲"
+														: "▼"}
+												</span>
+											)}
+										</th>
+										<th
+											className="point"
+											onClick={() => handleSort("email")}
+										>
+											Email{" "}
+											{sortConfig.keys.includes(
+												"email"
+											) && (
+												<span>
+													{sortConfig.direction ===
+													"asc"
+														? "▲"
+														: "▼"}
+												</span>
+											)}
+										</th>
+										<th
+											className="point"
+											onClick={() => handleSort("phone")}
+										>
+											Phone{" "}
+											{sortConfig.keys.includes(
+												"phone"
+											) && (
+												<span>
+													{sortConfig.direction ===
+													"asc"
+														? "▲"
+														: "▼"}
+												</span>
+											)}
+										</th>
+										<th
+											className="point"
+											onClick={() =>
+												handleSort("ownerFirstName")
+											}
+										>
+											Owner Name{" "}
+											{sortConfig.keys.includes(
+												"ownerFirstName"
+											) && (
+												<span>
+													{sortConfig.direction ===
+													"asc"
+														? "▲"
+														: "▼"}
+												</span>
+											)}
+										</th>
+										<th
+											className="point"
+											onClick={() =>
+												handleSort("uniqueId")
+											}
+										>
+											Organization ID{" "}
+											{sortConfig.keys.includes(
+												"uniqueId"
+											) && (
+												<span>
+													{sortConfig.direction ===
+													"asc"
+														? "▲"
+														: "▼"}
+												</span>
+											)}
+										</th>
 										<th>Active Subscription</th>
 										<th>Expiry Date</th>
-										<th>Date Registered</th>
+										<th
+											className="point"
+											onClick={() =>
+												handleSort("createdAt")
+											}
+										>
+											Date Registered{" "}
+											{sortConfig.keys.includes(
+												"createdAt"
+											) && (
+												<span>
+													{sortConfig.direction ===
+													"asc"
+														? "▲"
+														: "▼"}
+												</span>
+											)}
+										</th>
+										<th
+											className="point"
+											onClick={() =>
+												handleSort("lastLoginAt")
+											}
+										>
+											Last Login At{" "}
+											{sortConfig.keys.includes(
+												"lastLoginAt"
+											) && (
+												<span>
+													{sortConfig.direction ===
+													"asc"
+														? "▲"
+														: "▼"}
+												</span>
+											)}
+										</th>
 										<th></th>
 									</tr>
 								</thead>
@@ -288,6 +443,14 @@ const Organization = () => {
 														org.createdAt,
 														"mmm dd, yyyy"
 													)}
+												</td>
+												<td>
+													{org.lastLoginAt
+														? dateFormat(
+																org.lastLoginAt,
+																"mmm dd, yyyy | h:MM TT"
+														  )
+														: "--"}
 												</td>
 												{details?.role?.permissions?.find(
 													(f) =>

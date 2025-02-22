@@ -13,20 +13,9 @@ import { toast } from "react-toastify";
 import { displayError } from "../../utils/errors";
 import { updateOnboardingSteps } from "../../redux/features/basic/basic-slice";
 import LoadModal from "../Loaders/LoadModal";
-import { LayoutSwitch } from "../../styles/basic.styles";
-import { RiTable3 } from "react-icons/ri";
-import { BsFillImageFill } from "react-icons/bs";
 import PickItemsImage from "../Sales/PickItemsImage";
 
-const PurchaseSteps = ({
-	onboarding,
-	pictureMode,
-	setPictureMode,
-}: {
-	onboarding: boolean;
-	pictureMode: boolean;
-	setPictureMode: (arg: boolean) => void;
-}) => {
+const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 	const navigate = useNavigate();
 
 	const dispatch = useAppDispatch();
@@ -34,7 +23,7 @@ const PurchaseSteps = ({
 	const cloneState = useLocation()?.state?.cloneState;
 
 	const { details, currency } = useAppSelector((state) => state.auth);
-	const { shops } = useAppSelector((state) => state.basic);
+	const { shops, pictureMode } = useAppSelector((state) => state.basic);
 
 	const [step, setStep] = useState(1);
 	const [selectedShop, setSelectedShop] = useState<OptionProp | null>(null);
@@ -139,6 +128,9 @@ const PurchaseSteps = ({
 						total: Number(a.costPrice),
 						id: a.id,
 						sku: a.sku,
+						image: a.image,
+						barcode: a.barcode,
+						brand: a.brand,
 					};
 				});
 				setProductList(resVal);

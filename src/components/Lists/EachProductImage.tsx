@@ -16,8 +16,10 @@ const EachProductImage = ({
 		<ProductImg onClick={() => onSelect(product)}>
 			<div className="img">
 				<img
-					src={product.img || DefaultImg}
-					className={product.img ? "" : "no-i"}
+					src={product.image || product?.brand?.image || DefaultImg}
+					className={
+						product.image || product?.brand?.image ? "" : "no-i"
+					}
 				/>
 			</div>
 			<h5>{product.name}</h5>

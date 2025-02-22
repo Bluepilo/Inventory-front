@@ -28,7 +28,7 @@ const NewSale = () => {
 	const cloneState = useLocation()?.state?.cloneState;
 
 	const { details, currency } = useAppSelector((state) => state.auth);
-	const { shops } = useAppSelector((state) => state.basic);
+	const { shops, pictureMode } = useAppSelector((state) => state.basic);
 
 	const [isWalkIn, setIsWalkIn] = useState(true);
 	const [selectedShop, setSelectedShop] = useState<OptionProp | null>(null);
@@ -45,7 +45,6 @@ const NewSale = () => {
 	const [discountApplied, setDiscountApplied] = useState(0);
 
 	const [load, setLoad] = useState(false);
-	const [pictureMode, setPictureMode] = useState(false);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -126,6 +125,7 @@ const NewSale = () => {
 						isService: a.isService,
 						image: a.image,
 						barcode: a.barcode,
+						brand: a.brand,
 					};
 				});
 				setProductList(resVal);
@@ -192,6 +192,8 @@ const NewSale = () => {
 			toast.success("Your Transaction was Successful!");
 			if (res) {
 				navigate(`/dashboard/sales/${res?.uniqueRef}`);
+			} else if (vals?.isDeposit) {
+				navigate("/dashboard/transactions");
 			} else {
 				navigate("/dashboard/sales");
 			}
@@ -220,12 +222,7 @@ const NewSale = () => {
 				title={`Sell to ${
 					isWalkIn ? "a Walk-in Customer" : "a Subdealer"
 				}`}
-				switching={
-					<LayoutSwitching
-						pictureMode={pictureMode}
-						setPictureMode={setPictureMode}
-					/>
-				}
+				switching={<LayoutSwitching />}
 			/>
 			{step === 1 && (
 				<div>

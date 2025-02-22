@@ -19,7 +19,7 @@ const EachSelectedImage = ({ s, changeQty, remove }: Props) => {
 	return (
 		<SelectedProductImg>
 			<div className="img">
-				<img src={s.img || DefaultImg} />
+				<img src={s.image || s?.brand?.image || DefaultImg} />
 			</div>
 			<div className="div">
 				<FlexBetween className="mb-2">

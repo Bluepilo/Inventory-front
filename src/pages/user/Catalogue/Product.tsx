@@ -25,6 +25,7 @@ const Product = () => {
 	const params = useParams();
 
 	const { details } = useAppSelector((state) => state.auth);
+	const { pictureMode } = useAppSelector((state) => state.basic);
 
 	const [search, setSearch] = useState("");
 	const [brandName, setBrandName] = useState("");
@@ -33,7 +34,6 @@ const Product = () => {
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(20);
 	const [ids, setIds] = useState<any>([]);
-	const [pictureMode, setPictureMode] = useState(false);
 
 	const debouncedSearch = UseDebounce(search);
 
@@ -173,12 +173,7 @@ const Product = () => {
 			<TitleCover
 				title={`${brandName} Catalogue`}
 				dataCount={list?.count}
-				switching={
-					<LayoutSwitching
-						pictureMode={pictureMode}
-						setPictureMode={setPictureMode}
-					/>
-				}
+				switching={<LayoutSwitching />}
 			/>
 			<div className="row mt-4">
 				<div className="col-lg-6 mb-3">
