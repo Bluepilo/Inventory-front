@@ -2,7 +2,7 @@ import { useAppSelector } from "../../redux/hooks";
 import dateFormat from "dateformat";
 import { formatCurrency } from "../../utils/currency";
 import "../../styles/reciept.css";
-import BluepiloImg from "../../assets/images/logo-icon.svg";
+import BluepiloImg from "../../assets/images/logo.svg";
 
 const ThermalSale = ({ result }: { result: any }) => {
 	const { details, currency } = useAppSelector((state) => state.auth);
@@ -84,7 +84,7 @@ const ThermalSale = ({ result }: { result: any }) => {
 										return (
 											<tr key={indx}>
 												<td className="name">
-													{prd.name}
+													{prd.summary || prd.name}
 												</td>
 												<td className="qty">
 													{prd.quantity}

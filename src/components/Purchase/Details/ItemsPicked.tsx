@@ -21,7 +21,7 @@ const Quantites = ({ p, changeProduct }: { p: any; changeProduct: any }) => {
 		<td className="quantites">
 			<button
 				onClick={() => {
-					if (Number(p.newTotalSupplied) < 7) {
+					if (Number(p.newTotalSupplied) < p.supplied) {
 						changeProduct({
 							newSupplied: Number(p.newTotalSupplied) + 1,
 							qtyAdded:
