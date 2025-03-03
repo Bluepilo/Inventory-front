@@ -75,9 +75,9 @@ const TableBySales = ({ load, lists }: { load: boolean; lists: any }) => {
 							<td className="status">
 								<img
 									src={
-										l.status.toLowerCase() === "success"
+										l?.status?.toLowerCase() === "success"
 											? SuccessIcon
-											: l.status.toLowerCase() ===
+											: l?.status?.toLowerCase() ===
 											  "awaiting withdrawal"
 											? PendingIcon
 											: FailedIcon

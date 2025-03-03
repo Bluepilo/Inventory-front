@@ -240,6 +240,13 @@ const listProducts = async (filters: string) => {
 	return data.data;
 };
 
+const listProductCategories = async () => {
+	const { data } = await apiRequest("baseUrl").get(
+		`/admin/product/categories/list`
+	);
+	return data.data;
+};
+
 const appSettings = async () => {
 	const { data } = await apiRequest("baseUrl").get(`/admin/settings`);
 	return data.data;
@@ -290,6 +297,7 @@ const adminService = {
 	listProducts,
 	appSettings,
 	updateAppSettings,
+	listProductCategories,
 };
 
 export default adminService;

@@ -230,12 +230,18 @@ const adminRoutes = [
 			},
 			{
 				id: 2,
+				name: "Categories",
+				href: "/admin/brands/categories",
+				permission: ["listBrand"],
+			},
+			{
+				id: 3,
 				name: "Catalogues",
 				href: "/admin/brands/catalogues",
 				permission: ["listBrand"],
 			},
 			{
-				id: 3,
+				id: 4,
 				name: "Brand Requests",
 				href: "/admin/brands/requests",
 				permission: ["listBrandRequest"],

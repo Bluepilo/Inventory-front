@@ -17,7 +17,7 @@ const ProductImage = ({
 	return (
 		<div className="row">
 			{list?.rows?.map((l: any) => (
-				<div className="col-lg-3 col-md-4 col-6 mb-3" key={l.id}>
+				<div className="col-lg-3 col-md-4 col-6 mb-4" key={l.id}>
 					<EachCatalogue item={l} deleteHandler={deleteHandler} />
 				</div>
 			))}

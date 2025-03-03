@@ -13,12 +13,21 @@ const EachProductImage = ({
 	const { currency } = useAppSelector((state) => state.auth);
 
 	return (
-		<ProductImg onClick={() => onSelect(product)}>
+		<ProductImg onClick={() => onSelect({ ...product, quantity: 1 })}>
 			<div className="img">
 				<img
-					src={product.image || product?.brand?.image || DefaultImg}
+					src={
+						product.image ||
+						product?.category?.image ||
+						product?.brand?.image ||
+						DefaultImg
+					}
 					className={
-						product.image || product?.brand?.image ? "" : "no-i"
+						product.image ||
+						product?.category?.image ||
+						product?.brand?.image
+							? ""
+							: "no-i"
 					}
 				/>
 			</div>

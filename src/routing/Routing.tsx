@@ -30,6 +30,7 @@ import EditPermissions from "../pages/admin/Others/Roles/EditPermissions";
 import AdminRewards from "../pages/admin/Others/AdminRewards";
 import AdminSettings from "../pages/admin/Settings";
 import UserDetails from "../pages/admin/User/UserDetails";
+import Categories from "../pages/admin/Brands/Categories";
 
 // User Routes
 import Dashboard from "../pages/user/Dashboard";
@@ -124,6 +125,7 @@ const Routing = () => {
 						path="brands/catalogues"
 						element={<AdminCatalogue />}
 					/>
+					<Route path="brands/categories" element={<Categories />} />
 					<Route path="brands/catalogues/:id" element={<Product />} />
 					<Route
 						path="brands/catalogues/:id/upload"

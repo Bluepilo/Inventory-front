@@ -203,6 +203,14 @@ const addProductCategory = async (obj: any) => {
 	return data.data;
 };
 
+const editProductCategory = async (obj: any, id: number) => {
+	const { data } = await apiRequest("baseUrl").put(
+		`/admin/product/category/${id}`,
+		obj
+	);
+	return data.data;
+};
+
 const deleteProductCategory = async (id: number) => {
 	const { data } = await apiRequest("baseUrl").delete(
 		`/product/delete-category/${id}`
@@ -242,6 +250,7 @@ const productService = {
 	addProductCategory,
 	deleteProductCategory,
 	deleteBulkProduct,
+	editProductCategory,
 };
 
 export default productService;

@@ -180,7 +180,7 @@ const NewSale = () => {
 			...vals,
 			shopId: details.shopId || selectedShop?.value,
 			products: selectedProducts,
-			status: "success",
+			status: vals?.isDeposit ? "deposit" : "complete",
 			discount: discountApplied,
 			amountExpected: totalPrice - discountApplied,
 		};

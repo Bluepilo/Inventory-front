@@ -157,6 +157,7 @@ const Catalogue = ({ admin }: { admin?: boolean }) => {
 							details?.role?.isAdmin ? "Managed" : "My"
 						} Catalogue`}
 						button={
+							details?.role?.isAdmin ||
 							haveRole(details.businessRoleId).isBusinessActioners
 								? "Add Brand"
 								: ""

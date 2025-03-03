@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import BasicInputs from "../Filters/BasicInputs";
 import { IoScanCircle } from "react-icons/io5";
 import EachProductImage from "../Lists/EachProductImage";
@@ -47,6 +47,7 @@ const PickItemsImage = ({
 
 	const [search, setSearch] = useState("");
 	const [products, setProducts] = useState([]);
+	const [pScanner, setPScanner] = useState(false);
 	const codeReader = useRef<any>(new BrowserMultiFormatReader());
 
 	const debouncedSearch = UseDebounce(search);
@@ -67,27 +68,61 @@ const PickItemsImage = ({
 		}
 	}, [debouncedSearch, items]);
 
+	useEffect(() => {
+		if (pScanner) {
+			let scannedData = "";
+			const handleKeyDown = (event: KeyboardEvent) => {
+				if (event.key === "Enter") {
+					addToCart(scannedData);
+					scannedData = "";
+				} else {
+					scannedData += event.key;
+				}
+			};
+
+			window.addEventListener("keydown", handleKeyDown);
+
+			return () => window.removeEventListener("keydown", handleKeyDown);
+		}
+	}, [pScanner]);
+
 	const startScanning = async () => {
+		setPScanner(!pScanner);
 		try {
+			let timingOut: any;
 			let controls = await codeReader.current.decodeFromVideoDevice(
 				undefined,
 				undefined,
 				(result: any, err: any) => {
 					if (result) {
-						setSearch(result.getText());
+						addToCart(result.getText());
 						controls.stop();
+						clearTimeout(timingOut);
 					}
 					if (err) {
 						console.log(err, "ERROR");
 					}
 				}
 			);
-			setTimeout(() => {
+			timingOut = setTimeout(() => {
 				controls.stop();
-				displayError("Scanner Closed", true);
-			}, 8000);
+				// displayError("Scanner Closed", true);
+			}, 10000);
 		} catch (err) {
 			displayError(err, true);
+		}
+	};
+
+	const addToCart = (code: string) => {
+		let cart = items.find((i: any) => i.barcode === code);
+		let inCart = selectedProducts.find((i: any) => i.barcode === code);
+		if (cart) {
+			setSelectedProducts({
+				...cart,
+				quantity: inCart ? inCart.quantity + 1 : 1,
+			});
+		} else {
+			displayError("Product not found", true);
 		}
 	};
 
