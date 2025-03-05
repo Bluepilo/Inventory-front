@@ -11,6 +11,7 @@ const initialState = {
 	token: "",
 	referralCode: "",
 	currency: "",
+	showSubModal: false,
 };
 
 export const login = createAsyncThunk(
@@ -25,6 +26,15 @@ export const login = createAsyncThunk(
 			const message = displayError(error, true);
 			return thunkAPI.rejectWithValue(message);
 		}
+	}
+);
+
+export const subModalAction = createAsyncThunk(
+	"auth/subModal",
+	async (data: boolean) => {
+		try {
+			return data;
+		} catch (error) {}
 	}
 );
 
@@ -101,6 +111,9 @@ export const authSlice = createSlice({
 		});
 		builder.addCase(saveReferralCode.fulfilled, (state, action) => {
 			state.referralCode = action.payload || "";
+		});
+		builder.addCase(subModalAction.fulfilled, (state, action) => {
+			state.showSubModal = action.payload || false;
 		});
 	},
 });

@@ -296,6 +296,12 @@ const adminRoutes = [
 			},
 			{
 				id: 2,
+				name: "Discounts",
+				href: "/admin/finance/discounts",
+				permission: ["listTransactions"],
+			},
+			{
+				id: 3,
 				name: "Expense",
 				href: "/admin/finance/expense",
 				permission: ["expenseList"],

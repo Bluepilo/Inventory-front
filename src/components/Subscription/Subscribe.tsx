@@ -26,6 +26,7 @@ const Subscribe = ({
 	const [duration, setDuration] = useState("yearly");
 	const [subscriptionType, setSubscriptionType] = useState(plan.id);
 	const [amount, setAmount] = useState(0);
+	const [finalAmount, setFinalAmount] = useState<any>({});
 	const [renew, setRenew] = useState("yes");
 	const [load, setLoad] = useState(false);
 
@@ -42,6 +43,19 @@ const Subscribe = ({
 		}
 	}, [duration, subscriptionType]);
 
+	useEffect(() => {
+		if (amount > 0) {
+			getDiscount();
+		}
+	}, [amount]);
+
+	const getDiscount = async () => {
+		try {
+			let res = await subscriptionService.getApplicableDiscount(amount);
+			setFinalAmount(res);
+		} catch (err) {}
+	};
+
 	const submitHandler = (e: any) => {
 		e.preventDefault();
 		if (amount > balance) {
@@ -53,7 +67,10 @@ const Subscribe = ({
 
 	const paymentHandler = async () => {
 		let req = {
-			amount: amount > balance ? amount - balance : amount,
+			amount:
+				getRealAmount() > balance
+					? getRealAmount() - balance
+					: getRealAmount(),
 			callbackUrl: `${window.location.origin}/payment-confirmation`,
 			subscriptionPlanId: subscriptionType,
 			monthly: duration === "monthly" ? true : false,
@@ -96,6 +113,14 @@ const Subscribe = ({
 		}
 	};
 
+	const getRealAmount = () => {
+		if (finalAmount.totalPayable && amount > finalAmount.totalPayable) {
+			return finalAmount.totalPayable;
+		} else {
+			return amount;
+		}
+	};
+
 	return (
 		<div>
 			<h5 className="mb-3">Review Order</h5>
@@ -133,6 +158,25 @@ const Subscribe = ({
 					required
 					className="height"
 				/>
+				{finalAmount?.totalPayable &&
+					amount > finalAmount.totalPayable && (
+						<>
+							<label>
+								Amount to Pay ({finalAmount?.discounts[0]?.name}
+								)
+							</label>
+							<CurrencyInput
+								id="input-example"
+								name="input-name"
+								decimalsLimit={2}
+								disabled={true}
+								prefix={`${currency}`}
+								value={finalAmount.totalPayable}
+								required
+								className="height"
+							/>
+						</>
+					)}
 				<label>Wallet Balance</label>
 				<CurrencyInput
 					id="input-example"
@@ -140,22 +184,19 @@ const Subscribe = ({
 					decimalsLimit={2}
 					style={{
 						borderColor:
-							amount >
+							getRealAmount() >
 							Number(details?.organization?.wallet?.balance)
 								? "red"
 								: " #d9dbeb",
 					}}
 					disabled={true}
 					prefix={`${currency} `}
-					onValueChange={(values) => {
-						setAmount(Number(values));
-					}}
 					value={details?.organization?.wallet?.balance || 0}
 					required
 					className="height"
 				/>
-
-				{amount > Number(details?.organization?.wallet?.balance) && (
+				{getRealAmount() >
+					Number(details?.organization?.wallet?.balance) && (
 					<div className="error-check mb-3">
 						Insufficient Wallet Balance
 					</div>
@@ -175,16 +216,18 @@ const Subscribe = ({
 				) : (
 					<WideButton type="submit">
 						<span>
-							{amount >
+							{getRealAmount() >
 							Number(details?.organization?.wallet?.balance)
 								? `Pay ₦ ${formatCurrency(
-										amount -
+										getRealAmount() -
 											Number(
 												details?.organization?.wallet
 													?.balance
 											)
 								  )}`
-								: `Subscribe ₦ ${formatCurrency(amount)}`}
+								: `Subscribe ₦ ${formatCurrency(
+										getRealAmount()
+								  )}`}
 						</span>
 					</WideButton>
 				)}

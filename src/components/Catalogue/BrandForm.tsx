@@ -35,6 +35,7 @@ const BrandForm = ({
 			setAddress(brandDetail.address);
 			setEmail(brandDetail.email);
 			setPhone(brandDetail.phone);
+			setImage(brandDetail.image);
 		}
 	}, [brandDetail]);
 
@@ -54,6 +55,7 @@ const BrandForm = ({
 					phone,
 					email,
 					address,
+					image,
 				});
 			} else {
 				await productService.createBrand({
@@ -61,6 +63,7 @@ const BrandForm = ({
 					phone,
 					email,
 					address,
+					image,
 				});
 				if (!details.role?.isAdmin) {
 					saveTrialPick();

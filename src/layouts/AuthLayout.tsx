@@ -18,7 +18,10 @@ import {
 	getAllCountries,
 	getCarousels,
 } from "../redux/features/basic/basic-slice";
-import { saveReferralCode } from "../redux/features/auth/auth-slice";
+import {
+	saveReferralCode,
+	subModalAction,
+} from "../redux/features/auth/auth-slice";
 
 const AuthLayout = () => {
 	const [search] = useSearchParams();
@@ -53,6 +56,7 @@ const AuthLayout = () => {
 			details.allowedBusinesses?.length > 0
 		) {
 			navigate("/dashboard");
+			showSubModal();
 		} else {
 			navigate("/add-business");
 		}
@@ -62,6 +66,14 @@ const AuthLayout = () => {
 		let params = search.get("code");
 		if (params) {
 			dispatch(saveReferralCode(params));
+		}
+	};
+
+	const showSubModal = () => {
+		if (details.organization?.subscriptionPlan?.name === "Free") {
+			setTimeout(() => {
+				dispatch(subModalAction(true));
+			}, 3000);
 		}
 	};
 

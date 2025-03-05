@@ -42,6 +42,13 @@ const verifyPayment = async (ref: string) => {
 	return data.data;
 };
 
+const getApplicableDiscount = async (amount: number) => {
+	const { data } = await apiRequest("baseUrl").get(
+		`/subscription/applicable-discounts?amount=${amount}`
+	);
+	return data.data;
+};
+
 const subscriptionService = {
 	getSubHistory,
 	getPaymentHistory,
@@ -49,6 +56,7 @@ const subscriptionService = {
 	makeSubscription,
 	makePayment,
 	verifyPayment,
+	getApplicableDiscount,
 };
 
 export default subscriptionService;

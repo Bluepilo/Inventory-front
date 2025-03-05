@@ -9,7 +9,6 @@ import {
 	allShops,
 	allStaffs,
 	getAllCountries,
-	getDashboardStats,
 	getExpenseCategories,
 	getLogTypes,
 	getManagedBrands,
@@ -20,11 +19,13 @@ import {
 } from "../redux/features/basic/basic-slice";
 import { Outlet } from "react-router-dom";
 import { userProfile } from "../redux/features/auth/auth-slice";
+import ModalComponent from "../components/ModalComponent";
+import SubAds from "../components/Subscription/SubAds";
 
 const DashboardLayout = () => {
 	const dispatch = useAppDispatch();
 
-	const { details } = useAppSelector((state) => state.auth);
+	const { details, showSubModal } = useAppSelector((state) => state.auth);
 
 	const [open, setOpen] = useState(false);
 	const [minimized, setMinimized] = useState(false);
@@ -69,6 +70,9 @@ const DashboardLayout = () => {
 					</AppContent>
 				</Container>
 			</MainPage>
+			<ModalComponent open={showSubModal} close={() => console.log("")}>
+				<SubAds />
+			</ModalComponent>
 		</div>
 	);
 };

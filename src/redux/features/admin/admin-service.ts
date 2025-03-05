@@ -257,6 +257,31 @@ const updateAppSettings = async (obj: any) => {
 	return data.data;
 };
 
+const listDiscounts = async () => {
+	const { data } = await apiRequest("baseUrl").get(`/admin/discounts`);
+	return data.data;
+};
+
+const deleteDiscount = async (id: number) => {
+	const { data } = await apiRequest("baseUrl").delete(
+		`/admin/discount/${id}`
+	);
+	return data.data;
+};
+
+const createDiscount = async (obj: any) => {
+	const { data } = await apiRequest("baseUrl").post(`/admin/discount`, obj);
+	return data.data;
+};
+
+const updateDiscount = async (obj: any, id: number) => {
+	const { data } = await apiRequest("baseUrl").put(
+		`/admin/discount/${id}`,
+		obj
+	);
+	return data.data;
+};
+
 const adminService = {
 	dashboardStats,
 	listOrganization,
@@ -298,6 +323,10 @@ const adminService = {
 	appSettings,
 	updateAppSettings,
 	listProductCategories,
+	listDiscounts,
+	createDiscount,
+	updateDiscount,
+	deleteDiscount,
 };
 
 export default adminService;

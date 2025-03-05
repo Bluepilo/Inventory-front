@@ -139,6 +139,23 @@ export const DropDownStyle = styled.div`
 	}
 `;
 
+export const DropStyle = styled.div`
+	margin-bottom: 20px;
+
+	.item {
+		margin-bottom: 10px;
+		border: 1px solid rgba(0, 0, 0, 0.2);
+		padding: 5px 10px;
+		border-radius: 4px;
+		cursor: pointer;
+
+		span {
+			font-size: 0.85rem;
+			color: blue;
+		}
+	}
+`;
+
 export const PhoneStyle = styled.div`
 	width: 100%;
 	display: flex;

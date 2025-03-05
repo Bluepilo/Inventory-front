@@ -31,6 +31,7 @@ import AdminRewards from "../pages/admin/Others/AdminRewards";
 import AdminSettings from "../pages/admin/Settings";
 import UserDetails from "../pages/admin/User/UserDetails";
 import Categories from "../pages/admin/Brands/Categories";
+import Discounts from "../pages/admin/Finance/Discounts";
 
 // User Routes
 import Dashboard from "../pages/user/Dashboard";
@@ -144,6 +145,7 @@ const Routing = () => {
 						path="finance/transactions"
 						element={<AdminTransactions />}
 					/>
+					<Route path="finance/discounts" element={<Discounts />} />
 					<Route path="finance/expense" element={<Expenses />} />
 					<Route path="resource" element={<AdminResource />} />
 					<Route path="rewards" element={<Rewards />} />
