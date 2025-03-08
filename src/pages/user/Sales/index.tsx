@@ -46,6 +46,7 @@ const Sales = () => {
 		label: "This Month",
 		value: "month",
 	});
+	const [status, setStatus] = useState<OptionProp | null>(null);
 
 	const debouncedSearch = UseDebounce(search);
 
@@ -55,7 +56,9 @@ const Sales = () => {
 		customerType?.value || ""
 	}&startDate=${startDate}&endDate=${endDate}&includeWithdrawn=${
 		withdrawn ? "1" : "0"
-	}&mode=${filterBySales ? "sales" : "product"}`;
+	}&mode=${filterBySales ? "sales" : "product"}&status=${
+		status?.value || ""
+	}`;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -148,6 +151,14 @@ const Sales = () => {
 					clearValues={clearFilters}
 					dateType={dateType}
 					changeDateType={setDateType}
+					others={status}
+					changeOthers={setStatus}
+					othersList={[
+						{ value: "complete", label: "Complete Sales" },
+						{ value: "draft", label: "Draft" },
+						{ value: "preorder", label: "Advanced Sales" },
+					]}
+					othersLabel="Status"
 				/>
 				<div className="row align-items-center mt-4">
 					<div className="col-lg-7 mb-3">

@@ -34,7 +34,7 @@ const EachCatalogue = ({
 	return (
 		<ProductImg>
 			<div className="img">
-				<img src={img} className={img ? "" : "no-i"} />
+				<img src={img} className={img ? "no-i" : ""} />
 			</div>
 			<h5 style={{ color: item.isService ? "#0241FF" : "inherit" }}>
 				{item.summary}

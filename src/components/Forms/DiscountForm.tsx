@@ -56,7 +56,7 @@ const DiscountForm = ({
 				value,
 				type,
 				condition,
-				organizationId,
+				organizationId: organizationId ? `${organizationId}` : null,
 				startDate: dateFormat(startDate, "yyyy-mm-dd"),
 				expiryDate: dateFormat(endDate, "yyyy-mm-dd"),
 				usage: usage ? 1 : 0,

@@ -1,5 +1,6 @@
 import React from "react";
 import EachCatalogue from "../Lists/EachCatalogue";
+import SkeletonDetails from "../Loaders/SkeletonDetails";
 
 const ProductImage = ({
 	updateIds,
@@ -21,6 +22,7 @@ const ProductImage = ({
 					<EachCatalogue item={l} deleteHandler={deleteHandler} />
 				</div>
 			))}
+			{load && <SkeletonDetails />}
 		</div>
 	);
 };

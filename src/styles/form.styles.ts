@@ -110,8 +110,8 @@ export const CheckBox = styled.div`
 	margin-bottom: 20px;
 
 	input {
-		height: 15px;
-		width: 15px;
+		height: 15px !important;
+		width: 15px !important;
 		margin-bottom: 0 !important;
 	}
 	span {

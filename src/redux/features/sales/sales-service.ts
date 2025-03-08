@@ -58,6 +58,14 @@ const verifyTransactions = async (id: number) => {
 	return data.data;
 };
 
+const resolveSales = async (id: number, amount: number) => {
+	const { data } = await apiRequest("baseUrl").post(
+		`/sale/add-payment/${id}`,
+		{ amount }
+	);
+	return data.data;
+};
+
 const salesService = {
 	getSales,
 	getSalesSummary,
@@ -68,6 +76,7 @@ const salesService = {
 	approveOrDeclineWithdrawal,
 	getTransactions,
 	verifyTransactions,
+	resolveSales,
 };
 
 export default salesService;

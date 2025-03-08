@@ -39,6 +39,16 @@ const SubAds = () => {
 				>
 					<span>Subscribe</span>
 				</MainButton>
+				<MainButton
+					className="ms-3"
+					bg="#f0f0f0"
+					color="#000"
+					onClick={() => {
+						dispatch(subModalAction(false));
+					}}
+				>
+					<span>Cancel</span>
+				</MainButton>
 			</div>
 		</div>
 	);

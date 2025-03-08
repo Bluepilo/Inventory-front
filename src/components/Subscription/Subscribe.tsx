@@ -27,7 +27,6 @@ const Subscribe = ({
 	const [subscriptionType, setSubscriptionType] = useState(plan.id);
 	const [amount, setAmount] = useState(0);
 	const [finalAmount, setFinalAmount] = useState<any>({});
-	const [renew, setRenew] = useState("yes");
 	const [load, setLoad] = useState(false);
 
 	const balance = Number(details?.organization?.wallet?.balance);
@@ -74,7 +73,7 @@ const Subscribe = ({
 			callbackUrl: `${window.location.origin}/payment-confirmation`,
 			subscriptionPlanId: subscriptionType,
 			monthly: duration === "monthly" ? true : false,
-			autoRenew: renew === "yes" ? true : false,
+			autoRenew: true,
 		};
 		try {
 			setLoad(true);
@@ -98,7 +97,7 @@ const Subscribe = ({
 		let req = {
 			subscriptionPlanId: subscriptionType,
 			monthly: duration === "monthly" ? true : false,
-			autoRenew: renew,
+			autoRenew: true,
 		};
 		try {
 			setLoad(true);
@@ -201,16 +200,6 @@ const Subscribe = ({
 						Insufficient Wallet Balance
 					</div>
 				)}
-				<label>Auto Renew</label>
-				<select
-					value={renew}
-					onChange={(e) => setRenew(e.target.value)}
-					required
-					className="height"
-				>
-					<option value={"yes"}>Yes</option>
-					<option value={"no"}>No</option>
-				</select>
 				{load ? (
 					<Loading />
 				) : (

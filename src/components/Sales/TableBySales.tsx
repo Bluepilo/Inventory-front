@@ -83,6 +83,9 @@ const TableBySales = ({ load, lists }: { load: boolean; lists: any }) => {
 											: FailedIcon
 									}
 								/>
+								{l.status !== "success" && (
+									<span>{l.status}</span>
+								)}
 							</td>
 						</tr>
 					))}

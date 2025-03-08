@@ -88,3 +88,11 @@ export const ConfirmStyle = styled.div`
 		height: 50px;
 	}
 `;
+
+export const DebitCardStyle = styled.div`
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	height: 100%;
+	background: #cfeaff;
+	padding: 10px;
+	border-radius: 3px;
+`;

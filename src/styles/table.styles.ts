@@ -97,6 +97,16 @@ export const Table = styled.table`
 				width: 30px;
 			}
 		}
+		&.input {
+			input {
+				width: 200px;
+				border: 2px solid #d9dbeb;
+				border-radius: 2px;
+				margin-right: 5px;
+				outline: 0;
+				padding-left: 5px;
+			}
+		}
 	}
 
 	.stock-alert {

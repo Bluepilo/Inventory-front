@@ -34,6 +34,7 @@ interface UserDetailsType {
 	referralCode: string;
 	shopId: number;
 	business: {
+		id: string;
 		name: string;
 		onboardingSteps: any;
 		image: string;

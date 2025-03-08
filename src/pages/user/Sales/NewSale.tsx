@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 import { updateOnboardingSteps } from "../../../redux/features/basic/basic-slice";
 import PickItemsImage from "../../../components/Sales/PickItemsImage";
 import LayoutSwitching from "../../../components/LayoutSwitching";
+import { CheckBox } from "../../../styles/form.styles";
 
 const NewSale = () => {
 	const navigate = useNavigate();
@@ -43,6 +44,7 @@ const NewSale = () => {
 	const [discountPercent, setDiscountPercent] = useState(true);
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [discountApplied, setDiscountApplied] = useState(0);
+	const [isAdvanced, setIsAdvanced] = useState(false);
 
 	const [load, setLoad] = useState(false);
 
@@ -69,7 +71,7 @@ const NewSale = () => {
 		if (selectedShop?.value) {
 			getProducts();
 		}
-	}, [selectedShop, isWalkIn]);
+	}, [selectedShop, isWalkIn, isAdvanced]);
 
 	useEffect(() => {
 		if (selectedProducts.length > 0) {
@@ -106,9 +108,15 @@ const NewSale = () => {
 			let res = await productService.getProductsInShop(
 				details?.shopId || selectedShop?.value
 			);
-			let arr = res?.rows?.filter(
-				(a: any) => (!a.isService && a.totalStock !== 0) || a.isService
-			);
+			let arr;
+			if (isAdvanced) {
+				arr = res.rows;
+			} else {
+				arr = res?.rows?.filter(
+					(a: any) =>
+						(!a.isService && a.totalStock !== 0) || a.isService
+				);
+			}
 			if (Array.isArray(arr)) {
 				let resVal = arr.map((a: any) => {
 					return {
@@ -180,7 +188,11 @@ const NewSale = () => {
 			...vals,
 			shopId: details.shopId || selectedShop?.value,
 			products: selectedProducts,
-			status: vals?.isDeposit ? "deposit" : "complete",
+			status: isAdvanced
+				? "preorder"
+				: vals?.isDeposit
+				? "draft"
+				: "complete",
 			discount: discountApplied,
 			amountExpected: totalPrice - discountApplied,
 		};
@@ -190,10 +202,8 @@ const NewSale = () => {
 			setLoad(false);
 			saveTrialPick();
 			toast.success("Your Transaction was Successful!");
-			if (res) {
+			if (data.status === "complete") {
 				navigate(`/dashboard/sales/${res?.uniqueRef}`);
-			} else if (vals?.isDeposit) {
-				navigate("/dashboard/transactions");
 			} else {
 				navigate("/dashboard/sales");
 			}
@@ -250,6 +260,16 @@ const NewSale = () => {
 							/>
 						)}
 					</SaleSelectDiv>
+					<CheckBox className="mt-3">
+						<input
+							type="checkbox"
+							checked={isAdvanced}
+							onChange={(e) => setIsAdvanced(e.target.checked)}
+						/>
+						<span style={{ fontWeight: "bold", fontSize: "1rem" }}>
+							I want to make an advance sale
+						</span>
+					</CheckBox>
 				</div>
 			)}
 			<SalesDiv>
@@ -300,6 +320,7 @@ const NewSale = () => {
 						totalAmount={totalPrice}
 						discountApplied={discountApplied}
 						complete={(vals: any) => paymentHandler(vals)}
+						isAdvanced={isAdvanced}
 					/>
 				) : (
 					<></>

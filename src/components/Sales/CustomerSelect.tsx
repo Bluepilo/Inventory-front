@@ -19,6 +19,7 @@ import ModalComponent from "../ModalComponent";
 import CommentBox from "./CommentBox";
 import NewCustomer from "../Customer/NewCustomer";
 import NewSubdealer from "../Customer/NewSubdealer";
+import { CheckBox } from "../../styles/form.styles";
 
 interface Props {
 	type: string;
@@ -26,6 +27,7 @@ interface Props {
 	discountApplied: number;
 	totalAmount: number;
 	complete: (arg: any) => void;
+	isAdvanced: boolean;
 }
 
 const CustomerSelect = ({
@@ -34,6 +36,7 @@ const CustomerSelect = ({
 	totalAmount,
 	discountApplied,
 	complete,
+	isAdvanced,
 }: Props) => {
 	const { currency } = useAppSelector((state) => state.auth);
 	const { methods, settings } = useAppSelector((state) => state.basic);
@@ -292,6 +295,7 @@ const CustomerSelect = ({
 							value={selectedPayment}
 							options={methods}
 							changeSelected={setSelectedPayment}
+							label="Payment Method"
 						/>
 					</div>
 					<div className="buttons">
@@ -299,18 +303,23 @@ const CustomerSelect = ({
 							right="true"
 							onClick={() => openComment(false)}
 						>
-							<span>Complete Payment</span>
+							<span>
+								Complete{" "}
+								{isAdvanced ? "Advanced Sale" : "Payment"}
+							</span>
 							<img src={PayIcon} />
 						</MainButton>
-						<MainButton
-							right="true"
-							color="#505BDA"
-							bg="#EDEEF0"
-							onClick={() => openComment(true)}
-						>
-							<span>Deposit</span>
-							<img src={DepositIcon} />
-						</MainButton>
+						{!isAdvanced && (
+							<MainButton
+								right="true"
+								color="#505BDA"
+								bg="#EDEEF0"
+								onClick={() => openComment(true)}
+							>
+								<span>Save as Draft</span>
+								<img src={DepositIcon} />
+							</MainButton>
+						)}
 					</div>
 				</PaymentSummaryBox>
 			</div>

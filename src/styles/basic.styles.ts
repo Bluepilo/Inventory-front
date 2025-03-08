@@ -341,7 +341,7 @@ export const SwitchDiv = styled.div`
 	margin-top: 20px;
 
 	@media (max-width: 991px) {
-		width: 100%;
+		width: 100% !important;
 		flex-wrap: wrap;
 
 		div {

@@ -49,6 +49,37 @@ const getApplicableDiscount = async (amount: number) => {
 	return data.data;
 };
 
+const addCard = async (obj: any) => {
+	const { data } = await apiRequest("baseUrl").post(`/card`, obj);
+	return data.data;
+};
+
+const getCards = async () => {
+	const { data } = await apiRequest("baseUrl").get(`/card`);
+	return data.data;
+};
+
+const setDefaultCard = async (id: number) => {
+	const { data } = await apiRequest("baseUrl").post(
+		`/card/${id}/set-default`,
+		{}
+	);
+	return data.data;
+};
+
+const deleteCard = async (id: number) => {
+	const { data } = await apiRequest("baseUrl").delete(`/card/${id}`);
+	return data.data;
+};
+
+const useDefaultCard = async (amount: number) => {
+	const { data } = await apiRequest("baseUrl").post(
+		`/payment/pay-from-default-card`,
+		{ amount }
+	);
+	return data.data;
+};
+
 const subscriptionService = {
 	getSubHistory,
 	getPaymentHistory,
@@ -57,6 +88,11 @@ const subscriptionService = {
 	makePayment,
 	verifyPayment,
 	getApplicableDiscount,
+	addCard,
+	getCards,
+	setDefaultCard,
+	deleteCard,
+	useDefaultCard,
 };
 
 export default subscriptionService;

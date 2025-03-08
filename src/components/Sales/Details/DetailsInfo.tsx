@@ -6,9 +6,22 @@ import { formatCurrency } from "../../../utils/currency";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../../redux/hooks";
 import { haveRole } from "../../../utils/role";
+import { displayError } from "../../../utils/errors";
+import salesService from "../../../redux/features/sales/sales-service";
 
 const DetailsInfo = ({ saleDetails }: { saleDetails: any }) => {
 	const { details, currency } = useAppSelector((state) => state.auth);
+
+	const resolveHandler = async () => {
+		try {
+			await salesService.resolveSales(
+				saleDetails.id,
+				saleDetails.actualAmountPaid
+			);
+		} catch (err) {
+			displayError(err, true);
+		}
+	};
 
 	return (
 		<>
