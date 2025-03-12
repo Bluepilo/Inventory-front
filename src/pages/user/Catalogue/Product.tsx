@@ -21,6 +21,7 @@ import ProductImage from "../../../components/Catalogue/ProductImage";
 import ManageBarcodes from "../../../components/Catalogue/ManageBarcodes";
 import { TbFileBarcode } from "react-icons/tb";
 import { changePictureMode } from "../../../redux/features/basic/basic-slice";
+import PrintBarcode from "../../../components/Catalogue/PrintBarcode";
 
 const Product = () => {
 	const navigate = useNavigate();
@@ -40,6 +41,7 @@ const Product = () => {
 	const [limit, setLimit] = useState(20);
 	const [ids, setIds] = useState<any>([]);
 	const [barcodeView, setBarcodeView] = useState(false);
+	const [drawerBarcode, setDrawerBarcode] = useState<any>(null);
 
 	const debouncedSearch = UseDebounce(search);
 
@@ -264,6 +266,7 @@ const Product = () => {
 						reload={() => {
 							fetchProducts();
 						}}
+						openCode={(arg) => setDrawerBarcode(arg)}
 					/>
 				) : (
 					<ProductTable
@@ -287,6 +290,12 @@ const Product = () => {
 					<></>
 				)}
 			</div>
+			{drawerBarcode && (
+				<PrintBarcode
+					code={drawerBarcode}
+					close={() => setDrawerBarcode(null)}
+				/>
+			)}
 		</div>
 	) : (
 		<PermissionDenied />

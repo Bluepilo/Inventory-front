@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FormBody } from "../../../styles/form.styles";
 import Logo from "../../../assets/images/logo-dark.png";
 import { ConfirmStyle } from "../../../styles/sub.styles";
@@ -8,11 +8,15 @@ import { useAppDispatch } from "../../../redux/hooks";
 import { userProfile } from "../../../redux/features/auth/auth-slice";
 import subscriptionService from "../../../redux/features/subscription/subscriptionService";
 import Loading from "../../../components/Loaders/Loading";
+import { toast } from "react-toastify";
+import { displayError } from "../../../utils/errors";
 
 const PaymentConfirm = () => {
 	const [search] = useSearchParams();
 
 	let params = search.get("trxref");
+	let duration = search.get("duration");
+	let id = search.get("id");
 
 	const dispatch = useAppDispatch();
 
@@ -30,9 +34,30 @@ const PaymentConfirm = () => {
 			await subscriptionService.verifyPayment(params || "");
 			setLoad(false);
 			dispatch(userProfile());
+			if (duration) {
+				subscribeHandler();
+			}
 		} catch (err) {
 			dispatch(userProfile());
 			setLoad(false);
+		}
+	};
+
+	const subscribeHandler = async () => {
+		let req = {
+			subscriptionPlanId: id,
+			monthly: duration === "monthly" ? true : false,
+			autoRenew: true,
+		};
+		try {
+			setLoad(true);
+			await subscriptionService.makeSubscription(req);
+			setLoad(false);
+			toast.success("Your subscription is successful");
+			dispatch(userProfile());
+		} catch (err) {
+			setLoad(false);
+			displayError(err, true);
 		}
 	};
 
@@ -44,7 +69,9 @@ const PaymentConfirm = () => {
 						<ConfirmStyle>
 							<img src={Logo} />
 							<p>Your Payment has been processed.</p>
-							<p>It will be credited into your wallet.</p>
+							{!duration && (
+								<p>It will be credited into your wallet.</p>
+							)}
 							{load ? (
 								<Loading />
 							) : (
@@ -53,7 +80,11 @@ const PaymentConfirm = () => {
 										navigate("/dashboard/subscription")
 									}
 								>
-									<span>Check Wallet Balance</span>
+									<span>
+										{duration
+											? "Check Subscription"
+											: "Check Wallet Balance"}
+									</span>
 								</MainButton>
 							)}
 						</ConfirmStyle>

@@ -7,10 +7,12 @@ const ManageBarcodes = ({
 	list,
 	load,
 	reload,
+	openCode,
 }: {
 	list: any;
 	load: boolean;
 	reload: () => void;
+	openCode: (arg: any) => void;
 }) => {
 	return (
 		<TableComponent>
@@ -30,6 +32,7 @@ const ManageBarcodes = ({
 									li={li}
 									key={li.id}
 									reload={reload}
+									openCode={openCode}
 								/>
 							))}
 					</tbody>

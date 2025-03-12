@@ -9,7 +9,6 @@ import { useAppSelector } from "../../../redux/hooks";
 import salesService from "../../../redux/features/sales/sales-service";
 import { useNavigate } from "react-router-dom";
 import { formatCurrency } from "../../../utils/currency";
-
 import Paginate from "../../../components/Paginate";
 import { UseDebounce } from "../../../utils/hooks";
 import { OptionProp } from "../../../components/Filters/BasicInputs";
@@ -19,6 +18,7 @@ import CoverImg from "../../../assets/defaults/sales.png";
 import TableBySales from "../../../components/Sales/TableBySales";
 import TableByProduct from "../../../components/Sales/TableByProduct";
 import { SwitchDiv } from "../../../styles/basic.styles";
+import { displayError } from "../../../utils/errors";
 
 const Sales = () => {
 	const navigate = useNavigate();
@@ -77,6 +77,7 @@ const Sales = () => {
 			setList(res);
 		} catch (err) {
 			setLoad(false);
+			displayError(err, false);
 		}
 	};
 

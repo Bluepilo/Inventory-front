@@ -3,10 +3,17 @@ import { useAppSelector } from "../../redux/hooks";
 import { generateBarcode } from "../../utils/basic";
 import { displayError, displaySuccess } from "../../utils/errors";
 import productService from "../../redux/features/product/product-service";
-import Loading from "../Loaders/Loading";
 import { Spinner } from "react-bootstrap";
 
-const EachManageBarcode = ({ li, reload }: { li: any; reload: () => void }) => {
+const EachManageBarcode = ({
+	li,
+	reload,
+	openCode,
+}: {
+	li: any;
+	reload: () => void;
+	openCode: (arg: any) => void;
+}) => {
 	const { details } = useAppSelector((state) => state.auth);
 
 	const [val, setVal] = useState(li.barcode);
@@ -44,11 +51,20 @@ const EachManageBarcode = ({ li, reload }: { li: any; reload: () => void }) => {
 						Auto Generate
 					</button>
 				)}
-				<button className="mx-3">Print</button>
-				{li.barcode !== val && load ? (
+				{val && (
+					<button
+						onClick={() => openCode({ ...li, barcode: val })}
+						className="mx-3"
+					>
+						Print
+					</button>
+				)}
+				{load ? (
 					<Spinner animation="border" variant="primary" size="sm" />
-				) : (
+				) : li.barcode !== val ? (
 					<button onClick={updateBarcode}>Save</button>
+				) : (
+					<></>
 				)}
 			</td>
 		</tr>

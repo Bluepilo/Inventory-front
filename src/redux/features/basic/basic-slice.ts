@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import basicService from "./basic-service";
 import { displayError } from "../../../utils/errors";
 import { notificationType } from "../../../utils/types";
-import { logout, userProfile } from "../auth/auth-slice";
+import { userProfile } from "../auth/auth-slice";
 import { OptionProp } from "../../../components/Filters/BasicInputs";
 import productService from "../product/product-service";
 
@@ -68,9 +68,6 @@ export const getNotifications = createAsyncThunk(
 			return res.data;
 		} catch (error) {
 			const message = displayError(error, false);
-			if (message.includes("Session expired")) {
-				thunkAPI.dispatch(logout());
-			}
 			return thunkAPI.rejectWithValue(message);
 		}
 	}
@@ -87,9 +84,6 @@ export const getDashboardStats = createAsyncThunk(
 			return res.data;
 		} catch (error) {
 			const message = displayError(error, false);
-			if (message.includes("Session expired")) {
-				thunkAPI.dispatch(logout());
-			}
 			return thunkAPI.rejectWithValue(message);
 		}
 	}

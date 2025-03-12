@@ -70,7 +70,7 @@ const Subscribe = ({
 				getRealAmount() > balance
 					? getRealAmount() - balance
 					: getRealAmount(),
-			callbackUrl: `${window.location.origin}/payment-confirmation`,
+			callbackUrl: `${window.location.origin}/payment-confirmation?duration=${duration}&id=${subscriptionType}`,
 			subscriptionPlanId: subscriptionType,
 			monthly: duration === "monthly" ? true : false,
 			autoRenew: true,

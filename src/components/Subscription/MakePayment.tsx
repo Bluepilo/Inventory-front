@@ -83,14 +83,16 @@ const MakePayment = ({
 					required
 					className="height"
 				/>
-				<CheckBox>
-					<input
-						type="checkbox"
-						checked={useDefault}
-						onChange={(e) => setUseDefault(e.target.checked)}
-					/>
-					<span>Use Default Card</span>
-				</CheckBox>
+				{pageType !== "card" && (
+					<CheckBox>
+						<input
+							type="checkbox"
+							checked={useDefault}
+							onChange={(e) => setUseDefault(e.target.checked)}
+						/>
+						<span>Use Default Card</span>
+					</CheckBox>
+				)}
 				{load ? (
 					<Loading />
 				) : (
