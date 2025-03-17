@@ -118,6 +118,7 @@ const uploadData = [
 		productCode: "",
 		costPrice: "50,000",
 		price: "55,000",
+		barcode: "128380040033",
 	},
 	{
 		brandName: "Toyota",
@@ -130,6 +131,7 @@ const uploadData = [
 		productCode: "",
 		costPrice: " 1,200,000",
 		price: "1,500,000",
+		barcode: "128380040033",
 	},
 	{
 		brandName: "Samsung",
@@ -142,6 +144,7 @@ const uploadData = [
 		productCode: "CU7000",
 		costPrice: "123,000",
 		price: "",
+		barcode: "128380040033",
 	},
 	{
 		brandName: "Unilever",
@@ -154,6 +157,7 @@ const uploadData = [
 		productCode: "",
 		costPrice: "6,700",
 		price: "8,000",
+		barcode: "128380040033",
 	},
 	{
 		brandName: "Landa Foam",
@@ -166,6 +170,7 @@ const uploadData = [
 		productCode: "",
 		costPrice: "70,000",
 		price: "77,000",
+		barcode: "128380040033",
 	},
 ];
 

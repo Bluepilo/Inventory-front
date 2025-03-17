@@ -169,6 +169,7 @@ const UploadProduct = () => {
 									<th style={{ color: "#F44336" }}>
 										Product Name
 									</th>
+									<th>Barcode</th>
 									<th>Size</th>
 									<th>Type</th>
 									<th>Colour</th>
@@ -186,6 +187,7 @@ const UploadProduct = () => {
 										<td>{item.brandName}</td>
 										<td>{item.category}</td>
 										<td>{item.productName}</td>
+										<td>{item.barcode}</td>
 										<td>{item.size}</td>
 										<td>{item.type}</td>
 										<td>{item.colour}</td>

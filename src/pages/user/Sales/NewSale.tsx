@@ -145,6 +145,7 @@ const NewSale = () => {
 	};
 
 	const addItems = (item: any) => {
+		window.scrollTo(0, 0);
 		if (item?.value) {
 			let find = selectedProducts.find((p: any) => p.value == item.value);
 			if (!find) {

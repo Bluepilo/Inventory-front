@@ -19,6 +19,8 @@ import PendingIcon from "../../../assets/icons/pending.svg";
 import SkeletonTable from "../../../components/Loaders/SkeletonTable";
 import Paginate from "../../../components/Paginate";
 import { haveRole } from "../../../utils/role";
+import customerService from "../../../redux/features/customer/customer-services";
+import { displayError } from "../../../utils/errors";
 
 const Purchases = () => {
 	const navigate = useNavigate();
@@ -35,6 +37,7 @@ const Purchases = () => {
 	);
 	const [shopId, setShopId] = useState<OptionProp | null>(null);
 	const [staffId, setStaffId] = useState<OptionProp | null>(null);
+	const [supplierId, setSupplierId] = useState<OptionProp | null>(null);
 	const [search, setSearch] = useState("");
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(20);
@@ -46,6 +49,7 @@ const Purchases = () => {
 		label: "This Month",
 		value: "month",
 	});
+	const [allSuppliers, setAllSuppliers] = useState([]);
 
 	const debouncedSearch = UseDebounce(search);
 
@@ -55,7 +59,7 @@ const Purchases = () => {
 		staffId?.value || ""
 	}&startDate=${startDate}&endDate=${endDate}&includeWithdrawn=${
 		withdrawn ? "1" : "0"
-	}&onboarding=0`;
+	}&onboarding=0&supplierId=${supplierId?.value || ""}`;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -67,6 +71,27 @@ const Purchases = () => {
 		getSummary();
 	}, [filters, debouncedSearch]);
 
+	useEffect(() => {
+		listSuppliers();
+	}, []);
+
+	const listSuppliers = async () => {
+		try {
+			setLoad(true);
+			let res = await customerService.getSuppliers(`?limit=150`);
+			setLoad(false);
+			if (res?.rows) {
+				setAllSuppliers(
+					res.rows.map((r: any) => {
+						return { label: r.fullName, value: r.id };
+					})
+				);
+			}
+		} catch (err) {
+			setLoad(false);
+		}
+	};
+
 	const clearFilters = () => {
 		setStartDate(
 			new Date(new Date().getFullYear(), new Date().getMonth(), 1)
@@ -75,6 +100,7 @@ const Purchases = () => {
 		setStaffId(null);
 		setShopId(null);
 		setDateType({ label: "This Month", value: "month" });
+		setSupplierId(null);
 	};
 
 	const getPurchases = async () => {
@@ -89,6 +115,7 @@ const Purchases = () => {
 			setIncompleteLists({ ...res, rows: filter });
 		} catch (err) {
 			setLoad(false);
+			displayError(err, false);
 		}
 	};
 
@@ -157,6 +184,10 @@ const Purchases = () => {
 					clearValues={clearFilters}
 					dateType={dateType}
 					changeDateType={setDateType}
+					others={supplierId}
+					othersList={allSuppliers}
+					changeOthers={setSupplierId}
+					othersLabel="Supplier"
 				/>
 				<div className="row align-items-center mt-4">
 					<div className="col-lg-7 mb-3">

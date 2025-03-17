@@ -88,7 +88,11 @@ const SaleDetails = () => {
 						<ActionDetailsDiv>
 							<div className="row">
 								<div className="col-lg-6 mb-4">
-									<DetailsInfo saleDetails={saleDetails} />
+									<DetailsInfo
+										saleDetails={saleDetails}
+										setLoad={setLoad}
+										complete={() => loadSale()}
+									/>
 								</div>
 								<div className="col-lg-6 mb-3">
 									{saleDetails.status ===

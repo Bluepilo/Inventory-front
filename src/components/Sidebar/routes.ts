@@ -304,7 +304,7 @@ const adminRoutes = [
 				id: 3,
 				name: "Expense",
 				href: "/admin/finance/expense",
-				permission: ["expenseList"],
+				permission: ["listTransactions"],
 			},
 		],
 		permission: [],

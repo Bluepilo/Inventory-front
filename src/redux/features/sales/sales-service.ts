@@ -58,10 +58,10 @@ const verifyTransactions = async (id: number) => {
 	return data.data;
 };
 
-const resolveSales = async (id: number, amount: number) => {
+const resolveSales = async (id: string, obj: any) => {
 	const { data } = await apiRequest("baseUrl").post(
-		`/sale/add-payment/${id}`,
-		{ amount }
+		`/sale/resolve/${id}`,
+		obj
 	);
 	return data.data;
 };

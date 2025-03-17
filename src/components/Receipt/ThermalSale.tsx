@@ -160,6 +160,7 @@ const ThermalSale = ({ result }: { result: any }) => {
 					<div className="text-center mt-3">
 						<p>Sales by {result.user?.fullName}</p>
 						<p>Thanks for your patronage</p>
+						<p>Printed on {new Date().toDateString()}</p>
 					</div>
 				</div>
 			</div>
