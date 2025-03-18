@@ -65,7 +65,7 @@ const NewExpense = ({ submit }: { submit: any }) => {
 				name,
 				date: expenseDate,
 				cost,
-				shopId: details.shopId || shopId?.value,
+				shopId: details.shopId || shopId?.value || null,
 				isRecurrent,
 				description,
 				proof,
@@ -103,7 +103,7 @@ const NewExpense = ({ submit }: { submit: any }) => {
 		<>
 			<Form onSubmit={submitHandler} className="mb-3">
 				<div className="row">
-					<div className="col-lg-6">
+					<div className="col-lg-6 mb-3">
 						<label>What's this expense for?</label>
 						<DropDownSelect
 							options={arr}
@@ -150,7 +150,7 @@ const NewExpense = ({ submit }: { submit: any }) => {
 							className="height"
 						/>
 					</div>
-					{!details.shopId && (
+					{!details.shopId && !details.role.isAdmin && (
 						<div className="col-lg-6 mb-3">
 							<label>Shop</label>
 							<DropDownSelect

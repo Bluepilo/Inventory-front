@@ -35,6 +35,7 @@ const DashboardLayout = () => {
 	}, []);
 
 	const runActions = () => {
+		dispatch(getExpenseCategories());
 		if (details.businessId) {
 			dispatch(userProfile());
 			dispatch(getNotifications(1));

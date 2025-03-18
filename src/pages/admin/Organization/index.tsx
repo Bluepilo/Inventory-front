@@ -29,20 +29,18 @@ const Organization = () => {
 	const [load, setLoad] = useState(false);
 	const [list, setList] = useState<any>({});
 	const [page, setPage] = useState(1);
-	const [limit, setLimit] = useState(20);
+	const [limit, setLimit] = useState(100);
 	const [search, setSearch] = useState("");
 
-	const [startDate, setStartDate] = useState(
-		new Date(new Date().getFullYear(), new Date().getMonth(), 1)
-	);
+	const [startDate, setStartDate] = useState(new Date("01-01-2022"));
 	const [endDate, setEndDate] = useState(
 		new Date(new Date().setDate(new Date().getDate() + 1))
 	);
 	const [subTypes, setSubTypes] = useState<OptionProp[]>([]);
 	const [subTypeId, setSubTypeId] = useState<OptionProp | null>(null);
 	const [dateType, setDateType] = useState({
-		label: "This Month",
-		value: "month",
+		label: "Custom Date",
+		value: "custom",
 	});
 	const [expiryDateType, setExpiryDateType] = useState<OptionProp | null>(
 		null

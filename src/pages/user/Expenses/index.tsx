@@ -7,8 +7,6 @@ import TitleCover from "../../../components/TitleCover";
 import Filters from "../../../components/Filters";
 import { OptionProp } from "../../../components/Filters/BasicInputs";
 import { CheckBoxPrint, SummaryCard } from "../../../styles/dashboard.styles";
-import { MainButton } from "../../../styles/links.styles";
-import PrintLogo from "../../../assets/icons/print.svg";
 import expenseService from "../../../redux/features/expense/expense-service";
 import { formatCurrency } from "../../../utils/currency";
 import { TableComponent } from "../../../styles/table.styles";
