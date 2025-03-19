@@ -7,7 +7,7 @@ export interface SidebarMenusType {
 		id: number;
 		href: string;
 		name: string;
-		permission?: string[];
+		permission?: string[] | number[];
 	}[];
 }
 

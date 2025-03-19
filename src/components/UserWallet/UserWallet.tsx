@@ -16,6 +16,7 @@ import LoadWallet from "./LoadWallet";
 import WithdrawWallet from "./WithdrawWallet";
 import { Link } from "react-router-dom";
 import DrawerInfo from "../Transaction/DrawerInfo";
+import RoleGuard from "../RoleGuard";
 
 const UserWallet = ({
 	userType,
@@ -208,27 +209,29 @@ const UserWallet = ({
 										</div>
 									)}
 								</div>
-								<div className="buttons">
-									<MainButton
-										onClick={() => {
-											setOpenType("load");
-											setOpenDrop(true);
-										}}
-									>
-										<img src={WalletIcon} />
-										<span>Load Wallet</span>
-									</MainButton>
-									<button
-										className="custom"
-										onClick={() => {
-											setOpenType("withdraw");
-											setOpenDrop(true);
-										}}
-									>
-										<img src={WalletRedIcon} />
-										<span>Withdraw from Wallet</span>
-									</button>
-								</div>
+								<RoleGuard access="isBusinessActioners">
+									<div className="buttons">
+										<MainButton
+											onClick={() => {
+												setOpenType("load");
+												setOpenDrop(true);
+											}}
+										>
+											<img src={WalletIcon} />
+											<span>Load Wallet</span>
+										</MainButton>
+										<button
+											className="custom"
+											onClick={() => {
+												setOpenType("withdraw");
+												setOpenDrop(true);
+											}}
+										>
+											<img src={WalletRedIcon} />
+											<span>Withdraw from Wallet</span>
+										</button>
+									</div>
+								</RoleGuard>
 							</div>
 						</WalletDiv>
 						<h6 className="mt-3">Transaction Report</h6>

@@ -33,9 +33,7 @@ const Sidebar = ({ open, minimizeHandler, onClose, minimized }: Props) => {
 	};
 
 	const allowUser = (permit: any) => {
-		if (details.shopId && permit?.includes("admin")) {
-			return false;
-		} else if (details.role.isAdmin) {
+		if (details.role.isAdmin) {
 			if (
 				details.role.permissions.find((p) => p.method === permit[0]) ||
 				permit.length === 0
@@ -45,7 +43,11 @@ const Sidebar = ({ open, minimizeHandler, onClose, minimized }: Props) => {
 				return false;
 			}
 		} else {
-			return true;
+			if (permit.includes(details.businessRoleId)) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	};
 

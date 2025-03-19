@@ -21,6 +21,7 @@ import BrandForm from "../../../components/Catalogue/BrandForm";
 import NewBrand from "../../../components/Catalogue/NewBrand";
 import Papa from "papaparse";
 import { haveRole } from "../../../utils/role";
+import RoleGuard from "../../../components/RoleGuard";
 
 const Catalogue = ({ admin }: { admin?: boolean }) => {
 	const { details } = useAppSelector((state) => state.auth);
@@ -202,7 +203,9 @@ const Catalogue = ({ admin }: { admin?: boolean }) => {
 											)}
 											<th>Status</th>
 											<th>Type</th>
-											<th>Actions</th>
+											<RoleGuard access="isBusinessActioners">
+												<th>Actions</th>
+											</RoleGuard>
 										</tr>
 									</thead>
 									{!load && (
@@ -260,22 +263,24 @@ const Catalogue = ({ admin }: { admin?: boolean }) => {
 															/>
 														</td>
 														<td>Managed</td>
-														<td>
-															<DropDowns
-																download={() =>
-																	xlsHandler(
-																		m.id,
-																		m.name
-																	)
-																}
-																onDelete={() =>
-																	deleteHandler(
-																		m.id,
-																		m.name
-																	)
-																}
-															/>
-														</td>
+														<RoleGuard access="isBusinessActioners">
+															<td>
+																<DropDowns
+																	download={() =>
+																		xlsHandler(
+																			m.id,
+																			m.name
+																		)
+																	}
+																	onDelete={() =>
+																		deleteHandler(
+																			m.id,
+																			m.name
+																		)
+																	}
+																/>
+															</td>
+														</RoleGuard>
 													</tr>
 												))}
 											</tbody>

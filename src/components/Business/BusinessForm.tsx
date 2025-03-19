@@ -108,10 +108,7 @@ const BusinessForm = ({
 				res = await basicService.createBusiness(data);
 			}
 			setLoad(false);
-			if (res) {
-				onComplete();
-				dispatch(userProfile());
-			}
+			onComplete();
 		} catch (err) {
 			setLoad(false);
 			displayError(err, true);

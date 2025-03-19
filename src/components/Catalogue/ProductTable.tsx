@@ -1,10 +1,10 @@
-import React from "react";
 import { Table, TableComponent } from "../../styles/table.styles";
 import { useAppSelector } from "../../redux/hooks";
 import { formatCurrency } from "../../utils/currency";
 import DropDownProduct from "./DropDownProduct";
 import { useNavigate } from "react-router-dom";
 import SkeletonTable from "../Loaders/SkeletonTable";
+import RoleGuard from "../RoleGuard";
 
 const ProductTable = ({
 	updateIds,
@@ -52,7 +52,9 @@ const ProductTable = ({
 							<th>Units</th>
 							<th className="price">Cost Price</th>
 							<th className="price">Selling Price</th>
-							<th></th>
+							<RoleGuard access="isBusinessActioners">
+								<th></th>
+							</RoleGuard>
 						</tr>
 					</thead>
 					{!load && (
@@ -94,26 +96,28 @@ const ProductTable = ({
 									<td className="price">
 										{currency} {formatCurrency(l.price)}
 									</td>
-									<td>
-										<DropDownProduct
-											onEdit={() =>
-												navigate("new", {
-													state: l,
-												})
-											}
-											onDelete={() =>
-												deleteHandler(l.id, l.name)
-											}
-											showEdit={ifAllowed(
-												"updateProduct"
-											)}
-											showDelete={
-												ifAllowed("deleteProduct")
-													? true
-													: false
-											}
-										/>
-									</td>
+									<RoleGuard access="isBusinessActioners">
+										<td>
+											<DropDownProduct
+												onEdit={() =>
+													navigate("new", {
+														state: l,
+													})
+												}
+												onDelete={() =>
+													deleteHandler(l.id, l.name)
+												}
+												showEdit={ifAllowed(
+													"updateProduct"
+												)}
+												showDelete={
+													ifAllowed("deleteProduct")
+														? true
+														: false
+												}
+											/>
+										</td>
+									</RoleGuard>
 								</tr>
 							))}
 						</tbody>

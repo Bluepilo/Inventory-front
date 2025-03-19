@@ -144,6 +144,7 @@ const CustomerSelect = ({
 			alert(`Please select a payment method to proceed.`);
 			return;
 		}
+
 		setIsDeposit(deposit);
 		setOpenModal(true);
 	};
@@ -151,15 +152,23 @@ const CustomerSelect = ({
 	const payHandler = (comment: string) => {
 		setOpenModal(false);
 		let data = {
-			customerId: type === "walkin" ? selectedCustomer.id : "",
-			customerName: selectedCustomer.fullName,
-			customerEmail: selectedCustomer.email,
-			customerAddress: selectedCustomer.address,
-			customerPhoneNo: selectedCustomer.phoneNo,
+			customerId: !isDeposit
+				? null
+				: type === "walkin"
+				? selectedCustomer.id
+				: "",
+			customerName: selectedCustomer?.fullName || null,
+			customerEmail: selectedCustomer?.email || null,
+			customerAddress: selectedCustomer?.address || null,
+			customerPhoneNo: selectedCustomer?.phoneNo || null,
 			isDeposit,
 			comment,
 			amountPaid: amountReceived,
-			subdealerId: type === "subdealer" ? selectedCustomer.id : "",
+			subdealerId: !isDeposit
+				? null
+				: type === "subdealer"
+				? selectedCustomer.id
+				: "",
 			paymentMethodId: selectedPayment?.value,
 		};
 		complete(data);
@@ -314,7 +323,7 @@ const CustomerSelect = ({
 								right="true"
 								color="#505BDA"
 								bg="#EDEEF0"
-								onClick={() => openComment(true)}
+								onClick={() => payHandler("Draft")}
 							>
 								<span>Save as Draft</span>
 								<img src={DepositIcon} />

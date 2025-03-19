@@ -22,6 +22,8 @@ import FailedIcon from "../../../assets/icons/failed.svg";
 import ConfirmModal from "../../../components/Modals/ConfirmModal";
 import { toast } from "react-toastify";
 import { displayError } from "../../../utils/errors";
+import { haveRole } from "../../../utils/role";
+import RoleGuard from "../../../components/RoleGuard";
 
 const Supplier = () => {
 	const navigate = useNavigate();
@@ -122,7 +124,11 @@ const Supplier = () => {
 					<TitleCover
 						title="Suppliers"
 						dataCount={lists?.count}
-						button="Add Supplier"
+						button={
+							haveRole(details.businessRoleId).isBusinessActioners
+								? "Add Supplier"
+								: ""
+						}
 						buttonIcon={<IoCartSharp />}
 						buttonClick={() => {
 							setIds(null);
@@ -181,7 +187,9 @@ const Supplier = () => {
 												</th>
 
 												<th>Status</th>
-												<th>Actions</th>
+												<RoleGuard access="isBusinessActioners">
+													<th>Actions</th>
+												</RoleGuard>
 											</tr>
 										</thead>
 										{!load && (
@@ -234,41 +242,47 @@ const Supplier = () => {
 																}
 															/>
 														</td>
-														<td>
-															<DropDowns
-																active={
-																	l.isActive
-																}
-																suspend={() => {
-																	setIds(l);
-																	setOpenConfirmation(
-																		true
-																	);
-																}}
-																onNavigate={() =>
-																	navigate(
-																		`${l.id}`
-																	)
-																}
-																onEdit={() => {
-																	setOpenModal(
-																		true
-																	);
-																	setIds(l);
-																}}
-																deleteIt={
-																	l
-																		.transactions
-																		?.length ===
-																	0
-																		? () =>
-																				deleteHandler(
-																					l.id
-																				)
-																		: null
-																}
-															/>
-														</td>
+														<RoleGuard access="isBusinessActioners">
+															<td>
+																<DropDowns
+																	active={
+																		l.isActive
+																	}
+																	suspend={() => {
+																		setIds(
+																			l
+																		);
+																		setOpenConfirmation(
+																			true
+																		);
+																	}}
+																	onNavigate={() =>
+																		navigate(
+																			`${l.id}`
+																		)
+																	}
+																	onEdit={() => {
+																		setOpenModal(
+																			true
+																		);
+																		setIds(
+																			l
+																		);
+																	}}
+																	deleteIt={
+																		l
+																			.transactions
+																			?.length ===
+																		0
+																			? () =>
+																					deleteHandler(
+																						l.id
+																					)
+																			: null
+																	}
+																/>
+															</td>
+														</RoleGuard>
 													</tr>
 												))}
 											</tbody>

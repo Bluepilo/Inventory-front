@@ -1,13 +1,20 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AuthProgress from "../../components/Auth/AuthProgress";
 import BusinessForm from "../../components/Business/BusinessForm";
 import Success from "./Success";
-import ModalComponent from "../../components/ModalComponent";
-import Trial from "../../components/Home/Trial";
+import { useAppDispatch } from "../../redux/hooks";
+import { userProfile } from "../../redux/features/auth/auth-slice";
 
 const NewBusiness = () => {
+	const dispatch = useAppDispatch();
+
 	const [successful, setSuccessful] = useState(false);
-	const [openModal, setOpenModal] = useState(true);
+
+	useEffect(() => {
+		if (successful) {
+			dispatch(userProfile());
+		}
+	}, [successful]);
 
 	return (
 		<div style={{ padding: "0 5%" }}>
@@ -18,9 +25,9 @@ const NewBusiness = () => {
 			) : (
 				<BusinessForm onComplete={() => setSuccessful(true)} />
 			)}
-			<ModalComponent open={openModal} close={() => console.log("close")}>
+			{/* <ModalComponent open={openModal} close={() => console.log("close")}>
 				<Trial closeTrial={() => setOpenModal(false)} />
-			</ModalComponent>
+			</ModalComponent> */}
 		</div>
 	);
 };

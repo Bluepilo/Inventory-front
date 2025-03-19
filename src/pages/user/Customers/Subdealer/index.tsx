@@ -23,6 +23,7 @@ import ConfirmModal from "../../../../components/Modals/ConfirmModal";
 import { displayError } from "../../../../utils/errors";
 import { toast } from "react-toastify";
 import { haveRole } from "../../../../utils/role";
+import RoleGuard from "../../../../components/RoleGuard";
 
 const Subdealer = () => {
 	const navigate = useNavigate();
@@ -338,7 +339,9 @@ const Subdealer = () => {
 													)}
 												</th>
 												<th>Status</th>
-												<th>Actions</th>
+												<RoleGuard access="isBusinessActioners">
+													<th>Actions</th>
+												</RoleGuard>
 											</tr>
 										</thead>
 										{!load && (
@@ -396,41 +399,47 @@ const Subdealer = () => {
 																}
 															/>
 														</td>
-														<td>
-															<DropDowns
-																active={
-																	l.isActive
-																}
-																suspend={() => {
-																	setIds(l);
-																	setOpenConfirmation(
-																		true
-																	);
-																}}
-																onNavigate={() =>
-																	navigate(
-																		`${l.id}`
-																	)
-																}
-																onEdit={() => {
-																	setOpenModal(
-																		true
-																	);
-																	setIds(l);
-																}}
-																deleteIt={
-																	l
-																		.transactions
-																		?.length ===
-																	0
-																		? () =>
-																				deleteHandler(
-																					l.id
-																				)
-																		: null
-																}
-															/>
-														</td>
+														<RoleGuard access="isBusinessActioners">
+															<td>
+																<DropDowns
+																	active={
+																		l.isActive
+																	}
+																	suspend={() => {
+																		setIds(
+																			l
+																		);
+																		setOpenConfirmation(
+																			true
+																		);
+																	}}
+																	onNavigate={() =>
+																		navigate(
+																			`${l.id}`
+																		)
+																	}
+																	onEdit={() => {
+																		setOpenModal(
+																			true
+																		);
+																		setIds(
+																			l
+																		);
+																	}}
+																	deleteIt={
+																		l
+																			.transactions
+																			?.length ===
+																		0
+																			? () =>
+																					deleteHandler(
+																						l.id
+																					)
+																			: null
+																	}
+																/>
+															</td>
+														</RoleGuard>
 													</tr>
 												))}
 											</tbody>

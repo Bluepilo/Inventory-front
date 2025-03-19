@@ -102,9 +102,11 @@ export const authSlice = createSlice({
 		});
 		builder.addCase(userProfile.fulfilled, (state, action) => {
 			state.details = action.payload;
-			state.currency =
-				action?.payload?.business?.currency?.symbol ||
-				action?.payload?.business.currencyCode;
+			if (action.payload?.business) {
+				state.currency =
+					action?.payload?.business?.currency?.symbol ||
+					action?.payload?.business?.currencyCode;
+			}
 		});
 		builder.addCase(saveReferralCode.fulfilled, (state, action) => {
 			state.referralCode = action.payload || "";
