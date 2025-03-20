@@ -92,6 +92,11 @@ const Dashboard = () => {
 					<h5>
 						Good {greetings()}, <b>{details.firstName}</b>
 					</h5>
+					{details.shopId && (
+						<h6>
+							Your Shop: <strong>{details.shop?.name}</strong>
+						</h6>
+					)}
 					{haveRole(details.businessRoleId).isBusinessActioners && (
 						<div className="mt-3">
 							<PrimaryButton
