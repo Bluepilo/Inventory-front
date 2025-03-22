@@ -20,7 +20,7 @@ import SkeletonTable from "../../../../components/Loaders/SkeletonTable";
 import Paginate from "../../../../components/Paginate";
 import DropDowns from "../../../../components/Customer/DropDowns";
 import ConfirmModal from "../../../../components/Modals/ConfirmModal";
-import { displayError } from "../../../../utils/errors";
+import { displayError, displaySuccess } from "../../../../utils/errors";
 import { toast } from "react-toastify";
 import { haveRole } from "../../../../utils/role";
 import RoleGuard from "../../../../components/RoleGuard";
@@ -113,6 +113,7 @@ const Subdealer = () => {
 			try {
 				setLoad(true);
 				await customerService.deleteUser(id, "subdealer");
+				displaySuccess("Subdealer Deleted!");
 				listSubdealers();
 			} catch (err) {
 				setLoad(false);
