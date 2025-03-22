@@ -159,7 +159,7 @@ const ItemsPicked = ({
 								<th>Total</th>
 								<th>
 									{products.reduce(
-										(a, b) => a + b.quantity,
+										(a, b) => a + Number(b.quantity),
 										0
 									)}
 								</th>
@@ -190,7 +190,7 @@ const ItemsPicked = ({
 								<td>
 									{purchaseDetails.totalSupplied} out of{" "}
 									{products.reduce(
-										(a, b) => a + b.quantity,
+										(a, b) => a + Number(b.quantity),
 										0
 									)}{" "}
 									ordered items
