@@ -107,10 +107,10 @@ const CustomerSelect = ({
 		const minimumAmountDue =
 			totalAmount -
 			discountApplied -
-			(Number(selectedCustomer?.balance) +
+			(Number(selectedCustomer?.balance || 0) +
 				Number(
 					selectedCustomer?.creditLimit ||
-						Number(settings?.creditLimit)
+						Number(settings?.creditLimit || 0)
 				));
 
 		setMinAmount(minimumAmountDue);
