@@ -107,10 +107,10 @@ const CustomerSelect = ({
 		const minimumAmountDue =
 			totalAmount -
 			discountApplied -
-			(Number(selectedCustomer?.balance) +
+			(Number(selectedCustomer?.balance || 0) +
 				Number(
 					selectedCustomer?.creditLimit ||
-						Number(settings?.creditLimit)
+						Number(settings?.creditLimit || 0)
 				));
 
 		setMinAmount(minimumAmountDue);
@@ -161,7 +161,7 @@ const CustomerSelect = ({
 			customerEmail: selectedCustomer?.email || null,
 			customerAddress: selectedCustomer?.address || null,
 			customerPhoneNo: selectedCustomer?.phoneNo || null,
-			isDeposit,
+			isDeposit: comment === "Draft" ? true : false,
 			comment,
 			amountPaid: amountReceived,
 			subdealerId: !isDeposit
