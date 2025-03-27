@@ -7,7 +7,7 @@ import LayoutSwitching from "../../../components/LayoutSwitching";
 const NewPurchase = () => {
 	const { details } = useAppSelector((state) => state.auth);
 
-	return haveRole(details.businessRoleId).isBusinessAdmin ||
+	return haveRole(details.businessRoleId).isBusinessAdminActioners ||
 		details.currentBusinessAccess.makePurchase ? (
 		<div>
 			<TitleCover

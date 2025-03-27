@@ -125,7 +125,8 @@ const Supplier = () => {
 						title="Suppliers"
 						dataCount={lists?.count}
 						button={
-							haveRole(details.businessRoleId).isBusinessActioners
+							haveRole(details.businessRoleId)
+								.isBusinessAdminActioners
 								? "Add Supplier"
 								: ""
 						}

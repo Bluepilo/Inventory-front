@@ -203,11 +203,11 @@ const addProductCategory = async (obj: any) => {
 	return data.data;
 };
 
-const editProductCategory = async (obj: any, id: number) => {
-	const { data } = await apiRequest("baseUrl").put(
-		`/admin/product/category/${id}`,
-		obj
-	);
+const editProductCategory = async (obj: any, id: number, admin?: boolean) => {
+	let url = admin
+		? `/admin/product/category/${id}`
+		: `/product/category/${id}`;
+	const { data } = await apiRequest("baseUrl").put(url, obj);
 	return data.data;
 };
 

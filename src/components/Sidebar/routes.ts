@@ -65,7 +65,7 @@ const userRoutes = [
 		href: "/dashboard/suppliers",
 		icon: SupplierIcon,
 		children: [],
-		permission: [4, 5],
+		permission: [4, 5, 8],
 	},
 	{
 		id: 6,
@@ -129,7 +129,7 @@ const userRoutes = [
 				id: 3,
 				name: "Stock Adjustments",
 				href: "/dashboard/reports/adjustments",
-				permission: [4, 5],
+				permission: [4, 5, 8],
 			},
 			{
 				id: 4,

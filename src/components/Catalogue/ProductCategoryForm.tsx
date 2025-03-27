@@ -20,9 +20,7 @@ const ProductCategoryForm = ({
 	useEffect(() => {
 		if (detail?.id) {
 			setName(detail.name);
-			setImage(
-				"https://res.cloudinary.com/dikkx8dz4/image/upload/v1741019907/pxhbk9fwbdegjmgbad7v.svg"
-			);
+			setImage(detail.image);
 		}
 	}, [detail]);
 
@@ -35,7 +33,8 @@ const ProductCategoryForm = ({
 			} else {
 				await productService.editProductCategory(
 					{ name, image },
-					detail?.id
+					detail?.id,
+					true
 				);
 			}
 			setLoad(false);

@@ -10,11 +10,12 @@ import { Table, TableComponent } from "../../../../styles/table.styles";
 import dateFormat from "dateformat";
 import { formatCurrency } from "../../../../utils/currency";
 import SkeletonTable from "../../../../components/Loaders/SkeletonTable";
+import { haveRole } from "../../../../utils/role";
 
 const Adjustments = () => {
 	const navigate = useNavigate();
 
-	const { currency } = useAppSelector((state) => state.auth);
+	const { currency, details } = useAppSelector((state) => state.auth);
 
 	const [lists, setLists] = useState<any>({});
 
@@ -86,7 +87,11 @@ const Adjustments = () => {
 			<TitleCover
 				title="Stock Adjustments"
 				dataCount={lists?.log?.length}
-				button="Adjust Stock"
+				button={
+					haveRole(details.businessRoleId).isBusinessAdminActioners
+						? "Adjust Stock"
+						: ""
+				}
 				buttonIcon={<IoCartSharp />}
 				buttonClick={() => navigate("new")}
 			/>
