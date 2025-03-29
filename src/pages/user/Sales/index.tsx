@@ -2,7 +2,7 @@ import { IoCartSharp } from "react-icons/io5";
 import TitleCover from "../../../components/TitleCover";
 import Filters from "../../../components/Filters";
 import { useEffect, useState } from "react";
-import { CheckBoxPrint, SummaryCard } from "../../../styles/dashboard.styles";
+import { SummaryCard } from "../../../styles/dashboard.styles";
 import { TableComponent } from "../../../styles/table.styles";
 import SkeletonTable from "../../../components/Loaders/SkeletonTable";
 import { useAppSelector } from "../../../redux/hooks";
@@ -54,11 +54,9 @@ const Sales = () => {
 		shopId?.value || ""
 	}&userId=${staffId?.value || ""}&customerCategory=${
 		customerType?.value || ""
-	}&startDate=${startDate}&endDate=${endDate}&includeWithdrawn=${
-		withdrawn ? "1" : "0"
-	}&mode=${filterBySales ? "sales" : "product"}&status=${
-		status?.value || ""
-	}`;
+	}&startDate=${startDate}&endDate=${endDate}&mode=${
+		filterBySales ? "sales" : "product"
+	}&status=${status?.value || ""}`;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -155,9 +153,11 @@ const Sales = () => {
 					others={status}
 					changeOthers={setStatus}
 					othersList={[
-						{ value: "complete", label: "Complete Sales" },
+						{ value: "success", label: "Complete Sales" },
 						{ value: "draft", label: "Draft" },
 						{ value: "preorder", label: "Advanced Sales" },
+						{ value: "withdrawn", label: "Withdrawn Sales" },
+						{ value: "cancelled", label: "Cancelled" },
 					]}
 					othersLabel="Status"
 				/>
@@ -190,23 +190,6 @@ const Sales = () => {
 								</div>
 							)}
 						</SummaryCard>
-					</div>
-					<div className="col-lg-5 mb-3">
-						<CheckBoxPrint>
-							<div className="checks">
-								<input
-									type="checkbox"
-									checked={withdrawn}
-									onChange={(e) =>
-										setWithdrawn(e.target.checked)
-									}
-									name="withdrawn"
-								/>
-								<label htmlFor="withdrawn">
-									Show Withdrawn Sales
-								</label>
-							</div>
-						</CheckBoxPrint>
 					</div>
 				</div>
 				<div className="mt-4">

@@ -503,6 +503,34 @@ const Dashboard = () => {
 								</div>
 							</DashboardCard>
 						</div>
+						<div className="col-lg-6 mb-4">
+							<DashboardCard>
+								<div className="head">
+									<h6>Transactions</h6>
+								</div>
+								<div className="body">
+									<FlexBetween>
+										<div className="content">
+											<h6>All Transactions</h6>
+											<h4>
+												{
+													dashboardStats.totalTransactions
+												}
+											</h4>
+										</div>
+										<div className="content">
+											<h6>Current Subscription</h6>
+											<h4>
+												{
+													dashboardStats
+														?.subscriptionPlan?.name
+												}
+											</h4>
+										</div>
+									</FlexBetween>
+								</div>
+							</DashboardCard>
+						</div>
 					</>
 				)}
 			</div>

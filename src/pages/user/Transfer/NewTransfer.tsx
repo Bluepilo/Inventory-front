@@ -24,6 +24,8 @@ import { displayError } from "../../../utils/errors";
 import transferService from "../../../redux/features/transfer/transfer-service";
 import LoadModal from "../../../components/Loaders/LoadModal";
 import { updateOnboardingSteps } from "../../../redux/features/basic/basic-slice";
+import LayoutSwitching from "../../../components/LayoutSwitching";
+import PickItemsImage from "../../../components/Sales/PickItemsImage";
 
 const NewTransfer = () => {
 	const navigate = useNavigate();
@@ -33,7 +35,7 @@ const NewTransfer = () => {
 	const cloneState = useLocation()?.state?.cloneState;
 
 	const { details } = useAppSelector((state) => state.auth);
-	const { shops } = useAppSelector((state) => state.basic);
+	const { shops, pictureMode } = useAppSelector((state) => state.basic);
 
 	const [shopList, setShopList] = useState<OptionProp[]>([]);
 	const [fromShop, setFromShop] = useState<OptionProp | null>(null);
@@ -206,7 +208,10 @@ const NewTransfer = () => {
 
 	return (
 		<div>
-			<TitleCover title={"Make a Transfer"} />
+			<TitleCover
+				title={"Make a Transfer"}
+				switching={<LayoutSwitching />}
+			/>
 			<SaleSelectDiv>
 				<div className="info"></div>
 				<div className="a-flex">
@@ -227,60 +232,82 @@ const NewTransfer = () => {
 					</div>
 				</div>
 			</SaleSelectDiv>
-			<SalesDiv>
-				{selectedProducts?.length > 0 && (
-					<>
-						<div className="item-title">
-							<p>Items</p>
-							<span>{selectedProducts.length}</span>
+			{pictureMode ? (
+				<div className="mt-4">
+					<PickItemsImage
+						load={productLoad}
+						items={productList}
+						onNext={() => {
+							setOpenComment(true);
+						}}
+						selectedProducts={selectedProducts}
+						setSelectedProducts={addItems}
+						remove={removeItem}
+						discountValue={0}
+						discountPercent={false}
+						changeDiscount={() => console.log("")}
+						changeDiscountValue={(text: any) => console.log("")}
+						discountApplied={0}
+						totalAmount={0}
+						transfer={true}
+					/>
+				</div>
+			) : (
+				<SalesDiv>
+					{selectedProducts?.length > 0 && (
+						<>
+							<div className="item-title">
+								<p>Items</p>
+								<span>{selectedProducts.length}</span>
+							</div>
+							<ItemListStyle className="table-responsive">
+								<div className="head head-sm">
+									<div className="name">Product</div>
+									<div className="qty">Quantity</div>
+									<div className="cancel"></div>
+								</div>
+								<div className="body">
+									{selectedProducts.map((s: any) => (
+										<EachItem
+											key={s.value}
+											s={s}
+											changeQty={(item: number) =>
+												addItems(item)
+											}
+											remove={removeItem}
+										/>
+									))}
+								</div>
+							</ItemListStyle>
+						</>
+					)}
+					<DropDownSelect
+						options={productList}
+						changeSelected={(arg) => {
+							setProductVal(arg);
+							addItems(arg);
+						}}
+						label="Search Item, Price or Brand"
+						loading={productLoad}
+						value={productVal}
+					/>
+					{selectedProducts.length > 0 && (
+						<div className="submit mt-5 text-center">
+							<MainButton
+								right="true"
+								onClick={() => {
+									if (selectedProducts.length > 0) {
+										setOpenComment(true);
+									}
+								}}
+							>
+								<span>Transfer Products</span>
+								<img src={ArrowIcon} />
+							</MainButton>
 						</div>
-						<ItemListStyle className="table-responsive">
-							<div className="head head-sm">
-								<div className="name">Product</div>
-								<div className="qty">Quantity</div>
-								<div className="cancel"></div>
-							</div>
-							<div className="body">
-								{selectedProducts.map((s: any) => (
-									<EachItem
-										key={s.value}
-										s={s}
-										changeQty={(item: number) =>
-											addItems(item)
-										}
-										remove={removeItem}
-									/>
-								))}
-							</div>
-						</ItemListStyle>
-					</>
-				)}
-				<DropDownSelect
-					options={productList}
-					changeSelected={(arg) => {
-						setProductVal(arg);
-						addItems(arg);
-					}}
-					label="Search Item, Price or Brand"
-					loading={productLoad}
-					value={productVal}
-				/>
-				{selectedProducts.length > 0 && (
-					<div className="submit mt-5 text-center">
-						<MainButton
-							right="true"
-							onClick={() => {
-								if (selectedProducts.length > 0) {
-									setOpenComment(true);
-								}
-							}}
-						>
-							<span>Transfer Products</span>
-							<img src={ArrowIcon} />
-						</MainButton>
-					</div>
-				)}
-			</SalesDiv>
+					)}
+				</SalesDiv>
+			)}
 			<ModalComponent
 				open={openComment}
 				close={() => setOpenComment(false)}

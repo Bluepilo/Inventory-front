@@ -27,6 +27,7 @@ interface Props {
 	discountApplied: number;
 	totalAmount: number;
 	remove: (arg: number) => void;
+	transfer?: boolean;
 }
 
 const PickItemsImage = ({
@@ -42,6 +43,7 @@ const PickItemsImage = ({
 	discountApplied,
 	totalAmount,
 	remove,
+	transfer,
 }: Props) => {
 	const { currency } = useAppSelector((state) => state.auth);
 
@@ -196,74 +198,85 @@ const PickItemsImage = ({
 								))}
 							</div>
 						</div>
-
-						<TotalBox>
-							<div className="summary">
-								<p>Total Picked Items:</p>
-								<p>
-									{currency} {formatCurrency(totalAmount)}
-								</p>
-							</div>
-							<div className="input">
-								<label>Discount:</label>
-								<div>
-									<button
-										className="percent"
-										onClick={() =>
-											changeDiscount(!discountPercent)
-										}
-									>
-										{discountPercent ? "%" : `${currency}`}{" "}
-										<FaAngleDown />
-									</button>
-									<CurrencyInput
-										id="input-example"
-										name="input-name"
-										decimalsLimit={2}
-										onValueChange={(values) => {
-											if (
-												(discountPercent &&
-													Number(values) <= 100) ||
-												(!discountPercent &&
-													Number(values) <=
-														totalAmount)
-											) {
-												changeDiscountValue(
-													Number(values)
-												);
-											} else {
-												changeDiscountValue(0);
-											}
-										}}
-										prefix={`${
-											discountPercent
-												? "%"
-												: `${currency}`
-										} `}
-										value={discountValue}
-									/>
-								</div>
-							</div>
-							<div className="input">
-								<label>Discount Applied:</label>
-								<div>
-									<input
-										type="text"
-										className="expand"
-										value={`${currency} ${formatCurrency(
-											discountApplied
-										)}`}
-										disabled
-									/>
-								</div>
-							</div>
-							<div className="submit">
+						{transfer ? (
+							<>
 								<MainButton right="true" onClick={onNext}>
-									<span>Proceed</span>
+									<span>Transfer Products</span>
 									<img src={ArrowIcon} />
 								</MainButton>
-							</div>
-						</TotalBox>
+							</>
+						) : (
+							<TotalBox>
+								<div className="summary">
+									<p>Total Picked Items:</p>
+									<p>
+										{currency} {formatCurrency(totalAmount)}
+									</p>
+								</div>
+								<div className="input">
+									<label>Discount:</label>
+									<div>
+										<button
+											className="percent"
+											onClick={() =>
+												changeDiscount(!discountPercent)
+											}
+										>
+											{discountPercent
+												? "%"
+												: `${currency}`}{" "}
+											<FaAngleDown />
+										</button>
+										<CurrencyInput
+											id="input-example"
+											name="input-name"
+											decimalsLimit={2}
+											onValueChange={(values) => {
+												if (
+													(discountPercent &&
+														Number(values) <=
+															100) ||
+													(!discountPercent &&
+														Number(values) <=
+															totalAmount)
+												) {
+													changeDiscountValue(
+														Number(values)
+													);
+												} else {
+													changeDiscountValue(0);
+												}
+											}}
+											prefix={`${
+												discountPercent
+													? "%"
+													: `${currency}`
+											} `}
+											value={discountValue}
+										/>
+									</div>
+								</div>
+								<div className="input">
+									<label>Discount Applied:</label>
+									<div>
+										<input
+											type="text"
+											className="expand"
+											value={`${currency} ${formatCurrency(
+												discountApplied
+											)}`}
+											disabled
+										/>
+									</div>
+								</div>
+								<div className="submit">
+									<MainButton right="true" onClick={onNext}>
+										<span>Proceed</span>
+										<img src={ArrowIcon} />
+									</MainButton>
+								</div>
+							</TotalBox>
+						)}
 					</div>
 				)}
 			</div>

@@ -21,6 +21,8 @@ import { MdCancel } from "react-icons/md";
 import ModalComponent from "../../../components/ModalComponent";
 import CommentBox from "../../../components/Sales/CommentBox";
 import WithdrawPurchase from "../../../components/Purchase/Details/WithdrawPurchase";
+import PageCover from "../../../components/PageCover";
+import RoleGuard from "../../../components/RoleGuard";
 
 const PurchaseDetails = () => {
 	const navigate = useNavigate();
@@ -207,93 +209,98 @@ const PurchaseDetails = () => {
 										purchaseDetails={purchaseDetails}
 										supplyItems={supplyItems}
 									/>
-									<div className="buttons mb-5">
-										<div className="row">
-											<div className="col-lg-4 mb-3">
-												<WideButton>
-													<span>
-														Generate Invoice
-													</span>
-													<img src={PrintLogo} />
-												</WideButton>
-											</div>
-											<div className="col-lg-4 mb-3">
-												<WideButton
-													bg="#EDEEF0"
-													color="#505BDA"
-													onClick={() =>
-														navigate(
-															"/dashboard/purchases/new",
-															{
-																state: {
-																	cloneState:
-																		purchaseDetails,
-																},
-															}
-														)
-													}
-												>
-													<span>
-														Clone Purchase List
-													</span>
-													<IoCopy color="#505BDA" />
-												</WideButton>
-											</div>
-											<div className="col-lg-4 mb-3">
-												{purchaseDetails.status ==
-													"success" && (
+									<RoleGuard access="isBusinessActioners">
+										<div className="buttons mb-5">
+											<div className="row">
+												<div className="col-lg-4 mb-3">
+													<WideButton>
+														<span>
+															Generate Invoice
+														</span>
+														<img src={PrintLogo} />
+													</WideButton>
+												</div>
+												<div className="col-lg-4 mb-3">
 													<WideButton
-														bg="#FF2725"
+														bg="#EDEEF0"
+														color="#505BDA"
 														onClick={() =>
-															setOpenWithdrawal(
-																true
+															navigate(
+																"/dashboard/purchases/new",
+																{
+																	state: {
+																		cloneState:
+																			purchaseDetails,
+																	},
+																}
 															)
 														}
 													>
 														<span>
-															Withdraw Purchase
+															Clone Purchase List
 														</span>
-														<MdCancel color="#FFF" />
+														<IoCopy color="#505BDA" />
 													</WideButton>
-												)}
+												</div>
+												<div className="col-lg-4 mb-3">
+													{purchaseDetails.status ==
+														"success" && (
+														<WideButton
+															bg="#FF2725"
+															onClick={() =>
+																setOpenWithdrawal(
+																	true
+																)
+															}
+														>
+															<span>
+																Withdraw
+																Purchase
+															</span>
+															<MdCancel color="#FFF" />
+														</WideButton>
+													)}
+												</div>
 											</div>
-										</div>
 
-										<div className="row mt-4">
-											<div className="col-lg-6 mb-3">
-												<WideButton
-													bg="#FFB900"
-													color="#000D33"
-													onClick={() =>
-														navigate(
-															"/dashboard/purchases/new"
-														)
-													}
-												>
-													<span>
-														Record New Purchase
-													</span>
-													<img src={AddMoneyLogo} />
-												</WideButton>
-											</div>
-											<div className="col-lg-6 mb-3">
-												<WideButton
-													bg="#EDEEF0"
-													color="#505BDA"
-													onClick={() =>
-														navigate(
-															"/dashboard/purchases"
-														)
-													}
-												>
-													<span>
-														Recent Purchases
-													</span>
-													<img src={ClipLogo} />
-												</WideButton>
+											<div className="row mt-4">
+												<div className="col-lg-6 mb-3">
+													<WideButton
+														bg="#FFB900"
+														color="#000D33"
+														onClick={() =>
+															navigate(
+																"/dashboard/purchases/new"
+															)
+														}
+													>
+														<span>
+															Record New Purchase
+														</span>
+														<img
+															src={AddMoneyLogo}
+														/>
+													</WideButton>
+												</div>
+												<div className="col-lg-6 mb-3">
+													<WideButton
+														bg="#EDEEF0"
+														color="#505BDA"
+														onClick={() =>
+															navigate(
+																"/dashboard/purchases"
+															)
+														}
+													>
+														<span>
+															Recent Purchases
+														</span>
+														<img src={ClipLogo} />
+													</WideButton>
+												</div>
 											</div>
 										</div>
-									</div>
+									</RoleGuard>
 								</div>
 							</div>
 						</ActionDetailsDiv>
