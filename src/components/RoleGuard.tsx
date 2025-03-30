@@ -6,6 +6,7 @@ const RoleGuard = ({
 	access,
 	purchaseCheck,
 	children,
+	isAdmin,
 }: {
 	access:
 		| "isSuperAdmin"
@@ -21,6 +22,7 @@ const RoleGuard = ({
 		| "isBusinessViewer";
 	purchaseCheck?: boolean;
 	children: React.ReactNode;
+	isAdmin?: boolean;
 }) => {
 	const { details } = useAppSelector((state) => state.auth);
 
@@ -36,7 +38,7 @@ const RoleGuard = ({
 		}
 	};
 
-	return ifAllowed() ? <>{children}</> : <></>;
+	return isAdmin || ifAllowed() ? <>{children}</> : <></>;
 };
 
 export default RoleGuard;

@@ -52,7 +52,11 @@ const ProductTable = ({
 							<th>Units</th>
 							<th className="price">Cost Price</th>
 							<th className="price">Selling Price</th>
-							<RoleGuard access="isBusinessActioners">
+
+							<RoleGuard
+								access="isBusinessActioners"
+								isAdmin={details.role.isAdmin}
+							>
 								<th></th>
 							</RoleGuard>
 						</tr>
@@ -96,7 +100,10 @@ const ProductTable = ({
 									<td className="price">
 										{currency} {formatCurrency(l.price)}
 									</td>
-									<RoleGuard access="isBusinessActioners">
+									<RoleGuard
+										access="isBusinessActioners"
+										isAdmin={details.role.isAdmin}
+									>
 										<td>
 											<DropDownProduct
 												onEdit={() =>

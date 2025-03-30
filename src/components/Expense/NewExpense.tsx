@@ -75,7 +75,9 @@ const NewExpense = ({ submit }: { submit: any }) => {
 			setLoad(true);
 			let res = await expenseService.createExpense(obj);
 			setLoad(false);
-			saveTrialPick();
+			if (!details?.role?.isAdmin) {
+				saveTrialPick();
+			}
 			if (res) {
 				toast.success("Expense has been created.");
 				submit();
@@ -87,7 +89,7 @@ const NewExpense = ({ submit }: { submit: any }) => {
 	};
 
 	const saveTrialPick = () => {
-		if (details.business.onboardingSteps?.expense !== "completed") {
+		if (details?.business?.onboardingSteps?.expense !== "completed") {
 			dispatch(
 				updateOnboardingSteps({
 					steps: {
@@ -213,7 +215,6 @@ const NewExpense = ({ submit }: { submit: any }) => {
 						onChange={(e) => setFrequency(e.target.value)}
 						className="new-form height"
 					>
-						<option value={"once"}>Once</option>
 						<option value="daily">Daily</option>
 						<option value="weekly">Weekly</option>
 						<option value="monthly">Monthly</option>

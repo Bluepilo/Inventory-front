@@ -211,10 +211,11 @@ const editProductCategory = async (obj: any, id: number, admin?: boolean) => {
 	return data.data;
 };
 
-const deleteProductCategory = async (id: number) => {
-	const { data } = await apiRequest("baseUrl").delete(
-		`/product/delete-category/${id}`
-	);
+const deleteProductCategory = async (id: number, admin?: boolean) => {
+	let url = admin
+		? `/admin/product/category/${id}`
+		: `/product/delete-category/${id}`;
+	const { data } = await apiRequest("baseUrl").delete(url);
 	return data.data;
 };
 

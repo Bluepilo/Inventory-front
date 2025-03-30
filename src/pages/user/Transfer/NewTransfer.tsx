@@ -26,6 +26,7 @@ import LoadModal from "../../../components/Loaders/LoadModal";
 import { updateOnboardingSteps } from "../../../redux/features/basic/basic-slice";
 import LayoutSwitching from "../../../components/LayoutSwitching";
 import PickItemsImage from "../../../components/Sales/PickItemsImage";
+import { SaleSelectStyle } from "../../../styles/filters.styles";
 
 const NewTransfer = () => {
 	const navigate = useNavigate();
@@ -215,13 +216,19 @@ const NewTransfer = () => {
 			<SaleSelectDiv>
 				<div className="info"></div>
 				<div className="a-flex">
-					<SaleSelect
-						options={shopList}
-						changeSelected={(arg) => setFromShop(arg)}
-						value={fromShop}
-						label="From"
-					/>
-
+					{details.shopId ? (
+						<SaleSelectStyle>
+							<p>From</p>
+							<div className="shop">{details.shop?.name}</div>
+						</SaleSelectStyle>
+					) : (
+						<SaleSelect
+							options={shopList}
+							changeSelected={(arg) => setFromShop(arg)}
+							value={fromShop}
+							label="From"
+						/>
+					)}
 					<div className="mb">
 						<SaleSelect
 							options={shopList}

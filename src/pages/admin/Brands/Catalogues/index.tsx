@@ -7,7 +7,7 @@ const Catalogues = () => {
 
 	return details?.role?.permissions?.find((f) => f.method === "listBrand") ? (
 		<div>
-			<Catalogue admin={true} />
+			<Catalogue />
 		</div>
 	) : (
 		<PermissionDenied />

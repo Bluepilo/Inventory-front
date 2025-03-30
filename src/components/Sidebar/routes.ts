@@ -97,7 +97,7 @@ const userRoutes = [
 		href: "/dashboard/catalogue",
 		icon: CatalogueIcon,
 		children: [],
-		permission: [4, 5, 6],
+		permission: [4, 5],
 	},
 	{
 		id: 10,
@@ -105,7 +105,7 @@ const userRoutes = [
 		href: "/dashboard/services",
 		icon: CatalogueIcon,
 		children: [],
-		permission: [4, 5, 6],
+		permission: [4, 5],
 	},
 	{
 		id: 11,
@@ -177,7 +177,7 @@ const userRoutes = [
 				id: 3,
 				name: "Import Inventory",
 				href: "/dashboard/business/import-inventory",
-				permission: [4, 5, 6],
+				permission: [4, 5],
 			},
 		],
 	},

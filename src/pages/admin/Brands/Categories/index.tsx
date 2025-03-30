@@ -4,7 +4,7 @@ import { useAppSelector } from "../../../../redux/hooks";
 import TitleCover from "../../../../components/TitleCover";
 import { Table, TableComponent } from "../../../../styles/table.styles";
 import productService from "../../../../redux/features/product/product-service";
-import { displayError } from "../../../../utils/errors";
+import { displayError, displaySuccess } from "../../../../utils/errors";
 import adminService from "../../../../redux/features/admin/admin-service";
 import SkeletonTable from "../../../../components/Loaders/SkeletonTable";
 import ModalComponent from "../../../../components/ModalComponent";
@@ -20,6 +20,7 @@ const Categories = () => {
 	const [detail, setDetail] = useState<any>(null);
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		listProductCategories();
 	}, []);
 
@@ -34,6 +35,21 @@ const Categories = () => {
 		} catch (err) {
 			setLoad(false);
 			displayError(err, true);
+		}
+	};
+
+	const deleteHandler = async (obj: any) => {
+		if (window.confirm(`Are you sure you want to delete ${obj.name}`)) {
+			try {
+				setLoad(true);
+				await productService.deleteProductCategory(obj.id, true);
+				setLoad(false);
+				listProductCategories();
+				displaySuccess("Category has been deleted!");
+			} catch (err) {
+				setLoad(false);
+				displayError(err, true);
+			}
 		}
 	};
 
@@ -82,6 +98,18 @@ const Categories = () => {
 													}}
 												>
 													Edit
+												</button>
+												<button
+													onClick={() => {
+														deleteHandler(li);
+													}}
+													className="ms-2"
+													style={{
+														background: "red",
+														color: "#fff",
+													}}
+												>
+													Delete
 												</button>
 											</td>
 										</tr>

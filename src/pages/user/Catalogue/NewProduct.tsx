@@ -19,6 +19,7 @@ import LoadModal from "../../../components/Loaders/LoadModal";
 import PermissionDenied from "../../../components/PermissionDenied";
 import BarcodeScan from "../../../components/Catalogue/BarcodeScan";
 import UploadComponent from "../../../components/UploadComponent";
+import adminService from "../../../redux/features/admin/admin-service";
 
 const NewProduct = () => {
 	const params = useParams();
@@ -57,7 +58,12 @@ const NewProduct = () => {
 
 	const getCategories = async () => {
 		try {
-			let res = await productService.productCategories();
+			let res;
+			if (details.role.isAdmin) {
+				res = await adminService.listProductCategories();
+			} else {
+				res = await productService.productCategories();
+			}
 			if (Array.isArray(res)) {
 				let arr = res.map((r) => {
 					return { label: r.name, value: r.id };

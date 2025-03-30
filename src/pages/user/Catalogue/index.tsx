@@ -23,7 +23,7 @@ import Papa from "papaparse";
 import { haveRole } from "../../../utils/role";
 import RoleGuard from "../../../components/RoleGuard";
 
-const Catalogue = ({ admin }: { admin?: boolean }) => {
+const Catalogue = () => {
 	const { details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
