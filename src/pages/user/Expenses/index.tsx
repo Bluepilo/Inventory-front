@@ -119,8 +119,10 @@ const Expenses = () => {
 							changeStartDate={setStartDate}
 							endDate={endDate}
 							changeEndDate={setEndDate}
-							shopId={shopId}
-							changeShopId={setShopId}
+							shopId={details.role.isAdmin ? null : shopId}
+							changeShopId={
+								details.role.isAdmin ? null : setShopId
+							}
 							clearValues={clearFilters}
 							statusId={statusId}
 							changeStatusId={setStatusId}
