@@ -13,6 +13,7 @@ import { logout } from "../../../redux/features/auth/auth-slice";
 import LoadModal from "../../../components/Loaders/LoadModal";
 import ModalComponent from "../../../components/ModalComponent";
 import { haveRole } from "../../../utils/role";
+import DeleteBusinessModal from "../../../components/Organization/DeleteBusinessModal";
 
 const EditBusiness = () => {
 	const navigate = useNavigate();
@@ -78,34 +79,10 @@ const EditBusiness = () => {
 				close={() => setOpenModal(false)}
 				title="Verify it is you!"
 			>
-				<Form onSubmit={deleteHandler}>
-					<h6 className="mb-3">
-						Your business will be deleted on Submit.
-					</h6>
-					<label>Enter Password</label>
-					<div className="pos">
-						<input
-							className="height"
-							type={showPassword ? "text" : "password"}
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-							required
-						/>
-						<button
-							onClick={(e) => {
-								e.preventDefault();
-								setShowPassword(!showPassword);
-							}}
-						>
-							{showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
-						</button>
-					</div>
-					<div className="mt-3 text-center">
-						<MainButton bg="#f44336" type="submit">
-							<span>Delete Business</span>
-						</MainButton>
-					</div>
-				</Form>
+				<DeleteBusinessModal
+					logMeOut={true}
+					closeModal={() => setOpenModal(false)}
+				/>
 			</ModalComponent>
 			{load && <LoadModal open={true} />}
 		</div>

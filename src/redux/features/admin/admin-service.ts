@@ -109,9 +109,11 @@ const deleteOrg = async (id: any, obj: any) => {
 	return data.data;
 };
 
-const getPlans = async () => {
+const getPlans = async (trial?: boolean) => {
 	const { data } = await apiRequest("baseUrl").get(
-		`/other/subscription-plans`
+		`/other/subscription-plans?includeEnterprise=true&includeTrial=${
+			trial ? "true" : "false"
+		}`
 	);
 	return data.data;
 };

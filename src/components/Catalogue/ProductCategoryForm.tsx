@@ -29,7 +29,7 @@ const ProductCategoryForm = ({
 		try {
 			setLoad(true);
 			if (!detail?.id) {
-				await productService.addProductCategory({ name, image });
+				await productService.addProductCategory({ name, image }, true);
 			} else {
 				await productService.editProductCategory(
 					{ name, image },

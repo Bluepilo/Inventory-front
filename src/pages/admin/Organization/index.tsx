@@ -118,7 +118,7 @@ const Organization = () => {
 
 	const getPlans = async () => {
 		try {
-			let res = await subscriptionService.getPlans(true);
+			let res = await adminService.getPlans(true);
 			let arr = res?.map((a: any) => {
 				return { label: a.name, value: a.id };
 			});

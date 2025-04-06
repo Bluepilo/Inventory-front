@@ -195,11 +195,9 @@ const adjustStock = async (obj: any) => {
 	return data.data;
 };
 
-const addProductCategory = async (obj: any) => {
-	const { data } = await apiRequest("baseUrl").post(
-		`/product/add-category`,
-		obj
-	);
+const addProductCategory = async (obj: any, admin?: boolean) => {
+	let url = admin ? `/admin/product/add-category` : `/product/add-category`;
+	const { data } = await apiRequest("baseUrl").post(url, obj);
 	return data.data;
 };
 
