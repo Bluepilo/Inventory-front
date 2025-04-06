@@ -54,6 +54,7 @@ const NewSale = () => {
 	}, []);
 
 	useEffect(() => {
+		console.log(cloneState, "clones");
 		if (cloneState?.id) {
 			if (cloneState?.subdealerId) {
 				setIsWalkIn(false);
@@ -196,6 +197,8 @@ const NewSale = () => {
 				: "complete",
 			discount: discountApplied,
 			amountExpected: totalPrice - discountApplied,
+			draftRef:
+				cloneState?.status === "draft" ? cloneState.uniqueRef : null,
 		};
 		try {
 			setLoad(true);
@@ -322,6 +325,14 @@ const NewSale = () => {
 						discountApplied={discountApplied}
 						complete={(vals: any) => paymentHandler(vals)}
 						isAdvanced={isAdvanced}
+						customerInfo={
+							cloneState?.id
+								? {
+										customerId: cloneState.customerId,
+										status: cloneState.status,
+								  }
+								: null
+						}
 					/>
 				) : (
 					<></>

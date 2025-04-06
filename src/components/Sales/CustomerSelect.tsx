@@ -28,6 +28,7 @@ interface Props {
 	totalAmount: number;
 	complete: (arg: any) => void;
 	isAdvanced: boolean;
+	customerInfo?: any;
 }
 
 const CustomerSelect = ({
@@ -37,6 +38,7 @@ const CustomerSelect = ({
 	discountApplied,
 	complete,
 	isAdvanced,
+	customerInfo,
 }: Props) => {
 	const { currency } = useAppSelector((state) => state.auth);
 	const { methods, settings } = useAppSelector((state) => state.basic);
@@ -58,6 +60,15 @@ const CustomerSelect = ({
 	useEffect(() => {
 		fetchCustomer();
 	}, [type]);
+
+	useEffect(() => {
+		if (list?.length > 0 && customerInfo) {
+			let customer = list?.find(
+				(li: any) => li.id === customerInfo.customerId
+			);
+			setSelectedCustomer(customer);
+		}
+	}, [list]);
 
 	useEffect(() => {
 		if (selectedCustomer?.value) {
@@ -318,7 +329,7 @@ const CustomerSelect = ({
 							</span>
 							<img src={PayIcon} />
 						</MainButton>
-						{!isAdvanced && (
+						{!isAdvanced && customerInfo?.status !== "draft" && (
 							<MainButton
 								right="true"
 								color="#505BDA"

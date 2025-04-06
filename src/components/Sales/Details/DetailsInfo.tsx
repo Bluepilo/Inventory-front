@@ -156,6 +156,18 @@ const DetailsInfo = ({
 								</Flex>
 							</div>
 						)}
+						{saleDetails.status === "draft" && (
+							<div className="line">
+								<Flex>
+									<MainButton
+										onClick={() => resolveHandler("cancel")}
+										bg="red"
+									>
+										<span>Delete Draft</span>
+									</MainButton>
+								</Flex>
+							</div>
+						)}
 					</div>
 				</div>
 			</DetailCard>
