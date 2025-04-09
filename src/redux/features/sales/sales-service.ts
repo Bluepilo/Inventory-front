@@ -12,7 +12,7 @@ const getSalesSummary = async (filters: string) => {
 
 const searchSales = async (word: string, filters: string) => {
 	const { data } = await apiRequest("baseUrl").get(
-		`/sale/search?search=${word}${filters}`
+		`/sale/search${filters}&search=${word}`
 	);
 	return data.data;
 };

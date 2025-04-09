@@ -37,7 +37,6 @@ const Sales = () => {
 	const [search, setSearch] = useState("");
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(20);
-	const [withdrawn, setWithdrawn] = useState(false);
 	const [filterBySales, setFilterBySales] = useState(true);
 
 	const [load, setLoad] = useState(false);
@@ -46,7 +45,10 @@ const Sales = () => {
 		label: "This Month",
 		value: "month",
 	});
-	const [status, setStatus] = useState<OptionProp | null>(null);
+	const [status, setStatus] = useState<OptionProp | null>({
+		value: "success",
+		label: "Complete Sales",
+	});
 
 	const debouncedSearch = UseDebounce(search);
 
@@ -54,7 +56,7 @@ const Sales = () => {
 		shopId?.value || ""
 	}&userId=${staffId?.value || ""}&customerCategory=${
 		customerType?.value || ""
-	}&startDate=${startDate}&endDate=${endDate}&mode=${
+	}&startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}&mode=${
 		filterBySales ? "sales" : "product"
 	}&status=${status?.value || ""}`;
 
