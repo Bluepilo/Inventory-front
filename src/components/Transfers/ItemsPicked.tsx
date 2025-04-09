@@ -23,7 +23,7 @@ const ItemsPicked = ({ transferDetails }: { transferDetails: any }) => {
 									<td>
 										₦{" "}
 										{formatCurrency(
-											p.price *
+											Number(p.price) *
 												p.productTransfer?.quantity || 1
 										)}
 									</td>
@@ -47,11 +47,9 @@ const ItemsPicked = ({ transferDetails }: { transferDetails: any }) => {
 										products.reduce(
 											(a, b) =>
 												a +
-												Number(
-													b.price *
+													Number(b.price) *
 														b.productTransfer
-															?.quantity || 1
-												),
+															?.quantity || 1,
 											0
 										)
 									)}
