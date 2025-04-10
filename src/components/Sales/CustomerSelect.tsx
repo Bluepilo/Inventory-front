@@ -163,11 +163,7 @@ const CustomerSelect = ({
 	const payHandler = (comment: string) => {
 		setOpenModal(false);
 		let data = {
-			customerId: !isDeposit
-				? null
-				: type === "walkin"
-				? selectedCustomer.id
-				: "",
+			customerId: type === "walkin" ? selectedCustomer.id : "",
 			customerName: selectedCustomer?.fullName || null,
 			customerEmail: selectedCustomer?.email || null,
 			customerAddress: selectedCustomer?.address || null,
@@ -175,11 +171,7 @@ const CustomerSelect = ({
 			isDeposit: comment === "Draft" ? true : false,
 			comment,
 			amountPaid: amountReceived,
-			subdealerId: !isDeposit
-				? null
-				: type === "subdealer"
-				? selectedCustomer.id
-				: "",
+			subdealerId: type === "subdealer" ? selectedCustomer.id : "",
 			paymentMethodId: selectedPayment?.value,
 		};
 		complete(data);
