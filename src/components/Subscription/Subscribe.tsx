@@ -124,28 +124,37 @@ const Subscribe = ({
 		<div>
 			<h5 className="mb-3">Review Order</h5>
 			<Form onSubmit={submitHandler}>
-				<label>Subscription Type</label>
-				<select
-					value={subscriptionType}
-					onChange={(e) => setSubscriptionType(e.target.value)}
-					required
-					className="height"
-				>
-					<option value={""}></option>
-					{plans?.map((p: any) => (
-						<option value={p.id}>{p.name}</option>
-					))}
-				</select>
-				<label>Duration</label>
-				<select
-					value={duration}
-					onChange={(e) => setDuration(e.target.value)}
-					required
-					className="height"
-				>
-					<option value={"yearly"}>Yearly</option>
-					<option value={"monthly"}>Monthly</option>
-				</select>
+				<div className="row">
+					<div className="col-lg-6">
+						<label>Subscription Type</label>
+						<select
+							value={subscriptionType}
+							onChange={(e) =>
+								setSubscriptionType(e.target.value)
+							}
+							required
+							className="height"
+						>
+							<option value={""}></option>
+							{plans?.map((p: any) => (
+								<option value={p.id}>{p.name}</option>
+							))}
+						</select>
+					</div>
+					<div className="col-lg-6">
+						<label>Duration</label>
+						<select
+							value={duration}
+							onChange={(e) => setDuration(e.target.value)}
+							required
+							className="height"
+						>
+							<option value={"yearly"}>Yearly</option>
+							<option value={"monthly"}>Monthly</option>
+						</select>
+					</div>
+				</div>
+
 				<label>Subscription Cost</label>
 				<CurrencyInput
 					id="input-example"
