@@ -130,7 +130,7 @@ const NewReturns = () => {
 		if (shopId?.value && productId?.value && quantity && reasonId?.value) {
 			try {
 				let data = {
-					shopId: shopId.value,
+					shopId: details?.shopId || shopId.value,
 					productId: productId.value,
 					quantity,
 					reason: reasonId.value,
@@ -199,14 +199,26 @@ const NewReturns = () => {
 									changeSelected={setCustomerId}
 								/>
 							</div>
-							<div className="mb-4">
-								<label>Select Shop</label>
-								<DropDownSelect
-									value={shopId}
-									options={shopList}
-									changeSelected={setShopId}
-								/>
-							</div>
+							{details.shopId ? (
+								<div className="mb-4">
+									<label>Shop</label>
+									<input
+										type="number"
+										value={details.shop?.name}
+										readOnly
+										className="height"
+									/>
+								</div>
+							) : (
+								<div className="mb-4">
+									<label>Select Shop</label>
+									<DropDownSelect
+										value={shopId}
+										options={shopList}
+										changeSelected={setShopId}
+									/>
+								</div>
+							)}
 							<div className="mb-4">
 								<label>Select Product</label>
 								<DropDownSelect
