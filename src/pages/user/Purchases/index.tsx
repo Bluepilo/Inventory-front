@@ -59,17 +59,15 @@ const Purchases = () => {
 		staffId?.value || ""
 	}&startDate=${startDate}&endDate=${endDate}&includeWithdrawn=${
 		withdrawn ? "1" : "0"
-	}&onboarding=0&supplierId=${supplierId?.value || ""}`;
+	}&onboarding=0&supplierId=${
+		supplierId?.value || ""
+	}&search=${debouncedSearch}`;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
-		if (debouncedSearch) {
-			searchPurchase();
-		} else {
-			getPurchases();
-		}
+		getPurchases();
 		getSummary();
-	}, [filters, debouncedSearch]);
+	}, [filters]);
 
 	useEffect(() => {
 		listSuppliers();

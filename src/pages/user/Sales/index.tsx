@@ -58,16 +58,12 @@ const Sales = () => {
 		customerType?.value || ""
 	}&startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}&mode=${
 		filterBySales ? "sales" : "product"
-	}&status=${status?.value || ""}`;
+	}&status=${status?.value || ""}&search=${debouncedSearch}`;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
-		if (debouncedSearch) {
-			searchSales();
-		} else {
-			getSales();
-		}
-	}, [filters, debouncedSearch]);
+		getSales();
+	}, [filters]);
 
 	const getSales = async () => {
 		try {

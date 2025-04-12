@@ -146,7 +146,7 @@ const Subscribe = ({
 					<option value={"yearly"}>Yearly</option>
 					<option value={"monthly"}>Monthly</option>
 				</select>
-				<label>Amount</label>
+				<label>Subscription Cost</label>
 				<CurrencyInput
 					id="input-example"
 					name="input-name"
@@ -160,10 +160,22 @@ const Subscribe = ({
 				{finalAmount?.totalPayable &&
 					amount > finalAmount.totalPayable && (
 						<>
-							<label>
-								Amount to Pay ({finalAmount?.discounts[0]?.name}
-								)
-							</label>
+							{finalAmount?.discounts?.map((dis: any) => (
+								<div key={dis.id}>
+									<label>{dis.name} Discount</label>
+									<CurrencyInput
+										id="input-example"
+										name="input-name"
+										decimalsLimit={2}
+										disabled={true}
+										prefix={`${currency}`}
+										value={dis.value}
+										required
+										className="height"
+									/>
+								</div>
+							))}
+							<label>Amount to Pay</label>
 							<CurrencyInput
 								id="input-example"
 								name="input-name"
