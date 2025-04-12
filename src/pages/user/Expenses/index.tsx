@@ -7,8 +7,6 @@ import TitleCover from "../../../components/TitleCover";
 import Filters from "../../../components/Filters";
 import { OptionProp } from "../../../components/Filters/BasicInputs";
 import { CheckBoxPrint, SummaryCard } from "../../../styles/dashboard.styles";
-import { MainButton } from "../../../styles/links.styles";
-import PrintLogo from "../../../assets/icons/print.svg";
 import expenseService from "../../../redux/features/expense/expense-service";
 import { formatCurrency } from "../../../utils/currency";
 import { TableComponent } from "../../../styles/table.styles";
@@ -21,7 +19,7 @@ import NewExpense from "../../../components/Expense/NewExpense";
 import { haveRole } from "../../../utils/role";
 
 const Expenses = () => {
-	const { details, token } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 
 	const [lists, setLists] = useState<any>({});
 	const [openModal, setOpenModal] = useState(false);
@@ -63,11 +61,6 @@ const Expenses = () => {
 		statusId?.value || ""
 	}&startDate=${startDate}&endDate=${endDate}`;
 
-	const currency =
-		details.business?.currency?.symbol ||
-		details.business?.currencyCode ||
-		"";
-
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		if (recurrent) {
@@ -81,7 +74,7 @@ const Expenses = () => {
 		setLists({});
 		try {
 			setLoad(true);
-			let res = await expenseService.getExpenses(token, filters);
+			let res = await expenseService.getExpenses(filters);
 			setLoad(false);
 			setLists(res);
 		} catch (err) {
@@ -93,7 +86,7 @@ const Expenses = () => {
 		setLists({});
 		try {
 			setLoad(true);
-			let res = await expenseService.getRecurrentExpenses(token, filters);
+			let res = await expenseService.getRecurrentExpenses(filters);
 			setLoad(false);
 			setLists(res);
 		} catch (err) {
@@ -126,8 +119,10 @@ const Expenses = () => {
 							changeStartDate={setStartDate}
 							endDate={endDate}
 							changeEndDate={setEndDate}
-							shopId={shopId}
-							changeShopId={setShopId}
+							shopId={details.role.isAdmin ? null : shopId}
+							changeShopId={
+								details.role.isAdmin ? null : setShopId
+							}
 							clearValues={clearFilters}
 							statusId={statusId}
 							changeStatusId={setStatusId}

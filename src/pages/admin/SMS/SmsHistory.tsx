@@ -13,7 +13,7 @@ import { SummaryCard } from "../../../styles/dashboard.styles";
 import PermissionDenied from "../../../components/PermissionDenied";
 
 const SmsHistory = () => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [list, setList] = useState<any>({});
@@ -39,7 +39,6 @@ const SmsHistory = () => {
 	const getReport = async () => {
 		try {
 			let res = await smsService.getHistoryReport(
-				token,
 				details.id,
 				startDate.toISOString(),
 				endDate.toISOString()
@@ -54,7 +53,6 @@ const SmsHistory = () => {
 		try {
 			setLoad(true);
 			let res = await smsService.getHistory(
-				token,
 				details.id,
 				startDate,
 				endDate,

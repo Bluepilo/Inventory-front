@@ -22,7 +22,7 @@ const ShopForm = ({
 	const dispatch = useAppDispatch();
 
 	const { states } = useAppSelector((state) => state.basic);
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [name, setName] = useState("");
 	const [address, setAddress] = useState("");
@@ -51,9 +51,9 @@ const ShopForm = ({
 			setLoad(true);
 			let res;
 			if (detail?.id) {
-				res = await basicService.editShop(token, payload, detail.id);
+				res = await basicService.editShop(payload, detail.id);
 			} else {
-				res = await basicService.createShop(token, payload);
+				res = await basicService.createShop(payload);
 				saveTrialPick();
 			}
 			dispatch(allShops());

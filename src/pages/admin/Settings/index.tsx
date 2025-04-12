@@ -10,7 +10,7 @@ const Settings = () => {
 	const [activePage, setActivePage] = useState("profile");
 	const [appSettings, setAppSettings] = useState<any>({});
 
-	const { details, token } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	useEffect(() => {
 		if (
@@ -24,7 +24,7 @@ const Settings = () => {
 
 	const loadSettings = async () => {
 		try {
-			let res = await adminService.appSettings(token);
+			let res = await adminService.appSettings();
 			setAppSettings(res?.length > 0 ? res[0] : {});
 		} catch (err) {}
 	};

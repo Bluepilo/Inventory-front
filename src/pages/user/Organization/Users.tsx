@@ -14,8 +14,6 @@ import SkeletonTable from "../../../components/Loaders/SkeletonTable";
 import ActionsUser from "../../../components/Users/ActionsUser";
 
 const Users = () => {
-	const { token } = useAppSelector((state) => state.auth);
-
 	const [lists, setLists] = useState<any>({});
 	const [openModal, setOpenModal] = useState(false);
 	const [load, setLoad] = useState(false);
@@ -32,7 +30,6 @@ const Users = () => {
 		try {
 			setLoad(true);
 			let res = await customerService.listUsers(
-				token,
 				`?business_only=false&page=${page}&limit=${limit}`
 			);
 			setLists(res);

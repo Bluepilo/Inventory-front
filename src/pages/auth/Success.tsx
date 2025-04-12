@@ -3,13 +3,10 @@ import Loading from "../../components/Loaders/Loading";
 import { MainButton } from "../../styles/links.styles";
 import { useAppDispatch } from "../../redux/hooks";
 import { logout } from "../../redux/features/auth/auth-slice";
+import { useNavigate } from "react-router-dom";
 
 const Success = () => {
-	const dispatch = useAppDispatch();
-
-	const loginHandler = () => {
-		dispatch(logout());
-	};
+	const navigate = useNavigate();
 
 	return (
 		<div className="mt-4">
@@ -19,7 +16,7 @@ const Success = () => {
 				<Loading />
 				<div className="text-center mt-5">
 					<p>OR</p>
-					<MainButton onClick={() => loginHandler()}>
+					<MainButton onClick={() => navigate("/")}>
 						<span>Login</span>
 					</MainButton>
 				</div>

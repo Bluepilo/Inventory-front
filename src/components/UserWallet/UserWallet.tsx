@@ -16,6 +16,7 @@ import LoadWallet from "./LoadWallet";
 import WithdrawWallet from "./WithdrawWallet";
 import { Link } from "react-router-dom";
 import DrawerInfo from "../Transaction/DrawerInfo";
+import RoleGuard from "../RoleGuard";
 
 const UserWallet = ({
 	userType,
@@ -24,7 +25,7 @@ const UserWallet = ({
 	userType: string;
 	id: string | number;
 }) => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { currency } = useAppSelector((state) => state.auth);
 	const { settings } = useAppSelector((state) => state.basic);
 
 	const [load, setLoad] = useState(false);
@@ -53,9 +54,6 @@ const UserWallet = ({
 		transactionType?.value || ""
 	}`;
 
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
-
 	const getInitials = (string: any) => {
 		let names = string.split(" "),
 			initials = names[0].substring(0, 1).toUpperCase();
@@ -78,7 +76,7 @@ const UserWallet = ({
 	const fetchUser = async () => {
 		try {
 			setLoad(true);
-			let res = await customerService.userDetails(token, userType, id);
+			let res = await customerService.userDetails(userType, id);
 			setLoad(false);
 			if (userType === "supplier") {
 				setUserDetails(res.supplier);
@@ -93,7 +91,6 @@ const UserWallet = ({
 	const fetchUserTransactions = async () => {
 		try {
 			let res = await customerService.userTransactions(
-				token,
 				userType,
 				id,
 				filters
@@ -212,27 +209,29 @@ const UserWallet = ({
 										</div>
 									)}
 								</div>
-								<div className="buttons">
-									<MainButton
-										onClick={() => {
-											setOpenType("load");
-											setOpenDrop(true);
-										}}
-									>
-										<img src={WalletIcon} />
-										<span>Load Wallet</span>
-									</MainButton>
-									<button
-										className="custom"
-										onClick={() => {
-											setOpenType("withdraw");
-											setOpenDrop(true);
-										}}
-									>
-										<img src={WalletRedIcon} />
-										<span>Withdraw from Wallet</span>
-									</button>
-								</div>
+								<RoleGuard access="isBusinessActioners">
+									<div className="buttons">
+										<MainButton
+											onClick={() => {
+												setOpenType("load");
+												setOpenDrop(true);
+											}}
+										>
+											<img src={WalletIcon} />
+											<span>Load Wallet</span>
+										</MainButton>
+										<button
+											className="custom"
+											onClick={() => {
+												setOpenType("withdraw");
+												setOpenDrop(true);
+											}}
+										>
+											<img src={WalletRedIcon} />
+											<span>Withdraw from Wallet</span>
+										</button>
+									</div>
+								</RoleGuard>
 							</div>
 						</WalletDiv>
 						<h6 className="mt-3">Transaction Report</h6>

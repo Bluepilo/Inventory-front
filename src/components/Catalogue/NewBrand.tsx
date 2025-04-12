@@ -120,7 +120,7 @@ const ManagedFound = ({
 }) => {
 	const dispatch = useAppDispatch();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [name, setName] = useState(brand.val);
@@ -129,7 +129,7 @@ const ManagedFound = ({
 	const requestHandler = async () => {
 		try {
 			setLoad(true);
-			await productService.requestBrand(token, {
+			await productService.requestBrand({
 				brandId: brand.id,
 				name: name || brand.val,
 				description: desc || brand.val,

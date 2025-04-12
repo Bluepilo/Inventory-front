@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { displayError } from "../../utils/errors";
 import { updateOnboardingSteps } from "../../redux/features/basic/basic-slice";
 import LoadModal from "../Loaders/LoadModal";
+import PickItemsImage from "../Sales/PickItemsImage";
 
 const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 	const navigate = useNavigate();
@@ -21,8 +22,8 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 
 	const cloneState = useLocation()?.state?.cloneState;
 
-	const { details, token } = useAppSelector((state) => state.auth);
-	const { shops } = useAppSelector((state) => state.basic);
+	const { details, currency } = useAppSelector((state) => state.auth);
+	const { shops, pictureMode } = useAppSelector((state) => state.basic);
 
 	const [step, setStep] = useState(1);
 	const [selectedShop, setSelectedShop] = useState<OptionProp | null>(null);
@@ -37,9 +38,6 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [discountApplied, setDiscountApplied] = useState(0);
 	const [load, setLoad] = useState(false);
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -114,7 +112,6 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 			}
 			setProductLoad(true);
 			let res = await productService.allProducts(
-				token,
 				"?all=true&type=product_only"
 			);
 			let arr = res?.rows;
@@ -131,6 +128,9 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 						total: Number(a.costPrice),
 						id: a.id,
 						sku: a.sku,
+						image: a.image,
+						barcode: a.barcode,
+						brand: a.brand,
 					};
 				});
 				setProductList(resVal);
@@ -215,7 +215,7 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 
 		try {
 			setLoad(true);
-			let res = await purchaseService.makePurchase(token, data);
+			let res = await purchaseService.makePurchase(data);
 			setLoad(false);
 			saveTrialPick();
 			toast.success("Your Transaction was Successful!");
@@ -271,36 +271,69 @@ const PurchaseSteps = ({ onboarding }: { onboarding: boolean }) => {
 			)}
 			<SalesDiv>
 				{step === 1 ? (
-					<PickItems
-						load={productLoad}
-						items={productList}
-						onNext={() => {
-							if (onboarding) {
-								if (
-									window.confirm(
-										"Are you sure you want to proceed with the import?"
-									)
-								) {
-									paymentHandler({});
+					pictureMode ? (
+						<PickItemsImage
+							load={productLoad}
+							items={productList}
+							onNext={() => {
+								if (onboarding) {
+									if (
+										window.confirm(
+											"Are you sure you want to proceed with the import?"
+										)
+									) {
+										paymentHandler({});
+									}
+								} else {
+									setStep(2);
 								}
-							} else {
-								setStep(2);
+							}}
+							selectedProducts={selectedProducts}
+							setSelectedProducts={addItems}
+							remove={removeItem}
+							discountValue={discountValue}
+							discountPercent={discountPercent}
+							changeDiscount={() =>
+								setDiscountPercent(!discountPercent)
 							}
-						}}
-						selectedProducts={selectedProducts}
-						setSelectedProducts={addItems}
-						remove={removeItem}
-						discountValue={discountValue}
-						discountPercent={discountPercent}
-						changeDiscount={() =>
-							setDiscountPercent(!discountPercent)
-						}
-						changeDiscountValue={(text: any) =>
-							setDiscountValue(text)
-						}
-						discountApplied={discountApplied}
-						totalAmount={totalPrice}
-					/>
+							changeDiscountValue={(text: any) =>
+								setDiscountValue(text)
+							}
+							discountApplied={discountApplied}
+							totalAmount={totalPrice}
+						/>
+					) : (
+						<PickItems
+							load={productLoad}
+							items={productList}
+							onNext={() => {
+								if (onboarding) {
+									if (
+										window.confirm(
+											"Are you sure you want to proceed with the import?"
+										)
+									) {
+										paymentHandler({});
+									}
+								} else {
+									setStep(2);
+								}
+							}}
+							selectedProducts={selectedProducts}
+							setSelectedProducts={addItems}
+							remove={removeItem}
+							discountValue={discountValue}
+							discountPercent={discountPercent}
+							changeDiscount={() =>
+								setDiscountPercent(!discountPercent)
+							}
+							changeDiscountValue={(text: any) =>
+								setDiscountValue(text)
+							}
+							discountApplied={discountApplied}
+							totalAmount={totalPrice}
+						/>
+					)
 				) : step === 2 ? (
 					<SupplierSelect
 						onPrev={() => setStep(1)}

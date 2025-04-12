@@ -7,7 +7,7 @@ export interface SidebarMenusType {
 		id: number;
 		href: string;
 		name: string;
-		permission?: string[];
+		permission?: string[] | number[];
 	}[];
 }
 
@@ -34,6 +34,7 @@ interface UserDetailsType {
 	referralCode: string;
 	shopId: number;
 	business: {
+		id: string;
 		name: string;
 		onboardingSteps: any;
 		image: string;

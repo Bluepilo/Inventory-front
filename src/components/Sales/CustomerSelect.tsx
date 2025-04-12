@@ -19,6 +19,7 @@ import ModalComponent from "../ModalComponent";
 import CommentBox from "./CommentBox";
 import NewCustomer from "../Customer/NewCustomer";
 import NewSubdealer from "../Customer/NewSubdealer";
+import { CheckBox } from "../../styles/form.styles";
 
 interface Props {
 	type: string;
@@ -26,6 +27,8 @@ interface Props {
 	discountApplied: number;
 	totalAmount: number;
 	complete: (arg: any) => void;
+	isAdvanced: boolean;
+	customerInfo?: any;
 }
 
 const CustomerSelect = ({
@@ -34,8 +37,10 @@ const CustomerSelect = ({
 	totalAmount,
 	discountApplied,
 	complete,
+	isAdvanced,
+	customerInfo,
 }: Props) => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { currency } = useAppSelector((state) => state.auth);
 	const { methods, settings } = useAppSelector((state) => state.basic);
 
 	const [load, setLoad] = useState(false);
@@ -44,7 +49,7 @@ const CustomerSelect = ({
 		null
 	);
 	const [list, setList] = useState<OptionProp[]>([]);
-	const [amountReceived, setAmountReceived] = useState(0);
+	const [amountReceived, setAmountReceived] = useState<any>(null);
 	const [minAmount, setMinAmount] = useState(0);
 
 	const [errorAmount, setErrorAmount] = useState(false);
@@ -52,12 +57,18 @@ const CustomerSelect = ({
 	const [openModal, setOpenModal] = useState(false);
 	const [openCreate, setOpenCreate] = useState(false);
 
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
-
 	useEffect(() => {
 		fetchCustomer();
 	}, [type]);
+
+	useEffect(() => {
+		if (list?.length > 0 && customerInfo) {
+			let customer = list?.find(
+				(li: any) => li.id === customerInfo.customerId
+			);
+			setSelectedCustomer(customer);
+		}
+	}, [list]);
 
 	useEffect(() => {
 		if (selectedCustomer?.value) {
@@ -70,9 +81,9 @@ const CustomerSelect = ({
 			setLoad(true);
 			let res;
 			if (type === "walkin") {
-				res = await basicService.listWalkIns(token, "?all=true");
+				res = await basicService.listWalkIns("?all=true");
 			} else {
-				res = await basicService.listSubDealers(token, "?all=true");
+				res = await basicService.listSubDealers("?all=true");
 			}
 			setLoad(false);
 			let response = res?.data?.length > 0;
@@ -144,6 +155,7 @@ const CustomerSelect = ({
 			alert(`Please select a payment method to proceed.`);
 			return;
 		}
+
 		setIsDeposit(deposit);
 		setOpenModal(true);
 	};
@@ -152,11 +164,11 @@ const CustomerSelect = ({
 		setOpenModal(false);
 		let data = {
 			customerId: type === "walkin" ? selectedCustomer.id : "",
-			customerName: selectedCustomer.fullName,
-			customerEmail: selectedCustomer.email,
-			customerAddress: selectedCustomer.address,
-			customerPhoneNo: selectedCustomer.phoneNo,
-			isDeposit,
+			customerName: selectedCustomer?.fullName || null,
+			customerEmail: selectedCustomer?.email || null,
+			customerAddress: selectedCustomer?.address || null,
+			customerPhoneNo: selectedCustomer?.phoneNo || null,
+			isDeposit: comment === "Draft" ? true : false,
 			comment,
 			amountPaid: amountReceived,
 			subdealerId: type === "subdealer" ? selectedCustomer.id : "",
@@ -295,6 +307,7 @@ const CustomerSelect = ({
 							value={selectedPayment}
 							options={methods}
 							changeSelected={setSelectedPayment}
+							label="Payment Method"
 						/>
 					</div>
 					<div className="buttons">
@@ -302,18 +315,23 @@ const CustomerSelect = ({
 							right="true"
 							onClick={() => openComment(false)}
 						>
-							<span>Complete Payment</span>
+							<span>
+								Complete{" "}
+								{isAdvanced ? "Advanced Sale" : "Payment"}
+							</span>
 							<img src={PayIcon} />
 						</MainButton>
-						<MainButton
-							right="true"
-							color="#505BDA"
-							bg="#EDEEF0"
-							onClick={() => openComment(true)}
-						>
-							<span>Deposit</span>
-							<img src={DepositIcon} />
-						</MainButton>
+						{!isAdvanced && customerInfo?.status !== "draft" && (
+							<MainButton
+								right="true"
+								color="#505BDA"
+								bg="#EDEEF0"
+								onClick={() => payHandler("Draft")}
+							>
+								<span>Save as Draft</span>
+								<img src={DepositIcon} />
+							</MainButton>
+						)}
 					</div>
 				</PaymentSummaryBox>
 			</div>

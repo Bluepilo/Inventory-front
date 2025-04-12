@@ -18,7 +18,6 @@ const NotificationDropDown = ({
 	const navigate = useNavigate();
 
 	const { notify } = useAppSelector((state) => state.basic);
-	const { token } = useAppSelector((state) => state.auth);
 
 	const [page, setPage] = useState(1);
 
@@ -33,12 +32,12 @@ const NotificationDropDown = ({
 			navigate(`/dashboard/transfers/${obj.body.id}`);
 			setOpenNoti(false);
 		}
-		await basicService.readNotification(obj.id, token);
+		await basicService.readNotification(obj.id);
 		dispatch(getNotifications(1));
 	};
 
 	const readAllNotifications = async () => {
-		await basicService.readAllNotifications(token);
+		await basicService.readAllNotifications();
 		dispatch(getNotifications(1));
 		setTimeout(() => {
 			setOpenNoti(false);

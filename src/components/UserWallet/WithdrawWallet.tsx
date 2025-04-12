@@ -19,7 +19,7 @@ const WithdrawWallet = ({
 	userType: string;
 	close: () => void;
 }) => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 	const { methods, shops } = useAppSelector((state) => state.basic);
 
 	const [load, setLoad] = useState(false);
@@ -32,9 +32,6 @@ const WithdrawWallet = ({
 	const [password, setPassword] = useState("");
 	const [inputPassword, setInputPassword] = useState(false);
 
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
-
 	const passwordHandler = (e: any) => {
 		e.preventDefault();
 		setInputPassword(true);
@@ -44,7 +41,7 @@ const WithdrawWallet = ({
 		e.preventDefault();
 		try {
 			setLoad(true);
-			await customerService.withdrawWallet(token, userType, id, {
+			await customerService.withdrawWallet(userType, id, {
 				amount,
 				comment,
 				paymentMethodId: selectedMethod?.value,

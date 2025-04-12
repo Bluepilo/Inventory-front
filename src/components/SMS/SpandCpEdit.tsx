@@ -16,7 +16,7 @@ const SpandCpEdit = ({
 	val: number;
 	onSubmit: () => void;
 }) => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [amount, setAmount] = useState(val);
@@ -29,7 +29,7 @@ const SpandCpEdit = ({
 				let payload = editSp
 					? { spPerPage: amount }
 					: { cpPerPage: amount };
-				await smsService.editSettings(token, details.id, payload);
+				await smsService.editSettings(details.id, payload);
 
 				setLoad(false);
 				onSubmit();

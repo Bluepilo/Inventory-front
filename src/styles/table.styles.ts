@@ -83,9 +83,28 @@ export const Table = styled.table`
 
 		&.bbtn {
 			button {
-				background: none;
 				outline: 0;
 				border: 0;
+				font-size: 0.85rem;
+				font-weight: 600;
+				padding: 5px 10px;
+			}
+		}
+
+		&.img {
+			img {
+				height: 30px;
+				width: 30px;
+			}
+		}
+		&.input {
+			input {
+				width: 200px;
+				border: 2px solid #d9dbeb;
+				border-radius: 2px;
+				margin-right: 5px;
+				outline: 0;
+				padding-left: 5px;
 			}
 		}
 	}

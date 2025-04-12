@@ -3,10 +3,7 @@ import { Table } from "../../../styles/table.styles";
 import { formatCurrency } from "../../../utils/currency";
 
 const ItemsPicked = ({ saleDetails }: { saleDetails: any }) => {
-	const { details } = useAppSelector((state) => state.auth);
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
+	const { currency } = useAppSelector((state) => state.auth);
 
 	let products = JSON.parse(saleDetails.productPurchasedPayload);
 

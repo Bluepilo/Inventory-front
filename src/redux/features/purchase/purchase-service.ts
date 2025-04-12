@@ -1,88 +1,54 @@
-import axios from "axios";
-import config from "../../../utils/config";
-import { authHeader } from "../../../utils/headers";
+import { apiRequest } from "../../../utils/axiosInstance";
 
-const getPurchase = async (token: string, filters: string) => {
-	const { data } = await axios.get(
-		`${config.baseUrl}/purchase/all${filters}`,
-		{
-			headers: authHeader(token),
-		}
-	);
+const getPurchase = async (filters: string) => {
+	const { data } = await apiRequest("baseUrl").get(`/purchase/all${filters}`);
 	return data?.data || data;
 };
 
-const getPurchaseSummary = async (token: string, filters: string) => {
-	const { data } = await axios.get(
-		`${config.baseUrl}/purchase/summary${filters}`,
-		{
-			headers: authHeader(token),
-		}
+const getPurchaseSummary = async (filters: string) => {
+	const { data } = await apiRequest("baseUrl").get(
+		`/purchase/summary${filters}`
 	);
 	return data.data;
 };
 
-const searchPurchase = async (token: string, word: string, filters: string) => {
-	const { data } = await axios.get(
-		`${config.baseUrl}/purchase/search?search=${word}${filters}`,
-		{
-			headers: authHeader(token),
-		}
+const searchPurchase = async (word: string, filters: string) => {
+	const { data } = await apiRequest("baseUrl").get(
+		`/purchase/search?search=${word}${filters}`
 	);
 	return data.data;
 };
 
-const makePurchase = async (token: string, obj: any) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/purchase/create`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
+const makePurchase = async (obj: any) => {
+	const { data } = await apiRequest("baseUrl").post(`/purchase/create`, obj);
+	return data.data;
+};
+
+const getPurchaseInfo = async (id: any) => {
+	const { data } = await apiRequest("baseUrl").get(`/purchase/view/${id}`);
+	return data.data;
+};
+
+const updateSupply = async (id: string, obj: any) => {
+	const { data } = await apiRequest("baseUrl").post(
+		`/purchase/update-items/${id}`,
+		obj
 	);
 	return data.data;
 };
 
-const getPurchaseInfo = async (token: string, id: any) => {
-	const { data } = await axios.get(`${config.baseUrl}/purchase/view/${id}`, {
-		headers: authHeader(token),
-	});
-	return data.data;
-};
-
-const updateSupply = async (token: string, id: string, obj: any) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/purchase/update-items/${id}`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
+const approveOrDeclineWithdrawal = async (obj: any, ref: string) => {
+	const { data } = await apiRequest("baseUrl").post(
+		`/purchase/approve-or-decline-withdrawal/${ref}`,
+		obj
 	);
 	return data.data;
 };
 
-const approveOrDeclineWithdrawal = async (
-	token: string,
-	obj: any,
-	ref: string
-) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/purchase/approve-or-decline-withdrawal/${ref}`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
-	);
-	return data.data;
-};
-
-const withdrawPurchase = async (token: string, id: any, obj: any) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/purchase/withdraw/${id}`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
+const withdrawPurchase = async (id: any, obj: any) => {
+	const { data } = await apiRequest("baseUrl").post(
+		`/purchase/withdraw/${id}`,
+		obj
 	);
 	return data.data;
 };

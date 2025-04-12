@@ -10,8 +10,6 @@ import { useAppSelector } from "../../../redux/hooks";
 import { formatCurrency } from "../../../utils/currency";
 
 const TopUp = ({ id, onClose }: { id: string; onClose: () => void }) => {
-	const { token } = useAppSelector((state) => state.auth);
-
 	const [load, setLoad] = useState(false);
 	const [amount, setAmount] = useState(0);
 
@@ -20,7 +18,7 @@ const TopUp = ({ id, onClose }: { id: string; onClose: () => void }) => {
 		if (amount > 0) {
 			try {
 				setLoad(true);
-				await adminService.topWallet(token, id, { amount });
+				await adminService.topWallet(id, { amount });
 				setLoad(false);
 				toast.success(
 					`You've topped up the wallet with ${formatCurrency(amount)}`

@@ -14,15 +14,10 @@ import { updateOnboardingSteps } from "../../redux/features/basic/basic-slice";
 const NewExpense = ({ submit }: { submit: any }) => {
 	const dispatch = useAppDispatch();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 	const { expenseCat, shops } = useAppSelector((state) => state.basic);
 
 	let arr = [{ label: "New Category", value: "new" }, ...expenseCat];
-
-	const currency =
-		details.business?.currency?.symbol ||
-		details.business?.currencyCode ||
-		"";
 
 	const [load, setLoad] = useState(false);
 	const [name, setName] = useState("");
@@ -70,7 +65,7 @@ const NewExpense = ({ submit }: { submit: any }) => {
 				name,
 				date: expenseDate,
 				cost,
-				shopId: details.shopId || shopId?.value,
+				shopId: details.shopId || shopId?.value || null,
 				isRecurrent,
 				description,
 				proof,
@@ -78,9 +73,11 @@ const NewExpense = ({ submit }: { submit: any }) => {
 			};
 
 			setLoad(true);
-			let res = await expenseService.createExpense(token, obj);
+			let res = await expenseService.createExpense(obj);
 			setLoad(false);
-			saveTrialPick();
+			if (!details?.role?.isAdmin) {
+				saveTrialPick();
+			}
 			if (res) {
 				toast.success("Expense has been created.");
 				submit();
@@ -92,7 +89,7 @@ const NewExpense = ({ submit }: { submit: any }) => {
 	};
 
 	const saveTrialPick = () => {
-		if (details.business.onboardingSteps?.expense !== "completed") {
+		if (details?.business?.onboardingSteps?.expense !== "completed") {
 			dispatch(
 				updateOnboardingSteps({
 					steps: {
@@ -108,7 +105,7 @@ const NewExpense = ({ submit }: { submit: any }) => {
 		<>
 			<Form onSubmit={submitHandler} className="mb-3">
 				<div className="row">
-					<div className="col-lg-6">
+					<div className="col-lg-6 mb-3">
 						<label>What's this expense for?</label>
 						<DropDownSelect
 							options={arr}
@@ -155,7 +152,7 @@ const NewExpense = ({ submit }: { submit: any }) => {
 							className="height"
 						/>
 					</div>
-					{!details.shopId && (
+					{!details.shopId && !details.role.isAdmin && (
 						<div className="col-lg-6 mb-3">
 							<label>Shop</label>
 							<DropDownSelect
@@ -218,7 +215,6 @@ const NewExpense = ({ submit }: { submit: any }) => {
 						onChange={(e) => setFrequency(e.target.value)}
 						className="new-form height"
 					>
-						<option value={"once"}>Once</option>
 						<option value="daily">Daily</option>
 						<option value="weekly">Weekly</option>
 						<option value="monthly">Monthly</option>

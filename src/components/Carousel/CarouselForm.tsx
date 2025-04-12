@@ -5,7 +5,6 @@ import { UploadWrapper } from "../../styles/basic.styles";
 import Loading from "../Loaders/Loading";
 import { ButtonSubmit } from "../../styles/links.styles";
 import adminService from "../../redux/features/admin/admin-service";
-import { useAppSelector } from "../../redux/hooks";
 
 const CarouselForm = ({
 	detail,
@@ -16,8 +15,6 @@ const CarouselForm = ({
 	onClose: () => void;
 	onSubmit: () => void;
 }) => {
-	const { token } = useAppSelector((state) => state.auth);
-
 	const [uploading, setUploading] = useState(false);
 	const [image, setImage] = useState("");
 	const [type, setType] = useState("");
@@ -64,14 +61,14 @@ const CarouselForm = ({
 			try {
 				setLoad(true);
 				if (detail) {
-					await adminService.editCarousel(token, detail.id, {
+					await adminService.editCarousel(detail.id, {
 						image,
 						title,
 						description: title,
 						type,
 					});
 				} else {
-					await adminService.createCarousel(token, {
+					await adminService.createCarousel({
 						image,
 						title,
 						description: title,

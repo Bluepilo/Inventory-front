@@ -20,14 +20,15 @@ import SkeletonTable from "../../../../components/Loaders/SkeletonTable";
 import Paginate from "../../../../components/Paginate";
 import DropDowns from "../../../../components/Customer/DropDowns";
 import ConfirmModal from "../../../../components/Modals/ConfirmModal";
-import { displayError } from "../../../../utils/errors";
+import { displayError, displaySuccess } from "../../../../utils/errors";
 import { toast } from "react-toastify";
 import { haveRole } from "../../../../utils/role";
+import RoleGuard from "../../../../components/RoleGuard";
 
 const Subdealer = () => {
 	const navigate = useNavigate();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 
 	const [openModal, setOpenModal] = useState(false);
 	const [lists, setLists] = useState<any>({});
@@ -47,9 +48,6 @@ const Subdealer = () => {
 
 	let filters = `?page=${page}&limit=${limit}&shopId=${details.shopId || ""}`;
 
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
-
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		if (debouncedSearch) {
@@ -64,7 +62,6 @@ const Subdealer = () => {
 		try {
 			setLoad(true);
 			let res = await customerService.searchSubdealers(
-				token,
 				filters,
 				debouncedSearch
 			);
@@ -78,7 +75,7 @@ const Subdealer = () => {
 	const listSubdealers = async () => {
 		try {
 			setLoad(true);
-			let res = await customerService.getSubdealers(token, filters);
+			let res = await customerService.getSubdealers(filters);
 			setLoad(false);
 			setLists(res);
 		} catch (err) {
@@ -88,10 +85,7 @@ const Subdealer = () => {
 
 	const getSummary = async () => {
 		try {
-			let res = await customerService.subdealerSummary(
-				token,
-				debouncedSearch
-			);
+			let res = await customerService.subdealerSummary(debouncedSearch);
 			setSummary(res);
 		} catch (err) {}
 	};
@@ -100,7 +94,6 @@ const Subdealer = () => {
 		try {
 			setOpenConfirmation(false);
 			await customerService.actionUser(
-				token,
 				"subdealer",
 				ids.id,
 				ids.isActive ? "suspend" : "activate",
@@ -119,7 +112,8 @@ const Subdealer = () => {
 		if (window.confirm("Are you sure you want to delete this subdealer?")) {
 			try {
 				setLoad(true);
-				await customerService.deleteUser(token, id, "subdealer");
+				await customerService.deleteUser(id, "subdealer");
+				displaySuccess("Subdealer Deleted!");
 				listSubdealers();
 			} catch (err) {
 				setLoad(false);
@@ -346,7 +340,9 @@ const Subdealer = () => {
 													)}
 												</th>
 												<th>Status</th>
-												<th>Actions</th>
+												<RoleGuard access="isBusinessActioners">
+													<th>Actions</th>
+												</RoleGuard>
 											</tr>
 										</thead>
 										{!load && (
@@ -404,41 +400,47 @@ const Subdealer = () => {
 																}
 															/>
 														</td>
-														<td>
-															<DropDowns
-																active={
-																	l.isActive
-																}
-																suspend={() => {
-																	setIds(l);
-																	setOpenConfirmation(
-																		true
-																	);
-																}}
-																onNavigate={() =>
-																	navigate(
-																		`${l.id}`
-																	)
-																}
-																onEdit={() => {
-																	setOpenModal(
-																		true
-																	);
-																	setIds(l);
-																}}
-																deleteIt={
-																	l
-																		.transactions
-																		?.length ===
-																	0
-																		? () =>
-																				deleteHandler(
-																					l.id
-																				)
-																		: null
-																}
-															/>
-														</td>
+														<RoleGuard access="isBusinessActioners">
+															<td>
+																<DropDowns
+																	active={
+																		l.isActive
+																	}
+																	suspend={() => {
+																		setIds(
+																			l
+																		);
+																		setOpenConfirmation(
+																			true
+																		);
+																	}}
+																	onNavigate={() =>
+																		navigate(
+																			`${l.id}`
+																		)
+																	}
+																	onEdit={() => {
+																		setOpenModal(
+																			true
+																		);
+																		setIds(
+																			l
+																		);
+																	}}
+																	deleteIt={
+																		l
+																			.transactions
+																			?.length ===
+																		0
+																			? () =>
+																					deleteHandler(
+																						l.id
+																					)
+																			: null
+																	}
+																/>
+															</td>
+														</RoleGuard>
 													</tr>
 												))}
 											</tbody>

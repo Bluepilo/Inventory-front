@@ -12,7 +12,7 @@ const SummaryInfo = ({
 	transactions: any;
 	isCustomer: boolean;
 }) => {
-	const { details } = useAppSelector((state) => state.auth);
+	const { currency } = useAppSelector((state) => state.auth);
 
 	const totalInPayment = () => {
 		return transactions.reduce((prev: any, trn: any) => {
@@ -84,9 +84,6 @@ const SummaryInfo = ({
 			return prev;
 		}, 0);
 	};
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
 
 	return transactions && Array.isArray(transactions) ? (
 		<div className="row">

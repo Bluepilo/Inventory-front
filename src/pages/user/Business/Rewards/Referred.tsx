@@ -9,8 +9,6 @@ import SkeletonTable from "../../../../components/Loaders/SkeletonTable";
 import Paginate from "../../../../components/Paginate";
 
 const Referred = () => {
-	const { token } = useAppSelector((state) => state.auth);
-
 	const [list, setList] = useState<any>({});
 	const [load, setLoad] = useState(false);
 	const [page, setPage] = useState(1);
@@ -26,7 +24,7 @@ const Referred = () => {
 	const referredList = async () => {
 		try {
 			setLoad(true);
-			let res = await rewardService.referredList(token, filters);
+			let res = await rewardService.referredList();
 			setLoad(false);
 			setList(res);
 		} catch (err) {

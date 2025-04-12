@@ -18,7 +18,7 @@ import DrawerInfo from "../../../components/Transaction/DrawerInfo";
 import { haveRole } from "../../../utils/role";
 
 const Transactions = () => {
-	const { token, details: user } = useAppSelector((state) => state.auth);
+	const { details: user } = useAppSelector((state) => state.auth);
 
 	const [startDate, setStartDate] = useState(
 		new Date(new Date().getFullYear(), new Date().getMonth(), 1)
@@ -73,7 +73,7 @@ const Transactions = () => {
 	const getTransactions = async () => {
 		try {
 			setLoad(true);
-			let res = await salesService.getTransactions(token, filters);
+			let res = await salesService.getTransactions(filters);
 			setLoad(false);
 			setList(res);
 		} catch (err) {
@@ -85,7 +85,7 @@ const Transactions = () => {
 		try {
 			setOpenConfirmation(false);
 			setLoad(true);
-			await salesService.verifyTransactions(token, details?.id);
+			await salesService.verifyTransactions(details?.id);
 			setLoad(false);
 			getTransactions();
 			toast.success("Transaction has been verified!");

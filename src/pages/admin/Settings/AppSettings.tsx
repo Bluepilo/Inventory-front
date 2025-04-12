@@ -15,7 +15,7 @@ const AppSettings = ({
 	setting: any;
 	reload: () => void;
 }) => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [businessAccountLimit, setBusinessAccountLimit] = useState("");
 	const [passwordResetExpiryHours, setPasswordResetExpiryHours] =
@@ -41,7 +41,7 @@ const AppSettings = ({
 		if (window.confirm("Are you sure you want to update this?")) {
 			try {
 				setLoad(true);
-				await adminService.updateAppSettings(token, {
+				await adminService.updateAppSettings({
 					key,
 					value:
 						key === "rewardRatePercentage"

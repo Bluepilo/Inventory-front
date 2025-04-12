@@ -2,13 +2,10 @@ import { useAppSelector } from "../../redux/hooks";
 import dateFormat from "dateformat";
 import { formatCurrency } from "../../utils/currency";
 import "../../styles/reciept.css";
-import BluepiloImg from "../../assets/images/logo-icon.svg";
+import BluepiloImg from "../../assets/images/logo.svg";
 
 const ThermalSale = ({ result }: { result: any }) => {
-	const { details } = useAppSelector((state) => state.auth);
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
+	const { details, currency } = useAppSelector((state) => state.auth);
 
 	return result?.id ? (
 		<div className="row justify-content-center">
@@ -87,7 +84,7 @@ const ThermalSale = ({ result }: { result: any }) => {
 										return (
 											<tr key={indx}>
 												<td className="name">
-													{prd.name}
+													{prd.summary || prd.name}
 												</td>
 												<td className="qty">
 													{prd.quantity}
@@ -163,6 +160,7 @@ const ThermalSale = ({ result }: { result: any }) => {
 					<div className="text-center mt-3">
 						<p>Sales by {result.user?.fullName}</p>
 						<p>Thanks for your patronage</p>
+						<p>Printed on {new Date().toDateString()}</p>
 					</div>
 				</div>
 			</div>

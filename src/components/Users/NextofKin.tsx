@@ -8,8 +8,6 @@ import { useAppSelector } from "../../redux/hooks";
 import { toast } from "react-toastify";
 
 const NextofKin = ({ detail, close }: { detail: any; close: any }) => {
-	const { token } = useAppSelector((state) => state.auth);
-
 	const [nokName, setNokName] = useState(detail.nokName);
 	const [nokEmail, setNokEmail] = useState("");
 	const [nokPhoneNo, setNokPhoneNo] = useState("");
@@ -26,11 +24,7 @@ const NextofKin = ({ detail, close }: { detail: any; close: any }) => {
 		};
 		try {
 			setLoad(true);
-			let res = await customerService.updateUser(
-				token,
-				payload,
-				detail.id
-			);
+			let res = await customerService.updateUser(payload, detail.id);
 			setLoad(false);
 			if (res) {
 				toast.success("Next of Kin details has been updated.");

@@ -63,6 +63,9 @@ export const AuthStyle = styled.div`
 		margin-top: 10px;
 		.logo {
 			text-align: center;
+			img {
+				height: 50px;
+			}
 		}
 		.content {
 			margin-top: 15px;

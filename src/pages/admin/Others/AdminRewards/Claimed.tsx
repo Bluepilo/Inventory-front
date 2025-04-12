@@ -29,8 +29,6 @@ const Claimed = ({
 	const [account, setAccount] = useState<any>({});
 	const [id, setId] = useState("");
 
-	const { token } = useAppSelector((state) => state.auth);
-
 	const getName = (str: string) => {
 		return str.replace(/ /g, "-");
 	};
@@ -39,7 +37,7 @@ const Claimed = ({
 		if (window.confirm(`Are you sure you want to resolve this?`)) {
 			try {
 				setLoad(true);
-				await rewardService.resolveClaimReward(token, val, {
+				await rewardService.resolveClaimReward(val, {
 					action: type,
 				});
 				setLoad(false);

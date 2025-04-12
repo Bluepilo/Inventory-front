@@ -2,31 +2,28 @@ import { IoCartSharp } from "react-icons/io5";
 import TitleCover from "../../../components/TitleCover";
 import Filters from "../../../components/Filters";
 import { useEffect, useState } from "react";
-import { CheckBoxPrint, SummaryCard } from "../../../styles/dashboard.styles";
-import { MainButton } from "../../../styles/links.styles";
-import PrintLogo from "../../../assets/icons/print.svg";
-import { Table, TableComponent } from "../../../styles/table.styles";
+import { SummaryCard } from "../../../styles/dashboard.styles";
+import { TableComponent } from "../../../styles/table.styles";
 import SkeletonTable from "../../../components/Loaders/SkeletonTable";
 import { useAppSelector } from "../../../redux/hooks";
 import salesService from "../../../redux/features/sales/sales-service";
-import dateFormat from "dateformat";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { formatCurrency } from "../../../utils/currency";
-
-import SuccessIcon from "../../../assets/icons/success.svg";
-import FailedIcon from "../../../assets/icons/failed.svg";
-import PendingIcon from "../../../assets/icons/pending.svg";
 import Paginate from "../../../components/Paginate";
 import { UseDebounce } from "../../../utils/hooks";
 import { OptionProp } from "../../../components/Filters/BasicInputs";
 import { haveRole } from "../../../utils/role";
 import NewPage from "../../../components/NewPage";
 import CoverImg from "../../../assets/defaults/sales.png";
+import TableBySales from "../../../components/Sales/TableBySales";
+import TableByProduct from "../../../components/Sales/TableByProduct";
+import { SwitchDiv } from "../../../styles/basic.styles";
+import { displayError } from "../../../utils/errors";
 
 const Sales = () => {
 	const navigate = useNavigate();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 
 	const [startDate, setStartDate] = useState(
 		new Date(new Date().getFullYear(), new Date().getMonth(), 1)
@@ -40,13 +37,17 @@ const Sales = () => {
 	const [search, setSearch] = useState("");
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(20);
-	const [withdrawn, setWithdrawn] = useState(false);
+	const [filterBySales, setFilterBySales] = useState(true);
 
 	const [load, setLoad] = useState(false);
 	const [lists, setList] = useState<any>({});
 	const [dateType, setDateType] = useState({
 		label: "This Month",
 		value: "month",
+	});
+	const [status, setStatus] = useState<OptionProp | null>({
+		value: "success",
+		label: "Complete Sales",
 	});
 
 	const debouncedSearch = UseDebounce(search);
@@ -55,41 +56,31 @@ const Sales = () => {
 		shopId?.value || ""
 	}&userId=${staffId?.value || ""}&customerCategory=${
 		customerType?.value || ""
-	}&startDate=${startDate}&endDate=${endDate}&includeWithdrawn=${
-		withdrawn ? "1" : "0"
-	}`;
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
+	}&startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}&mode=${
+		filterBySales ? "sales" : "product"
+	}&status=${status?.value || ""}&search=${debouncedSearch}`;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
-		if (debouncedSearch) {
-			searchSales();
-		} else {
-			getSales();
-		}
-	}, [filters, debouncedSearch]);
+		getSales();
+	}, [filters]);
 
 	const getSales = async () => {
 		try {
 			setLoad(true);
-			let res = await salesService.getSales(token, filters);
+			let res = await salesService.getSales(filters);
 			setLoad(false);
 			setList(res);
 		} catch (err) {
 			setLoad(false);
+			displayError(err, false);
 		}
 	};
 
 	const searchSales = async () => {
 		try {
 			setLoad(true);
-			let res = await salesService.searchSales(
-				token,
-				debouncedSearch,
-				filters
-			);
+			let res = await salesService.searchSales(debouncedSearch, filters);
 			setLoad(false);
 			setList(res);
 		} catch (err) {
@@ -121,6 +112,24 @@ const Sales = () => {
 				buttonIcon={<IoCartSharp />}
 				buttonClick={() => navigate("new")}
 			/>
+			<SwitchDiv>
+				<div
+					className={filterBySales ? "active" : ""}
+					onClick={() => {
+						setFilterBySales(true);
+					}}
+				>
+					Filter By Sales
+				</div>
+				<div
+					className={!filterBySales ? "active" : ""}
+					onClick={() => {
+						setFilterBySales(false);
+					}}
+				>
+					Filter By Products
+				</div>
+			</SwitchDiv>
 			<div>
 				<Filters
 					startDate={startDate}
@@ -139,6 +148,16 @@ const Sales = () => {
 					clearValues={clearFilters}
 					dateType={dateType}
 					changeDateType={setDateType}
+					others={status}
+					changeOthers={setStatus}
+					othersList={[
+						{ value: "success", label: "Complete Sales" },
+						{ value: "draft", label: "Draft" },
+						{ value: "preorder", label: "Advanced Sales" },
+						{ value: "withdrawn", label: "Withdrawn Sales" },
+						{ value: "cancelled", label: "Cancelled" },
+					]}
+					othersLabel="Status"
 				/>
 				<div className="row align-items-center mt-4">
 					<div className="col-lg-7 mb-3">
@@ -170,130 +189,15 @@ const Sales = () => {
 							)}
 						</SummaryCard>
 					</div>
-					<div className="col-lg-5 mb-3">
-						<CheckBoxPrint>
-							<div className="checks">
-								<input
-									type="checkbox"
-									checked={withdrawn}
-									onChange={(e) =>
-										setWithdrawn(e.target.checked)
-									}
-									name="withdrawn"
-								/>
-								<label htmlFor="withdrawn">
-									Show Withdrawn Sales
-								</label>
-							</div>
-						</CheckBoxPrint>
-					</div>
 				</div>
 				<div className="mt-4">
 					<TableComponent>
 						<div className="table-responsive">
-							<Table className="table">
-								<thead>
-									<tr>
-										<th>Date</th>
-										<th>Customer</th>
-										<th className="price">
-											Invoice Number
-										</th>
-										<th>Staff</th>
-										<th>Shop</th>
-										<th className="price">Price</th>
-										{haveRole(details.businessRoleId)
-											.isBusinessAdmin && <th>Margin</th>}
-										<th>Status</th>
-									</tr>
-								</thead>
-
-								{!load && (
-									<tbody>
-										{lists?.rows?.map((l: any) => (
-											<tr key={l.id}>
-												<td>
-													{dateFormat(
-														l.createdAt,
-														"mmm dd, yyyy"
-													)}
-												</td>
-												<td className="link">
-													<Link
-														to={`/dashboard/customers/${
-															l.customerId
-																? `walk-in/${l.customerId}`
-																: `subdealer/${l.subdealerId}`
-														}`}
-													>
-														{l.customerName.slice(
-															0,
-															15
-														)}
-														{l.customerName.length >
-															15 && "..."}
-													</Link>
-												</td>
-												<td className="price link">
-													<Link to={`${l.uniqueRef}`}>
-														{l.uniqueRef}
-													</Link>
-												</td>
-												<td>
-													{l?.user?.fullName.slice(
-														0,
-														15
-													) || ""}{" "}
-													{l?.user?.fullName?.length >
-														15 && "..."}
-												</td>
-												<td>
-													{l?.shop?.name.slice(0, 15)}{" "}
-													{l?.shop?.name?.length >
-														15 && "..."}
-												</td>
-												<td className="price bold">
-													{currency}{" "}
-													{formatCurrency(
-														l.amountExpected
-													)}
-												</td>
-												{haveRole(
-													details.businessRoleId
-												).isBusinessAdmin && (
-													<td
-														style={{
-															color:
-																l.estimatedProfit <
-																0
-																	? "red"
-																	: "inherit",
-														}}
-													>
-														{currency}{" "}
-														{formatCurrency(
-															l.estimatedProfit
-														)}
-													</td>
-												)}
-												<td className="status">
-													<img
-														src={
-															l.status.toLowerCase() ===
-															"success"
-																? SuccessIcon
-																: l.status.toLowerCase() ===
-																  "awaiting withdrawal"
-																? PendingIcon
-																: FailedIcon
-														}
-													/>
-												</td>
-											</tr>
-										))}
-									</tbody>
-								)}
-							</Table>
+							{filterBySales ? (
+								<TableBySales load={load} lists={lists} />
+							) : (
+								<TableByProduct load={load} lists={lists} />
+							)}
 						</div>
 						{load && <SkeletonTable />}
 					</TableComponent>

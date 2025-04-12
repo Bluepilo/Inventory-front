@@ -6,14 +6,10 @@ import { OTPStyle, ResendBox } from "../../styles/auth.styles";
 import { MainButton } from "../../styles/links.styles";
 import { displayError } from "../../utils/errors";
 import authService from "../../redux/features/auth/auth-service";
-import { useAppDispatch } from "../../redux/hooks";
-import { saveToken } from "../../redux/features/auth/auth-slice";
 import LoadModal from "../../components/Loaders/LoadModal";
 import { toast } from "react-toastify";
 
 const VerifyOtp = () => {
-	const dispatch = useAppDispatch();
-
 	const navigate = useNavigate();
 
 	const email = useLocation().state?.email;
@@ -35,7 +31,7 @@ const VerifyOtp = () => {
 				let res = await authService.verifyOtp({ email, code: val });
 				setLoad(false);
 				if (res && res?.accessToken) {
-					dispatch(saveToken(res.accessToken));
+					localStorage.setItem("@savedtoken", res.accessToken);
 				}
 				navigate("/add-business", { state: { id: res?.user?.id } });
 			} catch (err) {

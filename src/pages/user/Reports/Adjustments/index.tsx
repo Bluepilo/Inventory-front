@@ -10,11 +10,12 @@ import { Table, TableComponent } from "../../../../styles/table.styles";
 import dateFormat from "dateformat";
 import { formatCurrency } from "../../../../utils/currency";
 import SkeletonTable from "../../../../components/Loaders/SkeletonTable";
+import { haveRole } from "../../../../utils/role";
 
 const Adjustments = () => {
 	const navigate = useNavigate();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { currency, details } = useAppSelector((state) => state.auth);
 
 	const [lists, setLists] = useState<any>({});
 
@@ -40,9 +41,6 @@ const Adjustments = () => {
 		productId?.value || ""
 	}&startDate=${startDate}&endDate=${endDate}&adjustment=true`;
 
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
-
 	const clearFilters = () => {
 		setProductId(null);
 		setStaffId(null);
@@ -66,7 +64,7 @@ const Adjustments = () => {
 	const getReports = async () => {
 		try {
 			setLoad(true);
-			let res = await productService.getLogReports(token, filters);
+			let res = await productService.getLogReports(filters);
 			setLoad(false);
 			setLists(res);
 		} catch (err) {
@@ -76,7 +74,7 @@ const Adjustments = () => {
 
 	const getProducts = async () => {
 		try {
-			let res = await productService.allProducts(token, "?all=true");
+			let res = await productService.allProducts("?all=true");
 			let arr = res?.rows.map((a: any) => {
 				return { ...a, label: a.summary, value: a.id };
 			});
@@ -89,7 +87,11 @@ const Adjustments = () => {
 			<TitleCover
 				title="Stock Adjustments"
 				dataCount={lists?.log?.length}
-				button="Adjust Stock"
+				button={
+					haveRole(details.businessRoleId).isBusinessAdminActioners
+						? "Adjust Stock"
+						: ""
+				}
 				buttonIcon={<IoCartSharp />}
 				buttonClick={() => navigate("new")}
 			/>

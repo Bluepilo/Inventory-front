@@ -17,7 +17,7 @@ import { haveRole } from "../../../../utils/role";
 const Staff = () => {
 	const navigate = useNavigate();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [lists, setList] = useState<any>({});
 	const [search, setSearch] = useState("");
@@ -41,11 +41,7 @@ const Staff = () => {
 	const searchStaff = async () => {
 		try {
 			setLoad(true);
-			let res = await basicService.searchStaff(
-				token,
-				filters,
-				debouncedSearch
-			);
+			let res = await basicService.searchStaff(filters, debouncedSearch);
 			setLoad(false);
 			setList(res?.data);
 		} catch (err) {
@@ -56,7 +52,7 @@ const Staff = () => {
 	const listStaff = async () => {
 		try {
 			setLoad(true);
-			let res = await basicService.allStaffs(token, filters);
+			let res = await basicService.allStaffs(filters);
 			setLoad(false);
 			setList(res?.data);
 		} catch (err) {

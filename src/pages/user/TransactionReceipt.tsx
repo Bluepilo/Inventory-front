@@ -11,16 +11,13 @@ import TitleCover from "../../components/TitleCover";
 const TransactionReceipt = () => {
 	const bodyRef = useRef(null);
 
-	const { details } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);
 
 	const stateData = useLocation().state;
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
 
 	return (
 		<>

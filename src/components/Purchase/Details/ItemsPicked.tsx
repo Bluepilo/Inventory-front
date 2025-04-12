@@ -21,7 +21,7 @@ const Quantites = ({ p, changeProduct }: { p: any; changeProduct: any }) => {
 		<td className="quantites">
 			<button
 				onClick={() => {
-					if (Number(p.newTotalSupplied) < 7) {
+					if (Number(p.newTotalSupplied) < p.quantity) {
 						changeProduct({
 							newSupplied: Number(p.newTotalSupplied) + 1,
 							qtyAdded:
@@ -65,10 +65,7 @@ const ItemsPicked = ({
 }) => {
 	const [products, setProducts] = useState<any>([]);
 
-	const { details } = useAppSelector((state) => state.auth);
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
+	const { currency } = useAppSelector((state) => state.auth);
 
 	useEffect(() => {
 		let arr =

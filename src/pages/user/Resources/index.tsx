@@ -12,8 +12,6 @@ import { useNavigate } from "react-router-dom";
 const Resources = () => {
 	const navigate = useNavigate();
 
-	const { token } = useAppSelector((state) => state.auth);
-
 	const [load, setLoad] = useState(false);
 	const [faqs, setFaqs] = useState<any>([]);
 
@@ -55,7 +53,7 @@ const Resources = () => {
 	const loadFaqs = async () => {
 		try {
 			setLoad(true);
-			let res = await basicService.loadFaqs(token);
+			let res = await basicService.loadFaqs();
 			setLoad(false);
 			setFaqs(Array.isArray(res) ? res : []);
 		} catch (err) {

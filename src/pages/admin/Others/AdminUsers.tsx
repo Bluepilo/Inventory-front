@@ -30,7 +30,7 @@ const AdminUsers = () => {
 	const [user, setUser] = useState<any>(null);
 	const [roles, setRoles] = useState<any>([]);
 
-	const { token, details: admin } = useAppSelector((state) => state.auth);
+	const { details: admin } = useAppSelector((state) => state.auth);
 
 	let filters = `?page=${page}&limit=${limit}`;
 
@@ -43,7 +43,7 @@ const AdminUsers = () => {
 	const listUsers = async () => {
 		try {
 			setLoad(true);
-			let res = await adminService.listUsers(token);
+			let res = await adminService.listUsers();
 			setLoad(false);
 			setLists(res);
 		} catch (err) {
@@ -53,7 +53,7 @@ const AdminUsers = () => {
 
 	const listRoles = async () => {
 		try {
-			let res = await adminService.listRoles(token);
+			let res = await adminService.listRoles();
 			if (Array.isArray(res)) {
 				setRoles(res);
 			}
@@ -71,10 +71,9 @@ const AdminUsers = () => {
 			try {
 				setLoad(true);
 				if (del) {
-					await adminService.deleteUser(token, user.id);
+					await adminService.deleteUser(user.id);
 				} else {
 					await adminService.actionUsers(
-						token,
 						user.id,
 						user.isActive ? "deactivate" : "activate"
 					);
@@ -97,7 +96,7 @@ const AdminUsers = () => {
 		e.preventDefault();
 		try {
 			setLoad(true);
-			await adminService.assignRole(token, user?.id, roleId);
+			await adminService.assignRole(user?.id, roleId);
 			setLoad(false);
 			listUsers();
 			setOpenModal(false);

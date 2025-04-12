@@ -12,8 +12,6 @@ import { useNavigate } from "react-router-dom";
 const DeleteOrg = ({ id }: { id: string }) => {
 	const navigate = useNavigate();
 
-	const { token } = useAppSelector((state) => state.auth);
-
 	const [reason, setReason] = useState("");
 	const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
@@ -24,7 +22,7 @@ const DeleteOrg = ({ id }: { id: string }) => {
 		if (reason && password) {
 			try {
 				setLoad(true);
-				await adminService.deleteOrg(token, id, { reason, password });
+				await adminService.deleteOrg(id, { reason, password });
 				setLoad(false);
 				toast.success("Organization has been deleted.");
 				navigate("/admin/organizations");

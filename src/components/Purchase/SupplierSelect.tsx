@@ -31,7 +31,7 @@ const SupplierSelect = ({
 	discountApplied,
 	complete,
 }: Props) => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { currency } = useAppSelector((state) => state.auth);
 	const { methods } = useAppSelector((state) => state.basic);
 
 	const [load, setLoad] = useState(false);
@@ -44,9 +44,6 @@ const SupplierSelect = ({
 	);
 	const [openModal, setOpenModal] = useState(false);
 
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
-
 	useEffect(() => {
 		fetchSuppliers();
 	}, []);
@@ -54,7 +51,7 @@ const SupplierSelect = ({
 	const fetchSuppliers = async () => {
 		try {
 			setLoad(true);
-			let res = await customerService.getSuppliers(token, "?all=true");
+			let res = await customerService.getSuppliers("?all=true");
 
 			setLoad(false);
 			let response = res?.length > 0;

@@ -15,7 +15,7 @@ import SkeletonTable from "../../../../components/Loaders/SkeletonTable";
 import Paginate from "../../../../components/Paginate";
 
 const WalkIn = () => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [search, setSearch] = useState("");
@@ -39,9 +39,6 @@ const WalkIn = () => {
 
 	let filters = `?page=${page}&limit=${limit}&shopId=${details.shopId || ""}`;
 
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
-
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		if (debouncedSearch) {
@@ -56,7 +53,6 @@ const WalkIn = () => {
 		try {
 			setLoad(true);
 			let res = await customerService.searchWalkIns(
-				token,
 				filters,
 				debouncedSearch
 			);
@@ -70,7 +66,7 @@ const WalkIn = () => {
 	const listWalkins = async () => {
 		try {
 			setLoad(true);
-			let res = await customerService.getWalkIns(token, filters);
+			let res = await customerService.getWalkIns(filters);
 			setLoad(false);
 			setList(res);
 		} catch (err) {
@@ -80,10 +76,7 @@ const WalkIn = () => {
 
 	const getSummary = async () => {
 		try {
-			let res = await customerService.walkInSummary(
-				token,
-				debouncedSearch
-			);
+			let res = await customerService.walkInSummary(debouncedSearch);
 			setSummary(res);
 		} catch (err) {}
 	};

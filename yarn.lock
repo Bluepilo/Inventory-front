@@ -2398,6 +2398,14 @@
     "@types/prop-types" "*"
     csstype "^3.0.2"
 
+"@types/react@^18.2.0":
+  version "18.3.18"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.3.18.tgz#9b382c4cd32e13e463f97df07c2ee3bbcd26904b"
+  integrity sha512-t4yC+vtgnkYjNSKlFx1jkAhH8LgTo2N/7Qvi83kdEaUtMDiwpbLAktKDaAMlRcJ5eSxZkH74eEGt1ky31d7kfQ==
+  dependencies:
+    "@types/prop-types" "*"
+    csstype "^3.0.2"
+
 "@types/resolve@1.17.1":
   version "1.17.1"
   resolved "https://registry.yarnpkg.com/@types/resolve/-/resolve-1.17.1.tgz#3afd6ad8967c77e4376c598a82ddd58f46ec45d6"
@@ -2730,6 +2738,27 @@
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
+
+"@zxing/browser@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@zxing/browser/-/browser-0.1.5.tgz#94c0cdbc8ab5114a82dadee54939de6d9bf7e313"
+  integrity sha512-4Lmrn/il4+UNb87Gk8h1iWnhj39TASEHpd91CwwSJtY5u+wa0iH9qS0wNLAWbNVYXR66WmT5uiMhZ7oVTrKfxw==
+  optionalDependencies:
+    "@zxing/text-encoding" "^0.9.0"
+
+"@zxing/library@^0.21.3":
+  version "0.21.3"
+  resolved "https://registry.yarnpkg.com/@zxing/library/-/library-0.21.3.tgz#0a4cb777701884131832b05922d7e88ef1b87ab4"
+  integrity sha512-hZHqFe2JyH/ZxviJZosZjV+2s6EDSY0O24R+FQmlWZBZXP9IqMo7S3nb3+2LBWxodJQkSurdQGnqE7KXqrYgow==
+  dependencies:
+    ts-custom-error "^3.2.1"
+  optionalDependencies:
+    "@zxing/text-encoding" "~0.9.0"
+
+"@zxing/text-encoding@^0.9.0", "@zxing/text-encoding@~0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@zxing/text-encoding/-/text-encoding-0.9.0.tgz#fb50ffabc6c7c66a0c96b4c03e3d9be74864b70b"
+  integrity sha512-U/4aVJ2mxI0aDNI8Uq0wEhMgY+u4CNtEb0om3+y3+niDAsoTCOB33UF0sxpzqzdqXLqmvc+vZyAt4O8pPdfkwA==
 
 abab@^2.0.3, abab@^2.0.5:
   version "2.0.6"
@@ -6616,6 +6645,11 @@ js-yaml@^4.1.0:
   dependencies:
     argparse "^2.0.1"
 
+jsbarcode@^3.8.0:
+  version "3.11.6"
+  resolved "https://registry.yarnpkg.com/jsbarcode/-/jsbarcode-3.11.6.tgz#96e8fbc3395476e162982a6064b98a09b5ea02c0"
+  integrity sha512-G5TKGyKY1zJo0ZQKFM1IIMfy0nF2rs92BLlCz+cU4/TazIc4ZH+X1GYeDRt7TKjrYqmPfTjwTBkU/QnQlsYiuA==
+
 jsdom@^16.6.0:
   version "16.7.0"
   resolved "https://registry.yarnpkg.com/jsdom/-/jsdom-16.7.0.tgz#918ae71965424b197c819f8183a754e18977b710"
@@ -8294,6 +8328,14 @@ react-app-polyfill@^3.0.0:
     regenerator-runtime "^0.13.9"
     whatwg-fetch "^3.6.2"
 
+react-barcode@^1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/react-barcode/-/react-barcode-1.5.3.tgz#d9e887d87004062e7901d250dbd8f112c47f8544"
+  integrity sha512-EJPUwuERKpApcQ9qXzdVZzddFYRT7+3R/jJ3OrTfW6m2iq+WT+CBaVB7DsQazhPRXDfMcx9+dmMmzjsmveOViQ==
+  dependencies:
+    jsbarcode "^3.8.0"
+    prop-types "^15.6.2"
+
 react-bootstrap@^2.10.0:
   version "2.10.2"
   resolved "https://registry.yarnpkg.com/react-bootstrap/-/react-bootstrap-2.10.2.tgz#3b609eb0170e31b3d9ace297d3a016c202a42642"
@@ -8434,6 +8476,15 @@ react-popper@^2.2.5:
     react-fast-compare "^3.0.1"
     warning "^4.0.2"
 
+react-qr-barcode-scanner@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-qr-barcode-scanner/-/react-qr-barcode-scanner-2.0.0.tgz#e22a6b14bacc36eb357e33e5f71bc6bfd397cc3d"
+  integrity sha512-H+bjAi9ulYpW3RE3/I15CBkFQbQulkvFkyin1LO+cwEpbbZmRU/UQ+cDuvIdPpXXc1XvBT46uqYnHra7PMXgXw==
+  dependencies:
+    "@types/react" "^18.2.0"
+    "@zxing/library" "^0.21.3"
+    react-webcam "^7.1.1"
+
 react-redux@^9.1.0:
   version "9.1.2"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-9.1.2.tgz#deba38c64c3403e9abd0c3fbeab69ffd9d8a7e4b"
@@ -8570,6 +8621,11 @@ react-transition-group@^4.3.0, react-transition-group@^4.4.5:
     dom-helpers "^5.0.1"
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
+
+react-webcam@^7.1.1:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/react-webcam/-/react-webcam-7.2.0.tgz#64141c4c7bdd3e956620500187fa3fcc77e1fd49"
+  integrity sha512-xkrzYPqa1ag2DP+2Q/kLKBmCIfEx49bVdgCCCcZf88oF+0NPEbkwYk3/s/C7Zy0mhM8k+hpdNkBLzxg8H0aWcg==
 
 react@^18.2.0:
   version "18.3.1"
@@ -9724,6 +9780,11 @@ tryer@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/tryer/-/tryer-1.0.1.tgz#f2c85406800b9b0f74c9f7465b81eaad241252f8"
   integrity sha512-c3zayb8/kWWpycWYg87P71E1S1ZL6b6IJxfb5fvsUgsf0S2MVGaDhDXXjDMpdCpfWXqptc+4mXwmiy1ypXqRAA==
+
+ts-custom-error@^3.2.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/ts-custom-error/-/ts-custom-error-3.3.1.tgz#8bd3c8fc6b8dc8e1cb329267c45200f1e17a65d1"
+  integrity sha512-5OX1tzOjxWEgsr/YEUWSuPrQ00deKLh6D7OTWcvNHm12/7QPyRh8SYpyWvA4IZv8H/+GQWQEh/kwo95Q9OVW1A==
 
 ts-interface-checker@^0.1.9:
   version "0.1.13"

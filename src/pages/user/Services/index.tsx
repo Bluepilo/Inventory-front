@@ -23,7 +23,7 @@ import ConfirmModal from "../../../components/Modals/ConfirmModal";
 import { toast } from "react-toastify";
 
 const Services = () => {
-	const { details, token } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 	const { shops } = useAppSelector((state) => state.basic);
 
 	const navigate = useNavigate();
@@ -38,9 +38,6 @@ const Services = () => {
 	const [removed, setRemoved] = useState<any>([]);
 	const [showBtn, setShowBtn] = useState(false);
 	const [openConfirm, setOpenConfirm] = useState(false);
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -68,11 +65,9 @@ const Services = () => {
 			setProductList([]);
 			setProductLoad(true);
 			let res = await productService.allProducts(
-				token,
 				`?all=true&type=service_only`
 			);
 			let resShop = await productService.allProducts(
-				token,
 				`?all=true&type=service_only&shopId=${selectedShop?.value}`
 			);
 			setProductLoad(false);
@@ -125,10 +120,10 @@ const Services = () => {
 	const updateHandler = async () => {
 		try {
 			setProductLoad(true);
-			await productService.addServices(token, selectedShop?.value, {
+			await productService.addServices(selectedShop?.value, {
 				productIds: productListShop,
 			});
-			await productService.removeServices(token, selectedShop?.value, {
+			await productService.removeServices(selectedShop?.value, {
 				productIds: removed,
 			});
 			toast.success("Service list has been updated successfully");

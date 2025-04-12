@@ -30,6 +30,13 @@ export const Flex = styled.div`
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
+
+	@media (max-width: 567px) {
+		div,
+		button {
+			margin-bottom: 20px;
+		}
+	}
 `;
 
 export const FlexCenter = styled.div`
@@ -72,6 +79,10 @@ export const ErrorStyle = styled.div`
 	border-radius: 10px;
 	margin-top: 25px;
 	padding: 20px 10px;
+
+	img.logo {
+		height: 50px;
+	}
 `;
 
 export const LoadPage = styled.div`
@@ -330,7 +341,7 @@ export const SwitchDiv = styled.div`
 	margin-top: 20px;
 
 	@media (max-width: 991px) {
-		width: 100%;
+		width: 100% !important;
 		flex-wrap: wrap;
 
 		div {
@@ -399,11 +410,11 @@ export const UploadWrapper = styled.div`
 		cursor: pointer;
 
 		.btn {
-			border: 2px solid gray;
-			color: gray;
-			background-color: white;
-			padding: 8px 20px;
-			border-radius: 8px;
+			border: 1px solid rgba(0, 0, 0, 0.2);
+			color: #000;
+			background-color: #f0f0f0;
+			padding: 10px 20px;
+			border-radius: 5px;
 			font-size: 0.9rem;
 			font-weight: bold;
 			cursor: pointer;
@@ -430,6 +441,7 @@ export const UploadWrapper = styled.div`
 
 		a {
 			color: #0241ff;
+			text-decoration: none;
 
 			&:hover {
 				color: #0241ff;
@@ -578,4 +590,29 @@ export const ResourceBody = styled.div``;
 
 export const ReceiptStyle = styled.div`
 	margin-top: 20px;
+`;
+
+export const LayoutSwitch = styled.div<{ pic?: string }>`
+	background: ${(props) => (props.pic === "yes" ? "#000d33" : "#CFEAFF")};
+	padding: 10px;
+	border-radius: 3px;
+
+	button {
+		border: 0;
+		outline: 0;
+		background: none;
+		padding: 3px 10px;
+		border-radius: 2px;
+		color: ${(props) => (props.pic == "yes" ? "#fff" : "#000")};
+
+		svg {
+			font-size: 1rem;
+		}
+
+		&.active {
+			background: ${(props) =>
+				props.pic == "yes" ? "#FFB500" : "#0241ff"};
+			color: ${(props) => (props.pic == "yes" ? "#000" : "#fff")};
+		}
+	}
 `;

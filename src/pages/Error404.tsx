@@ -1,6 +1,6 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { TbHandClick } from "react-icons/tb";
-import Logo from "../assets/images/logo.svg";
+import Logo from "../assets/images/logo-dark.png";
 import Img from "../assets/images/404.jpg";
 import { ErrorStyle } from "../styles/basic.styles";
 import { MainButton } from "../styles/links.styles";

@@ -3,11 +3,9 @@ import dateFormat from "dateformat";
 import { Link } from "react-router-dom";
 import { formatCurrency } from "../../../../utils/currency";
 import SuccessIcon from "../../../../assets/icons/success.svg";
-import PendingIcon from "../../../../assets/icons/pending.svg";
 import FailedIcon from "../../../../assets/icons/failed.svg";
 import rewardService from "../../../../redux/features/rewards/reward-service";
 import { displayError, displaySuccess } from "../../../../utils/errors";
-import { useAppSelector } from "../../../../redux/hooks";
 import { Drop } from "../../../../styles/basic.styles";
 import { HiDotsVertical } from "react-icons/hi";
 import { useState } from "react";
@@ -25,8 +23,6 @@ const Earned = ({
 	reloadList: () => void;
 	setLoad: (arg: boolean) => void;
 }) => {
-	const { token } = useAppSelector((state) => state.auth);
-
 	const [id, setId] = useState("");
 	const [openModal, setOpenModal] = useState(false);
 
@@ -38,7 +34,7 @@ const Earned = ({
 		if (window.confirm(`Are you sure you want to resolve this?`)) {
 			try {
 				setLoad(true);
-				await rewardService.resolveEarnedReward(token, val, {
+				await rewardService.resolveEarnedReward(val, {
 					action: type,
 				});
 				setLoad(false);

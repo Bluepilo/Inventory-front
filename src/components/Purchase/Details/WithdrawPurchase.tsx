@@ -11,14 +11,12 @@ const WithdrawPurchase = ({
 	id: number;
 	submit: () => void;
 }) => {
-	const { token } = useAppSelector((state) => state.auth);
-
 	const [load, setLoad] = useState(false);
 
 	const withdrawHandler = async (comment: string) => {
 		try {
 			setLoad(true);
-			let res = await purchaseService.withdrawPurchase(token, id, {
+			let res = await purchaseService.withdrawPurchase(id, {
 				comment,
 			});
 			setLoad(false);

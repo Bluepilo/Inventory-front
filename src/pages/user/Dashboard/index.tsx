@@ -25,6 +25,7 @@ import { getDashboardStats } from "../../../redux/features/basic/basic-slice";
 import { displayError } from "../../../utils/errors";
 import basicService from "../../../redux/features/basic/basic-service";
 import { userProfile } from "../../../redux/features/auth/auth-slice";
+import RoleGuard from "../../../components/RoleGuard";
 
 const Dashboard = () => {
 	const navigate = useNavigate();
@@ -36,11 +37,8 @@ const Dashboard = () => {
 		value: "month",
 	});
 	const [openModal, setOpenModal] = useState(false);
-	const { details, token } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 	const { dashboardStats } = useAppSelector((state) => state.basic);
-
-	const currency =
-		details.business?.currency?.symbol || details.business?.currencyCode;
 
 	useEffect(() => {
 		checkOnboardingTrial();
@@ -68,10 +66,9 @@ const Dashboard = () => {
 	const switchBusiness = async () => {
 		try {
 			await basicService.switchBusiness(
-				token,
 				details.allowedBusinesses[0].business?.id
 			);
-			dispatch(userProfile(details.id));
+			dispatch(userProfile());
 		} catch (err) {
 			displayError(err, true);
 		}
@@ -95,6 +92,11 @@ const Dashboard = () => {
 					<h5>
 						Good {greetings()}, <b>{details.firstName}</b>
 					</h5>
+					{details.shopId && (
+						<h6>
+							Your Shop: <strong>{details.shop?.name}</strong>
+						</h6>
+					)}
 					{haveRole(details.businessRoleId).isBusinessActioners && (
 						<div className="mt-3">
 							<PrimaryButton
@@ -329,7 +331,9 @@ const Dashboard = () => {
 									<tr>
 										<th>Brands</th>
 										<th>Unit</th>
-										<th className="text-end">Value</th>
+										<RoleGuard access="isBusinessAdmin">
+											<th className="text-end">Value</th>
+										</RoleGuard>
 									</tr>
 								</thead>
 								<tbody>
@@ -338,10 +342,14 @@ const Dashboard = () => {
 											<tr key={t.brandId}>
 												<td>{t.brand}</td>
 												<td>{t.totalStock}</td>
-												<td className="text-end">
-													{currency}{" "}
-													{formatCurrency(t.worth)}
-												</td>
+												<RoleGuard access="isBusinessAdmin">
+													<td className="text-end">
+														{currency}{" "}
+														{formatCurrency(
+															t.worth
+														)}
+													</td>
+												</RoleGuard>
 											</tr>
 										)
 									)}
@@ -492,6 +500,34 @@ const Dashboard = () => {
 												?.metrics
 										}
 									/>
+								</div>
+							</DashboardCard>
+						</div>
+						<div className="col-lg-6 mb-4">
+							<DashboardCard>
+								<div className="head">
+									<h6>Transactions</h6>
+								</div>
+								<div className="body">
+									<FlexBetween>
+										<div className="content">
+											<h6>All Transactions</h6>
+											<h4>
+												{
+													dashboardStats.totalTransactions
+												}
+											</h4>
+										</div>
+										<div className="content">
+											<h6>Current Subscription</h6>
+											<h4>
+												{
+													dashboardStats
+														?.subscriptionPlan?.name
+												}
+											</h4>
+										</div>
+									</FlexBetween>
 								</div>
 							</DashboardCard>
 						</div>

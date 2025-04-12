@@ -21,7 +21,7 @@ import { Alert } from "../../../../styles/basic.styles";
 const ImportInventory = () => {
 	const navigate = useNavigate();
 
-	const { details, token } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 
 	const [lists, setLists] = useState<any>({});
 	const [startDate, setStartDate] = useState(
@@ -46,9 +46,6 @@ const ImportInventory = () => {
 		staffId?.value || ""
 	}&startDate=${startDate}&endDate=${endDate}&includeWithdrawn=0&onboarding=1`;
 
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
-
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		getPurchases();
@@ -57,7 +54,7 @@ const ImportInventory = () => {
 	const getPurchases = async () => {
 		try {
 			setLoad(true);
-			let res = await purchaseService.getPurchase(token, filters);
+			let res = await purchaseService.getPurchase(filters);
 			setLoad(false);
 			setLists(res);
 		} catch (err) {

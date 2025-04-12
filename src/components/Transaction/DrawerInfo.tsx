@@ -26,6 +26,8 @@ const DrawerInfo = ({
 	const currency =
 		user.business?.currency?.symbol || user.business.currencyCode;
 
+	const products = details.meta ? JSON.parse(details.meta) : [];
+
 	return (
 		<OutsideClick handleToggle={() => close()}>
 			<DrawerDiv>
@@ -67,6 +69,34 @@ const DrawerInfo = ({
 									: "Walk-in Customer:"}
 							</h6>
 							<p>{details.customerName}</p>
+							{products.length > 0 && (
+								<>
+									<h6>Products:</h6>
+									<ul>
+										{products?.map((p: any) => (
+											<li key={p.id}>
+												{p.name} - ₦
+												{formatCurrency(p.price)}{" "}
+												{`(${p.quantity})`}
+											</li>
+										))}
+									</ul>
+									{/* <WideButton
+										bg="#EDEEF0"
+										color="#505BDA"
+										onClick={() =>
+											navigate(
+												"/dashboard/print-preview",
+												{
+													state: details,
+												}
+											)
+										}
+									>
+										<span>Clone</span>
+									</WideButton> */}
+								</>
+							)}
 						</div>
 						<div className="mt-4">
 							<WideButton

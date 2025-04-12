@@ -1,449 +1,309 @@
-import axios from "axios";
-import config from "../../../utils/config";
-import { authHeader, headers } from "../../../utils/headers";
+import { apiRequest } from "../../../utils/axiosInstance";
 
-const getNotifications = async (token: string, page: number) => {
-	const { data } = await axios.get(
-		`${config.baseUrl}/notification/user-notification?page=${page || 1}`,
-		{ headers: authHeader(token) }
+const getNotifications = async (page: number) => {
+	const { data } = await apiRequest("baseUrl").get(
+		`/notification/user-notification?page=${page || 1}`
 	);
 	return data;
 };
 
-const readNotification = async (id: any, token: string) => {
-	const { data } = await axios.get(
-		`${config.baseUrl}/notification/read/${id}`,
-		{
-			headers: authHeader(token),
-		}
+const readNotification = async (id: any) => {
+	const { data } = await apiRequest("baseUrl").get(
+		`/notification/read/${id}`
 	);
 	return data;
 };
 
-const readAllNotifications = async (token: string) => {
-	const { data } = await axios.get(`${config.baseUrl}/notification/readAll`, {
-		headers: authHeader(token),
-	});
+const readAllNotifications = async () => {
+	const { data } = await apiRequest("baseUrl").get(`/notification/readAll`);
 	return data;
 };
 
 const saveTrialPick = async () => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/business/start-trial`,
+	const { data } = await apiRequest("baseUrl").post(
+		`/business/start-trial`,
 		{}
 	);
 	return data;
 };
 
-const updateOnboardingSteps = async (obj: any, token: string) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/business/update-onboarding-steps`,
-		obj,
-		{ headers: authHeader(token) }
+const updateOnboardingSteps = async (obj: any) => {
+	const { data } = await apiRequest("baseUrl").post(
+		`/business/update-onboarding-steps`,
+		obj
 	);
 	return data;
 };
 
-const dashboardStats = async (year: string, period: string, token: string) => {
-	const { data } = await axios.get(
-		`${config.baseUrl}/report/dashboard-report?year=${year}&period=${period}`,
-		{ headers: authHeader(token) }
+const dashboardStats = async (year: string, period: string) => {
+	const { data } = await apiRequest("baseUrl").get(
+		`/report/dashboard-report?year=${year}&period=${period}`
 	);
 	return data;
 };
 
-const allShops = async (token: string, filters: string) => {
-	const { data } = await axios.get(`${config.baseUrl}/shop/all${filters}`, {
-		headers: authHeader(token),
-	});
+const allShops = async (filters: string) => {
+	const { data } = await apiRequest("baseUrl").get(`/shop/all${filters}`);
 	return data;
 };
 
-const searchShops = async (token: string, filters: string, word: string) => {
-	const { data } = await axios.get(
-		`${config.baseUrl}/shop/search?search=${word}${filters}`,
-		{
-			headers: authHeader(token),
-		}
+const searchShops = async (filters: string, word: string) => {
+	const { data } = await apiRequest("baseUrl").get(
+		`/shop/search?search=${word}${filters}`
 	);
 	return data;
 };
 
-const allStaffs = async (token: string, filters: string) => {
-	const { data } = await axios.get(`${config.baseUrl}/user/all${filters}`, {
-		headers: authHeader(token),
-	});
+const allStaffs = async (filters: string) => {
+	const { data } = await apiRequest("baseUrl").get(`/user/all${filters}`);
 	return data;
 };
 
-const searchStaff = async (token: string, filters: string, word: string) => {
-	const { data } = await axios.get(
-		`${config.baseUrl}/user/search?search=${word}${filters}`,
-		{
-			headers: authHeader(token),
-		}
+const searchStaff = async (filters: string, word: string) => {
+	const { data } = await apiRequest("baseUrl").get(
+		`/user/search?search=${word}${filters}`
 	);
 	return data;
 };
 
-const listWalkIns = async (token: string, filters: string) => {
-	const { data } = await axios.get(
-		`${config.baseUrl}/customer/all${filters}`,
-		{
-			headers: authHeader(token),
-		}
+const listWalkIns = async (filters: string) => {
+	const { data } = await apiRequest("baseUrl").get(`/customer/all${filters}`);
+	return data;
+};
+
+const listSubDealers = async (filters: string) => {
+	const { data } = await apiRequest("baseUrl").get(
+		`/subDealer/all${filters}`
 	);
 	return data;
 };
 
-const listSubDealers = async (token: string, filters: string) => {
-	const { data } = await axios.get(
-		`${config.baseUrl}/subDealer/all${filters}`,
-		{
-			headers: authHeader(token),
-		}
+const saveSettings = async () => {
+	const { data } = await apiRequest("baseUrl").get(`/business/get-settings`);
+	return data;
+};
+
+const paymentMethods = async () => {
+	const { data } = await apiRequest("baseUrl").get(`/other/payment-methods`);
+	return data;
+};
+
+const createWalkIn = async (obj: any) => {
+	const { data } = await apiRequest("baseUrl").post(
+		`/other/payment-methods`,
+		obj
 	);
 	return data;
 };
 
-const saveSettings = async (token: string) => {
-	const { data } = await axios.get(
-		`${config.baseUrl}/business/get-settings`,
-		{
-			headers: authHeader(token),
-		}
-	);
+const createSubdealer = async (obj: any) => {
+	const { data } = await apiRequest("baseUrl").post(`/subdealer/create`, obj);
 	return data;
 };
 
-const paymentMethods = async (token: string) => {
-	const { data } = await axios.get(
-		`${config.baseUrl}/other/payment-methods`,
-		{
-			headers: authHeader(token),
-		}
-	);
-	return data;
-};
-
-const createWalkIn = async (token: string, obj: any) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/other/payment-methods`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
-	);
-	return data;
-};
-
-const createSubdealer = async (token: string, obj: any) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/subdealer/create`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
-	);
-	return data;
-};
-
-const editSubdealer = async (token: string, obj: any, id: number) => {
-	const { data } = await axios.patch(
-		`${config.baseUrl}/subdealer/update/${id}`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
+const editSubdealer = async (obj: any, id: number) => {
+	const { data } = await apiRequest("baseUrl").patch(
+		`/subdealer/update/${id}`,
+		obj
 	);
 	return data;
 };
 
 const getCountries = async () => {
-	const { data } = await axios.get(`${config.baseUrl}/other/countries`, {
-		headers,
-	});
+	const { data } = await apiRequest("baseUrl").get(`/other/countries`);
 	return data;
 };
 
 const getStates = async () => {
-	const { data } = await axios.get(`${config.baseUrl}/other/states`, {
-		headers,
-	});
+	const { data } = await apiRequest("baseUrl").get(`/other/states`);
 	return data;
 };
 
-const getExpenseCategories = async (token: string) => {
-	const { data } = await axios.get(
-		`${config.baseUrl}/expense/categories/all`,
-		{
-			headers: authHeader(token),
-		}
+const getExpenseCategories = async () => {
+	const { data } = await apiRequest("baseUrl").get(`/expense/categories/all`);
+	return data;
+};
+
+const enableSMS = async (obj: any) => {
+	const { data } = await apiRequest("baseUrl").post(
+		`/subdealer/set-sms-notification`,
+		obj
 	);
 	return data;
 };
 
-const enableSMS = async (token: string, obj: any) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/subdealer/set-sms-notification`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
+const enableSmsBusiness = async (obj: any) => {
+	const { data } = await apiRequest("baseUrl").post(
+		`/business/set-sms-notification`,
+		obj
 	);
 	return data;
 };
 
-const enableSmsBusiness = async (token: string, obj: any) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/business/set-sms-notification`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
+const createBusiness = async (obj: any) => {
+	const { data } = await apiRequest("baseUrl").post(`/business/create`, obj);
+	return data;
+};
+
+const businessDetails = async (id: any) => {
+	const { data } = await apiRequest("baseUrl").get(`/business/view/${id}`);
+	return data;
+};
+
+const updateBusiness = async (obj: any, id: any) => {
+	const { data } = await apiRequest("baseUrl").patch(
+		`/business/update/${id}`,
+		obj
 	);
 	return data;
 };
 
-const createBusiness = async (token: string, obj: any) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/business/create`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
+const switchBusiness = async (bizId: number) => {
+	const { data } = await apiRequest("baseUrl").post(
+		`/user/switch-business/${bizId}`,
+		{}
 	);
 	return data;
 };
 
-const businessDetails = async (token: string, id: any) => {
-	const { data } = await axios.get(`${config.baseUrl}/business/view/${id}`, {
-		headers: authHeader(token),
-	});
-	return data;
-};
-
-const updateBusiness = async (token: string, obj: any, id: any) => {
-	const { data } = await axios.patch(
-		`${config.baseUrl}/business/update/${id}`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
-	);
-	return data;
-};
-
-const switchBusiness = async (token: string, bizId: number) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/user/switch-business/${bizId}`,
-		{},
-		{
-			headers: authHeader(token),
-		}
-	);
-	return data;
-};
-
-const organizationReports = async (token: string) => {
-	const { data } = await axios.get(
-		`${config.baseUrl}/report/organization-dashboard-report`,
-		{
-			headers: authHeader(token),
-		}
+const organizationReports = async () => {
+	const { data } = await apiRequest("baseUrl").get(
+		`/report/organization-dashboard-report`
 	);
 	return data.data;
 };
 
 const addOrRemoveUserBusiness = async (
-	token: string,
 	action: string,
 	bizId: number,
 	id: number
 ) => {
 	let link = action == "add" ? "add-user" : "remove-user";
-	const { data } = await axios.patch(
-		`${config.baseUrl}/business/${bizId}/${link}/${id}`,
-		{},
-		{
-			headers: authHeader(token),
-		}
+	const { data } = await apiRequest("baseUrl").patch(
+		`/business/${bizId}/${link}/${id}`,
+		{}
 	);
 	return data.data;
 };
 
-const currencyList = async (token: string) => {
-	const { data } = await axios.get(`${config.baseUrl}/other/currencies`, {
-		headers: authHeader(token),
+const currencyList = async () => {
+	const { data } = await apiRequest("baseUrl").get(`/other/currencies`);
+	return data.data;
+};
+
+const actionShop = async (action: string, id: string) => {
+	const { data } = await apiRequest("baseUrl").post(`/shop/${action}/${id}`, {
+		id,
 	});
 	return data.data;
 };
 
-const actionShop = async (token: string, action: string, id: string) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/shop/${action}/${id}`,
-		{ id },
-		{
-			headers: authHeader(token),
-		}
+const createShop = async (obj: any) => {
+	const { data } = await apiRequest("baseUrl").post(`/shop/create`, obj);
+	return data.data;
+};
+
+const editShop = async (obj: any, id: string) => {
+	const { data } = await apiRequest("baseUrl").post(
+		`/shop/update/${id}`,
+		obj
 	);
 	return data.data;
 };
 
-const createShop = async (token: string, obj: any) => {
-	const { data } = await axios.post(`${config.baseUrl}/shop/create`, obj, {
-		headers: authHeader(token),
-	});
+const deleteShop = async (id: string) => {
+	const { data } = await apiRequest("baseUrl").delete(`/shop/delete/${id}`);
 	return data.data;
 };
 
-const editShop = async (token: string, obj: any, id: string) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/shop/update/${id}`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
+const getLogs = async (filters: string) => {
+	const { data } = await apiRequest("baseUrl").get(
+		`/report/activity-log${filters}`
 	);
 	return data.data;
 };
 
-const deleteShop = async (token: string, id: string) => {
-	const { data } = await axios.delete(`${config.baseUrl}/shop/delete/${id}`, {
-		headers: authHeader(token),
-	});
-	return data.data;
-};
-
-const getLogs = async (token: string, filters: string) => {
-	const { data } = await axios.get(
-		`${config.baseUrl}/report/activity-log${filters}`,
-		{
-			headers: authHeader(token),
-		}
-	);
-	return data.data;
-};
-
-const closeAccount = async (token: string, id: any, obj: any) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/organization/${id}/delete`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
+const closeAccount = async (id: any, obj: any) => {
+	const { data } = await apiRequest("baseUrl").post(
+		`/organization/${id}/delete`,
+		obj
 	);
 	return data;
 };
 
-const setWaitingPeriod = async (token: string, obj: any) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/business/set-waiting-period`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
+const setWaitingPeriod = async (obj: any) => {
+	const { data } = await apiRequest("baseUrl").post(
+		`/business/set-waiting-period`,
+		obj
 	);
 	return data;
 };
 
-const setCreditLimit = async (token: string, obj: any) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/business/set-credit-limit`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
+const setCreditLimit = async (obj: any) => {
+	const { data } = await apiRequest("baseUrl").post(
+		`/business/set-credit-limit`,
+		obj
 	);
 	return data;
 };
 
-const importPermit = async (token: string, allow: boolean, id: any) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/business/onboarding-${
-			allow ? "allow" : "stop"
-		}/${id}`,
-		{},
-		{
-			headers: authHeader(token),
-		}
+const importPermit = async (allow: boolean, id: any) => {
+	const { data } = await apiRequest("baseUrl").post(
+		`/business/onboarding-${allow ? "allow" : "stop"}/${id}`,
+		{}
 	);
 	return data;
 };
 
-const changePassword = async (token: string, obj: any) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/user/update-my-password`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
+const changePassword = async (obj: any) => {
+	const { data } = await apiRequest("baseUrl").post(
+		`/user/update-my-password`,
+		obj
 	);
 	return data;
 };
 
-const setNotification = async (token: string, obj: any) => {
-	const { data } = await axios.post(
-		`${config.baseUrl}/business/set-notification`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
+const setNotification = async (obj: any) => {
+	const { data } = await apiRequest("baseUrl").post(
+		`/business/set-notification`,
+		obj
 	);
 	return data;
 };
 
-const loadFaqs = async (token: string) => {
-	const { data } = await axios.get(`${config.baseUrl}/other/faq`, {
-		headers: authHeader(token),
-	});
+const loadFaqs = async () => {
+	const { data } = await apiRequest("baseUrl").get(`/other/faq`);
 	return data.data;
 };
 
-const deleteBusiness = async (token: string, id: any, obj: any) => {
-	const data = await axios.post(
-		`${config.baseUrl}//business/delete/${id}`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
+const deleteBusiness = async (id: any, obj: any) => {
+	const data = await apiRequest("baseUrl").post(
+		`/business/delete/${id}`,
+		obj
 	);
 	return data;
 };
 
-const actionUser = async (token: string, action: string, id: string) => {
-	const { data } = await axios.patch(
-		`${config.baseUrl}/user/${action}/${id}`,
-		{},
-		{
-			headers: authHeader(token),
-		}
+const actionUser = async (action: string, id: string) => {
+	const { data } = await apiRequest("baseUrl").patch(
+		`/user/${action}/${id}`,
+		{}
 	);
 	return data.data;
 };
 
-const updateUser = async (token: string, obj: any, id: number) => {
-	const { data } = await axios.put(
-		`${config.baseUrl}/user/update/${id}`,
-		obj,
-		{
-			headers: authHeader(token),
-		}
-	);
+const updateUser = async (obj: any, id: number) => {
+	const { data } = await apiRequest("baseUrl").put(`/user/update/${id}`, obj);
 	return data.data;
 };
 
-const deleteUser = async (token: string, id: string) => {
-	const { data } = await axios.delete(`${config.baseUrl}/user/delete/${id}`, {
-		headers: authHeader(token),
-	});
+const deleteUser = async (id: string) => {
+	const { data } = await apiRequest("baseUrl").delete(`/user/delete/${id}`);
 	return data.data;
 };
 
 const allCarousels = async () => {
-	const { data } = await axios.get(`${config.baseUrl}/other/carousels`, {
-		headers: authHeader("h"),
-	});
+	const { data } = await apiRequest("baseUrl").get(`/other/carousels`);
 	return data.data;
 };
 

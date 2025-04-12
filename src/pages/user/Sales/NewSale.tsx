@@ -17,6 +17,9 @@ import salesService from "../../../redux/features/sales/sales-service";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { updateOnboardingSteps } from "../../../redux/features/basic/basic-slice";
+import PickItemsImage from "../../../components/Sales/PickItemsImage";
+import LayoutSwitching from "../../../components/LayoutSwitching";
+import { CheckBox } from "../../../styles/form.styles";
 
 const NewSale = () => {
 	const navigate = useNavigate();
@@ -25,8 +28,8 @@ const NewSale = () => {
 
 	const cloneState = useLocation()?.state?.cloneState;
 
-	const { details, token } = useAppSelector((state) => state.auth);
-	const { shops } = useAppSelector((state) => state.basic);
+	const { details, currency } = useAppSelector((state) => state.auth);
+	const { shops, pictureMode } = useAppSelector((state) => state.basic);
 
 	const [isWalkIn, setIsWalkIn] = useState(true);
 	const [selectedShop, setSelectedShop] = useState<OptionProp | null>(null);
@@ -41,11 +44,9 @@ const NewSale = () => {
 	const [discountPercent, setDiscountPercent] = useState(true);
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [discountApplied, setDiscountApplied] = useState(0);
+	const [isAdvanced, setIsAdvanced] = useState(false);
 
 	const [load, setLoad] = useState(false);
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -53,6 +54,7 @@ const NewSale = () => {
 	}, []);
 
 	useEffect(() => {
+		console.log(cloneState, "clones");
 		if (cloneState?.id) {
 			if (cloneState?.subdealerId) {
 				setIsWalkIn(false);
@@ -70,7 +72,7 @@ const NewSale = () => {
 		if (selectedShop?.value) {
 			getProducts();
 		}
-	}, [selectedShop, isWalkIn]);
+	}, [selectedShop, isWalkIn, isAdvanced]);
 
 	useEffect(() => {
 		if (selectedProducts.length > 0) {
@@ -105,12 +107,17 @@ const NewSale = () => {
 			}
 			setProductLoad(true);
 			let res = await productService.getProductsInShop(
-				token,
 				details?.shopId || selectedShop?.value
 			);
-			let arr = res?.rows?.filter(
-				(a: any) => (!a.isService && a.totalStock !== 0) || a.isService
-			);
+			let arr;
+			if (isAdvanced) {
+				arr = res.rows;
+			} else {
+				arr = res?.rows?.filter(
+					(a: any) =>
+						(!a.isService && a.totalStock !== 0) || a.isService
+				);
+			}
 			if (Array.isArray(arr)) {
 				let resVal = arr.map((a: any) => {
 					return {
@@ -125,6 +132,9 @@ const NewSale = () => {
 						id: a.id,
 						sku: a.sku,
 						isService: a.isService,
+						image: a.image,
+						barcode: a.barcode,
+						brand: a.brand,
 					};
 				});
 				setProductList(resVal);
@@ -136,6 +146,7 @@ const NewSale = () => {
 	};
 
 	const addItems = (item: any) => {
+		window.scrollTo(0, 0);
 		if (item?.value) {
 			let find = selectedProducts.find((p: any) => p.value == item.value);
 			if (!find) {
@@ -179,17 +190,23 @@ const NewSale = () => {
 			...vals,
 			shopId: details.shopId || selectedShop?.value,
 			products: selectedProducts,
-			status: "success",
+			status: isAdvanced
+				? "preorder"
+				: vals?.isDeposit
+				? "draft"
+				: "complete",
 			discount: discountApplied,
 			amountExpected: totalPrice - discountApplied,
+			draftRef:
+				cloneState?.status === "draft" ? cloneState.uniqueRef : null,
 		};
 		try {
 			setLoad(true);
-			let res = await salesService.makeSale(token, data);
+			let res = await salesService.makeSale(data);
 			setLoad(false);
 			saveTrialPick();
 			toast.success("Your Transaction was Successful!");
-			if (res) {
+			if (data.status === "complete") {
 				navigate(`/dashboard/sales/${res?.uniqueRef}`);
 			} else {
 				navigate("/dashboard/sales");
@@ -219,6 +236,7 @@ const NewSale = () => {
 				title={`Sell to ${
 					isWalkIn ? "a Walk-in Customer" : "a Subdealer"
 				}`}
+				switching={<LayoutSwitching />}
 			/>
 			{step === 1 && (
 				<div>
@@ -246,28 +264,59 @@ const NewSale = () => {
 							/>
 						)}
 					</SaleSelectDiv>
+					<CheckBox className="mt-3">
+						<input
+							type="checkbox"
+							checked={isAdvanced}
+							onChange={(e) => setIsAdvanced(e.target.checked)}
+						/>
+						<span style={{ fontWeight: "bold", fontSize: "1rem" }}>
+							I want to make an advance sale
+						</span>
+					</CheckBox>
 				</div>
 			)}
 			<SalesDiv>
 				{step === 1 ? (
-					<PickItems
-						load={productLoad}
-						items={productList}
-						onNext={() => setStep(2)}
-						selectedProducts={selectedProducts}
-						setSelectedProducts={addItems}
-						remove={removeItem}
-						discountValue={discountValue}
-						discountPercent={discountPercent}
-						changeDiscount={() =>
-							setDiscountPercent(!discountPercent)
-						}
-						changeDiscountValue={(text: any) =>
-							setDiscountValue(text)
-						}
-						discountApplied={discountApplied}
-						totalAmount={totalPrice}
-					/>
+					pictureMode ? (
+						<PickItemsImage
+							load={productLoad}
+							items={productList}
+							onNext={() => setStep(2)}
+							selectedProducts={selectedProducts}
+							setSelectedProducts={addItems}
+							remove={removeItem}
+							discountValue={discountValue}
+							discountPercent={discountPercent}
+							changeDiscount={() =>
+								setDiscountPercent(!discountPercent)
+							}
+							changeDiscountValue={(text: any) =>
+								setDiscountValue(text)
+							}
+							discountApplied={discountApplied}
+							totalAmount={totalPrice}
+						/>
+					) : (
+						<PickItems
+							load={productLoad}
+							items={productList}
+							onNext={() => setStep(2)}
+							selectedProducts={selectedProducts}
+							setSelectedProducts={addItems}
+							remove={removeItem}
+							discountValue={discountValue}
+							discountPercent={discountPercent}
+							changeDiscount={() =>
+								setDiscountPercent(!discountPercent)
+							}
+							changeDiscountValue={(text: any) =>
+								setDiscountValue(text)
+							}
+							discountApplied={discountApplied}
+							totalAmount={totalPrice}
+						/>
+					)
 				) : step === 2 ? (
 					<CustomerSelect
 						type={isWalkIn ? "walkin" : "subdealer"}
@@ -275,6 +324,15 @@ const NewSale = () => {
 						totalAmount={totalPrice}
 						discountApplied={discountApplied}
 						complete={(vals: any) => paymentHandler(vals)}
+						isAdvanced={isAdvanced}
+						customerInfo={
+							cloneState?.id
+								? {
+										customerId: cloneState.customerId,
+										status: cloneState.status,
+								  }
+								: null
+						}
 					/>
 				) : (
 					<></>

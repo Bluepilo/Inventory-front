@@ -7,9 +7,7 @@ import { formatCurrency } from "../../utils/currency";
 import SkeletonTable from "../Loaders/SkeletonTable";
 import Paginate from "../Paginate";
 
-const WalletHistory = () => {
-	const { token } = useAppSelector((state) => state.auth);
-
+const WalletHistory = ({ reload }: { reload: boolean }) => {
 	const [load, setLoad] = useState(false);
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(10);
@@ -20,15 +18,12 @@ const WalletHistory = () => {
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		getPayments();
-	}, [filters]);
+	}, [filters, reload]);
 
 	const getPayments = async () => {
 		try {
 			setLoad(true);
-			let res = await subscriptionService.getPaymentHistory(
-				token,
-				filters
-			);
+			let res = await subscriptionService.getPaymentHistory(filters);
 			setLoad(false);
 			setList(res);
 		} catch (err) {

@@ -7,6 +7,7 @@ import { WideButton } from "../../../styles/links.styles";
 import { toast } from "react-toastify";
 import { displayError } from "../../../utils/errors";
 import adminService from "../../../redux/features/admin/admin-service";
+import subscriptionService from "../../../redux/features/subscription/subscriptionService";
 
 const Subscribe = ({
 	balance,
@@ -17,17 +18,22 @@ const Subscribe = ({
 	onClose: () => void;
 	id: any;
 }) => {
-	const { token } = useAppSelector((state) => state.auth);
-
 	const [subTypes, setSubTypes] = useState<any>([]);
 	const [subscriptionType, setSubscriptionType] = useState("");
 	const [amount, setAmount] = useState(0);
 	const [duration, setDuration] = useState("yearly");
 	const [load, setLoad] = useState(false);
+	const [finalAmount, setFinalAmount] = useState<any>({});
 
 	useEffect(() => {
 		getPlans();
 	}, []);
+
+	useEffect(() => {
+		if (amount > 0) {
+			getDiscount();
+		}
+	}, [amount]);
 
 	useEffect(() => {
 		if (subscriptionType) {
@@ -42,8 +48,15 @@ const Subscribe = ({
 
 	const getPlans = async () => {
 		try {
-			let res = await adminService.getPlans(token);
+			let res = await adminService.getPlans();
 			setSubTypes(res || []);
+		} catch (err) {}
+	};
+
+	const getDiscount = async () => {
+		try {
+			let res = await subscriptionService.getApplicableDiscount(amount);
+			setFinalAmount(res);
 		} catch (err) {}
 	};
 
@@ -51,7 +64,7 @@ const Subscribe = ({
 		if (subscriptionType) {
 			try {
 				setLoad(true);
-				await adminService.subscribeOrg(token, id, {
+				await adminService.subscribeOrg(id, {
 					subscriptionPlanId: subscriptionType,
 					isMonthly: duration === "yearly" ? false : true,
 					autoRenew: false,
@@ -93,7 +106,7 @@ const Subscribe = ({
 					<option value={"yearly"}>Yearly</option>
 					<option value={"monthly"}>Monthly</option>
 				</select>
-				<label>Amount</label>
+				<label>Subscription Cost</label>
 				<CurrencyInput
 					id="input-example"
 					name="input-name"
@@ -104,6 +117,37 @@ const Subscribe = ({
 					required
 					className="height"
 				/>
+				{finalAmount?.totalPayable &&
+					amount > finalAmount.totalPayable && (
+						<>
+							{finalAmount?.discounts?.map((dis: any) => (
+								<div key={dis.id}>
+									<label>{dis.name} Discount</label>
+									<CurrencyInput
+										id="input-example"
+										name="input-name"
+										decimalsLimit={2}
+										disabled={true}
+										prefix={`₦`}
+										value={dis.value}
+										required
+										className="height"
+									/>
+								</div>
+							))}
+							<label>Amount to Pay</label>
+							<CurrencyInput
+								id="input-example"
+								name="input-name"
+								decimalsLimit={2}
+								disabled={true}
+								prefix={`₦`}
+								value={finalAmount.totalPayable}
+								required
+								className="height"
+							/>
+						</>
+					)}
 				{amount > Number(balance) && (
 					<div className="error-check mb-3">
 						Insufficient Wallet Balance

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FormBody } from "../../../styles/form.styles";
-import Logo from "../../../assets/images/logo.svg";
+import Logo from "../../../assets/images/logo-dark.png";
 import { ConfirmStyle } from "../../../styles/sub.styles";
 import { MainButton } from "../../../styles/links.styles";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { useAppDispatch } from "../../../redux/hooks";
 import { userProfile } from "../../../redux/features/auth/auth-slice";
 import subscriptionService from "../../../redux/features/subscription/subscriptionService";
 import Loading from "../../../components/Loaders/Loading";
@@ -13,10 +13,10 @@ const PaymentConfirm = () => {
 	const [search] = useSearchParams();
 
 	let params = search.get("trxref");
+	let duration = search.get("duration");
+	let id = search.get("id");
 
 	const dispatch = useAppDispatch();
-
-	const { details, token } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 
@@ -29,11 +29,11 @@ const PaymentConfirm = () => {
 	const verifyHandler = async () => {
 		try {
 			setLoad(true);
-			await subscriptionService.verifyPayment(token, params || "");
+			await subscriptionService.verifyPayment(params || "");
 			setLoad(false);
-			dispatch(userProfile(details.id));
+			dispatch(userProfile());
 		} catch (err) {
-			dispatch(userProfile(details.id));
+			dispatch(userProfile());
 			setLoad(false);
 		}
 	};
@@ -46,7 +46,9 @@ const PaymentConfirm = () => {
 						<ConfirmStyle>
 							<img src={Logo} />
 							<p>Your Payment has been processed.</p>
-							<p>It will be credited into your wallet.</p>
+							{!duration && (
+								<p>It will be credited into your wallet.</p>
+							)}
 							{load ? (
 								<Loading />
 							) : (
@@ -55,7 +57,11 @@ const PaymentConfirm = () => {
 										navigate("/dashboard/subscription")
 									}
 								>
-									<span>Check Wallet Balance</span>
+									<span>
+										{duration
+											? "Check Subscription"
+											: "Check Wallet Balance"}
+									</span>
 								</MainButton>
 							)}
 						</ConfirmStyle>

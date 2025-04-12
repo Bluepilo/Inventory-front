@@ -177,7 +177,7 @@ export const AccountBox = styled.div`
 		}
 
 		button {
-			background: red;
+			background: blue;
 			border: 0;
 			outline: 0;
 			color: #fff;
@@ -187,6 +187,10 @@ export const AccountBox = styled.div`
 			align-items: center;
 			justify-content: center;
 			display: flex;
+
+			&.red {
+				background: red;
+			}
 		}
 	}
 `;

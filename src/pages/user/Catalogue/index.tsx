@@ -21,9 +21,10 @@ import BrandForm from "../../../components/Catalogue/BrandForm";
 import NewBrand from "../../../components/Catalogue/NewBrand";
 import Papa from "papaparse";
 import { haveRole } from "../../../utils/role";
+import RoleGuard from "../../../components/RoleGuard";
 
-const Catalogue = ({ admin }: { admin?: boolean }) => {
-	const { details, token } = useAppSelector((state) => state.auth);
+const Catalogue = () => {
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [managedBrands, setManagedBrands] = useState<any>([]);
@@ -40,7 +41,7 @@ const Catalogue = ({ admin }: { admin?: boolean }) => {
 	const getBrands = async () => {
 		try {
 			setLoad(true);
-			let res = await productService.allBrands(token);
+			let res = await productService.allBrands();
 			setLoad(false);
 			if (Array.isArray(res)) {
 				let managed = res.filter((m) => m.managed);
@@ -57,7 +58,7 @@ const Catalogue = ({ admin }: { admin?: boolean }) => {
 		if (window.confirm(`Are you sure you want to delete ${name}`)) {
 			try {
 				setLoad(true);
-				await productService.deleteBrand(token, id);
+				await productService.deleteBrand(id);
 				setLoad(false);
 				toast.success(`${name} has been deleted successfully.`);
 				getBrands();
@@ -70,11 +71,7 @@ const Catalogue = ({ admin }: { admin?: boolean }) => {
 
 	const xlsHandler = async (id: any, name: string) => {
 		try {
-			let res = await productService.listBrandProducts(
-				token,
-				"&all=true",
-				id
-			);
+			let res = await productService.listBrandProducts("&all=true", id);
 			let data = res.rows;
 			if (data?.length === 0) {
 				toast.error(`No products available for ${name}`);
@@ -126,7 +123,7 @@ const Catalogue = ({ admin }: { admin?: boolean }) => {
 			}
 
 			setLoad(true);
-			await productService.updateManaged(token, url, id, {
+			await productService.updateManaged(url, id, {
 				brandId: id,
 				status,
 			});
@@ -161,6 +158,7 @@ const Catalogue = ({ admin }: { admin?: boolean }) => {
 							details?.role?.isAdmin ? "Managed" : "My"
 						} Catalogue`}
 						button={
+							details?.role?.isAdmin ||
 							haveRole(details.businessRoleId).isBusinessActioners
 								? "Add Brand"
 								: ""
@@ -205,7 +203,9 @@ const Catalogue = ({ admin }: { admin?: boolean }) => {
 											)}
 											<th>Status</th>
 											<th>Type</th>
-											<th>Actions</th>
+											<RoleGuard access="isBusinessActioners">
+												<th>Actions</th>
+											</RoleGuard>
 										</tr>
 									</thead>
 									{!load && (
@@ -263,22 +263,24 @@ const Catalogue = ({ admin }: { admin?: boolean }) => {
 															/>
 														</td>
 														<td>Managed</td>
-														<td>
-															<DropDowns
-																download={() =>
-																	xlsHandler(
-																		m.id,
-																		m.name
-																	)
-																}
-																onDelete={() =>
-																	deleteHandler(
-																		m.id,
-																		m.name
-																	)
-																}
-															/>
-														</td>
+														<RoleGuard access="isBusinessActioners">
+															<td>
+																<DropDowns
+																	download={() =>
+																		xlsHandler(
+																			m.id,
+																			m.name
+																		)
+																	}
+																	onDelete={() =>
+																		deleteHandler(
+																			m.id,
+																			m.name
+																		)
+																	}
+																/>
+															</td>
+														</RoleGuard>
 													</tr>
 												))}
 											</tbody>

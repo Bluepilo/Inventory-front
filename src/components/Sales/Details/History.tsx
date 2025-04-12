@@ -5,10 +5,7 @@ import { formatCurrency } from "../../../utils/currency";
 import dateFormat from "dateformat";
 
 const History = ({ saleDetails }: { saleDetails: any }) => {
-	const { details } = useAppSelector((state) => state.auth);
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
+	const { currency } = useAppSelector((state) => state.auth);
 
 	return (
 		<DetailCard>

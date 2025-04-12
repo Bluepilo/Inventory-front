@@ -558,4 +558,10 @@ export const DetailCard = styled.div`
 		margin-bottom: 20px;
 		height: 45px;
 	}
+
+	.line {
+		margin-top: 20px;
+		border-top: 1px solid #d9dbeb;
+		padding-top: 10px;
+	}
 `;

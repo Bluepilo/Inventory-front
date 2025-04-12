@@ -26,7 +26,7 @@ const BrandRequest = () => {
 	const [openModal, setOpenModal] = useState(false);
 	const [action, setAction] = useState<any>({});
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	let filters = `?status=${status}&page=${page}&limit=${limit}`;
 
@@ -38,7 +38,7 @@ const BrandRequest = () => {
 	const fetchRequests = async () => {
 		try {
 			setLoad(true);
-			let res = await adminService.fetchRequests(token, filters);
+			let res = await adminService.fetchRequests(filters);
 			setList(res);
 			setLoad(false);
 		} catch (err) {
@@ -50,7 +50,7 @@ const BrandRequest = () => {
 		setOpenModal(false);
 		try {
 			setLoad(true);
-			await adminService.actionBrandRequests(token, action?.id, {
+			await adminService.actionBrandRequests(action?.id, {
 				action: action?.name,
 				comment,
 			});

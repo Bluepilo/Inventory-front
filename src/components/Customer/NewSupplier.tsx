@@ -25,7 +25,7 @@ const NewSupplier = ({
 	const dispatch = useAppDispatch();
 
 	const { states } = useAppSelector((state) => state.basic);
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [name, setName] = useState("");
@@ -36,9 +36,6 @@ const NewSupplier = ({
 	const [balance, setBalance] = useState(0);
 	const [addBalance, setAddBalance] = useState(false);
 	const [option, setOption] = useState("Credit");
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
 
 	const countryCode = details?.business?.country?.code;
 
@@ -72,13 +69,9 @@ const NewSupplier = ({
 
 			let res;
 			if (editInfo?.id) {
-				res = await customerService.editSupplier(
-					token,
-					editInfo.id,
-					obj
-				);
+				res = await customerService.editSupplier(editInfo.id, obj);
 			} else {
-				res = await customerService.createSupplier(token, {
+				res = await customerService.createSupplier({
 					...obj,
 					balance: option === "Credit" ? balance : -balance,
 				});

@@ -6,12 +6,43 @@ import { formatCurrency } from "../../../utils/currency";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../../redux/hooks";
 import { haveRole } from "../../../utils/role";
+import { displayError, displaySuccess } from "../../../utils/errors";
+import salesService from "../../../redux/features/sales/sales-service";
+import { Flex } from "../../../styles/basic.styles";
+import { MainButton } from "../../../styles/links.styles";
 
-const DetailsInfo = ({ saleDetails }: { saleDetails: any }) => {
-	const { details } = useAppSelector((state) => state.auth);
+const DetailsInfo = ({
+	saleDetails,
+	setLoad,
+	complete,
+}: {
+	saleDetails: any;
+	complete: () => void;
+	setLoad: (arg: boolean) => void;
+}) => {
+	const { details, currency } = useAppSelector((state) => state.auth);
 
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
+	const resolveHandler = async (type: string) => {
+		if (window.confirm(`Are you sure you want to ${type} this?`)) {
+			try {
+				setLoad(true);
+				await salesService.resolveSales(saleDetails.uniqueRef, {
+					action: type,
+					comment: type,
+				});
+				setLoad(false);
+				complete();
+				displaySuccess(
+					`Sale is ${
+						type === "complete" ? "now resolved" : "cancelled"
+					}`
+				);
+			} catch (err) {
+				setLoad(false);
+				displayError(err, true);
+			}
+		}
+	};
 
 	return (
 		<>
@@ -95,6 +126,48 @@ const DetailsInfo = ({ saleDetails }: { saleDetails: any }) => {
 						<b className="col-8 mb-2">
 							{saleDetails.smsResponse || "SMS Not Sent"}
 						</b>
+						{saleDetails.status === "preorder" && (
+							<div className="line">
+								<p>
+									<strong>
+										This is an Advanced Sale. Will you like
+										to cancel or complete it?
+									</strong>
+								</p>
+								<Flex>
+									<MainButton
+										onClick={() =>
+											resolveHandler("complete")
+										}
+									>
+										<span>Resolve</span>
+									</MainButton>
+									<MainButton
+										onClick={() => resolveHandler("cancel")}
+										style={{
+											marginLeft: "15px",
+											border: "1px solid #505BDA",
+										}}
+										bg="#EDEEF0"
+										color="#505BDA"
+									>
+										<span>Cancel</span>
+									</MainButton>
+								</Flex>
+							</div>
+						)}
+						{saleDetails.status === "draft" && (
+							<div className="line">
+								<Flex>
+									<MainButton
+										onClick={() => resolveHandler("cancel")}
+										bg="red"
+									>
+										<span>Delete Draft</span>
+									</MainButton>
+								</Flex>
+							</div>
+						)}
 					</div>
 				</div>
 			</DetailCard>

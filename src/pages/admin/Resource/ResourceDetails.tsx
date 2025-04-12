@@ -17,7 +17,7 @@ const ResourceDetails = () => {
 
 	const stateData = useLocation().state;
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [question, setQuestion] = useState("");
 	const [answer, setAnswer] = useState("");
@@ -43,9 +43,9 @@ const ResourceDetails = () => {
 			try {
 				setLoad(true);
 				if (stateData?.id) {
-					await adminService.updateFaq(payload, token, stateData.id);
+					await adminService.updateFaq(payload, stateData.id);
 				} else {
-					await adminService.createFaq(payload, token);
+					await adminService.createFaq(payload);
 				}
 				setLoad(false);
 				toast.success(

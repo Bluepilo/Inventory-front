@@ -23,8 +23,6 @@ const AddUser = ({
 }) => {
 	const navigate = useNavigate();
 
-	const { token } = useAppSelector((state) => state.auth);
-
 	const [load, setLoad] = useState(false);
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
@@ -64,19 +62,15 @@ const AddUser = ({
 			};
 			let res;
 			if (editDetails?.id) {
-				res = await customerService.updateUser(
-					token,
-					payload,
-					editDetails.id
-				);
+				res = await customerService.updateUser(payload, editDetails.id);
 			} else {
 				if (admin) {
-					res = await adminService.createUser(token, {
+					res = await adminService.createUser({
 						...payload,
 						role: roleId,
 					});
 				} else {
-					res = await customerService.createUser(token, payload);
+					res = await customerService.createUser(payload);
 				}
 			}
 

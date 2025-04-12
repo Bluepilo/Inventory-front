@@ -15,7 +15,7 @@ import { BasicSearch } from "../../../components/Filters/BasicInputs";
 import PermissionDenied from "../../../components/PermissionDenied";
 
 const SmsWallets = () => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [centralWallet, setCentralWallet] = useState<any>({});
@@ -39,7 +39,7 @@ const SmsWallets = () => {
 
 	const loadCentralWallet = async () => {
 		try {
-			let res = await smsService.loadCentralWallet(token, details.id);
+			let res = await smsService.loadCentralWallet(details.id);
 			setCentralWallet(res || { balance: 0, createdBy: "admin" });
 		} catch (err) {}
 	};
@@ -47,7 +47,7 @@ const SmsWallets = () => {
 	const loadAllWallets = async () => {
 		try {
 			setLoad(true);
-			let res = await smsService.allWallets(token, details.id);
+			let res = await smsService.allWallets(details.id);
 			setLoad(false);
 			setWalletList(res);
 		} catch (err) {

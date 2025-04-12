@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import TitleCover from "../../../../components/TitleCover";
 import Filters from "../../../../components/Filters";
 import { OptionProp } from "../../../../components/Filters/BasicInputs";
@@ -10,8 +10,6 @@ import {
 	SummaryCard,
 } from "../../../../styles/dashboard.styles";
 import { formatCurrency } from "../../../../utils/currency";
-import { MainButton } from "../../../../styles/links.styles";
-import PrintLogo from "../../../../assets/icons/print.svg";
 import { Table, TableComponent } from "../../../../styles/table.styles";
 import SkeletonTable from "../../../../components/Loaders/SkeletonTable";
 import { Link } from "react-router-dom";
@@ -19,9 +17,10 @@ import Paginate from "../../../../components/Paginate";
 import StockAlert from "../../../../components/Reports/StockAlert";
 import { FaFileCsv } from "react-icons/fa6";
 import { CSVLink } from "react-csv";
+import RoleGuard from "../../../../components/RoleGuard";
 
 const Stocks = () => {
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { currency } = useAppSelector((state) => state.auth);
 
 	const [lists, setLists] = useState<any>({});
 
@@ -45,9 +44,6 @@ const Stocks = () => {
 		brandId?.value || ""
 	}&minStock=${minStock}&searchWord=${debouncedSearch}`;
 
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
-
 	useEffect(() => {
 		listData();
 	}, []);
@@ -59,11 +55,8 @@ const Stocks = () => {
 
 	const listData = async () => {
 		try {
-			let brandRes = await productService.filterBrands(
-				token,
-				"?business=true"
-			);
-			let categoryRes = await productService.productCategories(token);
+			let brandRes = await productService.filterBrands("?business=true");
+			let categoryRes = await productService.productCategories();
 
 			let arrBrand = brandRes?.map((r: any) => {
 				return { label: r.name, value: r.id };
@@ -86,7 +79,7 @@ const Stocks = () => {
 	const getReports = async () => {
 		try {
 			setLoad(true);
-			let res = await productService.stockReports(token, filters);
+			let res = await productService.stockReports(filters);
 			setLoad(false);
 			let arr = res?.rows?.map((l: any) => {
 				return { ...l, finalValue: l.costPrice * l.totalStock };
@@ -128,16 +121,18 @@ const Stocks = () => {
 							<h6>Products in stock: </h6>
 							<h6>{lists?.summary?.stock || "--"}</h6>
 						</div>
-						<div>
-							<h6>Worth: </h6>
-							<h6>
-								{lists?.summary?.worth
-									? `${currency} ${formatCurrency(
-											lists.summary.worth
-									  )}`
-									: "--"}
-							</h6>
-						</div>
+						<RoleGuard access="isBusinessAdmin">
+							<div>
+								<h6>Worth: </h6>
+								<h6>
+									{lists?.summary?.worth
+										? `${currency} ${formatCurrency(
+												lists.summary.worth
+										  )}`
+										: "--"}
+								</h6>
+							</div>
+						</RoleGuard>
 					</SummaryCard>
 				</div>
 				<div className="col-lg-5 mb-3">

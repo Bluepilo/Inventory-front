@@ -19,15 +19,12 @@ import { toast } from "react-toastify";
 const ReturnDetails = () => {
 	const params = useParams();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { currency } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [logDetails, setLogDetails] = useState<any>({});
 	const [openComment, setOpenComment] = useState(false);
 	const [action, setAction] = useState("");
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -39,7 +36,7 @@ const ReturnDetails = () => {
 	const loadDetails = async () => {
 		try {
 			setLoad(true);
-			let res = await productService.logDetails(token, params.id);
+			let res = await productService.logDetails(params.id);
 			setLoad(false);
 			if (res && res.id) {
 				setLogDetails(res);
@@ -53,7 +50,7 @@ const ReturnDetails = () => {
 	const resolveHandler = async (comment: string) => {
 		try {
 			setLoad(true);
-			let res = await productService.resolveReturn(token, params.id, {
+			let res = await productService.resolveReturn(params.id, {
 				comment,
 				action,
 			});

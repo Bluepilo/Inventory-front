@@ -12,7 +12,7 @@ import Loading from "../Loaders/Loading";
 const PersonalProfile = ({ close }: { close: () => void }) => {
 	const dispatch = useAppDispatch();
 
-	const { details, token } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [uploading, setUploading] = useState(false);
@@ -74,10 +74,10 @@ const PersonalProfile = ({ close }: { close: () => void }) => {
 		};
 		try {
 			setLoad(true);
-			await basicService.updateUser(token, payload, details.id);
+			await basicService.updateUser(payload, details.id);
 			close();
 			toast.success("User has been updated");
-			dispatch(userProfile(details.id));
+			dispatch(userProfile());
 		} catch (err) {
 			setLoad(false);
 			displayError(err, true);

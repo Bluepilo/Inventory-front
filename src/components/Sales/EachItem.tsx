@@ -12,10 +12,7 @@ interface Props {
 }
 
 const EachItem = ({ s, changeQty, remove }: Props) => {
-	const { details } = useAppSelector((state) => state.auth);
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
+	const { currency } = useAppSelector((state) => state.auth);
 
 	const [amount, setAmount] = useState<number>(s.price);
 

@@ -40,10 +40,7 @@ const PickItems = ({
 }: Props) => {
 	const [val, setVal] = useState<OptionProp | null>(null);
 
-	const { details } = useAppSelector((state) => state.auth);
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
+	const { currency } = useAppSelector((state) => state.auth);
 
 	return Array.isArray(items) ? (
 		<div>

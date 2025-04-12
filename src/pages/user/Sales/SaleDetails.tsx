@@ -21,11 +21,12 @@ import dateFormat from "dateformat";
 import { Flex } from "../../../styles/basic.styles";
 import CommentBox from "../../../components/Sales/CommentBox";
 import { haveRole } from "../../../utils/role";
+import RoleGuard from "../../../components/RoleGuard";
 
 const SaleDetails = () => {
 	const navigate = useNavigate();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 	const params = useParams();
 
 	const [load, setLoad] = useState(false);
@@ -43,7 +44,7 @@ const SaleDetails = () => {
 	const loadSale = async () => {
 		try {
 			setLoad(true);
-			let res = await salesService.getSaleInfo(token, params.id);
+			let res = await salesService.getSaleInfo(params.id);
 			setLoad(false);
 			if (res && res.id) {
 				setSaleDetails(res);
@@ -58,7 +59,6 @@ const SaleDetails = () => {
 		try {
 			setLoad(true);
 			let res = await salesService.approveOrDeclineWithdrawal(
-				token,
 				{ action, comment },
 				saleDetails.uniqueRef
 			);
@@ -89,7 +89,11 @@ const SaleDetails = () => {
 						<ActionDetailsDiv>
 							<div className="row">
 								<div className="col-lg-6 mb-4">
-									<DetailsInfo saleDetails={saleDetails} />
+									<DetailsInfo
+										saleDetails={saleDetails}
+										setLoad={setLoad}
+										complete={() => loadSale()}
+									/>
 								</div>
 								<div className="col-lg-6 mb-3">
 									{saleDetails.status ===
@@ -178,85 +182,133 @@ const SaleDetails = () => {
 										</DetailCard>
 									)}
 									<ItemsPicked saleDetails={saleDetails} />
-									<div className="buttons mb-5">
-										<div className="mb-3">
-											<WideButton
-												onClick={() =>
-													navigate("reciept", {
-														state: saleDetails,
-													})
-												}
-											>
-												<span>
-													Generate Sale Receipt
-												</span>
-												<img src={PrintLogo} />
-											</WideButton>
-										</div>
-										<div className="mb-4">
-											<WideButton
-												bg="#EDEEF0"
-												color="#505BDA"
-												onClick={() =>
-													navigate(
-														"/dashboard/sales/new",
-														{
-															state: {
-																cloneState:
-																	saleDetails,
-															},
+									<RoleGuard access="isBusinessActioners">
+										{saleDetails.status === "draft" ? (
+											<>
+												<div className="mb-4">
+													<WideButton
+														bg="#EDEEF0"
+														color="#505BDA"
+														onClick={() =>
+															navigate(
+																"/dashboard/sales/new",
+																{
+																	state: {
+																		cloneState:
+																			saleDetails,
+																	},
+																}
+															)
 														}
-													)
-												}
-											>
-												<span>Clone Sale List</span>
-												<IoCopy color="#505BDA" />
-											</WideButton>
-										</div>
-										{saleDetails.status == "success" && (
-											<div className="mt-5">
-												<WideButton
-													bg="#FF2725"
-													onClick={() =>
-														setOpenWithdrawal(true)
-													}
-												>
-													<span>Withdraw Sale</span>
-													<MdCancel color="#FFF" />
-												</WideButton>
+													>
+														<span>Resume Sale</span>
+														<IoCopy color="#505BDA" />
+													</WideButton>
+												</div>
+											</>
+										) : (
+											<div className="buttons mb-5">
+												<div className="mb-3">
+													<WideButton
+														onClick={() =>
+															navigate(
+																"reciept",
+																{
+																	state: saleDetails,
+																}
+															)
+														}
+													>
+														<span>
+															Generate Sale
+															Receipt
+														</span>
+														<img src={PrintLogo} />
+													</WideButton>
+												</div>
+												<div className="mb-4">
+													<WideButton
+														bg="#EDEEF0"
+														color="#505BDA"
+														onClick={() =>
+															navigate(
+																"/dashboard/sales/new",
+																{
+																	state: {
+																		cloneState:
+																			saleDetails,
+																	},
+																}
+															)
+														}
+													>
+														<span>
+															Clone Sale List
+														</span>
+														<IoCopy color="#505BDA" />
+													</WideButton>
+												</div>
+												{saleDetails.status ==
+													"success" && (
+													<div className="mt-5">
+														<WideButton
+															bg="#FF2725"
+															onClick={() =>
+																setOpenWithdrawal(
+																	true
+																)
+															}
+														>
+															<span>
+																Withdraw Sale
+															</span>
+															<MdCancel color="#FFF" />
+														</WideButton>
+													</div>
+												)}
+												<div className="row mt-4">
+													<div className="col-lg-6 mb-3">
+														<WideButton
+															bg="#FFB900"
+															color="#000D33"
+															onClick={() =>
+																navigate(
+																	"/dashboard/sales/new"
+																)
+															}
+														>
+															<span>
+																Record New Sale
+															</span>
+															<img
+																src={
+																	AddMoneyLogo
+																}
+															/>
+														</WideButton>
+													</div>
+													<div className="col-lg-6 mb-3">
+														<WideButton
+															bg="#EDEEF0"
+															color="#505BDA"
+															onClick={() =>
+																navigate(
+																	"/dashboard/sales"
+																)
+															}
+														>
+															<span>
+																Recent Sales
+															</span>
+															<img
+																src={ClipLogo}
+															/>
+														</WideButton>
+													</div>
+												</div>
 											</div>
 										)}
-										<div className="row mt-4">
-											<div className="col-lg-6 mb-3">
-												<WideButton
-													bg="#FFB900"
-													color="#000D33"
-													onClick={() =>
-														navigate(
-															"/dashboard/sales/new"
-														)
-													}
-												>
-													<span>Record New Sale</span>
-													<img src={AddMoneyLogo} />
-												</WideButton>
-											</div>
-											<div className="col-lg-6 mb-3">
-												<WideButton
-													bg="#EDEEF0"
-													color="#505BDA"
-													onClick={() =>
-														navigate(
-															"/dashboard/sales"
-														)
-													}
-												>
-													<span>Recent Sales</span>
-													<img src={ClipLogo} />
-												</WideButton>
-											</div>
-										</div>
-									</div>
+									</RoleGuard>
 									<History saleDetails={saleDetails} />
 								</div>
 							</div>

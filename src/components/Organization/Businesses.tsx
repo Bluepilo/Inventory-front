@@ -10,18 +10,20 @@ import { useNavigate } from "react-router-dom";
 import { displayError } from "../../utils/errors";
 import basicService from "../../redux/features/basic/basic-service";
 import { userProfile } from "../../redux/features/auth/auth-slice";
-import { toast } from "react-toastify";
 import { useState } from "react";
+import ModalComponent from "../ModalComponent";
+import DeleteBusinessModal from "./DeleteBusinessModal";
 
 const Businesses = () => {
 	const navigate = useNavigate();
 
 	const dispatch = useAppDispatch();
 
-	const { details, token } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 	const { organization } = useAppSelector((state) => state.basic);
 
 	const [load, setLoad] = useState(false);
+	const [openModal, setOpenModal] = useState(false);
 
 	const switchHandler = async (id: any, to: string) => {
 		if (details.businessId !== id) {
@@ -30,7 +32,7 @@ const Businesses = () => {
 			) {
 				try {
 					setLoad(true);
-					await basicService.switchBusiness(token, id);
+					await basicService.switchBusiness(id);
 					setLoad(false);
 					if (to === "edit") {
 						window.location.replace("/dashboard/settings");
@@ -52,27 +54,6 @@ const Businesses = () => {
 			navigate("/dashboard/settings");
 		} else {
 			navigate("/dashboard/business/shops");
-		}
-	};
-
-	const addOrRemoveUserBusiness = async (action: string, bizId: any) => {
-		if (
-			window.confirm(`Are you sure you want to ${action} this business?`)
-		) {
-			try {
-				await basicService.addOrRemoveUserBusiness(
-					token,
-					action,
-					bizId,
-					details.id
-				);
-				dispatch(userProfile(details.id));
-				toast.success(
-					`Business has been ${action == "add" ? "Added" : "Removed"}`
-				);
-			} catch (err) {
-				displayError(err, true);
-			}
 		}
 	};
 
@@ -130,28 +111,13 @@ const Businesses = () => {
 											href="#"
 											onClick={(e) => {
 												e.preventDefault();
-												addOrRemoveUserBusiness(
-													details?.allowedBusinesses?.find(
-														(b) =>
-															b.business?.id ==
-															biz.id
-													)
-														? "remove"
-														: "add",
-													biz.id
-												);
+												setOpenModal(true);
 											}}
 											className="mb-2 mt-1"
 										>
 											<MdBusiness />
 											<span className="ms-2">
-												{details?.allowedBusinesses?.find(
-													(b) =>
-														b.business?.id == biz.id
-												)
-													? "Remove"
-													: "Add"}{" "}
-												Business
+												Remove Business
 											</span>
 										</Drop.Item>
 									)}
@@ -213,6 +179,18 @@ const Businesses = () => {
 					<span>Add new</span>
 				</AddBusiness>
 			</div>
+			<ModalComponent
+				open={openModal}
+				close={() => setOpenModal(false)}
+				title="Verify it is you!"
+			>
+				<DeleteBusinessModal
+					closeModal={() => {
+						setOpenModal(false);
+						dispatch(userProfile());
+					}}
+				/>
+			</ModalComponent>
 		</div>
 	);
 };

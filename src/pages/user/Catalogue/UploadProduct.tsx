@@ -24,7 +24,7 @@ const UploadProduct = () => {
 
 	const params = useParams();
 
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [file, setFile] = useState<any>(null);
@@ -71,6 +71,8 @@ const UploadProduct = () => {
 			formData.append("file", file);
 			formData.append("mode", mode);
 
+			let token = localStorage.getItem("@savedtoken");
+
 			axios({
 				method: "post",
 				url: details.role.isAdmin
@@ -88,8 +90,10 @@ const UploadProduct = () => {
 						res?.data?.data?.length > 0 && res?.data?.data[1];
 					if (errors) {
 						toast.success(
-							`File Uploaded with ${errors.length} errors.`
+							`File Uploaded successfully with ${errors.length} errors.`
 						);
+						setLoadError(true);
+						setErrors(res?.data?.data[1]);
 					} else {
 						toast.success("File has been uploaded successfully.");
 						navigate(`/dashboard/catalogue/${params.id}`);
@@ -165,6 +169,7 @@ const UploadProduct = () => {
 									<th style={{ color: "#F44336" }}>
 										Product Name
 									</th>
+									<th>Barcode</th>
 									<th>Size</th>
 									<th>Type</th>
 									<th>Colour</th>
@@ -182,6 +187,7 @@ const UploadProduct = () => {
 										<td>{item.brandName}</td>
 										<td>{item.category}</td>
 										<td>{item.productName}</td>
+										<td>{item.barcode}</td>
 										<td>{item.size}</td>
 										<td>{item.type}</td>
 										<td>{item.colour}</td>

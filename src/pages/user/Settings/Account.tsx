@@ -18,7 +18,7 @@ const Account = () => {
 	const dispatch = useAppDispatch();
 
 	const { settings } = useAppSelector((state) => state.basic);
-	const { token, details } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 
 	const [waitingPeriod, setWaitingPeriod] = useState<any>(
 		settings?.waitingPeriod
@@ -34,16 +34,13 @@ const Account = () => {
 	const [sms, setSms] = useState(settings?.salesSms);
 	const [inventory, setInventory] = useState(details.business.canOnboard);
 
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
-
 	useEffect(() => {
 		productCategories();
 	}, []);
 
 	const productCategories = async () => {
 		try {
-			let res = await productService.productCategories(token);
+			let res = await productService.productCategories();
 			let arr = res?.filter(
 				(r: any) => r.businessId === details.businessId
 			);
@@ -57,7 +54,7 @@ const Account = () => {
 		try {
 			setLoadWaiting(true);
 			setWaitingPeriod(val);
-			await basicService.setWaitingPeriod(token, {
+			await basicService.setWaitingPeriod({
 				waitingPeriod: val || null,
 			});
 			setLoadWaiting(false);
@@ -72,7 +69,7 @@ const Account = () => {
 	const changeCreditLimit = async () => {
 		try {
 			setLoadCredit(true);
-			await basicService.setCreditLimit(token, {
+			await basicService.setCreditLimit({
 				amount: creditLimit,
 			});
 			setLoadCredit(false);
@@ -88,7 +85,7 @@ const Account = () => {
 		try {
 			setLoadSms(true);
 			setSms(val);
-			await basicService.enableSmsBusiness(token, {
+			await basicService.enableSmsBusiness({
 				enableSms: val,
 			});
 			setLoadSms(false);
@@ -104,9 +101,9 @@ const Account = () => {
 		try {
 			setLoadInventory(true);
 			setInventory(val);
-			await basicService.importPermit(token, val, details.businessId);
+			await basicService.importPermit(val, details.businessId);
 			setLoadInventory(false);
-			dispatch(userProfile(details.id));
+			dispatch(userProfile());
 			toast.success(`Import Inventory Settings Updated`);
 		} catch (err) {
 			setLoadInventory(false);

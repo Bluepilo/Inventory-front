@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import TitleCover from "../../../components/TitleCover";
 import { ActionDetailsDiv, DetailCard } from "../../../styles/sale.styles";
-import { useAppSelector } from "../../../redux/hooks";
 import rewardService from "../../../redux/features/rewards/reward-service";
 import { displayError } from "../../../utils/errors";
 import Loading from "../../../components/Loaders/Loading";
@@ -11,8 +10,6 @@ const UserDetails = () => {
 	const navigate = useNavigate();
 
 	const user = useLocation().state;
-
-	const { token } = useAppSelector((state) => state.auth);
 
 	const [load, setLoad] = useState(false);
 	const [lists, setLists] = useState([]);
@@ -28,7 +25,7 @@ const UserDetails = () => {
 	const loadReferrals = async () => {
 		try {
 			setLoad(true);
-			let res = await rewardService.referredListAdmin(token, user.id);
+			let res = await rewardService.referredListAdmin(user.id);
 			setLoad(false);
 			if (res?.rows) {
 				setLists(res.rows);

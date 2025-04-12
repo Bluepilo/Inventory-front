@@ -7,8 +7,6 @@ import SkeletonTable from "../Loaders/SkeletonTable";
 import Paginate from "../Paginate";
 
 const SubHistory = () => {
-	const { token } = useAppSelector((state) => state.auth);
-
 	const [loadSub, setLoadSub] = useState(false);
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(10);
@@ -24,7 +22,7 @@ const SubHistory = () => {
 	const getSubs = async () => {
 		try {
 			setLoadSub(true);
-			let res = await subscriptionService.getSubHistory(token, filters);
+			let res = await subscriptionService.getSubHistory(filters);
 			setLoadSub(false);
 			setSubList(res);
 		} catch (err) {

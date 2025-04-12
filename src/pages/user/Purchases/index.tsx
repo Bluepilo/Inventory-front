@@ -11,8 +11,6 @@ import { UseDebounce } from "../../../utils/hooks";
 import purchaseService from "../../../redux/features/purchase/purchase-service";
 import { formatCurrency } from "../../../utils/currency";
 import { CheckBoxPrint, SummaryCard } from "../../../styles/dashboard.styles";
-import { MainButton } from "../../../styles/links.styles";
-import PrintLogo from "../../../assets/icons/print.svg";
 import { Table, TableComponent } from "../../../styles/table.styles";
 import dateFormat from "dateformat";
 import SuccessIcon from "../../../assets/icons/success.svg";
@@ -21,11 +19,13 @@ import PendingIcon from "../../../assets/icons/pending.svg";
 import SkeletonTable from "../../../components/Loaders/SkeletonTable";
 import Paginate from "../../../components/Paginate";
 import { haveRole } from "../../../utils/role";
+import customerService from "../../../redux/features/customer/customer-services";
+import { displayError } from "../../../utils/errors";
 
 const Purchases = () => {
 	const navigate = useNavigate();
 
-	const { details, token } = useAppSelector((state) => state.auth);
+	const { details, currency } = useAppSelector((state) => state.auth);
 
 	const [lists, setLists] = useState<any>({});
 	const [incompleteLists, setIncompleteLists] = useState<any>({});
@@ -37,6 +37,7 @@ const Purchases = () => {
 	);
 	const [shopId, setShopId] = useState<OptionProp | null>(null);
 	const [staffId, setStaffId] = useState<OptionProp | null>(null);
+	const [supplierId, setSupplierId] = useState<OptionProp | null>(null);
 	const [search, setSearch] = useState("");
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(20);
@@ -48,6 +49,7 @@ const Purchases = () => {
 		label: "This Month",
 		value: "month",
 	});
+	const [allSuppliers, setAllSuppliers] = useState([]);
 
 	const debouncedSearch = UseDebounce(search);
 
@@ -57,20 +59,36 @@ const Purchases = () => {
 		staffId?.value || ""
 	}&startDate=${startDate}&endDate=${endDate}&includeWithdrawn=${
 		withdrawn ? "1" : "0"
-	}&onboarding=0`;
-
-	const currency =
-		details.business?.currency?.symbol || details.business.currencyCode;
+	}&onboarding=0&supplierId=${
+		supplierId?.value || ""
+	}&search=${debouncedSearch}`;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
-		if (debouncedSearch) {
-			searchPurchase();
-		} else {
-			getPurchases();
-		}
+		getPurchases();
 		getSummary();
-	}, [filters, debouncedSearch]);
+	}, [filters]);
+
+	useEffect(() => {
+		listSuppliers();
+	}, []);
+
+	const listSuppliers = async () => {
+		try {
+			setLoad(true);
+			let res = await customerService.getSuppliers(`?limit=150`);
+			setLoad(false);
+			if (res?.rows) {
+				setAllSuppliers(
+					res.rows.map((r: any) => {
+						return { label: r.fullName, value: r.id };
+					})
+				);
+			}
+		} catch (err) {
+			setLoad(false);
+		}
+	};
 
 	const clearFilters = () => {
 		setStartDate(
@@ -80,12 +98,13 @@ const Purchases = () => {
 		setStaffId(null);
 		setShopId(null);
 		setDateType({ label: "This Month", value: "month" });
+		setSupplierId(null);
 	};
 
 	const getPurchases = async () => {
 		try {
 			setLoad(true);
-			let res = await purchaseService.getPurchase(token, filters);
+			let res = await purchaseService.getPurchase(filters);
 			setLoad(false);
 			setLists(res);
 			let filter = res.rows?.filter(
@@ -94,12 +113,13 @@ const Purchases = () => {
 			setIncompleteLists({ ...res, rows: filter });
 		} catch (err) {
 			setLoad(false);
+			displayError(err, false);
 		}
 	};
 
 	const getSummary = async () => {
 		try {
-			let res = await purchaseService.getPurchaseSummary(token, filters);
+			let res = await purchaseService.getPurchaseSummary(filters);
 			setSummary(res);
 		} catch (err) {}
 	};
@@ -108,7 +128,6 @@ const Purchases = () => {
 		try {
 			setLoad(true);
 			let res = await purchaseService.searchPurchase(
-				token,
 				debouncedSearch,
 				filters
 			);
@@ -139,7 +158,7 @@ const Purchases = () => {
 				title="Purchase Records"
 				dataCount={lists?.count}
 				button={
-					haveRole(details.businessRoleId).isBusinessAdmin ||
+					haveRole(details.businessRoleId).isBusinessAdminActioners ||
 					details.currentBusinessAccess.makePurchase
 						? "Make Purchase"
 						: ""
@@ -163,6 +182,10 @@ const Purchases = () => {
 					clearValues={clearFilters}
 					dateType={dateType}
 					changeDateType={setDateType}
+					others={supplierId}
+					othersList={allSuppliers}
+					changeOthers={setSupplierId}
+					othersLabel="Supplier"
 				/>
 				<div className="row align-items-center mt-4">
 					<div className="col-lg-7 mb-3">

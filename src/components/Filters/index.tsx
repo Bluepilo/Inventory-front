@@ -17,7 +17,7 @@ interface Props {
 	endDate?: any;
 	changeEndDate?: (arg: any) => void;
 	shopId?: any;
-	changeShopId?: (arg: any) => void;
+	changeShopId?: any;
 	staffId?: any;
 	changeStaffId?: (arg: any) => void;
 	customerType?: any;

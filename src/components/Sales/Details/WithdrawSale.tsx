@@ -5,14 +5,12 @@ import { useAppSelector } from "../../../redux/hooks";
 import { displayError } from "../../../utils/errors";
 
 const WithdrawSale = ({ id, submit }: { id: number; submit: () => void }) => {
-	const { token } = useAppSelector((state) => state.auth);
-
 	const [load, setLoad] = useState(false);
 
 	const withdrawHandler = async (comment: string) => {
 		try {
 			setLoad(true);
-			let res = await salesService.withdrawSale(token, id, { comment });
+			let res = await salesService.withdrawSale(id, { comment });
 			setLoad(false);
 			if (res) {
 				submit();
