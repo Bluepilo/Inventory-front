@@ -9,6 +9,6 @@ const prod = {
 	smsUrl: "https://sms.bluepilo.com/api",
 };
 
-const config = prod;
+const config = dev;
 
 export default config;

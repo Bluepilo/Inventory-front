@@ -89,6 +89,7 @@ const Catalogue = () => {
 				productCode: value.productCode,
 				sellingPrice: value.price,
 				costPrice: value.costPrice,
+				barcode: value.barcode,
 			}));
 
 			const csvReport = {
