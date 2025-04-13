@@ -203,7 +203,7 @@ const NewReturns = () => {
 								<div className="mb-4">
 									<label>Shop</label>
 									<input
-										type="number"
+										type="text"
 										value={details.shop?.name}
 										readOnly
 										className="height"

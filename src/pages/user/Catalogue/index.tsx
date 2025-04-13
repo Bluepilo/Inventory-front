@@ -81,6 +81,7 @@ const Catalogue = () => {
 			const csvData = data?.map((value: any) => ({
 				brandName: value.brand_,
 				productName: value.name,
+				barcode: value.barcode,
 				category: value.category_,
 				size: value.size,
 				type: value.type,
@@ -89,7 +90,6 @@ const Catalogue = () => {
 				productCode: value.productCode,
 				sellingPrice: value.price,
 				costPrice: value.costPrice,
-				barcode: value.barcode,
 			}));
 
 			const csvReport = {
