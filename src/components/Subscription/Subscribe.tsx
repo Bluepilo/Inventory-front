@@ -178,7 +178,12 @@ const Subscribe = ({
 										decimalsLimit={2}
 										disabled={true}
 										prefix={`${currency}`}
-										value={dis.value}
+										value={
+											dis.type === "percentage"
+												? (Number(dis.value) / 100) *
+												  amount
+												: dis.value
+										}
 										required
 										className="height"
 									/>
