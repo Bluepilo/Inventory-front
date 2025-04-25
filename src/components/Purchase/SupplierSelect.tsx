@@ -104,7 +104,6 @@ const SupplierSelect = ({
 			paymentMethodId: selectedPayment?.value,
 			supplierBalance: selectedCustomer?.balance,
 		};
-		console.log(data);
 		complete(data);
 	};
 

@@ -8,13 +8,11 @@ import { useAppSelector } from "../../../redux/hooks";
 
 const Quantites = ({ p, changeProduct }: { p: any; changeProduct: any }) => {
 	const changeVal = (no: string) => {
-		if (Number(no) <= p.quantity && Number(no) >= p.supplied) {
-			changeProduct({
-				newSupplied: Number(no),
-				qtyAdded: Number(no) - p.supplied,
-				id: p.id,
-			});
-		}
+		changeProduct({
+			newSupplied: Number(no),
+			qtyAdded: Number(no) - p.supplied,
+			id: p.id,
+		});
 	};
 
 	return (
